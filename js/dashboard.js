@@ -3,6 +3,9 @@
    =================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
+    // ── Guard: redirect to login if not signed in ────────────────────────────
+    requireAuth('login.html');
+
     const userName = localStorage.getItem('subjectsOnlineName') || 'Student';
     const userDept = localStorage.getItem('subjectsOnlineDept') || 'Accounting';
     const avatarImg = localStorage.getItem('subjectsOnlineAvatarImage') || null;

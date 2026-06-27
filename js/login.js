@@ -89,22 +89,76 @@ function setupFormValidation() {
 
     const googleBtn = document.getElementById('google-btn');
 
-    // Google Sign-In handler
-    googleBtn.addEventListener('click', () => {
+    // ── Real Firebase Google Sign-In ──────────────────────────────────────────
+    googleBtn.addEventListener('click', async () => {
+        // 1. Validate department first
         if (!deptInput.value) {
             deptErrorMsg.classList.remove('hidden');
             deptInput.classList.remove('border-blue-200', 'focus:ring-blue-500/50');
             deptInput.classList.add('border-red-400', 'focus:ring-red-500/50', 'ring-2', 'ring-red-500/50');
-            
-            gsap.fromTo(deptInput, 
-                { x: -5 }, 
-                { x: 5, duration: 0.05, yoyo: true, repeat: 5, ease: 'none', onComplete: () => gsap.set(deptInput, {x: 0}) }
+
+            gsap.fromTo(deptInput,
+                { x: -5 },
+                { x: 5, duration: 0.05, yoyo: true, repeat: 5, ease: 'none', onComplete: () => gsap.set(deptInput, { x: 0 }) }
             );
             return;
         }
 
         const selectedDeptText = deptInput.options[deptInput.selectedIndex].text;
-        triggerCreativeLoader(selectedDeptText);
+
+        // 2. Disable button and show loading state while popup opens
+        googleBtn.disabled = true;
+        googleBtn.style.opacity = '0.7';
+        googleBtn.innerHTML = `
+            <svg class="animate-spin w-5 h-5 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+            </svg>
+            Connecting to Google...
+        `;
+
+        try {
+            // 3. Open Google popup via Firebase
+            const result = await signInWithGoogle();
+            const user   = result.user;
+
+            // 4. Persist user data (name, photo, email) from Google into localStorage
+            saveFirebaseUserToStorage(user, selectedDeptText);
+
+            // 5. Trigger the existing creative loader animation → then redirect
+            triggerCreativeLoader(selectedDeptText);
+
+        } catch (err) {
+            console.error('Google Sign-In failed:', err);
+
+            // Restore button
+            googleBtn.disabled = false;
+            googleBtn.style.opacity = '1';
+            googleBtn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-6 h-6">
+                    <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+                    <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+                    <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+                    <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+                </svg>
+                Sign in with Google
+            `;
+
+            // Show a user-friendly error message
+            let msg = 'Sign-in failed. Please try again.';
+            if (err.code === 'auth/popup-closed-by-user') {
+                msg = 'You closed the sign-in window. Please try again.';
+            } else if (err.code === 'auth/network-request-failed') {
+                msg = 'Network error. Please check your internet connection.';
+            } else if (err.code === 'auth/popup-blocked') {
+                msg = 'Popup was blocked by your browser. Please allow popups and try again.';
+            } else if (err.code === 'auth/configuration-not-found' || err.message?.includes('YOUR_')) {
+                msg = '⚠️ Firebase not configured yet. Please add your project credentials to js/firebase-config.js';
+            }
+
+            // Show a toast notification below the button
+            showAuthError(msg);
+        }
     });
 
     // Submit handler
@@ -158,6 +212,13 @@ function setupFormValidation() {
 
         // --- SUCCESS STATE ---
         const selectedDeptText = deptInput.options[deptInput.selectedIndex].text;
+
+        // Save manual session so requireAuth() passes on dashboard
+        localStorage.setItem('subjectsOnlineName',        nameInput.value.trim());
+        localStorage.setItem('subjectsOnlineDept',        selectedDeptText);
+        localStorage.setItem('subjectsOnlineUID',         'manual-' + Date.now());
+        localStorage.setItem('subjectsOnlineAuthProvider','manual');
+
         triggerCreativeLoader(selectedDeptText);
     });
 }
@@ -205,16 +266,62 @@ function triggerCreativeLoader(departmentName) {
     // 5. When done, redirect
     tl.call(() => {
         gsap.to('#creative-loader', { opacity: 0, duration: 0.5, onComplete: () => {
-            // Get name (if Google btn clicked and name is empty, provide a mock name)
-            const nameInput = document.getElementById('user-name').value.trim();
-            const userName = nameInput || 'Google User';
-
-            // Save to localStorage to display on Dashboard
-            localStorage.setItem('subjectsOnlineName', userName);
-            localStorage.setItem('subjectsOnlineDept', departmentName);
+            // If signed in with Google, data is already in localStorage from saveFirebaseUserToStorage().
+            // For manual form, save name & dept from inputs.
+            const provider = localStorage.getItem('subjectsOnlineAuthProvider');
+            if (provider !== 'google') {
+                const nameInput = document.getElementById('user-name').value.trim();
+                if (nameInput) localStorage.setItem('subjectsOnlineName', nameInput);
+                localStorage.setItem('subjectsOnlineDept', departmentName);
+            }
 
             // Redirect
             window.location.href = 'dashboard.html';
         }});
     });
+}
+
+/**
+ * Displays a styled error toast below the Google button.
+ * @param {string} message
+ */
+function showAuthError(message) {
+    // Remove any existing toast
+    const existing = document.getElementById('auth-error-toast');
+    if (existing) existing.remove();
+
+    const toast = document.createElement('div');
+    toast.id = 'auth-error-toast';
+    toast.style.cssText = [
+        'margin-top:12px',
+        'width:100%',
+        'padding:12px 16px',
+        'background:#fef2f2',
+        'border:1px solid #fecaca',
+        'border-radius:12px',
+        'color:#dc2626',
+        'font-size:0.82rem',
+        'font-weight:500',
+        'text-align:center',
+        'opacity:0',
+        'transform:translateY(6px)',
+        'transition:opacity 0.3s,transform 0.3s',
+    ].join(';');
+    toast.textContent = message;
+
+    // Insert after the Google button
+    const googleBtn = document.getElementById('google-btn');
+    googleBtn.insertAdjacentElement('afterend', toast);
+
+    // Trigger fade-in
+    requestAnimationFrame(() => {
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+    });
+
+    // Auto-remove after 6 s
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 6000);
 }

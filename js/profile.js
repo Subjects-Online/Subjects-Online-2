@@ -131,16 +131,22 @@ document.addEventListener('DOMContentLoaded', () => {
     // 5. Logout Logic
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            // Clear all user-specific data from localStorage
-            localStorage.removeItem('subjectsOnlineName');
-            localStorage.removeItem('subjectsOnlineDept');
-            localStorage.removeItem('subjectsOnlineAvatarTheme');
-            localStorage.removeItem('subjectsOnlineAvatarImage');
-            localStorage.removeItem('soPlannerTasks');
-            // We can keep Dark Mode preference if we want, or clear it. We'll keep it.
-
-            // Redirect to Welcome page
-            window.location.href = 'index.html';
+            // Firebase sign-out (clears session + localStorage)
+            if (typeof signOutUser === 'function') {
+                signOutUser('index.html');
+            } else {
+                // Fallback: manual clear
+                localStorage.removeItem('subjectsOnlineName');
+                localStorage.removeItem('subjectsOnlineDept');
+                localStorage.removeItem('subjectsOnlineAvatarTheme');
+                localStorage.removeItem('subjectsOnlineAvatarImage');
+                localStorage.removeItem('subjectsOnlineUID');
+                localStorage.removeItem('subjectsOnlineAuthProvider');
+                localStorage.removeItem('subjectsOnlineEmail');
+                localStorage.removeItem('subjectsOnlinePhotoURL');
+                localStorage.removeItem('soPlannerTasks');
+                window.location.href = 'index.html';
+            }
         });
     }
 
