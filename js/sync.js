@@ -46,7 +46,10 @@ function debouncedSyncToFirebase() {
 
     clearTimeout(syncTimeout);
     syncTimeout = setTimeout(() => {
+        console.log('☁️ [Cloud Sync] Timer finished, preparing to upload...');
+        
         const db = initFirebaseDB();
+        console.log('☁️ [Cloud Sync] DB initialized.');
         
         // Gather all data
         const dataToSync = {};
@@ -59,9 +62,11 @@ function debouncedSyncToFirebase() {
 
         // Add a timestamp
         dataToSync.lastUpdated = firebase.firestore.FieldValue.serverTimestamp();
+        
+        console.log('☁️ [Cloud Sync] Sending data to Firestore...', dataToSync);
 
         db.collection('users').doc(uid).set(dataToSync, { merge: true })
-            .then(() => console.log('☁️ [Cloud Sync] Data saved to Firebase'))
+            .then(() => console.log('☁️ [Cloud Sync] Data saved to Firebase!'))
             .catch(err => console.error('☁️ [Cloud Sync] Error saving:', err));
 
     }, 2000); // Wait 2 seconds after the last change before uploading
