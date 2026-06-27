@@ -1,7 +1,20 @@
 /* premium-effects.js — Tooltip, Dark Mode Ripple, Toast Notifications
    Loaded at BOTTOM of body after shared-nav.js, so all elements exist. */
 
+// ── Mobile Performance Guard ─────────────────────────────────────────────────
+// On phones/small screens we kill heavy JS effects to prevent lag
+const IS_MOBILE = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+
+if (IS_MOBILE && typeof gsap !== 'undefined') {
+    // Stub out GSAP so existing code doesn't error, but nothing actually animates
+    const noopGsap = new Proxy({}, {
+        get: () => new Proxy(() => {}, { get: () => () => {} })
+    });
+    window.gsap = noopGsap;
+}
+
 (function () {
+
 
     // ============================================================
     // 1. ELEGANT TOOLTIPS

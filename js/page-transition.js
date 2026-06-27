@@ -17,7 +17,10 @@
     overlay.style.backgroundColor = bgColor;
     overlay.style.zIndex = '999999';
     overlay.style.opacity = '1';
-    overlay.style.transition = 'opacity 0.4s ease-in-out';
+
+    // On mobile, use a near-instant transition to prevent perceived lag
+    const isMobile = window.innerWidth <= 768 || /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    overlay.style.transition = isMobile ? 'opacity 0.1s ease' : 'opacity 0.4s ease-in-out';
     overlay.style.pointerEvents = 'none'; // allow clicks underneath if needed
     
     // Append it to html element as early as possible

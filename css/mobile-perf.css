@@ -1,0 +1,108 @@
+/* =====================================================
+   SUBJECTS ONLINE — Mobile Performance Optimization
+   Applied automatically on screens <= 768px
+   ===================================================== */
+
+@media (max-width: 768px) {
+
+    /* ── 1. Kill all heavy animations ── */
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.15s !important;
+        transition-delay: 0ms !important;
+    }
+
+    /* ── 2. Kill backdrop-filter (extremely expensive on mobile) ── */
+    .backdrop-blur-xl,
+    .backdrop-blur-lg,
+    .backdrop-blur-md,
+    .backdrop-blur-sm,
+    [class*="backdrop-blur"] {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* Re-apply a solid background where blur was used for readability */
+    nav, header {
+        background: var(--color-surface, #fff) !important;
+    }
+
+    /* ── 3. Kill spinning dashboard rings ── */
+    .animate-spin-slow,
+    .animate-spin-reverse,
+    [class*="animate-spin"] {
+        animation: none !important;
+    }
+
+    /* ── 4. Stop card hover transforms & 3D effects ── */
+    .hover\:scale-105:hover,
+    .hover\:-translate-y-1:hover,
+    .hover\:-translate-y-0\.5:hover,
+    .group:hover .group-hover\:scale-110 {
+        transform: none !important;
+    }
+
+    /* ── 5. Kill 3D card flipping (chapters) ── */
+    [style*="transform-style: preserve-3d"],
+    [style*="transform-style:preserve-3d"] {
+        transform-style: flat !important;
+    }
+
+    /* ── 6. Simplify shadows (expensive on GPU) ── */
+    * {
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    /* Re-add minimal shadow for important cards only */
+    .subject-card,
+    .chapter-card,
+    .stat-card,
+    .content-card {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.10) !important;
+    }
+
+    /* ── 7. Kill gradient animations (e.g. shimmer effects) ── */
+    [class*="animate-gradient"],
+    [class*="gradient-animate"] {
+        animation: none !important;
+        background-size: 100% !important;
+    }
+
+    /* ── 8. Reduce nav frosted glass on mobile ── */
+    #main-nav,
+    #bottom-nav {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* ── 9. Kill particle/orb background effects ── */
+    .orb,
+    .particle,
+    [class*="orb-"],
+    [class*="particle-"],
+    .bg-orb,
+    .floating-orb {
+        display: none !important;
+    }
+
+    /* ── 10. Page transition — keep it very quick on mobile ── */
+    #page-transition-overlay {
+        transition: opacity 0.1s ease !important;
+    }
+
+}
+
+/* ── Also respect user's OS-level "Reduce Motion" setting ── */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
