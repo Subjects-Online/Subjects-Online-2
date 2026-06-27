@@ -30,12 +30,8 @@
         background: var(--color-surface, #fff) !important;
     }
 
-    /* ── 3. Kill spinning dashboard rings ── */
-    .animate-spin-slow,
-    .animate-spin-reverse,
-    [class*="animate-spin"] {
-        animation: none !important;
-    }
+    /* ── 3. Kill spinning dashboard rings (disabled — user wants them) ── */
+    /* .animate-spin-slow, .animate-spin-reverse kept alive intentionally */
 
     /* ── 4. Stop card hover transforms & 3D effects ── */
     .hover\:scale-105:hover,
