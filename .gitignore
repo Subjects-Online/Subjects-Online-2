@@ -2,9 +2,6 @@
 # Subjects Online — .gitignore
 # ===================================================
 
-# Firebase config (contains API keys — never commit this!)
-js/firebase-config.js
-
 # VS Code settings
 .vscode/
 
