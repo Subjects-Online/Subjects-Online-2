@@ -28,13 +28,21 @@ let isSyncingFromCloud = false;
  */
 function debouncedSyncToFirebase() {
     // If we are currently downloading data from the cloud, don't upload it back
-    if (isSyncingFromCloud) return;
+    if (isSyncingFromCloud) {
+        console.log('☁️ [Cloud Sync] Ignored setItem because we are downloading from cloud.');
+        return;
+    }
 
     const uid = localStorage.getItem('subjectsOnlineUID');
     const provider = localStorage.getItem('subjectsOnlineAuthProvider');
 
     // Only sync if it's a real Google account
-    if (!uid || provider !== 'google') return;
+    if (!uid || provider !== 'google') {
+        console.log('☁️ [Cloud Sync] Sync ignored. UID:', uid, 'Provider:', provider);
+        return;
+    }
+
+    console.log('☁️ [Cloud Sync] Change detected! Waiting 2 seconds before upload...');
 
     clearTimeout(syncTimeout);
     syncTimeout = setTimeout(() => {
