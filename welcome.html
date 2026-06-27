@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects Online — Your Gateway to Knowledge</title>
+    <meta name="description" content="Subjects Online — A premium educational platform for Commerce students.">
+
+    <!-- Page Transition Script -->
+    <script src="js/page-transition.js"></script>
+    <!-- Tailwind CSS v3 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            950: '#172554',
+                        },
+                        surface: '#ffffff',
+                        surface_alt: '#f8fafc',
+                    },
+                    fontFamily: {
+                        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        heading: ['"Playfair Display"', 'Georgia', 'serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/welcome.css">
+</head>
+
+<body class="bg-surface font-body antialiased text-blue-900 overflow-x-hidden">
+
+    <!-- Glowing Background Mesh -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+        <!-- Noise overlay for premium texture -->
+        <div class="absolute inset-0 opacity-[0.03]"
+            style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');">
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center pt-20 pb-10 z-10">
+
+        <!-- Header Nav (Mock) -->
+        <header class="absolute top-0 left-0 w-full px-6 py-8 flex justify-between items-center hero-elem">
+            <div class="flex items-center gap-2">
+                <div
+                    class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center text-white font-heading font-bold text-lg shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    S</div>
+                <span class="font-heading font-bold text-xl text-blue-900 tracking-wide">Subjects Online</span>
+            </div>
+            <a href="login.html" class="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors">Sign
+                In</a>
+        </header>
+
+        <div class="max-w-5xl mx-auto px-6 text-center w-full relative">
+
+            <!-- Abstract floating elements around hero -->
+            <div class="absolute top-10 left-10 w-24 h-24 border border-blue-200 rounded-full opacity-50 float-elem"
+                data-speed="1.5"></div>
+            <div class="absolute bottom-10 right-10 w-32 h-32 bg-gradient-to-tr from-blue-100 to-transparent rounded-full opacity-50 blur-xl float-elem"
+                data-speed="-1.2"></div>
+            <div class="absolute top-1/2 right-20 w-4 h-4 bg-blue-400 rounded-full shadow-[0_0_10px_rgba(96,165,250,0.8)] float-elem"
+                data-speed="2"></div>
+
+            <div
+                class="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-blue-50/80 border border-blue-100 backdrop-blur-sm mb-8 hero-elem shadow-[0_0_20px_rgba(59,130,246,0.1)]">
+                <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                <span class="text-xs font-semibold tracking-widest uppercase text-blue-600">The Future of Commerce
+                    Education</span>
+            </div>
+
+            <h1
+                class="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-blue-950 leading-[1.1] mb-6 relative z-10">
+                <div class="overflow-hidden"><span class="block hero-title-word">Master Your</span></div>
+                <div class="overflow-hidden"><span
+                        class="block hero-title-word text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400">Commerce
+                        Journey</span></div>
+            </h1>
+
+            <p
+                class="text-base sm:text-lg md:text-xl text-blue-600/80 font-light max-w-2xl mx-auto mb-10 hero-elem leading-relaxed">
+                Experience a radically new way to learn. Subjects Online provides unrestricted, 100% free access to
+                premium educational resources.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 hero-elem">
+                <a href="login.html"
+                    class="relative group overflow-hidden rounded-full bg-blue-600 px-8 py-3.5 text-white font-medium tracking-wide shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:-translate-y-0.5">
+                    <span class="relative z-10 flex items-center gap-2">
+                        Get Started
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 transition-transform group-hover:translate-x-1" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                </a>
+                <a href="#about"
+                    class="px-8 py-3.5 rounded-full text-blue-700 font-medium hover:bg-blue-50 transition-colors">
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 hero-elem">
+            <span class="text-[10px] tracking-[0.3em] uppercase text-blue-400 font-medium">Scroll to explore</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-blue-400 to-transparent scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ===== STAGGERED FEATURES SECTION ===== -->
+    <section id="about" class="py-24 md:py-40 relative z-10">
+        <div class="max-w-6xl mx-auto px-6">
+
+            <!-- Feature 1: 100% Free -->
+            <div class="feature-row flex flex-col md:flex-row items-center gap-12 md:gap-20 mb-32">
+                <div class="w-full md:w-1/2 feature-img-wrapper relative">
+                    <!-- Glowing backplate -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-blue-200 to-blue-50 rounded-3xl transform rotate-3 scale-105 opacity-60 feature-glow">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl border border-blue-100 p-10 rounded-3xl shadow-[0_20px_40px_rgba(37,99,235,0.05)] overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+                        <h3
+                            class="text-7xl font-display font-bold text-transparent bg-clip-text bg-gradient-to-b from-blue-600 to-blue-300 mb-2">
+                            100%</h3>
+                        <p class="text-xl font-heading font-semibold text-blue-900 tracking-wide">Completely Free</p>
+                        <div class="mt-8 relative">
+                            <svg class="w-full h-auto text-blue-100" viewBox="0 0 200 100" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M0,50 Q50,0 100,50 T200,50" class="draw-path" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 feature-text">
+                    <div class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-blue-100 shadow-[0_4px_20px_rgba(37,99,235,0.06)] mb-6 relative group overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="relative z-10 flex items-center justify-center px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-mono text-xs font-bold shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2)]">01</span>
+                        <span class="relative z-10 text-[11px] font-bold tracking-[0.2em] uppercase text-blue-900 pr-3">Accessibility</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-blue-950 mb-6 leading-tight">Education
+                        Without Borders</h2>
+                    <p class="text-blue-600/80 text-lg font-light leading-relaxed mb-6">
+                        We shattered the paywall. Every single lecture, summary, and mock exam is available to you at
+                        zero cost. We believe that financial constraints should never hold back your academic potential.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center gap-3 text-blue-800">
+                            <div
+                                class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                ✓</div>
+                            Premium video lectures
+                        </li>
+                        <li class="flex items-center gap-3 text-blue-800">
+                            <div
+                                class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                                ✓</div>
+                            Downloadable PDF summaries
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 2: Departments -->
+            <div class="feature-row flex flex-col md:flex-row-reverse items-center gap-12 md:gap-20 mb-32">
+                <div class="w-full md:w-1/2 feature-img-wrapper relative">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tl from-blue-300 to-blue-50 rounded-3xl transform -rotate-3 scale-105 opacity-60 feature-glow">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl border border-blue-100 p-10 rounded-3xl shadow-[0_20px_40px_rgba(37,99,235,0.05)] flex flex-wrap gap-4">
+                        <div class="absolute bottom-0 left-0 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+                        <!-- Dept Chips -->
+                        <div
+                            class="px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg text-blue-700 font-medium dept-chip">
+                            Accounting</div>
+                        <div
+                            class="px-4 py-2 bg-blue-600 shadow-lg shadow-blue-500/30 rounded-lg text-white font-medium dept-chip scale-110 z-10">
+                            Business Admin</div>
+                        <div
+                            class="px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg text-blue-700 font-medium dept-chip">
+                            Economics</div>
+                        <div
+                            class="px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg text-blue-700 font-medium dept-chip">
+                            Statistics</div>
+                        <div
+                            class="px-4 py-2 bg-blue-50 border border-blue-100 rounded-lg text-blue-700 font-medium dept-chip">
+                            Information Systems</div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 feature-text">
+                    <div class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-blue-100 shadow-[0_4px_20px_rgba(37,99,235,0.06)] mb-6 relative group overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="relative z-10 flex items-center justify-center px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-mono text-xs font-bold shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2)]">02</span>
+                        <span class="relative z-10 text-[11px] font-bold tracking-[0.2em] uppercase text-blue-900 pr-3">Comprehensiveness</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-blue-950 mb-6 leading-tight">All
+                        Departments,<br>One Platform.</h2>
+                    <p class="text-blue-600/80 text-lg font-light leading-relaxed">
+                        No matter your specialization, we've got you covered. Subjects Online houses highly curated
+                        content tailored specifically to the curriculum of every major department in the Commerce
+                        faculty.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Feature 3: 24/7 Access -->
+            <div class="feature-row flex flex-col md:flex-row items-center gap-12 md:gap-20">
+                <div class="w-full md:w-1/2 feature-img-wrapper relative">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-blue-600 to-blue-300 rounded-3xl transform rotate-2 scale-105 opacity-20 feature-glow">
+                    </div>
+                    <div
+                        class="relative bg-white/80 backdrop-blur-xl border border-blue-100 p-10 rounded-3xl shadow-[0_20px_40px_rgba(37,99,235,0.08)] flex justify-center items-center h-64">
+
+                        <!-- Animated Clock/Orb concept -->
+                        <div class="relative w-32 h-32">
+                            <div class="absolute inset-0 border-2 border-blue-200 rounded-full"></div>
+                            <div
+                                class="absolute inset-2 border border-blue-300 rounded-full border-dashed animate-spin-slow">
+                            </div>
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <span class="font-display text-4xl font-bold text-blue-600">24/7</span>
+                            </div>
+                            <!-- Glowing orb orbiting -->
+                            <div
+                                class="absolute top-0 left-1/2 w-3 h-3 bg-blue-500 rounded-full shadow-[0_0_10px_#3b82f6] -translate-x-1/2 -translate-y-1/2 animate-orbit">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 feature-text">
+                    <div class="inline-flex items-center gap-2 px-1.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-blue-100 shadow-[0_4px_20px_rgba(37,99,235,0.06)] mb-6 relative group overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="relative z-10 flex items-center justify-center px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-blue-500 text-white font-mono text-xs font-bold shadow-[inset_0_-2px_4px_rgba(0,0,0,0.2)]">03</span>
+                        <span class="relative z-10 text-[11px] font-bold tracking-[0.2em] uppercase text-blue-900 pr-3">Flexibility</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-display font-bold text-blue-950 mb-6 leading-tight">Learn on
+                        Your Own Terms</h2>
+                    <p class="text-blue-600/80 text-lg font-light leading-relaxed">
+                        Late-night cramming? Early morning review? Our servers never sleep. Access all materials
+                        seamlessly from your laptop, tablet, or mobile phone whenever inspiration (or panic) strikes.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="py-20 md:py-32 relative z-10">
+        <div class="max-w-4xl mx-auto px-6">
+            <div
+                class="relative rounded-[2.5rem] bg-blue-900 overflow-hidden px-8 py-16 md:p-20 text-center shadow-[0_30px_60px_rgba(30,58,138,0.3)] cta-block">
+
+                <!-- Inner glow / effects -->
+                <div
+                    class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-blue-600/30 rounded-full blur-[100px] pointer-events-none mix-blend-screen">
+                </div>
+                <div
+                    class="absolute bottom-0 right-0 w-96 h-96 bg-blue-400/20 rounded-full blur-[80px] pointer-events-none">
+                </div>
+
+                <div class="relative z-10">
+                    <h2 class="font-display text-4xl md:text-6xl font-bold text-white mb-6">Begin Your Success Story
+                    </h2>
+                    <p class="text-blue-200 text-lg md:text-xl font-light max-w-2xl mx-auto mb-10">
+                        Join the fastest-growing community of Commerce students. Elevate your grades today.
+                    </p>
+                    <a href="login.html"
+                        class="inline-flex items-center gap-3 bg-white text-blue-900 px-10 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                        Sign In Now
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="py-8 text-center relative z-10 border-t border-blue-100/50">
+        <p class="text-blue-400 text-xs tracking-[0.15em] font-light">
+            © 2026 Subjects Online — All Rights Reserved
+        </p>
+    </footer>
+
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/welcome.js"></script>
+</body>
+
+</html>

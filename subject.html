@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subject — Subjects Online</title>
+    <script src="js/page-transition.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config={theme:{extend:{colors:{blue:{50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a',950:'#172554'},surface:'#ffffff'},fontFamily:{heading:['"Playfair Display"','Georgia','serif'],body:['Inter','system-ui','sans-serif']}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/subject.css">
+</head>
+<body class="bg-surface font-body antialiased text-blue-900 min-h-screen relative overflow-x-hidden">
+
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="glow-orb orb-1" style="opacity:0.10;"></div>
+        <div class="glow-orb orb-2" style="opacity:0.10;"></div>
+    </div>
+
+    <!-- Navbar injected by JS -->
+
+    <!-- ════════════════════════════════════════════════
+         SUBJECT HERO
+    ════════════════════════════════════════════════ -->
+    <div class="subj-hero" id="subj-hero">
+        <div class="subj-hero-bg" id="subj-hero-bg"></div>
+        <div class="subj-hero-noise"></div>
+        <div class="subj-hero-grid"></div>
+
+        <!-- Back -->
+        <a href="javascript:history.back()" class="subj-back-btn" id="subj-back">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back
+        </a>
+
+        <div class="subj-hero-inner">
+            <!-- Icon -->
+            <div class="subj-icon-ring">
+                <div class="subj-icon-bg" id="subj-icon-bg">
+                    <span id="subj-icon">📚</span>
+                </div>
+                <div class="subj-icon-orbit subj-orbit-1"></div>
+                <div class="subj-icon-orbit subj-orbit-2"></div>
+            </div>
+
+            <!-- Text -->
+            <div class="subj-hero-text">
+                <div class="subj-dept-badge" id="subj-dept">Loading…</div>
+                <h1 class="subj-title" id="subj-title">Loading…</h1>
+                <p class="subj-desc" id="subj-desc">Please wait.</p>
+            </div>
+
+            <!-- Stats chips -->
+            <div class="subj-chips">
+                <div class="subj-chip"><span class="subj-chip-num">6</span><span>Study Sections</span></div>
+                <div class="subj-chip"><span class="subj-chip-num">2</span><span>Doctor Updates</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════
+         MAIN CONTENT
+    ════════════════════════════════════════════════ -->
+    <main class="relative z-10 w-full max-w-6xl mx-auto px-6 pb-24">
+
+        <!-- ── TAB NAV ────────────────────────────── -->
+        <div class="tab-nav-wrap">
+            <div class="tab-nav" id="tab-nav" role="tablist">
+                <!-- Injected by JS -->
+            </div>
+        </div>
+
+        <!-- ── SPOTLIGHT PANEL ───────────────────── -->
+        <div class="spotlight-wrap" id="spotlight-wrap">
+            <!-- Injected by JS -->
+        </div>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/shared-nav.js"></script>
+    <script src="js/premium-effects.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/subject.js"></script>
+</body>
+</html>

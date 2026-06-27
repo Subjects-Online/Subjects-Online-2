@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — Subjects Online</title>
+
+    <!-- Page Transition Script -->
+    <script src="js/page-transition.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        blue: {
+                            50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe',
+                            300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6',
+                            600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af',
+                            900: '#1e3a8a', 950: '#172554',
+                        },
+                        surface: '#ffffff',
+                    },
+                    fontFamily: {
+                        heading: ['"Playfair Display"', 'Georgia', 'serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="bg-surface font-body antialiased text-blue-900 min-h-screen relative overflow-x-hidden">
+
+    <!-- Glowing Background Mesh -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="glow-orb orb-1" style="opacity:0.18;"></div>
+        <div class="glow-orb orb-2" style="opacity:0.18;"></div>
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');">
+        </div>
+    </div>
+
+    <!-- Shared Navbar injected by JS -->
+
+    <!-- Main Content -->
+    <main class="relative z-10 w-full max-w-5xl mx-auto px-6 pt-24 pb-32">
+
+        <!-- ===== WELCOME HERO ===== -->
+        <div class="text-center mb-16 md:mb-24">
+            <!-- Site Name Glowing -->
+            <div class="flex justify-center mb-8 hero-logo">
+                <div class="relative flex flex-col items-center">
+                    <!-- Backglow -->
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[70px] bg-blue-400/20 blur-[50px] rounded-[100%] pointer-events-none pulse-glow-header">
+                    </div>
+                    <div class="relative flex items-center justify-center">
+                        <div id="hero-avatar"
+                            class="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-700 to-blue-400 flex items-center justify-center text-white font-heading font-bold text-3xl shadow-[0_0_30px_rgba(37,99,235,0.7)] z-10 overflow-hidden bg-cover bg-center">
+                            S</div>
+                        <!-- Orbiting ring -->
+                        <div class="absolute inset-[-12px] border border-blue-300/40 rounded-full animate-spin-slow">
+                            <div
+                                class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-blue-400 rounded-full shadow-[0_0_10px_rgba(96,165,250,0.9)]">
+                            </div>
+                        </div>
+                        <div class="absolute inset-[-26px] border border-blue-200/25 rounded-full animate-spin-reverse">
+                            <div
+                                class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-1.5 h-1.5 bg-blue-300 rounded-full shadow-[0_0_6px_rgba(147,197,253,0.8)]">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Dept Badge -->
+            <div
+                class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 border border-blue-100 mb-6 shadow-sm dept-badge">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span id="display-dept"
+                    class="text-xs font-bold tracking-widest uppercase text-blue-600">Loading...</span>
+            </div>
+
+            <!-- Big Hello -->
+            <h2
+                class="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-blue-950 mb-4 tracking-tight leading-tight hello-title">
+                Hello,&nbsp;<span id="display-name"
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-blue-500 to-blue-400 shimmer-text">Student</span>!
+            </h2>
+            <p class="text-lg text-blue-500/70 font-light max-w-lg mx-auto hero-subtitle">
+                What would you like to do today?
+            </p>
+        </div>
+
+        <!-- Mobile Action Pills (Visible only on mobile) -->
+        <div class="flex md:hidden justify-center items-center gap-3 mb-10 bg-white/40 backdrop-blur-xl border border-white/50 p-2.5 rounded-[2rem] shadow-sm max-w-fit mx-auto dark:bg-white/5 dark:border-white/10"
+            id="mobile-home-actions">
+            <!-- Browse -->
+            <a href="browse.html"
+                class="flex flex-col items-center justify-center gap-1 w-16 h-14 rounded-2xl bg-transparent text-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all dark:text-blue-400 dark:hover:bg-blue-900/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+                <span class="text-[0.65rem] font-medium leading-none">Browse</span>
+            </a>
+            <!-- Essays -->
+            <a href="essays.html"
+                class="flex flex-col items-center justify-center gap-1 w-16 h-14 rounded-2xl bg-transparent text-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all dark:text-blue-400 dark:hover:bg-blue-900/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span class="text-[0.65rem] font-medium leading-none">Essays</span>
+            </a>
+            <!-- Favorites -->
+            <a href="favorites.html"
+                class="flex flex-col items-center justify-center gap-1 w-16 h-14 rounded-2xl bg-transparent text-blue-500 hover:bg-blue-50 hover:text-blue-700 transition-all dark:text-blue-400 dark:hover:bg-blue-900/30">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+                <span class="text-[0.65rem] font-medium leading-none">Favorites</span>
+            </a>
+        </div>
+
+        <!-- ===== 3 SECTION CARDS (Hidden on Mobile) ===== -->
+        <div class="hidden md:grid md:grid-cols-3 gap-6 section-cards">
+
+            <!-- Card 1: Browse Material -->
+            <a href="browse.html"
+                class="home-card group block relative overflow-hidden rounded-[2rem] p-8 text-left cursor-pointer"
+                id="card-browse">
+                <!-- Gradient BG -->
+                <div class="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-800 z-0"></div>
+                <!-- Glow orb inside -->
+                <div
+                    class="absolute -top-10 -right-10 w-40 h-40 bg-blue-400/30 rounded-full blur-[40px] pointer-events-none group-hover:scale-150 transition-transform duration-700">
+                </div>
+                <!-- Animated dots pattern -->
+                <div class="absolute inset-0 opacity-10"
+                    style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 24px 24px;">
+                </div>
+
+                <div class="relative z-10">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-400 border border-white/20">
+                        📚</div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-2">Browse Material</h3>
+                    <p class="text-blue-200 text-sm font-light leading-relaxed mb-6">Explore all your department's
+                        subjects and study materials.</p>
+                    <div class="flex items-center gap-2 text-white text-sm font-semibold">
+                        <span>Open</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 transition-transform group-hover:translate-x-2 duration-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 2: Doctor Essays -->
+            <a href="essays.html"
+                class="home-card group block relative overflow-hidden rounded-[2rem] p-8 text-left cursor-pointer"
+                id="card-essays">
+                <div class="absolute inset-0 bg-gradient-to-br from-violet-600 to-violet-900 z-0"></div>
+                <div
+                    class="absolute -top-10 -right-10 w-40 h-40 bg-violet-400/30 rounded-full blur-[40px] pointer-events-none group-hover:scale-150 transition-transform duration-700">
+                </div>
+                <div class="absolute inset-0 opacity-10"
+                    style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 24px 24px;">
+                </div>
+
+                <div class="relative z-10">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-400 border border-white/20">
+                        📝</div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-2">Doctor Essays</h3>
+                    <p class="text-violet-200 text-sm font-light leading-relaxed mb-6">Read curated academic essays and
+                        analyses from your professors.</p>
+                    <div class="flex items-center gap-2 text-white text-sm font-semibold">
+                        <span>Open</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 transition-transform group-hover:translate-x-2 duration-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Card 3: Favorites -->
+            <a href="favorites.html"
+                class="home-card group block relative overflow-hidden rounded-[2rem] p-8 text-left cursor-pointer"
+                id="card-favorites">
+                <div class="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-700 z-0"></div>
+                <div
+                    class="absolute -top-10 -right-10 w-40 h-40 bg-amber-400/30 rounded-full blur-[40px] pointer-events-none group-hover:scale-150 transition-transform duration-700">
+                </div>
+                <div class="absolute inset-0 opacity-10"
+                    style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 24px 24px;">
+                </div>
+
+                <div class="relative z-10">
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-400 border border-white/20">
+                        ⭐</div>
+                    <h3 class="font-heading text-2xl font-bold text-white mb-2">My Favorites</h3>
+                    <p class="text-amber-100 text-sm font-light leading-relaxed mb-6">Quickly revisit the subjects and
+                        essays you saved for later.</p>
+                    <div class="flex items-center gap-2 text-white text-sm font-semibold">
+                        <span>Open</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-4 h-4 transition-transform group-hover:translate-x-2 duration-300" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- ===== STUDENT PROGRESS STATS ===== -->
+        <div class="mt-16 stats-section">
+            <!-- Section Header -->
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.4)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-blue-950">Your Progress</h2>
+                    <p class="text-blue-400 text-sm font-light">Track your learning activity across all subjects</p>
+                </div>
+            </div>
+
+            <!-- Top Stats Row -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8" id="stats-row">
+                <!-- injected by JS -->
+            </div>
+
+            <!-- Bottom 2-col: Not Opened + Most Visited -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Not Opened Yet -->
+                <div class="stat-card p-6 rounded-[1.5rem]">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div
+                            class="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center border border-red-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-red-400" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-blue-950 text-sm">Not Opened Yet</h3>
+                            <p class="text-xs text-blue-400">Subjects you haven't visited</p>
+                        </div>
+                    </div>
+                    <div id="not-opened-list" class="flex flex-col gap-2">
+                        <!-- injected by JS -->
+                    </div>
+                </div>
+
+                <!-- Most Visited -->
+                <div class="stat-card p-6 rounded-[1.5rem]">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div
+                            class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center border border-blue-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-500" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-blue-950 text-sm">Most Visited</h3>
+                            <p class="text-xs text-blue-400">Your top subjects by visits</p>
+                        </div>
+                    </div>
+                    <div id="most-visited-list" class="flex flex-col gap-3">
+                        <!-- injected by JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===== STUDY PLANNER WIDGET ===== -->
+        <div class="mt-16 mb-10 planner-section">
+            <div class="flex items-center gap-4 mb-6">
+                <div
+                    class="w-10 h-10 rounded-xl bg-violet-600 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.4)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="font-heading text-2xl font-bold text-blue-950">Study Planner</h2>
+                    <p class="text-blue-400 text-sm font-light">Organize your tasks for today</p>
+                </div>
+            </div>
+
+            <div class="stat-card p-6 rounded-[1.5rem] max-w-2xl">
+                <!-- Add Task Input -->
+                <form id="planner-form" class="flex flex-col sm:flex-row gap-3 mb-6 relative">
+                    <input type="text" id="planner-input" placeholder="e.g., Study Chapter 3 Accounting..."
+                        class="flex-1 bg-white/60 border border-blue-200 text-blue-900 text-sm rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all placeholder-blue-300 w-full">
+                    <button type="submit"
+                        class="bg-violet-600 hover:bg-violet-700 text-white font-bold py-3 sm:py-2 px-6 rounded-xl transition-colors shadow-md hover:shadow-lg w-full sm:w-auto">
+                        Add
+                    </button>
+                </form>
+
+                <!-- Tasks List -->
+                <div id="planner-list" class="flex flex-col gap-3">
+                    <!-- Injected by JS -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/shared-nav.js"></script>
+    <script src="js/premium-effects.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

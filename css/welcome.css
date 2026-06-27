@@ -1,0 +1,161 @@
+/* ===================================================
+   SUBJECTS ONLINE — Welcome Page Styles (Redesign)
+   Glowing Blue & White, High Animation Theme
+   =================================================== */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: auto; /* Handled by GSAP if needed, but keeping smooth scroll off for precise triggers */
+}
+
+/* ---- Custom Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #ffffff; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #60a5fa, #2563eb);
+    border-radius: 999px;
+}
+
+/* ===========================
+   GLOWING BACKGROUND MESH
+   ================================= */
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.4;
+    pointer-events: none;
+    animation: orbFloat 25s ease-in-out infinite;
+    mix-blend-mode: multiply;
+}
+
+.orb-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #dbeafe, transparent 70%);
+    top: -10%;
+    right: -10%;
+    animation-delay: 0s;
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #bfdbfe, transparent 70%);
+    bottom: 20%;
+    left: -10%;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #93c5fd, transparent 70%);
+    top: 40%;
+    left: 40%;
+    animation-delay: -10s;
+    mix-blend-mode: normal;
+    opacity: 0.2;
+}
+
+@keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(40px, -50px) scale(1.1); }
+    66%      { transform: translate(-30px, 40px) scale(0.9); }
+}
+
+/* ===========================
+   HERO ANIMATIONS
+   ================================= */
+
+.hero-title-word {
+    transform: translateY(110%);
+}
+
+.scroll-line {
+    animation: scrollLineStretch 2s cubic-bezier(0.8, 0, 0.2, 1) infinite;
+    transform-origin: top;
+}
+
+@keyframes scrollLineStretch {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    40%  { transform: scaleY(1); transform-origin: top; }
+    41%  { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* ===========================
+   FEATURE SECTIONS
+   ================================= */
+
+.feature-img-wrapper {
+    perspective: 1200px;
+}
+
+.feature-glow {
+    transition: all 0.5s ease;
+}
+
+.feature-img-wrapper:hover .feature-glow {
+    opacity: 0.8;
+    transform: scale(1.08) rotate(0deg);
+    filter: blur(15px);
+}
+
+/* Draw path animation for Feature 1 */
+.draw-path {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    transition: stroke-dashoffset 2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.feature-img-wrapper:hover .draw-path {
+    stroke-dashoffset: 0;
+}
+
+/* Custom spinning for Feature 3 */
+.animate-spin-slow {
+    animation: spin 12s linear infinite;
+}
+
+.animate-orbit {
+    animation: orbitOrigin 6s linear infinite;
+    transform-origin: 50% 64px; /* Half of 128px (h-32) */
+}
+
+@keyframes orbitOrigin {
+    from { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+    to   { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Dept chips for Feature 2 */
+.dept-chip {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s;
+    cursor: default;
+}
+.dept-chip:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(37,99,235,0.15);
+}
+
+/* ===========================
+   CTA SECTION
+   ================================= */
+
+.cta-block {
+    transition: transform 0.4s ease;
+}
+
+.cta-block:hover {
+    transform: translateY(-10px);
+}

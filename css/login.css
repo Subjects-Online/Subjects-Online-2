@@ -1,0 +1,56 @@
+/* ===================================================
+   SUBJECTS ONLINE — Login Page Styles
+   =================================================== */
+
+/* Specific Floating for Login Header & Card */
+.login-header {
+    animation: floatHeader 6s ease-in-out infinite;
+}
+
+.login-card {
+    animation: floatCard 8s ease-in-out infinite;
+}
+
+@keyframes floatHeader {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-8px); }
+}
+
+@keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(12px); }
+}
+
+/* Input Focus Glows */
+#user-name:focus, #user-password:focus, #user-department:focus {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* ===================================================
+   CREATIVE LOADER ANIMATIONS
+   =================================================== */
+
+.animate-spin-slow { 
+    animation: spinSlow 3s linear infinite; 
+}
+
+.animate-spin-reverse { 
+    animation: spinReverse 2s linear infinite; 
+}
+
+.pulse-glow { 
+    animation: pulseGlow 1.5s ease-in-out infinite alternate; 
+}
+
+@keyframes spinSlow { 
+    100% { transform: rotate(360deg); } 
+}
+
+@keyframes spinReverse { 
+    100% { transform: rotate(-360deg); } 
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); box-shadow: 0 0 20px rgba(37,99,235,0.6); }
+    100% { transform: scale(1.1); box-shadow: 0 0 40px rgba(37,99,235,1); }
+}

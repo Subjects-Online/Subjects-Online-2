@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Material — Subjects Online</title>
+    <!-- Page Transition Script -->
+    <script src="js/page-transition.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { blue: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a',950:'#172554' }, surface:'#ffffff' }, fontFamily: { heading:['"Playfair Display"','Georgia','serif'], body:['Inter','system-ui','sans-serif'] } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="bg-surface font-body antialiased text-blue-900 min-h-screen relative overflow-x-hidden">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="glow-orb orb-1" style="opacity:0.15;"></div>
+        <div class="glow-orb orb-2" style="opacity:0.15;"></div>
+    </div>
+
+    <!-- Shared Navbar injected by JS -->
+
+    <main class="relative z-10 w-full max-w-6xl mx-auto px-6 py-12 page-content">
+        <div class="mb-10">
+            <!-- Blue accent bar -->
+            <div class="w-12 h-1.5 rounded-full bg-blue-600 mb-4"></div>
+            <h1 class="font-heading text-4xl md:text-5xl font-bold text-blue-950 mb-2">Browse Material</h1>
+            <p id="browse-subtitle" class="text-blue-500/80 text-lg font-light">Your department's modules for this semester.</p>
+        </div>
+
+        <div id="material-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- injected by JS -->
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/shared-nav.js"></script>
+    <script src="js/premium-effects.js"></script>
+    <script src="js/data.js"></script>
+    <script src="js/browse.js"></script>
+</body>
+</html>

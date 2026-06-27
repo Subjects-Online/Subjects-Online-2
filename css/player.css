@@ -1,0 +1,179 @@
+/* =========================================================
+   player.css — Custom Media Player Styling
+   ========================================================= */
+
+body {
+    background-color: #030712; /* Tailwind gray-950 */
+    transition: background-color 0.5s ease;
+}
+
+/* Focus Mode */
+body.focus-mode {
+    background-color: #000000;
+}
+body.focus-mode header,
+body.focus-mode #notes-sidebar {
+    opacity: 0.05;
+    transition: opacity 0.5s ease;
+}
+body.focus-mode header:hover,
+body.focus-mode #notes-sidebar:hover {
+    opacity: 1;
+}
+body.focus-mode #ambient-glow {
+    opacity: 0 !important;
+}
+
+/* Ambient Glow Background */
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    transition: background-color 1s ease, opacity 0.5s ease;
+}
+
+.orb-1 {
+    width: 60vw;
+    height: 60vw;
+    top: -20vh;
+    left: -10vw;
+    background-color: var(--subject-accent, #3b82f6);
+    opacity: 0.15;
+    animation: drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(10vw, 10vh) scale(1.1); }
+}
+
+/* Customizing Plyr to look Premium */
+.plyr {
+    --plyr-color-main: var(--subject-accent, #3b82f6);
+    --plyr-video-background: transparent;
+    --plyr-menu-background: rgba(15, 23, 42, 0.95);
+    --plyr-menu-color: #f1f5f9;
+    --plyr-menu-border-color: rgba(255, 255, 255, 0.1);
+    --plyr-menu-border-shadow-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1rem;
+    height: 100%;
+}
+
+.plyr--video {
+    background: transparent;
+}
+
+/* Make the video itself fill the container nicely */
+.plyr__video-wrapper {
+    background: #000;
+    border-radius: 1rem;
+    overflow: hidden;
+    height: 100%;
+}
+
+video {
+    object-fit: contain;
+}
+
+/* Custom PDF iframe styling */
+#pdf-player {
+    border-radius: 1rem;
+    background-color: #e2e8f0; /* Light gray background for PDF loading */
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* Smooth fade out for loading state */
+.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* Animations */
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Glassmorphism Utilities */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* Mobile Player Controls Cleanup */
+@media (max-width: 768px) {
+    .plyr__controls [data-plyr="restart"],
+    .plyr__controls [data-plyr="rewind"],
+    .plyr__controls [data-plyr="fast-forward"],
+    .plyr__controls [data-plyr="download"],
+    .plyr__controls [data-plyr="airplay"],
+    .plyr__controls [data-plyr="pip"],
+    .plyr__volume {
+        display: none !important;
+    }
+}
+
+/* Notes Styles */
+.note-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.note-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+.note-time-badge {
+    display: inline-flex;
+    align-items: center;
+    background: var(--subject-accent, #3b82f6);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    margin-bottom: 6px;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s;
+}
+.note-time-badge:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+.note-text {
+    color: #f1f5f9;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+.note-delete {
+    color: #ef4444;
+    font-size: 0.7rem;
+    cursor: pointer;
+    float: right;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-weight: 600;
+}
+.note-item:hover .note-delete {
+    opacity: 0.8;
+}
+.note-delete:hover {
+    opacity: 1 !important;
+}
