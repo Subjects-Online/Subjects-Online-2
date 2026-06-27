@@ -18,6 +18,16 @@ function initFirebaseAuth() {
     return firebase.auth();
 }
 
+/**
+ * Initialise Firebase once and return the firestore instance.
+ */
+function initFirebaseDB() {
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    return firebase.firestore();
+}
+
 // ── Sign In with Google ────────────────────────────────────────────────────────
 
 /**

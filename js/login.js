@@ -120,12 +120,14 @@ function setupFormValidation() {
         try {
             // 3. Open Google popup via Firebase
             const result = await signInWithGoogle();
-            const user   = result.user;
-
+            
             // 4. Persist user data (name, photo, email) from Google into localStorage
-            saveFirebaseUserToStorage(user, selectedDeptText);
+            saveFirebaseUserToStorage(result.user, selectedDeptText);
 
-            // 5. Trigger the existing creative loader animation → then redirect
+            // 5. Download cloud data if it exists, otherwise it will just trigger an initial upload
+            await syncFromFirebase(result.user.uid);
+
+            // 6. Trigger the existing creative loader animation → then redirect
             triggerCreativeLoader(selectedDeptText);
 
         } catch (err) {
