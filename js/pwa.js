@@ -85,10 +85,7 @@
 
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
-    deferredPrompt = e;
-    if (!isInstalled()) {
-      setTimeout(showBubbleBtn, 1500);
-    }
+    deferredPrompt = e; // save it — will be used when user clicks the bubble
   });
 
   window.addEventListener('appinstalled', () => {
@@ -96,6 +93,12 @@
     removeBubbleBtn();
     localStorage.setItem('pwa-installed', 'true');
   });
+
+  // ── Show bubble always (not just on beforeinstallprompt) ──
+  if (!isInstalled()) {
+    // small delay so the page renders first
+    setTimeout(showBubbleBtn, 1200);
+  }
 
   function isInstalled() {
     return (
@@ -295,12 +298,17 @@
 
     // ── Events ──────────────────────────────
     document.getElementById('pwa-bubble-btn').addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log('[PWA] User choice:', outcome);
-      deferredPrompt = null;
-      removeBubbleBtn();
+      if (deferredPrompt) {
+        // Chrome/Edge Android: use native install prompt
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log('[PWA] User choice:', outcome);
+        deferredPrompt = null;
+        if (outcome === 'accepted') removeBubbleBtn();
+      } else {
+        // Fallback: show manual install guide
+        showInstallGuide();
+      }
     });
 
     document.getElementById('pwa-bubble-dismiss').addEventListener('click', () => {
@@ -368,4 +376,147 @@
     document.documentElement.classList.add('pwa-standalone');
   }
 
+  // ========================
+  // 7. Manual Install Guide Modal
+  // ========================
+  function showInstallGuide() {
+    if (document.getElementById('pwa-guide-modal')) return;
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const isAndroid = /android/i.test(navigator.userAgent);
+
+    const steps = isIOS
+      ? [
+          { icon: '⬆️', text: 'اضغط على زرار الـ <strong>Share</strong> في Safari' },
+          { icon: '📲', text: 'اختار <strong>"Add to Home Screen"</strong>' },
+          { icon: '✅', text: 'اضغط <strong>Add</strong> وهيتحمل على الشاشة الرئيسية' },
+        ]
+      : isAndroid
+      ? [
+          { icon: '⋮',  text: 'افتح القائمة في <strong>Chrome</strong> (النقاط الثلاثة)' },
+          { icon: '📲', text: 'اختار <strong>"Add to Home screen"</strong>' },
+          { icon: '✅', text: 'اضغط <strong>Add</strong> وجاهز!' },
+        ]
+      : [
+          { icon: '🖥️', text: 'افتح السايت في <strong>Chrome</strong> أو <strong>Edge</strong>' },
+          { icon: '⬇️', text: 'اضغط على أيقونة التثبيت في <strong>شريط العنوان</strong>' },
+          { icon: '✅', text: 'اضغط <strong>Install</strong> وهيتثبت كتطبيق' },
+        ];
+
+    const s = document.createElement('style');
+    s.textContent = `
+      @keyframes pwa-guide-in {
+        from { opacity:0; transform:scale(0.85); }
+        to   { opacity:1; transform:scale(1); }
+      }
+      #pwa-guide-overlay {
+        position:fixed; inset:0; z-index:999999;
+        background:rgba(0,0,0,0.55);
+        backdrop-filter:blur(6px);
+        display:flex; align-items:center; justify-content:center;
+        padding:20px;
+      }
+      #pwa-guide-modal {
+        background:linear-gradient(160deg,#0d1b3e 0%,#1a2f6e 100%);
+        border:1px solid rgba(201,168,76,0.35);
+        border-radius:24px;
+        padding:28px 24px;
+        max-width:360px; width:100%;
+        box-shadow:0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(201,168,76,0.1);
+        animation:pwa-guide-in 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        position:relative;
+        font-family:system-ui,-apple-system,sans-serif;
+        text-align:center;
+      }
+      #pwa-guide-modal .pwa-guide-icon-wrap {
+        width:72px;height:72px;border-radius:20px;
+        overflow:hidden;margin:0 auto 16px;
+        border:2px solid rgba(201,168,76,0.4);
+        box-shadow:0 8px 24px rgba(0,0,0,0.4);
+      }
+      #pwa-guide-modal .pwa-guide-icon-wrap img {
+        width:100%;height:100%;object-fit:cover;
+      }
+      #pwa-guide-modal h3 {
+        color:#f0d080; font-size:18px; font-weight:800;
+        margin:0 0 6px; letter-spacing:-0.02em;
+      }
+      #pwa-guide-modal p {
+        color:rgba(255,255,255,0.6); font-size:13px; margin:0 0 20px;
+      }
+      #pwa-guide-steps {
+        display:flex; flex-direction:column; gap:12px;
+        text-align:right; margin-bottom:22px;
+      }
+      .pwa-guide-step {
+        display:flex; align-items:center; gap:12px;
+        background:rgba(255,255,255,0.06);
+        border:1px solid rgba(255,255,255,0.08);
+        border-radius:14px; padding:12px 14px;
+      }
+      .pwa-guide-step-num {
+        width:28px;height:28px;border-radius:50%;
+        background:linear-gradient(135deg,#c9a84c,#f0d080);
+        color:#0d1b3e; font-weight:800; font-size:13px;
+        display:flex;align-items:center;justify-content:center;
+        flex-shrink:0;
+      }
+      .pwa-guide-step span {
+        color:rgba(255,255,255,0.85); font-size:13px; line-height:1.5;
+      }
+      .pwa-guide-step span strong { color:#f0d080; }
+      #pwa-guide-close {
+        width:100%; padding:12px;
+        background:linear-gradient(135deg,#c9a84c,#f0d080);
+        color:#0d1b3e; border:none; border-radius:14px;
+        font-weight:800; font-size:14px; cursor:pointer;
+        transition:transform 0.2s, box-shadow 0.2s;
+        letter-spacing:0.01em;
+      }
+      #pwa-guide-close:hover {
+        transform:scale(1.03);
+        box-shadow:0 6px 24px rgba(201,168,76,0.4);
+      }
+      #pwa-guide-x {
+        position:absolute; top:14px; right:16px;
+        background:rgba(255,255,255,0.08); border:none;
+        color:rgba(255,255,255,0.4); font-size:16px;
+        width:28px;height:28px;border-radius:50%;
+        cursor:pointer;display:flex;align-items:center;justify-content:center;
+        transition:background 0.2s;
+      }
+      #pwa-guide-x:hover { background:rgba(239,68,68,0.3);color:white; }
+    `;
+    document.head.appendChild(s);
+
+    const stepsHTML = steps.map((step, i) => `
+      <div class="pwa-guide-step">
+        <div class="pwa-guide-step-num">${i + 1}</div>
+        <span>${step.text}</span>
+      </div>
+    `).join('');
+
+    const overlay = document.createElement('div');
+    overlay.id = 'pwa-guide-overlay';
+    overlay.innerHTML = `
+      <div id="pwa-guide-modal">
+        <button id="pwa-guide-x">✕</button>
+        <div class="pwa-guide-icon-wrap">
+          <img src="images/icon-512.png" alt="Subjects Online">
+        </div>
+        <h3>ثبّت التطبيق 📲</h3>
+        <p>تابع الخطوات البسيطة دي وهيتثبت على جهازك</p>
+        <div id="pwa-guide-steps">${stepsHTML}</div>
+        <button id="pwa-guide-close">فهمت! 👍</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    const close = () => overlay.remove();
+    document.getElementById('pwa-guide-close').addEventListener('click', close);
+    document.getElementById('pwa-guide-x').addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  }
+
 })();
+
