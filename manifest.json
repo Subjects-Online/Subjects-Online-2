@@ -2,7 +2,7 @@
   "name": "Subjects Online",
   "short_name": "Subjects",
   "description": "Where Ambition Meets Education",
-  "start_url": "/welcome.html",
+  "start_url": "/welcome.html?source=pwa",
   "display": "standalone",
   "background_color": "#0d1b3e",
   "theme_color": "#0d1b3e",

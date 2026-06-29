@@ -6,6 +6,47 @@
   'use strict';
 
   // ========================
+  // 0. PWA Smart Startup Redirect
+  // لو التطبيق اتفتح كـ PWA (standalone)،
+  // روح على الداشبورد مباشرة لو المستخدم متسجل
+  // ========================
+  (function pwaStartupRedirect() {
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true ||
+      document.referrer.includes('android-app://');
+
+    if (!isStandalone) return; // مش PWA، اشتغل عادي
+
+    const uid      = localStorage.getItem('subjectsOnlineUID');
+    const provider = localStorage.getItem('subjectsOnlineAuthProvider');
+    const page     = window.location.pathname.split('/').pop() || 'index.html';
+
+    // الصفحات اللي مش محتاج redirect منها (يعني هو بالفعل في مكانه الصح)
+    const protectedPages = [
+      'dashboard.html', 'browse.html', 'profile.html',
+      'favorites.html', 'player.html', 'quizzes.html',
+      'chapters.html', 'sections.html', 'subject.html', 'essays.html'
+    ];
+    const authPages = ['login.html', 'index.html'];
+
+    if (uid) {
+      // المستخدم متسجل ✅
+      // لو على صفحة login أو welcome أو index → روح على الداشبورد
+      if (authPages.includes(page) || page === 'welcome.html' || page === '') {
+        window.location.replace('dashboard.html');
+      }
+      // لو على صفحة محمية بالفعل → استمر
+    } else {
+      // المستخدم مش متسجل ❌
+      // لو على صفحة محمية → روح على login
+      if (protectedPages.includes(page)) {
+        window.location.replace('login.html');
+      }
+    }
+  })();
+
+  // ========================
   // 1. Register Service Worker
   // ========================
   if ('serviceWorker' in navigator) {
