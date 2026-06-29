@@ -7,28 +7,29 @@ const DYNAMIC_CACHE = 'subjects-online-dynamic-v1';
 
 // الملفات اللي هتتحفظ في الـ cache من أول مرة
 const STATIC_ASSETS = [
-  '/welcome.html',
-  '/index.html',
-  '/login.html',
-  '/dashboard.html',
-  '/browse.html',
-  '/profile.html',
-  '/favorites.html',
-  '/player.html',
-  '/quizzes.html',
-  '/chapters.html',
-  '/sections.html',
-  '/subject.html',
-  '/essays.html',
-  '/manifest.json',
-  '/images/icon-192.png',
-  '/images/icon-512.png',
-  '/js/page-transition.js',
-  '/js/auth.js',
-  '/js/shared-nav.js',
-  '/js/firebase-config.js',
-  '/js/premium-effects.js',
-  '/js/splash.js',
+  'welcome.html',
+  'index.html',
+  'login.html',
+  'dashboard.html',
+  'browse.html',
+  'profile.html',
+  'favorites.html',
+  'player.html',
+  'quizzes.html',
+  'chapters.html',
+  'sections.html',
+  'subject.html',
+  'essays.html',
+  'manifest.json',
+  'images/icon-192.png',
+  'images/icon-512.png',
+  'js/page-transition.js',
+  'js/auth.js',
+  'js/shared-nav.js',
+  'js/firebase-config.js',
+  'js/premium-effects.js',
+  'js/splash.js',
+  'js/pwa.js',
 ];
 
 // ========================
@@ -120,7 +121,7 @@ self.addEventListener('fetch', (event) => {
         .catch(() => {
           // offline fallback
           if (request.destination === 'document') {
-            return caches.match('/welcome.html');
+            return caches.match('welcome.html');
           }
         });
     })
