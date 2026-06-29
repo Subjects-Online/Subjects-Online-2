@@ -2,17 +2,15 @@
   "name": "Subjects Online",
   "short_name": "Subjects",
   "description": "Where Ambition Meets Education",
-  "start_url": "/welcome.html?source=pwa",
+  "start_url": "./welcome.html?source=pwa",
   "display": "standalone",
   "background_color": "#0d1b3e",
   "theme_color": "#0d1b3e",
   "orientation": "portrait-primary",
-  "scope": "/",
+  "scope": "./",
   "lang": "ar",
   "dir": "rtl",
-  "categories": [
-    "education"
-  ],
+  "categories": ["education"],
   "icons": [
     {
       "src": "images/icon-192.png",
@@ -33,25 +31,15 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "description": "Go to your dashboard",
-      "url": "/dashboard.html",
-      "icons": [
-        {
-          "src": "images/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "./dashboard.html",
+      "icons": [{ "src": "images/icon-192.png", "sizes": "192x192" }]
     },
     {
       "name": "Browse",
       "short_name": "Browse",
       "description": "Browse subjects",
-      "url": "/browse.html",
-      "icons": [
-        {
-          "src": "images/icon-192.png",
-          "sizes": "192x192"
-        }
-      ]
+      "url": "./browse.html",
+      "icons": [{ "src": "images/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }

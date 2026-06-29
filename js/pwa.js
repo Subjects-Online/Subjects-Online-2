@@ -16,9 +16,15 @@
 
     if (!isStandalone) return;
 
-    const uid   = localStorage.getItem('subjectsOnlineUID');
-    const page  = window.location.pathname.split('/').pop() || 'index.html';
+    const uid  = localStorage.getItem('subjectsOnlineUID');
+    const path = window.location.pathname;
+    const page = path.split('/').pop() || '';
 
+    // Base path = everything before the filename
+    // e.g. /Subjects-Online-2/  (handles GitHub Pages subdirectories)
+    const base = path.substring(0, path.lastIndexOf('/') + 1);
+
+    const authPages      = ['login.html', 'index.html', 'welcome.html', ''];
     const protectedPages = [
       'dashboard.html','browse.html','profile.html','favorites.html',
       'player.html','quizzes.html','chapters.html','sections.html',
@@ -26,12 +32,14 @@
     ];
 
     if (uid) {
-      if (['login.html','index.html','welcome.html',''].includes(page)) {
-        window.location.replace('dashboard.html');
+      // Already logged in → skip welcome/login, go straight to dashboard
+      if (authPages.includes(page)) {
+        window.location.replace(base + 'dashboard.html');
       }
     } else {
+      // Not logged in → don't allow protected pages
       if (protectedPages.includes(page)) {
-        window.location.replace('login.html');
+        window.location.replace(base + 'login.html');
       }
     }
   })();
