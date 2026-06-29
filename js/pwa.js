@@ -94,9 +94,12 @@
     localStorage.setItem('pwa-installed', 'true');
   });
 
-  // ── Show bubble always (not just on beforeinstallprompt) ──
-  if (!isInstalled()) {
-    // small delay so the page renders first
+  // ── Show bubble always when not in standalone (PWA) mode ──
+  const _isStandalone =
+    window.matchMedia('(display-mode: standalone)').matches ||
+    window.navigator.standalone === true;
+
+  if (!_isStandalone) {
     setTimeout(showBubbleBtn, 1200);
   }
 
@@ -112,7 +115,6 @@
   // 4. Floating Bubble Button
   // ========================
   function showBubbleBtn() {
-    if (isInstalled()) return;
     if (document.getElementById('pwa-bubble')) return;
 
     // ── Styles ──────────────────────────────
