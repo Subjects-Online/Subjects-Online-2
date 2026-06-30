@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "Introduction & Basic Concepts",
             time: "2h 15m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview ", type: "video", url: "materials/Lect 5 (AIS) (S.O).mp4" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/AIS Quiz 1.pdf" },
+                { id: 101, title: "Lec 1: Overview ", type: "pdf", url: "materials/Pdfs/dummy.pdf" },
+                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/Pdfs/Eco section 4 .pdf" },
                 { id: 103, title: "Lec 3: Practical Examples", type: "pdf", url: "materials/dummy.pdf" }
             ]
         },

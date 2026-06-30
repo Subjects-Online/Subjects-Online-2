@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library — Subjects Online</title>
+    <!-- Page Transition Script -->
+    <script src="js/page-transition.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { theme: { extend: { colors: { blue: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a',950:'#172554' }, surface:'#ffffff' }, fontFamily: { heading:['"Playfair Display"','Georgia','serif'], body:['Inter','system-ui','sans-serif'] } } } }</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/mobile-perf.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0d1b3e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Subjects Online">
+    <link rel="apple-touch-icon" href="images/icon-512.png"></head>
+<body class="bg-surface font-body antialiased text-blue-900 min-h-screen relative overflow-x-hidden">
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="glow-orb orb-1" style="opacity:0.12; background: radial-gradient(circle, #bae6fd, transparent 70%);"></div>
+        <div class="glow-orb orb-2" style="opacity:0.12; background: radial-gradient(circle, #93c5fd, transparent 70%);"></div>
+    </div>
+
+    <!-- Shared Navbar injected by JS -->
+
+    <main class="relative z-10 w-full max-w-6xl mx-auto px-6 py-12 page-content">
+        <div class="mb-10 flex justify-between items-end">
+            <div>
+                <div class="w-12 h-1.5 rounded-full bg-blue-500 mb-4"></div>
+                <h1 class="font-heading text-4xl md:text-5xl font-bold text-blue-950 mb-2">My Library</h1>
+                <p class="text-blue-500/80 text-lg font-light">Your PDFs saved for offline reading.</p>
+            </div>
+            
+            <div id="storage-info" class="hidden text-right">
+                <p class="text-sm text-gray-500 font-medium">Offline Storage</p>
+                <p class="text-xs text-gray-400 mt-1" id="storage-details">Calculating...</p>
+            </div>
+        </div>
+
+        <!-- Library grid -->
+        <div id="library-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+
+        <!-- Empty State -->
+        <div id="library-empty" class="hidden flex-col items-center justify-center py-28 text-center">
+            <div class="w-24 h-24 rounded-full bg-blue-50 flex items-center justify-center mb-6 border border-blue-100 text-5xl">📚</div>
+            <h2 class="font-heading text-2xl font-bold text-blue-950 mb-3">Your library is empty</h2>
+            <p class="text-blue-400 text-sm max-w-xs mb-8">Open any PDF material and click "Save Offline" to add it here.</p>
+            <a href="browse.html" class="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-sm shadow-[0_8px_20px_rgba(37,99,235,0.35)] hover:shadow-[0_12px_30px_rgba(37,99,235,0.5)] hover:-translate-y-0.5 transition-all">
+                Browse Materials
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <!-- Firebase SDK & Sync -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/sync.js"></script>
+    <script src="js/shared-nav.js"></script>
+    <script src="js/premium-effects.js"></script>
+    <script src="js/library.js"></script>
+    <script src="js/pwa.js"></script>
+</body>
+</html>

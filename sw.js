@@ -30,6 +30,8 @@ const STATIC_ASSETS = [
   'js/premium-effects.js',
   'js/splash.js',
   'js/pwa.js',
+  'library.html',
+  'js/library.js',
 ];
 
 // ========================
@@ -83,24 +85,26 @@ self.addEventListener('fetch', (event) => {
   // تجاهل الـ requests غير HTTP/HTTPS
   if (!request.url.startsWith('http')) return;
 
-  // تجاهل Firebase وخدمات خارجية — دايماً من النت
-  if (
+  // External domains that we should not dynamically cache
+  const isExternalToIgnore = 
     url.hostname.includes('firebase') ||
     url.hostname.includes('google') ||
     url.hostname.includes('googleapis') ||
     url.hostname.includes('gstatic') ||
     url.hostname.includes('firestore') ||
     url.hostname.includes('tailwindcss') ||
-    url.hostname.includes('fonts')
-  ) {
-    return;
-  }
+    url.hostname.includes('fonts');
 
   event.respondWith(
     caches.match(request).then((cachedResponse) => {
       if (cachedResponse) {
         // موجود في الـ cache — رجّعه فوراً
         return cachedResponse;
+      }
+
+      // If it's external and not cached, don't dynamically cache it, just fetch it
+      if (isExternalToIgnore) {
+        return fetch(request);
       }
 
       // مش موجود — اجيبه من النت واحفظه

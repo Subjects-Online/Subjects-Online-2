@@ -72,15 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (type === 'video') {
         // Initialize Video Player
         videoEl.classList.remove('hidden');
-        
+
         // Determine which controls to show based on screen size
         const isMobile = window.innerWidth < 640;
-        const playerControls = isMobile 
+        const playerControls = isMobile
             ? ['play-large', 'play', 'progress', 'current-time', 'settings', 'fullscreen']
             : [
                 'play-large', 'restart', 'rewind', 'play', 'fast-forward',
-                'progress', 'current-time', 'duration', 
-                'mute', 'volume', 'captions', 'settings', 
+                'progress', 'current-time', 'duration',
+                'mute', 'volume', 'captions', 'settings',
                 'pip', 'airplay', 'download', 'fullscreen'
             ];
 
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             globalPlayer = player;
             hideLoading();
             loadNotes();
-            
+
             // Resume from last saved time
             const savedTime = localStorage.getItem(storageKey);
             if (savedTime && !isNaN(savedTime)) {
@@ -134,36 +134,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem(storageKey, player.currentTime);
             }
         });
-        
+
         let autoNextTimer = null;
         const nextTimerCircle = document.getElementById('next-timer-circle');
 
         // Auto Next Logic
         player.on('ended', () => {
             localStorage.removeItem(storageKey);
-            
+
             // Mark lecture as fully completed
             if (lecId) {
                 const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
                 completedLectures[lecId] = true;
                 localStorage.setItem('soCompletedLectures', JSON.stringify(completedLectures));
             }
-            
+
             if (nextUrl) {
                 const overlay = document.getElementById('auto-next-overlay');
                 document.getElementById('next-lec-title').textContent = nextTitle || "Next Lecture";
                 overlay.classList.remove('hidden');
-                
+
                 // Show notes if hidden, or focus mode disable
                 document.body.classList.remove('focus-mode');
-                
+
                 let countdown = 5;
                 document.getElementById('next-timer-text').textContent = countdown;
                 if (nextTimerCircle) nextTimerCircle.style.strokeDashoffset = 0;
-                
+
                 autoNextTimer = setInterval(() => {
                     countdown--;
-                    
+
                     if (countdown >= 0) {
                         document.getElementById('next-timer-text').textContent = countdown;
                         if (nextTimerCircle) {
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             nextTimerCircle.style.strokeDashoffset = offset;
                         }
                     }
-                    
+
                     if (countdown <= 0) {
                         clearInterval(autoNextTimer);
                         window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}`;
@@ -202,14 +202,128 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (type === 'pdf') {
         // Initialize PDF Viewer (Iframe)
         pdfEl.classList.remove('hidden');
-        
+
+        // Make PDF wrapper taller for better reading experience
+        const wrapper = document.getElementById('player-wrapper');
+        if (wrapper) {
+            // Remove video-specific height constraints
+            wrapper.classList.remove('h-[40vh]', 'min-h-[250px]', 'lg:max-h-[85vh]', 'lg:h-full');
+            // Give it a much taller height for PDF reading
+            wrapper.classList.add('h-[90vh]', 'min-h-[800px]', 'lg:h-[1200px]');
+        }
+
+        // Setup PDF Actions (Download & Library)
+        const pdfActions = document.getElementById('pdf-actions');
+        if (pdfActions) {
+            pdfActions.classList.remove('hidden');
+            pdfActions.classList.add('flex');
+        }
+
+        // Setup PDF Toolbar & Fullscreen
+        const pdfToolbar = document.getElementById('pdf-toolbar');
+        const pdfDocTitle = document.getElementById('pdf-doc-title');
+        if (pdfToolbar) {
+            pdfToolbar.classList.remove('hidden');
+            if (pdfDocTitle) pdfDocTitle.textContent = title;
+
+            const fsBtn = document.getElementById('pdf-fullscreen-btn');
+            const fsIcon = document.getElementById('fs-icon');
+            const fsText = document.getElementById('fs-text');
+
+            if (fsBtn) {
+                fsBtn.addEventListener('click', () => {
+                    const elem = document.getElementById('player-wrapper');
+                    if (!document.fullscreenElement) {
+                        if (elem.requestFullscreen) elem.requestFullscreen();
+                        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+                        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+                    } else {
+                        if (document.exitFullscreen) document.exitFullscreen();
+                        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+                        else if (document.msExitFullscreen) document.msExitFullscreen();
+                    }
+                });
+
+                document.addEventListener('fullscreenchange', () => {
+                    if (document.fullscreenElement) {
+                        fsText.textContent = 'Exit Fullscreen';
+                        fsIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />`;
+                    } else {
+                        fsText.textContent = 'Fullscreen';
+                        fsIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />`;
+                    }
+                });
+            }
+        }
+        // Download Logic
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = title || 'Document.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        }
+
+        // Offline Library Logic
+        const libraryBtn = document.getElementById('add-library-btn');
+        const libraryText = libraryBtn ? libraryBtn.querySelector('span') : null;
+
+        // Check if already in library
+        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+        const isInLibrary = library.some(item => item.url === url);
+
+        if (isInLibrary && libraryText) {
+            libraryText.textContent = 'Saved ✓';
+            libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
+            libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+        }
+
+        if (libraryBtn && !isInLibrary) {
+            libraryBtn.addEventListener('click', async () => {
+                try {
+                    const originalText = libraryText.textContent;
+                    libraryText.textContent = 'Saving...';
+
+                    const cache = await caches.open('offline-materials');
+                    // Use add() which fetches and caches the resource
+                    await cache.add(url);
+
+                    // Add metadata to localStorage
+                    library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+                    library.push({
+                        id: Date.now().toString(),
+                        title: title || 'Document',
+                        type: 'pdf',
+                        url: url,
+                        dateAdded: new Date().toISOString()
+                    });
+                    localStorage.setItem('so_offline_library', JSON.stringify(library));
+
+                    // Update UI
+                    libraryText.textContent = 'Saved ✓';
+                    libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
+                    libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+
+                } catch (err) {
+                    console.error('Failed to save to library:', err);
+                    alert('Could not save file offline. It might be due to CORS restrictions on the server.');
+                    if (libraryText) libraryText.textContent = originalText;
+                }
+            }, { once: true });
+        }
+
         // Use Google Docs Viewer as a fallback/wrapper if needed, but modern browsers support local/remote PDFs directly in iframe.
         // For local testing with our dummy PDF, direct src works perfectly.
-        pdfEl.src = url;
+        // Append #view=FitH to force the PDF to fit the width of the viewer, making it easier to read
+        pdfEl.src = url.includes('#') ? url : url + '#view=FitH&toolbar=0';
 
         // Hide loading after a short delay since iframe load events can be tricky with PDFs
         pdfEl.onload = hideLoading;
-        
+
         // Fallback
         setTimeout(hideLoading, 1500);
     } else {
@@ -241,13 +355,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const time = globalPlayer.currentTime;
             const notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
             notes.push({ time, text, id: Date.now() });
-            
+
             // Sort notes by time
             notes.sort((a, b) => a.time - b.time);
-            
+
             localStorage.setItem(notesKey, JSON.stringify(notes));
             noteInput.value = '';
-            
+
             // Show a visual confirmation
             const originalText = addNoteBtn.innerHTML;
             addNoteBtn.innerHTML = 'Saved! ✓';
@@ -260,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderNotes() {
         if (!notesList) return;
         const notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
-        
+
         if (notes.length === 0) {
             if (emptyMsg) emptyMsg.style.display = 'block';
             document.querySelectorAll('.note-item').forEach(e => e.remove());
@@ -268,16 +382,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (emptyMsg) emptyMsg.style.display = 'none';
-        
+
         // Clear old
         document.querySelectorAll('.note-item').forEach(e => e.remove());
 
         notes.forEach(note => {
             const div = document.createElement('div');
             div.className = 'note-item';
-            
+
             const timeStr = formatDuration(note.time);
-            
+
             div.innerHTML = `
                 <span class="note-time-badge" onclick="seekTo(${note.time})">${timeStr}</span>
                 <span class="note-delete" onclick="deleteNote(${note.id})">Delete</span>
@@ -287,14 +401,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.seekTo = function(time) {
+    window.seekTo = function (time) {
         if (globalPlayer) {
             globalPlayer.currentTime = time;
             globalPlayer.play();
         }
     };
 
-    window.deleteNote = function(id) {
+    window.deleteNote = function (id) {
         let notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
         notes = notes.filter(n => n.id !== id);
         localStorage.setItem(notesKey, JSON.stringify(notes));
