@@ -33,14 +33,59 @@
         <div class="mb-10 flex justify-between items-end">
             <div>
                 <div class="w-12 h-1.5 rounded-full bg-blue-500 mb-4"></div>
-                <h1 class="font-heading text-4xl md:text-5xl font-bold text-blue-950 mb-2">My Library</h1>
+                <h1 id="library-title" class="font-heading text-4xl md:text-5xl font-bold text-blue-950 mb-2">My Library</h1>
                 <p class="text-blue-500/80 text-lg font-light">Your PDFs saved for offline reading.</p>
+                
+                <!-- Folder Actions -->
+                <div id="folder-actions" class="mt-4 flex flex-wrap items-center gap-3">
+                    <button id="btn-back-folder" class="hidden items-center gap-2 text-sm font-semibold text-blue-600 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-full transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back
+                    </button>
+                    <button id="btn-new-folder" class="flex items-center gap-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+                        </svg>
+                        New Folder
+                    </button>
+                    <button id="btn-select-mode" class="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-full transition-all border border-gray-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Select Mode
+                    </button>
+                </div>
             </div>
             
-            <div id="storage-info" class="hidden text-right">
-                <p class="text-sm text-gray-500 font-medium">Offline Storage</p>
-                <p class="text-xs text-gray-400 mt-1" id="storage-details">Calculating...</p>
+            <div id="storage-info" class="hidden text-right cursor-pointer group" title="Manage Storage">
+                <div class="text-xs font-bold text-blue-500 uppercase tracking-widest mb-1 flex items-center justify-end gap-1 group-hover:text-blue-600 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    Offline Storage
+                </div>
+                <div class="text-gray-500 text-sm font-medium group-hover:text-gray-700 transition-colors" id="storage-details">Calculating...</div>
             </div>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <input type="text" id="search-input" placeholder="Search your library..." class="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm transition-all">
+            </div>
+            <select id="sort-select" class="bg-white border border-gray-200 text-gray-700 rounded-2xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="az">A-Z</option>
+                <option value="za">Z-A</option>
+            </select>
         </div>
 
         <!-- Library grid -->
@@ -55,6 +100,91 @@
                 Browse Materials
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
+        </div>
+
+        <!-- Move Modal -->
+        <div id="move-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+            <div class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="move-modal-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-heading text-xl font-bold text-blue-950">Move Selected</h3>
+                    <button id="close-move-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Select Destination:</label>
+                    <select id="move-folder-select" class="w-full bg-blue-50 border-2 border-blue-200 text-blue-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <option value="root">Root (My Library)</option>
+                        <!-- Dynamic options -->
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 mt-8">
+                    <button id="cancel-move-btn" class="px-5 py-2.5 rounded-xl font-semibold text-gray-600 hover:bg-gray-100 transition-colors">Cancel</button>
+                    <button id="confirm-move-btn" class="px-5 py-2.5 rounded-xl font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-md transition-all">Move</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Picker Modal -->
+        <div id="color-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+            <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="color-modal-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-heading text-xl font-bold text-blue-950">Choose Folder Color</h3>
+                    <button id="close-color-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="flex items-center justify-center gap-4 mb-8">
+                    <button class="color-btn w-12 h-12 rounded-full bg-blue-500 border-4 border-transparent hover:scale-110 transition-transform" data-color="blue"></button>
+                    <button class="color-btn w-12 h-12 rounded-full bg-red-500 border-4 border-transparent hover:scale-110 transition-transform" data-color="red"></button>
+                    <button class="color-btn w-12 h-12 rounded-full bg-emerald-500 border-4 border-transparent hover:scale-110 transition-transform" data-color="emerald"></button>
+                    <button class="color-btn w-12 h-12 rounded-full bg-purple-500 border-4 border-transparent hover:scale-110 transition-transform" data-color="purple"></button>
+                    <button class="color-btn w-12 h-12 rounded-full bg-amber-500 border-4 border-transparent hover:scale-110 transition-transform" data-color="amber"></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Storage Manager Modal -->
+        <div id="storage-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+            <div class="bg-white rounded-3xl p-6 w-full max-w-2xl shadow-2xl transform scale-95 opacity-0 transition-all duration-300 flex flex-col max-h-[80vh]" id="storage-modal-content">
+                <div class="flex justify-between items-center mb-6 shrink-0">
+                    <h3 class="font-heading text-2xl font-bold text-blue-950">Storage Manager</h3>
+                    <button id="close-storage-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <div class="mb-4 bg-blue-50 p-4 rounded-xl shrink-0">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span class="font-semibold text-blue-900">Storage Used</span>
+                        <span class="font-bold text-blue-700" id="storage-modal-used">0 MB</span>
+                    </div>
+                    <div class="w-full bg-blue-200 rounded-full h-2">
+                        <div class="bg-blue-600 h-2 rounded-full" id="storage-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                <p class="text-sm font-semibold text-gray-600 mb-3 shrink-0">Oldest Files (Recommended to Delete)</p>
+                <div class="overflow-y-auto flex-1 space-y-2 pr-2" id="storage-file-list">
+                    <!-- Files will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bulk Action Bar -->
+        <div id="bulk-action-bar" class="fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-gray-200 shadow-[0_-10px_40px_rgba(0,0,0,0.1)] transform translate-y-full transition-transform duration-300 px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <span id="selected-count" class="font-bold text-lg text-blue-900">0 Selected</span>
+                <button id="btn-cancel-select" class="text-sm font-semibold text-gray-500 hover:text-gray-700 transition-colors">Cancel</button>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="btn-bulk-move" class="flex items-center gap-2 text-sm font-semibold text-gray-700 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-xl transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                    Move
+                </button>
+                <button id="btn-bulk-delete" class="flex items-center gap-2 text-sm font-semibold text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-xl shadow-md transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                    Delete
+                </button>
+            </div>
         </div>
     </main>
 

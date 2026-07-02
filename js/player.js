@@ -271,15 +271,26 @@ document.addEventListener('DOMContentLoaded', () => {
         // Offline Library Logic
         const libraryBtn = document.getElementById('add-library-btn');
         const libraryText = libraryBtn ? libraryBtn.querySelector('span') : null;
+        
+        const markReadBtn = document.getElementById('mark-read-btn');
+        const markReadText = markReadBtn ? markReadBtn.querySelector('span') : null;
 
-        // Check if already in library
+        // Check if already in library and read status
         let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        const isInLibrary = library.some(item => item.url === url);
+        const libraryItemIndex = library.findIndex(item => item.url === url);
+        const isInLibrary = libraryItemIndex !== -1;
+        const isRead = isInLibrary && library[libraryItemIndex].isRead;
 
         if (isInLibrary && libraryText) {
             libraryText.textContent = 'Saved ✓';
             libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
             libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+        }
+
+        if (isRead && markReadText) {
+            markReadText.textContent = 'Read ✓';
+            markReadBtn.classList.remove('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
+            markReadBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
         }
 
         if (libraryBtn && !isInLibrary) {
@@ -289,31 +300,57 @@ document.addEventListener('DOMContentLoaded', () => {
                     libraryText.textContent = 'Saving...';
 
                     const cache = await caches.open('offline-materials');
-                    // Use add() which fetches and caches the resource
                     await cache.add(url);
 
-                    // Add metadata to localStorage
                     library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
                     library.push({
                         id: Date.now().toString(),
                         title: title || 'Document',
                         type: 'pdf',
                         url: url,
-                        dateAdded: new Date().toISOString()
+                        dateAdded: new Date().toISOString(),
+                        isRead: false
                     });
                     localStorage.setItem('so_offline_library', JSON.stringify(library));
 
-                    // Update UI
                     libraryText.textContent = 'Saved ✓';
                     libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
                     libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+                    
+                    // Force reload so Mark Read button can work properly with the new index
+                    window.location.reload();
 
                 } catch (err) {
                     console.error('Failed to save to library:', err);
-                    alert('Could not save file offline. It might be due to CORS restrictions on the server.');
+                    alert('Could not save file offline.');
                     if (libraryText) libraryText.textContent = originalText;
                 }
             }, { once: true });
+        }
+
+        if (markReadBtn) {
+            markReadBtn.addEventListener('click', () => {
+                library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+                const idx = library.findIndex(item => item.url === url);
+                
+                if (idx !== -1) {
+                    const currentStatus = library[idx].isRead;
+                    library[idx].isRead = !currentStatus;
+                    localStorage.setItem('so_offline_library', JSON.stringify(library));
+                    
+                    if (library[idx].isRead) {
+                        markReadText.textContent = 'Read ✓';
+                        markReadBtn.classList.remove('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
+                        markReadBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+                    } else {
+                        markReadText.textContent = 'Mark as Read';
+                        markReadBtn.classList.remove('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
+                        markReadBtn.classList.add('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
+                    }
+                } else {
+                    alert('Please save the PDF offline first before marking it as read.');
+                }
+            });
         }
 
         // Use Google Docs Viewer as a fallback/wrapper if needed, but modern browsers support local/remote PDFs directly in iframe.
