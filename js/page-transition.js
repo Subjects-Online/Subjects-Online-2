@@ -87,11 +87,34 @@
                 smooth: true,
                 smoothTouch: false,
             });
-            function raf(time) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
+
+            // Store globally so GSAP ScrollTrigger can use it
+            window._lenis = lenis;
+
+            // If GSAP ScrollTrigger is loaded, connect Lenis to it
+            function connectLenisToGSAP() {
+                if (window.ScrollTrigger) {
+                    lenis.on('scroll', window.ScrollTrigger.update);
+                    window.gsap && window.gsap.ticker.add((time) => {
+                        lenis.raf(time * 1000);
+                    });
+                    window.gsap && window.gsap.ticker.lagSmoothing(0);
+                } else {
+                    // Fallback RAF loop if no GSAP
+                    function raf(time) {
+                        lenis.raf(time);
+                        requestAnimationFrame(raf);
+                    }
+                    requestAnimationFrame(raf);
+                }
             }
-            requestAnimationFrame(raf);
+
+            // GSAP might not be loaded yet — wait a tick
+            if (window.gsap) {
+                connectLenisToGSAP();
+            } else {
+                window.addEventListener('load', connectLenisToGSAP);
+            }
         };
         document.head.appendChild(lenisScript);
     });
@@ -302,9 +325,13 @@
             { sel: '.stats-section',    cls: 'so-reveal',       delay: false },
             { sel: '.planner-section',  cls: 'so-reveal',       delay: false },
             { sel: '.cta-block',        cls: 'so-reveal',       delay: false },
-            { sel: '.feature-text',     cls: 'so-reveal-right', delay: false },
-            { sel: '.feature-img-wrapper', cls: 'so-reveal-left', delay: false },
+            // NOTE: .feature-text and .feature-img-wrapper / .feature-card
+            // are handled by GSAP ScrollTrigger on pages that use it (welcome.html).
+            // Skipping them here prevents CSS↔GSAP animation conflicts.
         ];
+
+        // On pages that use GSAP (welcome.html), skip feature elements entirely
+        const isGSAPPage = !!document.querySelector('.feature-row');
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -317,6 +344,8 @@
 
         revealSelectors.forEach(({ sel, cls, delay }) => {
             document.querySelectorAll(sel).forEach((el, i) => {
+                // Skip if GSAP is managing animations on this page
+                if (isGSAPPage && (el.classList.contains('feature-img-wrapper') || el.classList.contains('feature-text') || el.classList.contains('feature-card'))) return;
                 el.classList.add(cls);
                 if (delay) el.style.transitionDelay = (i * 0.1) + 's';
                 observer.observe(el);

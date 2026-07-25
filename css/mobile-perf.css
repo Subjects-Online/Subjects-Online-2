@@ -18,7 +18,7 @@
     nav,
     #main-nav,
     header {
-        background-color: var(--color-surface, #ffffff) !important;
+        background-color: var(--bg, #080c14) !important;
     }
 
     /* ── 2. Simplify only the heaviest box-shadows ── */

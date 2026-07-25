@@ -1,154 +1,328 @@
 /* ===================================================
    SUBJECTS ONLINE — Welcome Page Animations
-   Advanced GSAP ScrollTriggers & Mouse Parallax
+   GSAP + Lenis Integration
    =================================================== */
 
 gsap.registerPlugin(ScrollTrigger);
 
 document.addEventListener('DOMContentLoaded', () => {
+    initNavbarScroll();
     initHeroAnimations();
-    initFeatureScroll();
-    initMouseParallax();
+
+    // Wait for Lenis to load async from CDN before setting up ScrollTrigger
+    function startScrollAnimations() {
+        if (window._lenis) {
+            ScrollTrigger.scrollerProxy(document.documentElement, {
+                scrollTop(value) {
+                    return arguments.length
+                        ? window._lenis.scrollTo(value, { immediate: true })
+                        : window._lenis.scroll;
+                },
+                getBoundingClientRect() {
+                    return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+                },
+            });
+            window._lenis.on('scroll', ScrollTrigger.update);
+        }
+        initFeatureScroll();
+        initMouseParallax();
+        initPreviewAnimation();
+    }
+
+    setTimeout(startScrollAnimations, 700);
 });
 
-/**
- * Hero Intro Sequence
- */
+/* --------------------------------------------------
+   Navbar: shrink on scroll
+-------------------------------------------------- */
+function initNavbarScroll() {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+}
+
+/* --------------------------------------------------
+   Hero entrance animation
+-------------------------------------------------- */
 function initHeroAnimations() {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
-    // 1. Header fades down
-    tl.fromTo('header.hero-elem', 
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.2, clearProps: 'transform' },
-        0.2
+    // Navbar
+    tl.fromTo('#site-header',
+        { y: -24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, clearProps: 'transform' }, 0.1
     );
 
-    // 2. Small badge slides up
-    tl.fromTo('.hero-elem:nth-child(2)', 
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, clearProps: 'transform' }, 
-        0.4
+    // Eyebrow
+    tl.fromTo('#hero-eyebrow',
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, clearProps: 'transform' }, 0.3
     );
 
-    // 3. Staggered Title Words reveal
+    // Title words slide up from clipped container
     tl.to('.hero-title-word', {
         y: '0%',
-        duration: 1.2,
-        stagger: 0.15,
+        duration: 1.1,
+        stagger: 0.13,
         ease: 'power4.out'
-    }, 0.6);
+    }, 0.5);
 
-    // 4. Description fades up
-    tl.fromTo('p.hero-elem', 
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, clearProps: 'transform' },
-        1.2
+    // Subtitle
+    tl.fromTo('#hero-subtitle',
+        { y: 18, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, clearProps: 'transform' }, 1.0
     );
 
-    // 5. Buttons fade up
-    tl.fromTo('.flex.hero-elem', 
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, clearProps: 'transform' },
-        1.4
+    // CTAs
+    tl.fromTo('#hero-actions',
+        { y: 14, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.85, clearProps: 'transform' }, 1.2
     );
 
-    // 6. Scroll Indicator
-    tl.fromTo('.absolute.bottom-10.hero-elem', 
-        { opacity: 0 },
-        { opacity: 1, duration: 1, clearProps: 'transform' },
-        2.0
+    // Social proof
+    tl.fromTo('#hero-proof',
+        { y: 12, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, clearProps: 'transform' }, 1.4
     );
+
+    // Hero visual (right column)
+    tl.fromTo('#hero-visual',
+        { x: 40, opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.2, ease: 'power3.out', clearProps: 'transform' }, 0.55
+    );
+
+    // Scroll hint
+    tl.to('#scroll-hint', {
+        opacity: 1, duration: 0.8
+    }, 2.0);
 }
 
-/**
- * ScrollTrigger for Feature Rows
- */
+/* --------------------------------------------------
+   Feature rows ScrollTrigger
+-------------------------------------------------- */
 function initFeatureScroll() {
     const rows = gsap.utils.toArray('.feature-row');
 
-    rows.forEach((row, i) => {
-        const imgWrapper = row.querySelector('.feature-img-wrapper');
-        const textWrapper = row.querySelector('.feature-text');
-        
-        // Determine direction based on layout (even vs odd rows if we want alternating, but we set them in HTML)
-        const isReverse = row.classList.contains('md:flex-row-reverse');
-        const xOffset = isReverse ? 50 : -50;
+    rows.forEach((row) => {
+        const visual = row.querySelector('.feature-visual');
+        const text   = row.querySelector('.feature-text');
+        const isRev  = row.classList.contains('reverse');
 
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: row,
-                start: 'top 80%', // trigger when top of row hits 80% of viewport
+                start: 'top 80%',
                 toggleActions: 'play none none reverse'
             }
         });
 
-        // Image container slides in
-        tl.fromTo(imgWrapper, 
-            { x: xOffset, opacity: 0, rotationY: isReverse ? -10 : 10 },
-            { x: 0, opacity: 1, rotationY: 0, duration: 1.2, ease: 'power3.out' },
-            0
-        );
+        if (visual) {
+            tl.fromTo(visual,
+                { x: isRev ? 50 : -50, opacity: 0 },
+                { x: 0, opacity: 1, duration: 1.1, ease: 'power3.out' }, 0
+            );
+        }
 
-        // Text wrapper slides up
-        tl.fromTo(textWrapper.children,
-            { y: 30, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out' },
-            0.2
-        );
+        if (text) {
+            tl.fromTo(Array.from(text.children),
+                { y: 24, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.8, stagger: 0.09, ease: 'power3.out' }, 0.15
+            );
+        }
     });
 
-    // CTA Section Animation
+    // Stats strip
+    gsap.fromTo('.stat-item',
+        { y: 20, opacity: 0 },
+        {
+            y: 0, opacity: 1,
+            stagger: 0.1, duration: 0.7, ease: 'power3.out',
+            scrollTrigger: {
+                trigger: '.stats-strip',
+                start: 'top 88%',
+                toggleActions: 'play none none reverse'
+            }
+        }
+    );
+
+    // CTA block
     gsap.fromTo('.cta-block',
-        { y: 50, opacity: 0, scale: 0.95 },
-        { 
-            y: 0, opacity: 1, scale: 1, 
-            duration: 1.2, 
-            ease: 'expo.out',
+        { y: 40, opacity: 0 },
+        {
+            y: 0, opacity: 1,
+            duration: 1.1, ease: 'expo.out',
             scrollTrigger: {
                 trigger: '.cta-block',
-                start: 'top 85%',
+                start: 'top 88%',
                 toggleActions: 'play none none reverse'
             }
         }
     );
 }
 
-/**
- * Advanced Mouse Parallax
- * Makes background floating elements and glow orbs track mouse slightly
- */
+/* --------------------------------------------------
+   Animated Preview Mockup Loop
+-------------------------------------------------- */
+function initPreviewAnimation() {
+    // 1. Initial progress bars for screen 1
+    const fills = document.querySelectorAll('.subject-progress-fill');
+    fills.forEach(f => f.style.width = '0');
+    
+    // Only start if elements exist
+    const cursor = document.getElementById('fake-cursor');
+    const ripple = document.getElementById('cursor-ripple');
+    if (!cursor) return;
+
+    // Master Timeline, repeats infinitely
+    const tl = gsap.timeline({
+        repeat: -1,
+        repeatDelay: 2, // Wait 2s before looping
+        scrollTrigger: {
+            trigger: '#hero-visual',
+            start: 'top 80%'
+        }
+    });
+
+    // Reset initial states at start of loop
+    tl.set('#screen-subjects', { x: '0%' })
+      .set('#screen-detail', { x: '100%' })
+      .set('#mini-progress-fill', { width: '0%' })
+      .set('#mini-time', { textContent: '00:00' })
+      .set(cursor, { opacity: 0, x: 30, y: 40 })
+      .set(ripple, { scale: 0, opacity: 0 })
+      // Animate subject bars initially
+      .to(fills, {
+          width: (i, target) => (target.dataset.pct || 50) + '%',
+          duration: 1,
+          ease: 'power3.out',
+          stagger: 0.1
+      }, 0.2);
+
+    // --- Sequence Starts ---
+    
+    // 1. Cursor enters and moves to subject 1
+    tl.to(cursor, { opacity: 1, duration: 0.3 }, 1.5)
+      .to(cursor, { 
+          x: 180, y: 85, // Approx coordinates of first subject card
+          duration: 1.2, 
+          ease: 'power2.inOut' 
+      }, '<');
+
+    // 2. Cursor clicks subject 1
+    tl.to(cursor, { scale: 0.9, duration: 0.1 }, '+=0.2')
+      .to(ripple, { 
+          scale: 3, opacity: 1, duration: 0.3, 
+          onStart: () => gsap.to(ripple, { opacity: 0, delay: 0.2, duration: 0.2 })
+      }, '<')
+      .to(cursor, { scale: 1, duration: 0.1 });
+
+    // 3. Screen transition (Slide 1 out, Slide 2 in)
+    tl.to('#screen-subjects', { x: '-100%', duration: 0.7, ease: 'power3.inOut' }, '+=0.2')
+      .to('#screen-detail', { x: '0%', duration: 0.7, ease: 'power3.inOut' }, '<')
+      .to('#topbar-title', { 
+          opacity: 0, duration: 0.3, 
+          onComplete: () => document.getElementById('topbar-title').innerText = "Business Administration" 
+      }, '<')
+      .to('#topbar-title', { opacity: 1, duration: 0.3 }, '+=0.1');
+
+    // 4. Cursor moves to "Play" button on Chapter 2
+    tl.to(cursor, { 
+        x: 45, y: 145, // Approx coordinates of chapter 2 play button
+        duration: 1, 
+        ease: 'power2.inOut' 
+    }, '+=0.5');
+
+    // 5. Cursor clicks Play
+    tl.to(cursor, { scale: 0.9, duration: 0.1 }, '+=0.2')
+      .to(ripple, { 
+          scale: 3, opacity: 1, duration: 0.3, 
+          onStart: () => gsap.to(ripple, { opacity: 0, delay: 0.2, duration: 0.2 })
+      }, '<')
+      .to(cursor, { scale: 1, duration: 0.1 });
+
+    // 6. Cursor moves out of the way
+    tl.to(cursor, { 
+        x: 220, y: 240, 
+        duration: 1.2, 
+        ease: 'power2.inOut' 
+    }, '+=0.2');
+
+    // 7. Video Progress bar fills up (simulating playback)
+    tl.to('#mini-progress-fill', {
+        width: '100%',
+        duration: 4,
+        ease: 'none'
+    }, '<')
+    .to('#mini-time', {
+        textContent: '45:00',
+        duration: 4,
+        ease: 'none',
+        snap: { textContent: 1 },
+        onUpdate: function() {
+            // Format time nicely
+            const val = Math.round(this.targets()[0].textContent);
+            const m = Math.floor(val);
+            const s = Math.floor((this.progress() * 45 * 60) % 60);
+            this.targets()[0].textContent = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+    }, '<');
+
+    // 8. Cursor moves to "Back" button
+    tl.to(cursor, { 
+        x: 30, y: 25, // Approx coordinates of back button
+        duration: 0.8, 
+        ease: 'power2.inOut' 
+    }, '+=0.5');
+
+    // 9. Cursor clicks Back
+    tl.to(cursor, { scale: 0.9, duration: 0.1 }, '+=0.2')
+      .to(ripple, { 
+          scale: 3, opacity: 1, duration: 0.3, 
+          onStart: () => gsap.to(ripple, { opacity: 0, delay: 0.2, duration: 0.2 })
+      }, '<')
+      .to(cursor, { scale: 1, duration: 0.1 });
+
+    // 10. Screen transition (Slide 2 out, Slide 1 in)
+    tl.to('#screen-detail', { x: '100%', duration: 0.7, ease: 'power3.inOut' }, '+=0.2')
+      .to('#screen-subjects', { x: '0%', duration: 0.7, ease: 'power3.inOut' }, '<')
+      .to('#topbar-title', { 
+          opacity: 0, duration: 0.3, 
+          onComplete: () => document.getElementById('topbar-title').innerText = "My Subjects — Spring 2026" 
+      }, '<')
+      .to('#topbar-title', { opacity: 1, duration: 0.3 }, '+=0.1');
+
+    // 11. Cursor fades out before loop restarts
+    tl.to(cursor, { opacity: 0, duration: 0.4 }, '+=0.5');
+}
+
+/* --------------------------------------------------
+   Mouse Parallax — desktop only
+-------------------------------------------------- */
 function initMouseParallax() {
     const floatElems = document.querySelectorAll('.float-elem');
-    const orbs = document.querySelectorAll('.glow-orb');
-    
-    // Only enable on desktop
-    if (window.innerWidth < 768) return;
+    if (window.innerWidth < 900) return;
+
+    let mouseX = 0, mouseY = 0, rafId = null;
 
     document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 2; // -1 to 1
-        const y = (e.clientY / window.innerHeight - 0.5) * 2; // -1 to 1
-
-        // Floating geometric elements in hero
-        floatElems.forEach((elem) => {
-            const speed = parseFloat(elem.getAttribute('data-speed')) || 1;
-            gsap.to(elem, {
-                x: x * 30 * speed,
-                y: y * 30 * speed,
-                duration: 1.5,
-                ease: 'power2.out'
-            });
-        });
-
-        // Background large glow orbs (slower parallax)
-        orbs.forEach((orb, i) => {
-            const speed = (i + 1) * 1.5;
-            gsap.to(orb, {
-                x: -(x * 20 * speed), // Moves opposite to mouse for depth
-                y: -(y * 20 * speed),
-                duration: 2.5,
-                ease: 'power2.out'
-            });
-        });
+        mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (!rafId) rafId = requestAnimationFrame(applyParallax);
     });
+
+    function applyParallax() {
+        rafId = null;
+        floatElems.forEach((el) => {
+            const s = parseFloat(el.getAttribute('data-speed')) || 1;
+            gsap.to(el, {
+                x: mouseX * 22 * s,
+                y: mouseY * 22 * s,
+                duration: 2.2,
+                ease: 'power2.out'
+            });
+        });
+    }
 }
