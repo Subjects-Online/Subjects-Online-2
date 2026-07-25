@@ -45,11 +45,11 @@
     <nav id="shared-nav" style="
         position: sticky; top: 0; z-index: 50;
         width: 100%;
-        background: rgba(255,255,255,0.35);
+        background: rgba(5, 5, 5, 0.35);
         backdrop-filter: blur(35px) saturate(200%);
         -webkit-backdrop-filter: blur(35px) saturate(200%);
-        border-bottom: 1px solid rgba(255,255,255,0.4);
-        box-shadow: 0 1px 0 rgba(37,99,235,0.05), 0 4px 20px rgba(37,99,235,0.04);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        box-shadow: 0 4px 30px rgba(0,0,0,0.5);
     ">
         <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem; height:64px; display:flex; align-items:center; justify-content:space-between; gap:1rem;">
 
@@ -57,22 +57,22 @@
             <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
                 <div style="
                     width:36px;height:36px;border-radius:50%;
-                    background:linear-gradient(135deg,#1d4ed8,#60a5fa);
+                    background:linear-gradient(135deg,#d4af37,#fef08a);
                     display:flex;align-items:center;justify-content:center;
-                    color:#fff;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;
-                    box-shadow:0 0 16px rgba(37,99,235,0.5);
+                    color:#050505;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;
+                    box-shadow:0 0 16px rgba(212,175,55,0.3);
                 ">S</div>
-                <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#172554;letter-spacing:-0.01em;" class="logo-text-primary">
-                    Subjects <span style="color:#60a5fa;font-weight:300;" class="logo-text-secondary">Online</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#ffffff;letter-spacing:-0.01em;" class="logo-text-primary">
+                    Subjects <span style="color:#d4af37;font-weight:300;" class="logo-text-secondary">Online</span>
                 </span>
             </a>
 
             <div id="nav-pills" style="
                 display:flex;align-items:center;gap:4px;
-                background:rgba(255,255,255,0.2);
+                background:rgba(255, 255, 255, 0.03);
                 backdrop-filter: blur(15px);
                 -webkit-backdrop-filter: blur(15px);
-                border:1px solid rgba(255,255,255,0.5);
+                border:1px solid rgba(255, 255, 255, 0.08);
                 border-radius:999px;
                 padding:5px;
             ">
@@ -86,11 +86,11 @@
                         text-decoration:none;
                         transition:all 0.25s;
                         ${isActive
-                ? 'background:#2563eb;color:#ffffff;box-shadow:0 4px 14px rgba(37,99,235,0.35);'
-                : 'color:#3b82f6;background:transparent;'}
+                ? 'background:rgba(212,175,55,0.2);color:#d4af37;box-shadow:0 4px 14px rgba(212,175,55,0.1);'
+                : 'color:#888;background:transparent;'}
                     "
-                    onmouseover="if(this.dataset.active!=='1'){this.style.background='rgba(37,99,235,0.08)';this.style.color='#1d4ed8';}"
-                    onmouseout="if(this.dataset.active!=='1'){this.style.background='transparent';this.style.color='#3b82f6';}"
+                    onmouseover="if(this.dataset.active!=='1'){this.style.background='rgba(255,255,255,0.05)';this.style.color='#fff';}"
+                    onmouseout="if(this.dataset.active!=='1'){this.style.background='transparent';this.style.color='#888';}"
                     data-active="${isActive ? '1' : '0'}"
                     >
                         ${link.icon}
@@ -102,27 +102,15 @@
             <!-- Right Side: Actions + User chip -->
             <div style="display:flex;align-items:center;gap:15px;flex-shrink:0;position:relative;">
                 
-                <!-- Dark Mode Toggle -->
-                <button id="snav-dark-btn" style="
-                    background:none;border:none;cursor:pointer;
-                    color:#3b82f6;padding:5px;border-radius:50%;
-                    transition:all 0.2s;display:flex;align-items:center;justify-content:center;
-                " onmouseover="this.style.background='rgba(37,99,235,0.1)'" onmouseout="this.style.background='transparent'">
-                    <!-- Moon Icon -->
-                    <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                    <!-- Sun Icon (hidden by default) -->
-                    <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" style="display:none;" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                </button>
-
                 <!-- Notifications -->
                 <div style="position:relative;">
                     <button id="snav-notif-btn" style="
                         background:none;border:none;cursor:pointer;
-                        color:#3b82f6;padding:5px;border-radius:50%;
+                        color:#a1a1aa;padding:5px;border-radius:50%;
                         transition:all 0.2s;display:flex;align-items:center;justify-content:center;position:relative;
-                    " onmouseover="this.style.background='rgba(37,99,235,0.1)'" onmouseout="this.style.background='transparent'">
+                    " onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.color='#fff';" onmouseout="this.style.background='transparent';this.style.color='#a1a1aa';">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span style="position:absolute;top:2px;right:4px;width:8px;height:8px;background:#ef4444;border-radius:50%;border:2px solid #fff;"></span>
+                        <span style="position:absolute;top:2px;right:4px;width:8px;height:8px;background:#d4af37;border-radius:50%;border:2px solid #050505;"></span>
                     </button>
 
                     <!-- Notif Dropdown -->
@@ -166,11 +154,11 @@
                 <!-- Sign Out button -->
                 <button id="snav-signout-btn" title="Sign Out" style="
                     background:none;border:none;cursor:pointer;
-                    color:#94a3b8;padding:5px 6px;border-radius:8px;
+                    color:#a1a1aa;padding:5px 6px;border-radius:8px;
                     transition:all 0.2s;display:flex;align-items:center;justify-content:center;
                     margin-left:2px;
-                " onmouseover="this.style.background='rgba(239,68,68,0.08)';this.style.color='#ef4444';"
-                  onmouseout="this.style.background='none';this.style.color='#94a3b8';">
+                " onmouseover="this.style.background='rgba(239,68,68,0.15)';this.style.color='#fca5a5';"
+                  onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
@@ -347,61 +335,20 @@
         html.dark-mode .mega-socials a { background: rgba(255,255,255,0.05) !important; color: #94a3b8 !important; }
         html.dark-mode .mega-socials a:hover { background: #3b82f6 !important; color: #fff !important; }
 
-        /* ===== PREMIUM OLED DARK MODE STYLES ===== */
-        html.dark-mode body {
-            background: #050505 !important;
-            color: #ededed !important;
+        /* ===== NAV STYLES ===== */
+        html.light-mode #shared-nav {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.05) !important;
         }
-        html.dark-mode .bg-surface { background: #050505 !important; }
-        html.dark-mode #shared-nav {
-            background: rgba(5, 5, 5, 0.35) !important;
-            border-bottom: 1px solid rgba(255,255,255,0.08) !important;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.5) !important;
+        html.light-mode #nav-pills {
+            background: rgba(0, 0, 0, 0.03) !important;
+            border-color: rgba(0, 0, 0, 0.08) !important;
         }
-        html.dark-mode #nav-pills {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border-color: rgba(255, 255, 255, 0.08) !important;
-        }
-        html.dark-mode #nav-pills a:not([data-active="1"]) { color: #888 !important; }
-        html.dark-mode #nav-pills a:not([data-active="1"]):hover { color: #fff !important; background: rgba(255,255,255,0.05) !important; }
-        html.dark-mode .text-blue-950, html.dark-mode .text-blue-900 { color: #ffffff !important; }
-        html.dark-mode .text-blue-500, html.dark-mode .text-blue-400 { color: #a1a1aa !important; }
-        
-        /* Dark Mode Dashboard Cards */
-        html.dark-mode .stat-number-card, html.dark-mode .stat-card, html.dark-mode .material-card, html.dark-mode .essay-card {
-            background: rgba(20, 20, 20, 0.6) !important;
-            border-color: rgba(255, 255, 255, 0.08) !important;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.5) !important;
-        }
-        html.dark-mode .stat-number-card::before, html.dark-mode .material-card::before {
-            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%) !important;
-        }
-        html.dark-mode .stat-number-card:hover, html.dark-mode .material-card:hover, html.dark-mode .essay-card:hover {
-            border-color: rgba(255, 255, 255, 0.2) !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8) !important;
-        }
-        html.dark-mode .not-opened-item { background: rgba(25, 25, 25, 0.8) !important; border-color: rgba(255, 255, 255, 0.05) !important; }
-        html.dark-mode .not-opened-item:hover { background: rgba(40, 40, 40, 0.9) !important; border-color: rgba(255, 255, 255, 0.15) !important; }
-        html.dark-mode .not-opened-item .start-badge { background: rgba(37,99,235,0.2) !important; border-color: rgba(37,99,235,0.4) !important; color: #60a5fa !important; }
-        html.dark-mode .not-opened-item:hover .start-badge { background: #2563eb !important; color: #fff !important; }
-        
-        /* Planner & Inputs */
-        html.dark-mode input#planner-input { background: rgba(255,255,255,0.05) !important; border-color: rgba(255,255,255,0.1) !important; color: #fff !important; }
-        html.dark-mode input#planner-input::placeholder { color: #666 !important; }
-        html.dark-mode #planner-list > div { background: rgba(255,255,255,0.03) !important; border-color: rgba(255,255,255,0.08) !important; }
-        html.dark-mode #planner-list > div.bg-blue-50\\/50 { background: rgba(37,99,235,0.1) !important; border-color: rgba(37,99,235,0.3) !important; }
-        
-        /* Nav actions */
-        html.dark-mode #snav-notif-btn, html.dark-mode #snav-dark-btn { color: #a1a1aa !important; }
-        html.dark-mode #snav-notif-btn:hover, html.dark-mode #snav-dark-btn:hover { color: #fff !important; background: rgba(255,255,255,0.1) !important; }
-        html.dark-mode #snav-notif-dropdown { background: #121212 !important; border-color: rgba(255,255,255,0.1) !important; }
-        html.dark-mode #snav-notif-dropdown div { border-color: rgba(255,255,255,0.05) !important; }
-        html.dark-mode #snav-notif-dropdown p:first-child { color: #ededed !important; }
-        html.dark-mode #snav-notif-dropdown p:last-child { color: #a1a1aa !important; }
-        
-        /* Glow Orbs in Dark Mode */
-        html.dark-mode .glow-orb.orb-1 { background: radial-gradient(circle, rgba(56,189,248,0.4), transparent 70%) !important; opacity:0.15 !important; mix-blend-mode: screen; }
-        html.dark-mode .glow-orb.orb-2 { background: radial-gradient(circle, rgba(129,140,248,0.4), transparent 70%) !important; opacity:0.15 !important; mix-blend-mode: screen; }
+        html.light-mode #nav-pills a:not([data-active="1"]) { color: #64748b !important; }
+        html.light-mode #nav-pills a:not([data-active="1"]):hover { color: #0f172a !important; background: rgba(0,0,0,0.05) !important; }
+        html.light-mode #snav-notif-btn, html.light-mode #snav-dark-btn { color: #64748b !important; }
+        html.light-mode #snav-notif-btn:hover, html.light-mode #snav-dark-btn:hover { color: #0f172a !important; background: rgba(0,0,0,0.05) !important; }
     `;
     document.head.appendChild(style);
 
@@ -418,25 +365,6 @@
         if (dot) dot.style.display = 'none';
     });
     document.addEventListener('click', () => notifDropdown.style.display = 'none');
-
-    // Dark Mode Logic
-    const darkBtn = document.getElementById('snav-dark-btn');
-    const iconMoon = document.getElementById('icon-moon');
-    const iconSun = document.getElementById('icon-sun');
-
-    // Check initial state
-    if (localStorage.getItem('soDarkMode') === '1') {
-        document.documentElement.classList.add('dark-mode');
-        iconMoon.style.display = 'none';
-        iconSun.style.display = 'block';
-    }
-
-    darkBtn.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark-mode');
-        localStorage.setItem('soDarkMode', isDark ? '1' : '0');
-        iconMoon.style.display = isDark ? 'none' : 'block';
-        iconSun.style.display = isDark ? 'block' : 'none';
-    });
 
     // ── Sign Out Button ────────────────────────────────────────────────────────
     const signoutBtn = document.getElementById('snav-signout-btn');
