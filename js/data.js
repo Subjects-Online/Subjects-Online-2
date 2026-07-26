@@ -85,31 +85,77 @@ function toggleFav(id, btnEl) {
     saveFavorites(favs);
 }
 
-function materialCardHTML(item, isFav) {
+function materialCardHTML(item, isFav, isPinned = false) {
+    const tagBg = item.color + '80';     // ~50% opacity
+    const tagColor = item.accent;
+
+    // Mock progress and chapter count based on ID
+    const idSum = item.id.charCodeAt(0) + item.id.charCodeAt(1);
+    const progress = (idSum % 10) * 10 + Math.floor(idSum % 5) * 5; // e.g. 45, 80, 20
+    const chaptersCount = (idSum % 6) + 7; // e.g. 7 to 12
+
     return `
     <a href="subject.html?id=${item.id}" class="material-card group" style="text-decoration: none;">
-        <div class="card-accent" style="background: linear-gradient(90deg, ${item.accent}, ${item.color});"></div>
-        <div class="card-glow" style="background: radial-gradient(circle, ${item.color} 0%, transparent 70%);"></div>
-        
-        <div class="card-inner">
-            <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-            </button>
-            
-            <div class="card-icon-wrap" style="background: rgba(255,255,255,0.4); border-color: ${item.color};">
-                <span class="emoji-icon">${item.icon}</span>
+        <!-- Progress Bar at the top -->
+        <div class="card-progress-wrap" style="height: 4px; background: #F1F5F9; width: 100%;">
+            <div class="card-progress-fill" style="width: ${progress}%; height: 100%; background: linear-gradient(90deg, ${item.accent}, ${item.color}); transition: width 1s;"></div>
+        </div>
+
+        <div class="card-inner" style="position: relative; padding-top: 1rem;">
+            <!-- Header row: icon LEFT, Actions & Progress RIGHT -->
+            <div class="card-top-row" style="margin-bottom: 0.75rem; display: flex; justify-content: space-between; align-items: flex-start;">
+                <div class="card-icon-wrap" style="background: ${item.color}; border-color: ${item.accent}30;">
+                    <span class="emoji-icon">${item.icon}</span>
+                </div>
+                
+                <div style="display:flex; flex-direction: column; align-items: flex-end; gap: 8px;">
+                    <div style="font-size: 0.75rem; font-weight: 700; color: ${item.accent}; display: flex; align-items: center; gap: 4px;">
+                        ${progress}% <span style="color:#94A3B8; font-weight:500;">done</span>
+                    </div>
+                    <div style="display:flex; gap: 6px;">
+                        <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
+                            style="${isPinned ? `color:${item.accent};background:${item.color};border-color:${item.accent}40;` : ''}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                            </svg>
+                        </button>
+                        <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
+                            style="${isFav ? `color:#F59E0B;background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.4);` : ''}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
             </div>
-            
+
+            <!-- Title & Description -->
             <h3 class="card-title">${item.title}</h3>
             <p class="card-desc">${item.desc}</p>
-            
-            <div class="card-cta" style="color: ${item.accent}; background: ${item.color}30; border-color: ${item.color};">
-                <span>View Material</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 icon-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+
+            <!-- Footer row: tag + CTA -->
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:auto;">
+                <div style="display:inline-flex; align-items:center; gap:5px; padding:4px 10px;
+                    border-radius:999px; font-size:0.7rem; font-weight:700; letter-spacing:0.06em;
+                    text-transform:uppercase; background:${tagBg}; color:${tagColor};
+                    border:1px solid ${item.accent}20;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253"/>
+                    </svg>
+                    ${chaptersCount} Chapters
+                </div>
+
+                <div class="card-cta" style="color:${item.accent}; background:${item.color}50; border-color:${item.accent}30;">
+                    <span>Open</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 icon-arrow" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </div>
             </div>
         </div>
     </a>`;
 }
+
 
 function essayCardHTML(e, isFav) {
     return `
@@ -138,7 +184,7 @@ function essayCardHTML(e, isFav) {
     </div>`;
 }
 
-function bindFavButtons(container) {
+function bindActionButtons(container) {
     container.querySelectorAll('.fav-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -146,4 +192,57 @@ function bindFavButtons(container) {
             toggleFav(btn.dataset.id, btn);
         });
     });
+
+    container.querySelectorAll('.pin-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            togglePin(btn.dataset.id, btn);
+        });
+    });
+}
+
+function getPinned() {
+    return JSON.parse(localStorage.getItem('soPinned') || '[]');
+}
+
+function savePinned(pinned) {
+    localStorage.setItem('soPinned', JSON.stringify(pinned));
+}
+
+function togglePin(id, btnEl) {
+    let pinned = getPinned();
+    const idx = pinned.indexOf(id);
+    
+    // Find the item color data to restyle the button
+    let itemAccent = '#0EA5E9', itemColor = '#F0F9FF';
+    for (const group of Object.values(MATERIALS)) {
+        const found = group.find(g => g.id === id);
+        if (found) {
+            itemAccent = found.accent;
+            itemColor = found.color;
+            break;
+        }
+    }
+
+    if (idx === -1) {
+        pinned.push(id);
+        btnEl.classList.add('active');
+        btnEl.title = "Unpin";
+        btnEl.style.color = itemAccent;
+        btnEl.style.background = itemColor;
+        btnEl.style.borderColor = itemAccent + '40';
+        if(typeof gsap !== 'undefined') gsap.fromTo(btnEl, { scale: 1.6 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' });
+    } else {
+        pinned.splice(idx, 1);
+        btnEl.classList.remove('active');
+        btnEl.title = "Pin to Top";
+        btnEl.style.color = '';
+        btnEl.style.background = '';
+        btnEl.style.borderColor = '';
+    }
+    savePinned(pinned);
+    
+    // Dispatch event so browse.js can re-sort immediately
+    window.dispatchEvent(new CustomEvent('so-pin-changed'));
 }

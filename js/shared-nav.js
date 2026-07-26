@@ -1,13 +1,5 @@
 /* shared-nav.js — Injects the shared navbar and highlights the current page */
 (function () {
-    const links = [
-        { href: 'dashboard.html', label: 'Home', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>` },
-        { href: 'browse.html', label: 'Browse', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>` },
-        { href: 'essays.html', label: 'Doctor Essays', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>` },
-        { href: 'favorites.html', label: 'Favorites', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>` },
-        { href: 'library.html', label: 'Library', icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>` }
-    ];
-
     const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
 
     const userName = localStorage.getItem('subjectsOnlineName') || 'Student';
@@ -43,129 +35,42 @@
 
     const navHTML = `
     <nav id="shared-nav" style="
-        position: sticky; top: 0; z-index: 50;
+        position: absolute; top: 0; left: 0; right: 0; z-index: 50;
         width: 100%;
-        background: rgba(5, 5, 5, 0.35);
-        backdrop-filter: blur(35px) saturate(200%);
-        -webkit-backdrop-filter: blur(35px) saturate(200%);
-        border-bottom: 1px solid rgba(255,255,255,0.08);
-        box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        padding-top: 1.5rem;
     ">
-        <div style="max-width:72rem; margin:0 auto; padding:0 1.5rem; height:64px; display:flex; align-items:center; justify-content:space-between; gap:1rem;">
+        <div style="max-width:80rem; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:center; gap:2rem;">
 
-            <!-- Logo -->
-            <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;">
+            <!-- CENTER: Logo -->
+            <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
                 <div style="
-                    width:36px;height:36px;border-radius:50%;
-                    background:linear-gradient(135deg,#d4af37,#fef08a);
+                    width:38px;height:38px;border-radius:12px;
+                    background:linear-gradient(135deg,#0EA5E9,#38BDF8);
                     display:flex;align-items:center;justify-content:center;
-                    color:#050505;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;
-                    box-shadow:0 0 16px rgba(212,175,55,0.3);
+                    color:#fff;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;
+                    box-shadow:0 0 20px rgba(14,165,233,0.35);
                 ">S</div>
-                <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:#ffffff;letter-spacing:-0.01em;" class="logo-text-primary">
-                    Subjects <span style="color:#d4af37;font-weight:300;" class="logo-text-secondary">Online</span>
+                <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:#0C1A2E;letter-spacing:-0.01em;" class="logo-text-primary">
+                    Subjects <span style="color:#0EA5E9;font-weight:300;" class="logo-text-secondary">Online</span>
                 </span>
             </a>
 
-            <div id="nav-pills" style="
-                display:flex;align-items:center;gap:4px;
-                background:rgba(255, 255, 255, 0.03);
-                backdrop-filter: blur(15px);
-                -webkit-backdrop-filter: blur(15px);
-                border:1px solid rgba(255, 255, 255, 0.08);
-                border-radius:999px;
-                padding:5px;
-            ">
-                ${links.map(link => {
-        const isActive = currentPage === link.href;
-        return `
-                    <a href="${link.href}" style="
-                        display:flex;align-items:center;gap:6px;
-                        padding:7px 16px;border-radius:999px;
-                        font-size:0.82rem;font-weight:600;
-                        text-decoration:none;
-                        transition:all 0.25s;
-                        ${isActive
-                ? 'background:rgba(212,175,55,0.2);color:#d4af37;box-shadow:0 4px 14px rgba(212,175,55,0.1);'
-                : 'color:#888;background:transparent;'}
-                    "
-                    onmouseover="if(this.dataset.active!=='1'){this.style.background='rgba(255,255,255,0.05)';this.style.color='#fff';}"
-                    onmouseout="if(this.dataset.active!=='1'){this.style.background='transparent';this.style.color='#888';}"
-                    data-active="${isActive ? '1' : '0'}"
-                    >
-                        ${link.icon}
-                        <span class="nav-label">${link.label}</span>
-                    </a>`;
-    }).join('')}
-            </div>
 
-            <!-- Right Side: Actions + User chip -->
-            <div style="display:flex;align-items:center;gap:15px;flex-shrink:0;position:relative;">
-                
-                <!-- Notifications -->
-                <div style="position:relative;">
-                    <button id="snav-notif-btn" style="
-                        background:none;border:none;cursor:pointer;
-                        color:#a1a1aa;padding:5px;border-radius:50%;
-                        transition:all 0.2s;display:flex;align-items:center;justify-content:center;position:relative;
-                    " onmouseover="this.style.background='rgba(255,255,255,0.1)';this.style.color='#fff';" onmouseout="this.style.background='transparent';this.style.color='#a1a1aa';">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                        <span style="position:absolute;top:2px;right:4px;width:8px;height:8px;background:#d4af37;border-radius:50%;border:2px solid #050505;"></span>
-                    </button>
 
-                    <!-- Notif Dropdown -->
-                    <div id="snav-notif-dropdown" style="
-                        display:none;position:absolute;top:120%;right:-10px;width:300px;
-                        background:#ffffff;border:1px solid rgba(219,234,254,0.8);
-                        border-radius:1rem;box-shadow:0 10px 40px rgba(37,99,235,0.15);
-                        overflow:hidden;z-index:100;
-                    ">
-                        <div style="padding:12px 16px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-weight:700;font-size:0.9rem;color:#1e3a8a;">
-                            Notifications
-                        </div>
-                        <div style="padding:12px 16px;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                            <p style="font-size:0.8rem;color:#1e40af;font-weight:600;margin:0 0 4px 0;">New Material Added 📚</p>
-                            <p style="font-size:0.75rem;color:#64748b;margin:0;">Chapter 4 PDF is now available in your Accounting module.</p>
-                        </div>
-                        <div style="padding:12px 16px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                            <p style="font-size:0.8rem;color:#1e40af;font-weight:600;margin:0 0 4px 0;">Doctor Essay Published 📝</p>
-                            <p style="font-size:0.75rem;color:#64748b;margin:0;">Dr. Ahmed Nour just published "ESG Reporting".</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- User chip -->
-                <a href="profile.html" style="display:flex;align-items:center;gap:10px;padding-left:10px;border-left:1px solid rgba(219,234,254,0.8);text-decoration:none;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                    <div style="
-                        width:36px;height:36px;border-radius:50%;
-                        background:${bgGradient};
-                        display:flex;align-items:center;justify-content:center;
-                        color:${textColor};font-weight:700;font-size:0.9rem;
-                        border:1.5px solid rgba(255,255,255,0.5);
-                        flex-shrink:0;overflow:hidden;
-                    ">${avatarContent}</div>
-                    <span id="snav-username" style="
-                        font-size:0.85rem;font-weight:600;color:#1e3a8a;
-                        white-space:nowrap;
-                        display:none;
-                    ">${userName}</span>
-                </a>
-
-                <!-- Sign Out button -->
-                <button id="snav-signout-btn" title="Sign Out" style="
-                    background:none;border:none;cursor:pointer;
-                    color:#a1a1aa;padding:5px 6px;border-radius:8px;
-                    transition:all 0.2s;display:flex;align-items:center;justify-content:center;
-                    margin-left:2px;
-                " onmouseover="this.style.background='rgba(239,68,68,0.15)';this.style.color='#fca5a5';"
-                  onmouseout="this.style.background='none';this.style.color='#a1a1aa';">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                    </svg>
-                </button>
-            </div>
         </div>
     </nav>
+    <style>
+        /* Hidden elements in this new minimal layout */
+        @media (max-width: 640px) {
+            #snav-username { display: block !important; }
+        }
+        @media (max-width: 400px) {
+            .logo-text-secondary { display: none; }
+        }
+    </style>
     `;
 
     const footerHTML = `
@@ -272,40 +177,153 @@
         document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
 
-    // Show name on md screens & inject Dark Mode CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @media (min-width: 640px) {
-            #snav-username { display: block !important; }
-        }
-        @media (max-width: 767px) {
-            #nav-pills {
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-            }
-            #nav-pills a:not([href="dashboard.html"]) { display: none !important; }
-            #nav-pills a[href="dashboard.html"] { 
-                background: transparent !important; 
-                color: #3b82f6 !important; 
-                box-shadow: none !important; 
-                padding: 5px !important;
-            }
-            #nav-pills a[href="dashboard.html"] svg {
-                transform: scale(1.35) !important;
-            }
-            html.dark-mode #nav-pills a[href="dashboard.html"] { color: #94a3b8 !important; }
-            .nav-label { display: none !important; }
-        }
-        @media (max-width: 500px) {
-            #snav-notif-dropdown { right: -60px !important; width: 260px !important; }
-        }
-        @media (max-width: 400px) {
-            .logo-text-secondary { display: none; }
-            #shared-nav > div { padding: 0 1rem !important; gap: 0.5rem !important; }
+    // ── Global Sky Blue Theme Injection ──────────────────────────────────────────
+    const globalTheme = document.createElement('style');
+    globalTheme.textContent = `
+        /* =====================================================
+           GLOBAL WHITE & SKY BLUE THEME — Subjects Online
+           Applied site-wide via shared-nav.js
+           ===================================================== */
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #F0F9FF; }
+        ::-webkit-scrollbar-thumb { background: #7DD3FC; border-radius: 999px; }
+
+        /* Override welcome.css dark variables */
+        body:not(.dashboard-page) {
+            --bg:           #F0F9FF !important;
+            --bg-1:         #FFFFFF !important;
+            --bg-2:         #EFF6FF !important;
+            --border:       rgba(14,165,233,0.12) !important;
+            --border-hover: rgba(14,165,233,0.25) !important;
+            --accent:       #0EA5E9 !important;
+            --accent-2:     #38BDF8 !important;
+            --accent-glow:  rgba(14,165,233,0.25) !important;
+            --text-1:       #0C1A2E !important;
+            --text-2:       #334155 !important;
+            --text-3:       #64748B !important;
         }
 
+        /* Body background global override */
+        body {
+            background: #F0F9FF !important;
+            color: #0C1A2E !important;
+        }
+
+        /* Dark mesh orbs → light sky blue orbs */
+        .mesh-orb-1 {
+            background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 65%) !important;
+        }
+        .mesh-orb-2 {
+            background: radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 65%) !important;
+        }
+        .mesh-orb-3 {
+            background: radial-gradient(circle, rgba(99,214,250,0.06) 0%, transparent 65%) !important;
+        }
+
+        /* Site header — light frosted glass */
+        .site-header {
+            background: rgba(240, 249, 255, 0.85) !important;
+            border-bottom-color: rgba(14,165,233,0.1) !important;
+        }
+
+        /* Nav logo text */
+        .nav-logo-name { color: #0C1A2E !important; }
+        .nav-link { color: #334155 !important; }
+        .nav-link:hover { color: #0EA5E9 !important; }
+
+        /* Cards — white with sky blue borders */
+        .preview-main, .preview-stat, .preview-badge-float {
+            background: #FFFFFF !important;
+            border-color: rgba(14,165,233,0.15) !important;
+            box-shadow: 0 4px 20px rgba(14,165,233,0.06) !important;
+        }
+        .subject-card {
+            background: #F0F9FF !important;
+            border-color: rgba(14,165,233,0.12) !important;
+        }
+        .subject-card.active {
+            background: rgba(14,165,233,0.06) !important;
+            border-color: rgba(14,165,233,0.3) !important;
+        }
+        .subject-name { color: #0C1A2E !important; }
+        .subject-meta { color: #64748B !important; }
+        .preview-stat-value { color: #0C1A2E !important; }
+        .preview-stat-label { color: #64748B !important; }
+
+        /* Stats strip */
+        .stats-strip {
+            border-color: rgba(14,165,233,0.1) !important;
+            background: rgba(14,165,233,0.03) !important;
+        }
+        .stat-item { border-right-color: rgba(14,165,233,0.1) !important; }
+        .stat-value { color: #0C1A2E !important; }
+        .stat-label { color: #64748B !important; }
+
+        /* Headings in light sections */
+        .section-heading { color: #0C1A2E !important; }
+        .hero-title { color: #0C1A2E !important; }
+        .hero-subtitle { color: #334155 !important; }
+
+        /* Feature cards */
+        .feature-visual {
+            background: #FFFFFF !important;
+            border-color: rgba(14,165,233,0.12) !important;
+        }
+        .feature-visual::after {
+            background: linear-gradient(90deg, transparent, rgba(14,165,233,0.3), transparent) !important;
+        }
+
+        /* Chapter cards in light mode */
+        .chap-card {
+            background: rgba(255,255,255,0.95) !important;
+            border-color: rgba(14,165,233,0.12) !important;
+        }
+        .chap-card:hover {
+            border-color: rgba(14,165,233,0.3) !important;
+        }
+
+        /* proof-avatars */
+        .proof-avatar { border-color: #F0F9FF !important; }
+
+        /* Ghost button */
+        .btn-hero-ghost {
+            border-color: rgba(14,165,233,0.25) !important;
+            color: #334155 !important;
+        }
+        .btn-hero-ghost:hover {
+            border-color: rgba(14,165,233,0.45) !important;
+            color: #0C1A2E !important;
+            background: rgba(14,165,233,0.05) !important;
+        }
+
+        /* Subject progress fill */
+        .subject-progress-fill { background: #0EA5E9 !important; }
+        .subject-progress-bar { background: #BFDBFE !important; }
+
+        /* Section labels */
+        .section-label-line { background: #0EA5E9 !important; }
+        .section-label-text { color: #0EA5E9 !important; }
+        .eyebrow-text { color: #0EA5E9 !important; }
+        .eyebrow-dot { background: #0EA5E9 !important; }
+
+        /* outline text */
+        .hero-title-outline {
+            -webkit-text-stroke-color: rgba(14,165,233,0.25) !important;
+        }
+
+        /* Topbar preview dots context */
+        .preview-topbar {
+            background: rgba(240,249,255,0.5) !important;
+            border-bottom-color: rgba(14,165,233,0.1) !important;
+        }
+        .topbar-title { color: #94A3B8 !important; }
+    `;
+    document.head.appendChild(globalTheme);
+
+    const style = document.createElement('style');
+    style.textContent = `
         /* Mega Footer Styles */
         .mega-link {
             font-size: 0.9rem;
@@ -316,7 +334,7 @@
             display: inline-block;
         }
         .mega-link:hover {
-            color: #2563eb;
+            color: #0EA5E9;
             transform: translateX(4px);
         }
         
@@ -330,41 +348,12 @@
         html.dark-mode .mega-desc { color: #94a3b8 !important; }
         html.dark-mode .mega-col-title { color: #e2e8f0 !important; }
         html.dark-mode .mega-link { color: #cbd5e1 !important; }
-        html.dark-mode .mega-link:hover { color: #60a5fa !important; }
+        html.dark-mode .mega-link:hover { color: #38BDF8 !important; }
         html.dark-mode .mega-copy, html.dark-mode .mega-lang { color: #64748b !important; }
         html.dark-mode .mega-socials a { background: rgba(255,255,255,0.05) !important; color: #94a3b8 !important; }
-        html.dark-mode .mega-socials a:hover { background: #3b82f6 !important; color: #fff !important; }
-
-        /* ===== NAV STYLES ===== */
-        html.light-mode #shared-nav {
-            background: rgba(255, 255, 255, 0.8) !important;
-            border-bottom: 1px solid rgba(0,0,0,0.05) !important;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.05) !important;
-        }
-        html.light-mode #nav-pills {
-            background: rgba(0, 0, 0, 0.03) !important;
-            border-color: rgba(0, 0, 0, 0.08) !important;
-        }
-        html.light-mode #nav-pills a:not([data-active="1"]) { color: #64748b !important; }
-        html.light-mode #nav-pills a:not([data-active="1"]):hover { color: #0f172a !important; background: rgba(0,0,0,0.05) !important; }
-        html.light-mode #snav-notif-btn, html.light-mode #snav-dark-btn { color: #64748b !important; }
-        html.light-mode #snav-notif-btn:hover, html.light-mode #snav-dark-btn:hover { color: #0f172a !important; background: rgba(0,0,0,0.05) !important; }
+        html.dark-mode .mega-socials a:hover { background: #0EA5E9 !important; color: #fff !important; }
     `;
     document.head.appendChild(style);
-
-    // Notifications Logic
-    const notifBtn = document.getElementById('snav-notif-btn');
-    const notifDropdown = document.getElementById('snav-notif-dropdown');
-    notifBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isHidden = notifDropdown.style.display === 'none';
-        notifDropdown.style.display = isHidden ? 'block' : 'none';
-
-        // Remove red dot when clicked
-        const dot = notifBtn.querySelector('span');
-        if (dot) dot.style.display = 'none';
-    });
-    document.addEventListener('click', () => notifDropdown.style.display = 'none');
 
     // ── Sign Out Button ────────────────────────────────────────────────────────
     const signoutBtn = document.getElementById('snav-signout-btn');

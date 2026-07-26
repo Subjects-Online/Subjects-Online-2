@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set hero gradient background
     const heroBg = document.getElementById('chap-hero-bg');
-    heroBg.style.background = `linear-gradient(135deg, ${subject.accent} 0%, ${subject.accent}E6 100%)`;
+    heroBg.style.background = `radial-gradient(circle at 80% -20%, ${subject.color} 0%, transparent 60%), linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%)`;
 
     // Mock Data for Chapters
     const chapters = [

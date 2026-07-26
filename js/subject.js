@@ -37,10 +37,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('subj-desc').textContent    = subject.desc;
     document.getElementById('subj-icon').textContent    = subject.icon;
     document.getElementById('subj-dept').textContent    = deptLabel;
+    
+    // Light frosted gradient for the hero background
     document.getElementById('subj-hero-bg').style.background =
-        `linear-gradient(135deg, ${subject.accent} 0%, ${subject.accent}cc 50%, ${darkenHex(subject.accent, 25)} 100%)`;
+        `radial-gradient(circle at 80% -20%, ${subject.color} 0%, transparent 60%),
+         linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%)`;
+         
     document.getElementById('subj-icon-bg').style.background =
-        `linear-gradient(135deg, ${subject.color}80, ${subject.color}40)`;
+        `linear-gradient(135deg, #FFFFFF, ${subject.color}60)`;
+    document.getElementById('subj-icon-bg').style.borderColor = subject.accent + '30';
 
     // ── Section Data ─────────────────────────────────────
     const STUDY = [

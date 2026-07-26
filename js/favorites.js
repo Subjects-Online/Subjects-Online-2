@@ -1,10 +1,11 @@
 /* favorites.js */
 document.addEventListener('DOMContentLoaded', () => {
-    const deptText = localStorage.getItem('subjectsOnlineDept') || 'Accounting';
-    const deptKey  = getDeptKey(deptText);
-    const favs     = getFavorites();
+    const favs = getFavorites();
 
-    const allItems = [...(MATERIALS[deptKey] || []), ...ESSAYS];
+    // Search across ALL departments so favorited items always appear
+    // regardless of which department the user currently belongs to
+    const allMaterials = Object.values(MATERIALS).flat();
+    const allItems = [...allMaterials, ...ESSAYS];
     const favItems = allItems.filter(item => favs.includes(item.id));
 
     const grid  = document.getElementById('favorites-grid');

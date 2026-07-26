@@ -133,10 +133,10 @@ function loadStats(deptText) {
         }
 
         recList.innerHTML = recommendedItems.map(item => `
-            <a href="subject.html?id=${item.id}" class="group relative bg-glass-100 rounded-2xl p-4 border border-glass-borderHighlight hover:border-orange-500/40 transition-all flex flex-col justify-between overflow-hidden cursor-pointer h-[120px]">
+            <a href="subject.html?id=${item.id}" class="group relative bg-glass-100 rounded-2xl p-4 border border-glass-borderHighlight hover:border-indigo-500/40 transition-all flex flex-col justify-between overflow-hidden cursor-pointer h-[120px]">
                 <div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full blur-[20px] opacity-40 group-hover:opacity-70 transition-all" style="background-color: ${item.color}"></div>
                 <div class="flex items-start gap-3 z-10">
-                    <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl shadow-inner bg-brand-bg/50 border border-glass-borderHighlight" style="color: ${item.color}">${item.icon}</div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl shadow-inner bg-brand-bg/50 border border-brand-cardBorder" style="color: ${item.color}">${item.icon}</div>
                     <div class="flex-1 min-w-0">
                         <h4 class="font-bold text-white text-sm truncate">${item.title}</h4>
                         <p class="text-xs text-brand-textSecondary mt-0.5 truncate">${item.desc}</p>

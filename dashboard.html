@@ -23,7 +23,7 @@
                         },
                         brand: {
                             bg: 'var(--color-bg)',
-                            accent: '#d4af37', // Gold
+                            accent: '#0EA5E9', // Sky Blue
                             cardBg: 'var(--color-card-bg)',
                             cardBorder: 'var(--color-card-border)',
                             cardBorderHover: 'var(--color-card-border-hover)',
@@ -62,12 +62,17 @@
 <body
     class="bg-brand-bg font-body antialiased text-brand-textPrimary min-h-screen relative overflow-x-hidden selection:bg-indigo-500/30 selection:text-white">
 
-    <!-- MINIMALIST OBSIDIAN BACKGROUND -->
-    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-brand-bg transition-colors duration-500">
-        <!-- Very subtle noise/dust overlay for texture -->
-        <div class="absolute inset-0 opacity-[0.15]"
-            style="background-image: radial-gradient(circle, var(--color-grid-dots) 1px, transparent 1px); background-size: 64px 64px;">
-        </div>
+    <!-- WHITE & SKY BLUE BACKGROUND -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-[#F0F9FF] transition-colors duration-500">
+        <!-- Clean white gradient at top -->
+        <div class="absolute inset-0"
+            style="background: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(240, 249, 255, 0) 70%);"></div>
+        <!-- Soft sky blue glow bottom right -->
+        <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full mix-blend-multiply opacity-50"
+            style="background: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%);"></div>
+        <!-- Soft sky blue glow top left -->
+        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full mix-blend-multiply opacity-30"
+            style="background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);"></div>
     </div>
 
     <!-- Shared Navbar injected by JS -->
@@ -81,18 +86,18 @@
             <!-- Avatar & Breathing Ring -->
             <div class="relative group mb-12 cursor-pointer flex flex-col items-center justify-center z-10 hero-avatar">
 
-                <!-- Breathing Aura (Gold) -->
+                <!-- Breathing Aura (Indigo) -->
                 <div
-                    class="absolute w-44 h-44 bg-brand-accent rounded-full blur-[50px] opacity-10 animate-[pulse_4s_ease-in-out_infinite] pointer-events-none">
+                    class="absolute w-44 h-44 bg-brand-accent rounded-full blur-[50px] opacity-15 animate-[pulse_4s_ease-in-out_infinite] pointer-events-none">
                 </div>
                 <!-- Expanding Sonar Ring -->
                 <div
-                    class="absolute w-32 h-32 border border-brand-accent/40 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-30 pointer-events-none">
+                    class="absolute w-32 h-32 border border-brand-accent/30 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 pointer-events-none">
                 </div>
 
                 <!-- Avatar Inner -->
                 <div
-                    class="relative w-32 h-32 rounded-full bg-brand-cardBg border border-brand-cardBorder flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(212,175,55,0.1)] z-10 transition-transform duration-1000 group-hover:scale-105 group-hover:shadow-[0_0_50px_rgba(212,175,55,0.3)]">
+                    class="relative w-32 h-32 rounded-full bg-brand-cardBg border border-brand-cardBorder flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(99,102,241,0.12)] z-10 transition-transform duration-1000 group-hover:scale-105 group-hover:shadow-[0_0_50px_rgba(99,102,241,0.35)]">
                     <div id="hero-avatar"
                         class="w-full h-full flex items-center justify-center text-brand-accent font-heading font-light text-5xl bg-cover bg-center">
                         S
@@ -123,234 +128,347 @@
             <!-- Minimal Scroll Indicator -->
             <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-30 animate-bounce scroll-indicator cursor-pointer"
                 onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
-                <div class="w-[1px] h-16 bg-gradient-to-b from-transparent via-brand-accent/50 to-transparent"></div>
+                <div class="w-[1px] h-16 bg-gradient-to-b from-transparent via-brand-accent/40 to-transparent"></div>
             </div>
         </div>
 
         <!-- ===== LUXURY EDITORIAL CARDS ===== -->
         <div class="max-w-7xl mx-auto px-6 pb-32 pt-16">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-24 section-cards">
-            
-            <!-- ============ 1. BROWSE (Floating Subject Icons) ============ -->
-            <a href="browse.html" class="lg:col-span-8 group relative bg-brand-cardBg rounded-3xl p-10 md:p-12 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover hover:shadow-[0_0_40px_rgba(212,175,55,0.1)] flex flex-col justify-between min-h-[350px]">
-                <div class="absolute inset-0 bg-gradient-to-br from-brand-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                
-                <!-- Floating Subject Icons -->
-                <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                    <span class="absolute text-5xl opacity-[0.06] group-hover:opacity-[0.15] transition-opacity duration-700 animate-[float1_12s_ease-in-out_infinite]" style="top:15%;right:20%">📊</span>
-                    <span class="absolute text-6xl opacity-[0.06] group-hover:opacity-[0.15] transition-opacity duration-700 animate-[float2_15s_ease-in-out_infinite]" style="top:35%;right:35%">🧮</span>
-                    <span class="absolute text-4xl opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-700 animate-[float3_18s_ease-in-out_infinite]" style="top:55%;right:10%">📈</span>
-                    <span class="absolute text-7xl opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-700 animate-[float1_20s_ease-in-out_infinite_reverse]" style="top:20%;right:55%">💻</span>
-                    <span class="absolute text-5xl opacity-[0.05] group-hover:opacity-[0.12] transition-opacity duration-700 animate-[float2_14s_ease-in-out_infinite]" style="top:60%;right:50%">🔍</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 mb-24 section-cards">
+
+                <!-- ============ 1. BROWSE (Floating Subject Icons) ============ -->
+                <a href="browse.html"
+                    class="lg:col-span-8 group relative bg-brand-cardBg rounded-3xl p-10 md:p-12 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover hover:shadow-[0_0_40px_rgba(99,102,241,0.18)] flex flex-col justify-between min-h-[350px]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-brand-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    </div>
+
+                    <!-- Floating Subject Icons -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <span
+                            class="absolute text-5xl opacity-20 group-hover:opacity-40 transition-opacity duration-700 animate-[float1_12s_ease-in-out_infinite]"
+                            style="top:15%;right:20%">📊</span>
+                        <span
+                            class="absolute text-6xl opacity-20 group-hover:opacity-40 transition-opacity duration-700 animate-[float2_15s_ease-in-out_infinite]"
+                            style="top:35%;right:35%">🧮</span>
+                        <span
+                            class="absolute text-4xl opacity-15 group-hover:opacity-30 transition-opacity duration-700 animate-[float3_18s_ease-in-out_infinite]"
+                            style="top:55%;right:10%">📈</span>
+                        <span
+                            class="absolute text-7xl opacity-15 group-hover:opacity-30 transition-opacity duration-700 animate-[float1_20s_ease-in-out_infinite_reverse]"
+                            style="top:20%;right:55%">💻</span>
+                        <span
+                            class="absolute text-5xl opacity-15 group-hover:opacity-30 transition-opacity duration-700 animate-[float2_14s_ease-in-out_infinite]"
+                            style="top:60%;right:50%">🔍</span>
+                    </div>
+
+                    <div class="relative z-10 flex justify-between items-start">
+                        <div
+                            class="w-14 h-14 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full border border-brand-cardBorder flex items-center justify-center text-brand-textSecondary group-hover:bg-brand-textPrimary group-hover:text-brand-bg transition-all duration-500">
+                            <svg class="w-4 h-4 -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="relative z-10 mt-auto">
+                        <h2
+                            class="font-heading text-4xl md:text-5xl text-brand-textPrimary font-medium mb-3 group-hover:text-brand-accent transition-colors">
+                            Browse</h2>
+                        <div class="flex items-center justify-between">
+                            <p class="text-[10px] text-brand-textSecondary uppercase tracking-[0.3em]">Explore All
+                                Materials</p>
+                            <div class="px-4 py-1.5 rounded-full border border-brand-accent/20 bg-brand-accent/5">
+                                <span class="text-brand-accent text-[9px] uppercase tracking-[0.2em] font-bold"
+                                    id="card-lib-count">6 Subjects</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ============ 2. LIBRARY (Stacked Books) ============ -->
+                <a href="library.html"
+                    class="lg:col-span-4 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover hover:shadow-[0_0_40px_rgba(99,102,241,0.18)] flex flex-col justify-between min-h-[350px]">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-tr from-brand-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                    </div>
+
+                    <!-- Stacked Books Animation -->
+                    <div
+                        class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1.5 pointer-events-none opacity-[0.12] group-hover:opacity-[0.25] transition-all duration-700">
+                        <div
+                            class="w-16 h-3 bg-brand-accent rounded-sm group-hover:translate-x-2 transition-transform duration-700 delay-0">
+                        </div>
+                        <div
+                            class="w-20 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-1 transition-transform duration-700 delay-75">
+                        </div>
+                        <div
+                            class="w-14 h-3 bg-brand-accent rounded-sm group-hover:translate-x-3 transition-transform duration-700 delay-150">
+                        </div>
+                        <div
+                            class="w-24 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-2 transition-transform duration-700 delay-200">
+                        </div>
+                        <div
+                            class="w-18 h-3 bg-brand-accent rounded-sm group-hover:translate-x-1 transition-transform duration-700 delay-300">
+                        </div>
+                        <div
+                            class="w-22 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-3 transition-transform duration-700 delay-[350ms]">
+                        </div>
+                        <div
+                            class="w-16 h-3 bg-brand-accent rounded-sm group-hover:translate-x-2 transition-transform duration-700 delay-[400ms]">
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 flex justify-between items-start">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="relative z-10 mt-12">
+                        <h2
+                            class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">
+                            Library</h2>
+                        <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em] mb-6">Your Collection
+                        </p>
+                        <div class="flex items-center justify-between mt-4 border-t border-brand-cardBorder pt-6">
+                            <span class="text-brand-textPrimary font-heading text-3xl" id="card-my-lib-count">0</span>
+                            <span
+                                class="text-[9px] text-brand-accent uppercase tracking-widest font-medium">Items</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ============ 3. ESSAYS (Typewriter Lines) ============ -->
+                <a href="essays.html"
+                    class="lg:col-span-6 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover flex flex-col justify-between min-h-[260px]">
+
+                    <!-- Typewriter Lines -->
+                    <div
+                        class="absolute top-10 right-10 flex flex-col gap-2.5 pointer-events-none opacity-[0.12] group-hover:opacity-[0.25] transition-opacity duration-700">
+                        <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:120px;animation-delay:0s"></div>
+                        <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:90px;animation-delay:0.3s"></div>
+                        <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:140px;animation-delay:0.6s"></div>
+                        <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:60px;animation-delay:0.9s"></div>
+                        <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:110px;animation-delay:1.2s"></div>
+                        <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]"
+                            style="width:80px;animation-delay:1.5s"></div>
+                    </div>
+
+                    <div class="flex justify-between items-start relative z-10 mb-8">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="px-3 py-1 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-[8px] uppercase tracking-widest font-bold shadow-[0_0_10px_rgba(99,102,241,0.35)]">Premium</span>
+                    </div>
+                    <div class="relative z-10 flex items-end justify-between">
+                        <div>
+                            <h2
+                                class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">
+                                Essays</h2>
+                            <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em]">Academic Insights
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-brand-accent font-heading text-2xl" id="card-essays-count">4</span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- ============ 4. FAVORITES (Floating Sparkles) ============ -->
+                <a href="favorites.html"
+                    class="lg:col-span-6 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover flex flex-col justify-between min-h-[260px]">
+
+                    <!-- Floating Sparkles -->
+                    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+                        <div class="absolute w-1 h-1 bg-brand-accent rounded-full animate-[sparkle_4s_ease-in-out_infinite]"
+                            style="top:20%;right:25%"></div>
+                        <div class="absolute w-1.5 h-1.5 bg-brand-accent rounded-full animate-[sparkle_5s_ease-in-out_infinite_0.5s]"
+                            style="top:40%;right:15%"></div>
+                        <div class="absolute w-1 h-1 bg-brand-textPrimary rounded-full animate-[sparkle_6s_ease-in-out_infinite_1s]"
+                            style="top:60%;right:35%"></div>
+                        <div class="absolute w-0.5 h-0.5 bg-brand-accent rounded-full animate-[sparkle_4.5s_ease-in-out_infinite_1.5s]"
+                            style="top:30%;right:45%"></div>
+                        <div class="absolute w-1 h-1 bg-brand-textPrimary rounded-full animate-[sparkle_5.5s_ease-in-out_infinite_2s]"
+                            style="top:55%;right:20%"></div>
+                        <div class="absolute w-1.5 h-1.5 bg-brand-accent rounded-full animate-[sparkle_7s_ease-in-out_infinite_0.8s]"
+                            style="top:15%;right:40%"></div>
+                    </div>
+
+                    <div class="flex justify-between items-start relative z-10 mb-8">
+                        <div
+                            class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="relative z-10 flex items-end justify-between">
+                        <div>
+                            <h2
+                                class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">
+                                Favorites</h2>
+                            <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em]">Curated Collection
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-brand-accent font-heading text-2xl" id="card-fav-count">0</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- ===== ANALYTICS & PLANNER ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 stats-section">
+
+                <!-- Analytics -->
+                <div class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10">
+                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </span>
+                        <span class="tracking-wider uppercase text-[11px]">Analytics</span>
+                    </h2>
+
+                    <div class="grid grid-cols-2 gap-4 mb-8" id="stats-row">
+                        <!-- JS Injected Stats -->
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-4" id="stats-col">
+                        <!-- JS Injected Needs Attention / Top Activity -->
+                    </div>
                 </div>
 
-                <div class="relative z-10 flex justify-between items-start">
-                    <div class="w-14 h-14 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent mb-6 group-hover:scale-110 transition-all duration-500">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    </div>
-                    <div class="w-10 h-10 rounded-full border border-brand-cardBorder flex items-center justify-center text-brand-textSecondary group-hover:bg-brand-textPrimary group-hover:text-brand-bg transition-all duration-500">
-                        <svg class="w-4 h-4 -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                <!-- Planner -->
+                <div
+                    class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 flex flex-col planner-section">
+                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                        </span>
+                        <span class="tracking-wider uppercase text-[11px]">Study Planner</span>
+                    </h2>
+
+                    <form id="planner-form" class="flex flex-col sm:flex-row gap-3 mb-6 relative z-10">
+                        <input type="text" id="planner-input" placeholder="Define your next objective..."
+                            class="flex-1 bg-brand-iconBg border border-brand-cardBorder text-brand-textPrimary text-sm rounded-2xl px-5 py-4 focus:outline-none focus:ring-1 focus:ring-brand-accent/50 focus:border-brand-accent/30 transition-all placeholder:text-brand-textSecondary w-full">
+                        <button type="submit"
+                            class="bg-brand-accent hover:opacity-90 text-white font-bold py-4 sm:py-3 px-8 rounded-2xl transition-all shadow-[0_0_20px_rgba(99,102,241,0.3)] w-full sm:w-auto text-sm tracking-wider uppercase">
+                            Add Task
+                        </button>
+                    </form>
+
+                    <div id="planner-list"
+                        class="flex flex-col gap-3 overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
+                        <!-- Injected by JS -->
                     </div>
                 </div>
-                <div class="relative z-10 mt-auto">
-                    <h2 class="font-heading text-4xl md:text-5xl text-brand-textPrimary font-medium mb-3 group-hover:text-brand-accent transition-colors">Browse</h2>
-                    <div class="flex items-center justify-between">
-                        <p class="text-[10px] text-brand-textSecondary uppercase tracking-[0.3em]">Explore All Materials</p>
-                        <div class="px-4 py-1.5 rounded-full border border-brand-accent/20 bg-brand-accent/5">
-                            <span class="text-brand-accent text-[9px] uppercase tracking-[0.2em] font-bold" id="card-lib-count">6 Subjects</span>
+
+            </div>
+
+            <!-- ===== WEEKLY SUMMARY & RECOMMENDED ===== -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-32 new-sections">
+
+                <!-- Weekly Summary -->
+                <div
+                    class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 lg:col-span-1 flex flex-col">
+                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </span>
+                        <span class="tracking-wider uppercase text-[11px]">This Week</span>
+                    </h2>
+
+                    <div class="flex-1 flex flex-col justify-center gap-8 z-10">
+                        <div>
+                            <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Time Studied
+                            </p>
+                            <div class="flex items-baseline gap-3">
+                                <span class="text-4xl font-heading font-medium text-brand-textPrimary">12<span
+                                        class="text-lg text-brand-textSecondary font-light">h</span> 45<span
+                                        class="text-lg text-brand-textSecondary font-light">m</span></span>
+                                <span
+                                    class="text-[9px] font-bold text-brand-accent flex items-center bg-brand-accent/10 px-2.5 py-1 rounded-full border border-brand-accent/20 tracking-widest uppercase">
+                                    <svg class="w-3 h-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    15%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="h-px w-full bg-brand-cardBorder"></div>
+                        <div>
+                            <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Lectures
+                                Completed</p>
+                            <div class="flex items-baseline gap-3">
+                                <span class="text-3xl font-heading font-medium text-brand-accent">8</span>
+                                <span class="text-sm font-medium text-brand-textSecondary">videos</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </a>
 
-            <!-- ============ 2. LIBRARY (Stacked Books) ============ -->
-            <a href="library.html" class="lg:col-span-4 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover hover:shadow-[0_0_40px_rgba(212,175,55,0.1)] flex flex-col justify-between min-h-[350px]">
-                <div class="absolute inset-0 bg-gradient-to-tr from-brand-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                
-                <!-- Stacked Books Animation -->
-                <div class="absolute right-6 top-1/2 -translate-y-1/2 flex flex-col items-end gap-1.5 pointer-events-none opacity-[0.12] group-hover:opacity-[0.25] transition-all duration-700">
-                    <div class="w-16 h-3 bg-brand-accent rounded-sm group-hover:translate-x-2 transition-transform duration-700 delay-0"></div>
-                    <div class="w-20 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-1 transition-transform duration-700 delay-75"></div>
-                    <div class="w-14 h-3 bg-brand-accent rounded-sm group-hover:translate-x-3 transition-transform duration-700 delay-150"></div>
-                    <div class="w-24 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-2 transition-transform duration-700 delay-200"></div>
-                    <div class="w-18 h-3 bg-brand-accent rounded-sm group-hover:translate-x-1 transition-transform duration-700 delay-300"></div>
-                    <div class="w-22 h-3 bg-brand-textPrimary rounded-sm group-hover:-translate-x-3 transition-transform duration-700 delay-[350ms]"></div>
-                    <div class="w-16 h-3 bg-brand-accent rounded-sm group-hover:translate-x-2 transition-transform duration-700 delay-[400ms]"></div>
-                </div>
+                <!-- Recommended for You -->
+                <div
+                    class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 lg:col-span-2 flex flex-col">
+                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                        </span>
+                        <span class="tracking-wider uppercase text-[11px]">Recommended for You</span>
+                    </h2>
 
-                <div class="relative z-10 flex justify-between items-start">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                    </div>
-                </div>
-                <div class="relative z-10 mt-12">
-                    <h2 class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">Library</h2>
-                    <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em] mb-6">Your Collection</p>
-                    <div class="flex items-center justify-between mt-4 border-t border-brand-cardBorder pt-6">
-                        <span class="text-brand-textPrimary font-heading text-3xl" id="card-my-lib-count">0</span>
-                        <span class="text-[9px] text-brand-accent uppercase tracking-widest font-medium">Items</span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- ============ 3. ESSAYS (Typewriter Lines) ============ -->
-            <a href="essays.html" class="lg:col-span-6 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover flex flex-col justify-between min-h-[260px]">
-                
-                <!-- Typewriter Lines -->
-                <div class="absolute top-10 right-10 flex flex-col gap-2.5 pointer-events-none opacity-[0.12] group-hover:opacity-[0.25] transition-opacity duration-700">
-                    <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:120px;animation-delay:0s"></div>
-                    <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:90px;animation-delay:0.3s"></div>
-                    <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:140px;animation-delay:0.6s"></div>
-                    <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:60px;animation-delay:0.9s"></div>
-                    <div class="h-[2px] bg-brand-accent rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:110px;animation-delay:1.2s"></div>
-                    <div class="h-[2px] bg-brand-textPrimary rounded-full animate-[typewriter_3s_ease-in-out_infinite]" style="width:80px;animation-delay:1.5s"></div>
-                </div>
-
-                <div class="flex justify-between items-start relative z-10 mb-8">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                    </div>
-                    <span class="px-3 py-1 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-[8px] uppercase tracking-widest font-bold shadow-[0_0_10px_rgba(212,175,55,0.4)]">Premium</span>
-                </div>
-                <div class="relative z-10 flex items-end justify-between">
-                    <div>
-                        <h2 class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">Essays</h2>
-                        <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em]">Academic Insights</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-brand-accent font-heading text-2xl" id="card-essays-count">4</span>
-                    </div>
-                </div>
-            </a>
-
-            <!-- ============ 4. FAVORITES (Floating Sparkles) ============ -->
-            <a href="favorites.html" class="lg:col-span-6 group relative bg-brand-cardBg rounded-3xl p-10 border border-brand-cardBorder overflow-hidden transition-all duration-700 hover:border-brand-cardBorderHover flex flex-col justify-between min-h-[260px]">
-                
-                <!-- Floating Sparkles -->
-                <div class="absolute inset-0 pointer-events-none overflow-hidden">
-                    <div class="absolute w-1 h-1 bg-brand-accent rounded-full animate-[sparkle_4s_ease-in-out_infinite]" style="top:20%;right:25%"></div>
-                    <div class="absolute w-1.5 h-1.5 bg-brand-accent rounded-full animate-[sparkle_5s_ease-in-out_infinite_0.5s]" style="top:40%;right:15%"></div>
-                    <div class="absolute w-1 h-1 bg-brand-textPrimary rounded-full animate-[sparkle_6s_ease-in-out_infinite_1s]" style="top:60%;right:35%"></div>
-                    <div class="absolute w-0.5 h-0.5 bg-brand-accent rounded-full animate-[sparkle_4.5s_ease-in-out_infinite_1.5s]" style="top:30%;right:45%"></div>
-                    <div class="absolute w-1 h-1 bg-brand-textPrimary rounded-full animate-[sparkle_5.5s_ease-in-out_infinite_2s]" style="top:55%;right:20%"></div>
-                    <div class="absolute w-1.5 h-1.5 bg-brand-accent rounded-full animate-[sparkle_7s_ease-in-out_infinite_0.8s]" style="top:15%;right:40%"></div>
-                </div>
-
-                <div class="flex justify-between items-start relative z-10 mb-8">
-                    <div class="w-12 h-12 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent group-hover:scale-110 transition-all duration-500">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
-                    </div>
-                </div>
-                <div class="relative z-10 flex items-end justify-between">
-                    <div>
-                        <h2 class="font-heading text-3xl text-brand-textPrimary font-medium mb-2 group-hover:text-brand-accent transition-colors">Favorites</h2>
-                        <p class="text-[9px] text-brand-textSecondary uppercase tracking-[0.2em]">Curated Collection</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="text-brand-accent font-heading text-2xl" id="card-fav-count">0</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- ===== ANALYTICS & PLANNER ===== -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 stats-section">
-
-            <!-- Analytics -->
-            <div class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10">
-                <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-                    </span>
-                    <span class="tracking-wider uppercase text-[11px]">Analytics</span>
-                </h2>
-
-                <div class="grid grid-cols-2 gap-4 mb-8" id="stats-row">
-                    <!-- JS Injected Stats -->
-                </div>
-
-                <div class="grid grid-cols-1 gap-4" id="stats-col">
-                    <!-- JS Injected Needs Attention / Top Activity -->
-                </div>
-            </div>
-
-            <!-- Planner -->
-            <div class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 flex flex-col planner-section">
-                <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    </span>
-                    <span class="tracking-wider uppercase text-[11px]">Study Planner</span>
-                </h2>
-
-                <form id="planner-form" class="flex flex-col sm:flex-row gap-3 mb-6 relative z-10">
-                    <input type="text" id="planner-input" placeholder="Define your next objective..."
-                        class="flex-1 bg-brand-iconBg border border-brand-cardBorder text-brand-textPrimary text-sm rounded-2xl px-5 py-4 focus:outline-none focus:ring-1 focus:ring-brand-accent/50 focus:border-brand-accent/30 transition-all placeholder:text-brand-textSecondary w-full">
-                    <button type="submit"
-                        class="bg-brand-accent hover:opacity-90 text-brand-bg font-bold py-4 sm:py-3 px-8 rounded-2xl transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] w-full sm:w-auto text-sm tracking-wider uppercase">
-                        Add Task
-                    </button>
-                </form>
-
-                <div id="planner-list"
-                    class="flex flex-col gap-3 overflow-y-auto max-h-[400px] pr-2 custom-scrollbar">
-                    <!-- Injected by JS -->
-                </div>
-            </div>
-
-        </div>
-
-        <!-- ===== WEEKLY SUMMARY & RECOMMENDED ===== -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-32 new-sections">
-
-            <!-- Weekly Summary -->
-            <div class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 lg:col-span-1 flex flex-col">
-                <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    </span>
-                    <span class="tracking-wider uppercase text-[11px]">This Week</span>
-                </h2>
-
-                <div class="flex-1 flex flex-col justify-center gap-8 z-10">
-                    <div>
-                        <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Time Studied</p>
-                        <div class="flex items-baseline gap-3">
-                            <span class="text-4xl font-heading font-medium text-brand-textPrimary">12<span class="text-lg text-brand-textSecondary font-light">h</span> 45<span class="text-lg text-brand-textSecondary font-light">m</span></span>
-                            <span class="text-[9px] font-bold text-brand-accent flex items-center bg-brand-accent/10 px-2.5 py-1 rounded-full border border-brand-accent/20 tracking-widest uppercase">
-                                <svg class="w-3 h-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-                                15%
-                            </span>
-                        </div>
-                    </div>
-                    <div class="h-px w-full bg-brand-cardBorder"></div>
-                    <div>
-                        <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Lectures Completed</p>
-                        <div class="flex items-baseline gap-3">
-                            <span class="text-3xl font-heading font-medium text-brand-accent">8</span>
-                            <span class="text-sm font-medium text-brand-textSecondary">videos</span>
+                    <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
+                        <!-- JS Injected Recommended Cards -->
+                        <div class="bg-brand-iconBg rounded-2xl h-[120px] border border-brand-cardBorder"></div>
+                        <div
+                            class="bg-brand-iconBg rounded-2xl h-[120px] border border-brand-cardBorder hidden sm:block">
                         </div>
                     </div>
                 </div>
+
             </div>
-
-            <!-- Recommended for You -->
-            <div class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 lg:col-span-2 flex flex-col">
-                <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
-                    <span class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </span>
-                    <span class="tracking-wider uppercase text-[11px]">Recommended for You</span>
-                </h2>
-
-                <div id="recommended-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-                    <!-- JS Injected Recommended Cards -->
-                    <div class="bg-brand-iconBg rounded-2xl h-[120px] border border-brand-cardBorder"></div>
-                    <div class="bg-brand-iconBg rounded-2xl h-[120px] border border-brand-cardBorder hidden sm:block"></div>
-                </div>
-            </div>
-
-        </div>
 
         </div> <!-- close max-w-7xl wrapper -->
 
@@ -358,6 +476,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <!-- Firebase SDK & Sync -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -367,6 +486,7 @@
     <script src="js/sync.js"></script>
     <script src="js/shared-nav.js"></script>
     <script src="js/premium-effects.js"></script>
+    <script src="js/gsap-animations.js"></script>
     <script src="js/data.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/pwa.js"></script>
