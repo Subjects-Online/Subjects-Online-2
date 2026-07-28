@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -32,40 +32,52 @@
     <!-- Navbar injected by JS -->
 
     <!-- ════════════════════════════════════════════════
-         SUBJECT HERO
+         SPOTIFY ALBUM HERO
     ════════════════════════════════════════════════ -->
     <div class="subj-hero" id="subj-hero">
+        <!-- Full-page background (set by JS) -->
         <div class="subj-hero-bg" id="subj-hero-bg"></div>
-        <div class="subj-hero-noise"></div>
-        <div class="subj-hero-grid"></div>
-
-        <!-- Back -->
-        <a href="javascript:history.back()" class="subj-back-btn" id="subj-back">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back
-        </a>
 
         <div class="subj-hero-inner">
-            <!-- Icon -->
-            <div class="subj-icon-ring">
-                <div class="subj-icon-bg" id="subj-icon-bg">
-                    <span id="subj-icon">📚</span>
+
+            <!-- Back Button (top-left) -->
+            <a href="javascript:history.back()" class="subj-back-btn" id="subj-back">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Back
+            </a>
+
+            <!-- Album Layout Row -->
+            <div class="subj-album-row">
+
+                <!-- LEFT: Album Cover Card -->
+                <div class="subj-album-cover" id="subj-album-cover">
+                    <div class="subj-album-glow" id="subj-album-glow"></div>
+                    <div class="subj-album-icon-wrap" id="subj-icon-bg">
+                        <span id="subj-icon" class="subj-album-emoji">📚</span>
+                    </div>
+                    <!-- Subtle shine streak -->
+                    <div class="subj-album-shine"></div>
                 </div>
-                <div class="subj-icon-orbit subj-orbit-1"></div>
-                <div class="subj-icon-orbit subj-orbit-2"></div>
-            </div>
 
-            <!-- Text -->
-            <div class="subj-hero-text">
-                <div class="subj-dept-badge" id="subj-dept">Loading…</div>
-                <h1 class="subj-title" id="subj-title">Loading…</h1>
-                <p class="subj-desc" id="subj-desc">Please wait.</p>
-            </div>
+                <!-- RIGHT: Info -->
+                <div class="subj-album-info">
+                    <div class="subj-dept-badge" id="subj-dept">Loading…</div>
+                    <h1 class="subj-title" id="subj-title">Loading…</h1>
+                    <p class="subj-desc" id="subj-desc">Please wait.</p>
 
-            <!-- Stats chips -->
-            <div class="subj-chips">
-                <div class="subj-chip"><span class="subj-chip-num">6</span><span>Study Sections</span></div>
-                <div class="subj-chip"><span class="subj-chip-num">2</span><span>Doctor Updates</span></div>
+                    <!-- Stats Row -->
+                    <div class="subj-stats-row">
+                        <div class="subj-stat">
+                            <span class="subj-stat-num">6</span>
+                            <span class="subj-stat-label">Study Sections</span>
+                        </div>
+                        <div class="subj-stat-divider"></div>
+                        <div class="subj-stat">
+                            <span class="subj-stat-num">2</span>
+                            <span class="subj-stat-label">Doctor Updates</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

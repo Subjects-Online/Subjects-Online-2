@@ -38,14 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('subj-icon').textContent    = subject.icon;
     document.getElementById('subj-dept').textContent    = deptLabel;
     
-    // Light frosted gradient for the hero background
+    // Background for the whole hero area
     document.getElementById('subj-hero-bg').style.background =
-        `radial-gradient(circle at 80% -20%, ${subject.color} 0%, transparent 60%),
+        `radial-gradient(ellipse 80% 60% at 50% -10%, ${subject.color} 0%, transparent 70%),
          linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%)`;
-         
-    document.getElementById('subj-icon-bg').style.background =
-        `linear-gradient(135deg, #FFFFFF, ${subject.color}60)`;
-    document.getElementById('subj-icon-bg').style.borderColor = subject.accent + '30';
+
+    // Album Cover gradient (cinematic dark gradient from the accent)
+    const albumGlow = document.getElementById('subj-album-glow');
+    albumGlow.style.background = `linear-gradient(135deg, ${darkenHex(subject.accent, 30)} 0%, ${subject.accent} 60%, ${subject.color} 100%)`;
 
     // ── Section Data ─────────────────────────────────────
     const STUDY = [
@@ -171,9 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Entrance Animations ───────────────────────────────
-    gsap.fromTo('.subj-hero-inner',
+    gsap.fromTo('.subj-album-cover',
+        { y: 30, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out', delay: 0.05 }
+    );
+
+    gsap.fromTo('.subj-album-info',
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.05 }
+        { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15 }
     );
 
     gsap.fromTo('.tab-pill',
