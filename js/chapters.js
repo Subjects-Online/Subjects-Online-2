@@ -18,16 +18,34 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set Theme Colors
-    document.documentElement.style.setProperty('--subject-accent', subject.accent);
-    document.documentElement.style.setProperty('--subject-glow', subject.color);
+    // Force Sky Blue Theme Colors for this page
+    document.documentElement.style.setProperty('--subject-accent', '#0ea5e9'); // Sky Blue 500
+    document.documentElement.style.setProperty('--subject-glow', '#7dd3fc');   // Sky Blue 300
 
     // Setup Hero
     document.getElementById('chap-subj-title').textContent = subject.title;
 
-    // Set hero gradient background
-    const heroBg = document.getElementById('chap-hero-bg');
-    heroBg.style.background = `radial-gradient(circle at 80% -20%, ${subject.color} 0%, transparent 60%), linear-gradient(135deg, #F0F9FF 0%, #FFFFFF 100%)`;
+    // Apply full-page beautiful background instead of just hero
+    const globalBg = document.createElement('div');
+    globalBg.style.position = 'fixed';
+    globalBg.style.inset = '0';
+    globalBg.style.zIndex = '-1';
+    globalBg.style.pointerEvents = 'none';
+    globalBg.style.background = `radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%), linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)`;
+    
+    // Add subtle grid texture over the whole page
+    const gridTexture = document.createElement('div');
+    gridTexture.style.position = 'absolute';
+    gridTexture.style.inset = '0';
+    gridTexture.style.backgroundImage = 'linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px)';
+    gridTexture.style.backgroundSize = '40px 40px';
+    globalBg.appendChild(gridTexture);
+    
+    document.body.appendChild(globalBg);
+    
+    // Remove the old hero bg element if it exists to avoid overlapping
+    const oldHeroBg = document.getElementById('chap-hero-bg');
+    if(oldHeroBg) oldHeroBg.style.display = 'none';
 
     // Mock Data for Chapters
     const chapters = [
@@ -201,47 +219,43 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
 
         return `
-        <div class="chap-node">
-            <div class="chap-dot"></div>
+        <div class="chap-card group" onclick="toggleChapter(this)">
+            <span class="chap-num">${String(ch.num).padStart(2, '0')}</span>
             
-            <div class="chap-card" onclick="toggleChapter(this)">
-                <span class="chap-num">${String(ch.num).padStart(2, '0')}</span>
-                
-                <div class="chap-main-content">
-                    <div class="chap-header">
-                        <div class="chap-header-left">
-                            <span class="chap-ch-label">Chapter ${ch.num}</span>
-                            <h2 class="chap-title-text">${ch.title}</h2>
-                        </div>
-                        <div class="chap-toggle-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                            </svg>
-                        </div>
+            <div class="chap-main-content">
+                <div class="chap-header">
+                    <div class="chap-header-left">
+                        <span class="chap-ch-label">Chapter ${ch.num}</span>
+                        <h2 class="chap-title-text group-hover:text-blue-700 transition-colors">${ch.title}</h2>
                     </div>
-                    
-                    <div class="chap-meta">
-                        <div class="chap-meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            ${ch.lectures.length} Lectures
-                        </div>
-                        <div class="chap-meta-item">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            ${ch.time}
-                        </div>
+                    <div class="chap-toggle-icon group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
                     </div>
                 </div>
+                
+                <div class="chap-meta">
+                    <div class="chap-meta-item shadow-sm border border-blue-50/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        ${ch.lectures.length} Lectures
+                    </div>
+                    <div class="chap-meta-item shadow-sm border border-blue-50/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        ${ch.time}
+                    </div>
+                </div>
+            </div>
 
-                <div class="chap-lectures-wrapper">
-                    <div class="chap-lectures-inner">
-                        <div class="chap-lectures-list">
-                            ${lecturesHtml}
-                        </div>
+            <div class="chap-lectures-wrapper">
+                <div class="chap-lectures-inner">
+                    <div class="chap-lectures-list">
+                        ${lecturesHtml}
                     </div>
                 </div>
             </div>
