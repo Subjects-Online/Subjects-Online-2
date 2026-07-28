@@ -40,27 +40,22 @@
         background: transparent;
         border: none;
         box-shadow: none;
-        padding-top: 1.5rem;
+        height: 0;
+        overflow: visible;
     ">
-        <div style="max-width:80rem; margin:0 auto; padding:0 2rem; display:flex; align-items:center; justify-content:center; gap:2rem;">
-
-            <!-- CENTER: Logo -->
-            <a href="dashboard.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
-                <div style="
-                    width:38px;height:38px;border-radius:12px;
-                    background:linear-gradient(135deg,#0EA5E9,#38BDF8);
-                    display:flex;align-items:center;justify-content:center;
-                    color:#fff;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;
-                    box-shadow:0 0 20px rgba(14,165,233,0.35);
-                ">S</div>
-                <span style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.2rem;color:#0C1A2E;letter-spacing:-0.01em;" class="logo-text-primary">
-                    Subjects <span style="color:#0EA5E9;font-weight:300;" class="logo-text-secondary">Online</span>
-                </span>
-            </a>
-
-
-
-        </div>
+        <!-- CENTER: Logo -->
+        <a href="dashboard.html" style="
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: block;
+            text-decoration: none;
+            z-index: 51;
+            transition: transform 0.3s ease;
+        " onmouseover="this.style.transform='translateX(-50%) scale(1.05)'" onmouseout="this.style.transform='translateX(-50%) scale(1)'">
+            <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
+        </a>
     </nav>
     <style>
         /* Hidden elements in this new minimal layout */
@@ -92,17 +87,8 @@
                 
                 <!-- Column 1: Brand & About -->
                 <div style="display:flex; flex-direction: column; gap: 1.5rem;">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="
-                            width:42px;height:42px;border-radius:12px;
-                            background:linear-gradient(135deg,#1e3a8a,#3b82f6);
-                            display:flex;align-items:center;justify-content:center;
-                            color:#fff;font-family:'Playfair Display',serif;font-weight:800;font-size:1.3rem;
-                            box-shadow:0 8px 20px rgba(37,99,235,0.3);
-                        ">S</div>
-                        <h3 style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.3rem;color:#172554;margin:0;line-height:1.2;" class="mega-logo-text">
-                            Subjects <span style="color:#3b82f6;font-weight:400;">Online</span>
-                        </h3>
+                    <div style="display:flex;align-items:center;">
+                        <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:140px;width:auto;object-fit:contain;">
                     </div>
                     <p style="font-size:0.9rem;color:#64748b;line-height:1.7;margin:0;font-weight:300;" class="mega-desc">
                         A premium educational platform crafted specifically for commerce students. Elevate your learning experience with our modern tools and resources.

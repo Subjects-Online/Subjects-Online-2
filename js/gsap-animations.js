@@ -53,8 +53,8 @@
         tl.delay(0.2);
 
         // Animate the navbar (logo) dropping in
-        tl.fromTo("#shared-nav", 
-            { y: -50, opacity: 0 }, 
+        tl.fromTo("#shared-nav",
+            { y: -50, opacity: 0 },
             { y: 0, opacity: 1, duration: 1.2, clearProps: "y,opacity" },
             0
         );
@@ -89,12 +89,12 @@
         const cards = gsap.utils.toArray('.section-cards > a, .section-cards > div');
 
         if (cards.length > 0) {
-            gsap.fromTo(cards, 
-                { 
-                    y: 80, 
+            gsap.fromTo(cards,
+                {
+                    y: 80,
                     opacity: 0,
                     scale: 0.98
-                }, 
+                },
                 {
                     y: 0,
                     opacity: 1,
