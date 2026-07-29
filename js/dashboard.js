@@ -150,31 +150,67 @@ function loadStats(deptText) {
         `).join('');
     }
 
+    const openedSubjectsPct = totalSubjects ? Math.round((openedSubjects / totalSubjects) * 100) : 0;
+    const openedPDFsPct = 0; // Placeholder for now
+    const openedVideosPct = 0; // Placeholder for now
+    const favoritesPct = Math.min(100, favoritesCount * 10); // Arbitrary percentage for demo
+
     const statsHTML = `
-        <div class="relative group bg-brand-iconBg rounded-2xl p-6 border border-brand-cardBorder flex flex-col justify-between overflow-hidden transition-all hover:border-brand-accent/20">
-            <span class="text-brand-textSecondary font-medium text-[9px] uppercase tracking-[0.3em] mb-3">Subjects Opened</span>
-            <div class="flex items-baseline gap-2">
-                <span class="font-heading text-4xl font-medium text-brand-textPrimary">${openedSubjects}</span>
-                <span class="text-brand-textSecondary opacity-70 font-medium text-lg">/ ${totalSubjects}</span>
+        <div class="w-full">
+            <!-- Header -->
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-brand-textPrimary font-heading">Overall Progress</h3>
+                    <p class="text-xs sm:text-sm text-brand-textSecondary mt-1 opacity-70">Your learning analytics visualized</p>
+                </div>
+                <div class="text-right">
+                    <div class="text-4xl font-bold text-brand-accent">${progressPct}<span class="text-xl opacity-50">%</span></div>
+                    <div class="text-[10px] font-medium text-brand-textSecondary uppercase tracking-wider mt-1">Total Score</div>
+                </div>
             </div>
-        </div>
-        <div class="relative group bg-brand-iconBg rounded-2xl p-6 border border-brand-cardBorder flex flex-col justify-between overflow-hidden transition-all hover:border-brand-accent/20">
-            <span class="text-brand-textSecondary font-medium text-[9px] uppercase tracking-[0.3em] mb-3">PDFs Read</span>
-            <div class="flex items-baseline gap-2">
-                <span class="font-heading text-4xl font-medium text-brand-textPrimary">0</span>
-                <span class="text-brand-textSecondary opacity-70 font-medium text-lg">/ 0</span>
+
+            <!-- Bar Chart -->
+            <div class="flex items-end justify-between sm:justify-around h-56 mt-8 gap-2 w-full">
+                
+                <!-- Bar 1: Subjects -->
+                <div class="flex flex-col items-center group w-16 h-full cursor-pointer">
+                    <div class="text-sm font-bold text-brand-textPrimary mb-2 opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 duration-300">${openedSubjectsPct}%</div>
+                    <div class="w-10 bg-brand-iconBg border border-brand-cardBorder rounded-t-2xl h-full flex items-end relative overflow-hidden transition-all duration-300">
+                        <div class="w-full bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-2xl transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(37,99,235,0.4)]" style="height: ${openedSubjectsPct}%"></div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-brand-textSecondary group-hover:text-brand-accent transition-colors text-center">Subjects</div>
+                </div>
+
+                <!-- Bar 2: PDFs -->
+                <div class="flex flex-col items-center group w-16 h-full cursor-pointer">
+                    <div class="text-sm font-bold text-brand-textPrimary mb-2 opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 duration-300">${openedPDFsPct}%</div>
+                    <div class="w-10 bg-brand-iconBg border border-brand-cardBorder rounded-t-2xl h-full flex items-end relative overflow-hidden transition-all duration-300">
+                        <div class="w-full bg-gradient-to-t from-purple-600 to-purple-400 rounded-t-2xl transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(147,51,234,0.4)]" style="height: ${openedPDFsPct}%"></div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-brand-textSecondary group-hover:text-purple-400 transition-colors text-center">PDFs</div>
+                </div>
+
+                <!-- Bar 3: Videos -->
+                <div class="flex flex-col items-center group w-16 h-full cursor-pointer">
+                    <div class="text-sm font-bold text-brand-textPrimary mb-2 opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 duration-300">${openedVideosPct}%</div>
+                    <div class="w-10 bg-brand-iconBg border border-brand-cardBorder rounded-t-2xl h-full flex items-end relative overflow-hidden transition-all duration-300">
+                        <div class="w-full bg-gradient-to-t from-rose-600 to-rose-400 rounded-t-2xl transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(225,29,72,0.4)]" style="height: ${openedVideosPct}%"></div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-brand-textSecondary group-hover:text-rose-400 transition-colors text-center">Videos</div>
+                </div>
+
+                <!-- Bar 4: Favorites -->
+                <div class="flex flex-col items-center group w-16 h-full cursor-pointer">
+                    <div class="text-sm font-bold text-brand-textPrimary mb-2 opacity-0 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 duration-300">${favoritesPct}%</div>
+                    <div class="w-10 bg-brand-iconBg border border-brand-cardBorder rounded-t-2xl h-full flex items-end relative overflow-hidden transition-all duration-300">
+                        <div class="w-full bg-gradient-to-t from-amber-500 to-amber-300 rounded-t-2xl transition-all duration-1000 ease-out shadow-[0_0_15px_rgba(245,158,11,0.4)]" style="height: ${favoritesPct}%"></div>
+                    </div>
+                    <div class="mt-4 text-xs font-semibold text-brand-textSecondary group-hover:text-amber-400 transition-colors text-center">Favorites</div>
+                </div>
+
             </div>
-        </div>
-        <div class="relative group bg-brand-iconBg rounded-2xl p-6 border border-brand-cardBorder flex flex-col justify-between overflow-hidden transition-all hover:border-brand-accent/20">
-            <span class="text-brand-textSecondary font-medium text-[9px] uppercase tracking-[0.3em] mb-3">Videos Watched</span>
-            <div class="flex items-baseline gap-2">
-                <span class="font-heading text-4xl font-medium text-brand-textPrimary">0</span>
-                <span class="text-brand-textSecondary opacity-70 font-medium text-lg">/ 0</span>
-            </div>
-        </div>
-        <div class="relative group bg-brand-iconBg rounded-2xl p-6 border border-brand-cardBorder flex flex-col justify-between overflow-hidden transition-all hover:border-brand-accent/20">
-            <span class="text-brand-textSecondary font-medium text-[9px] uppercase tracking-[0.3em] mb-3">Saved Favorites</span>
-            <span class="font-heading text-4xl font-medium text-brand-accent">${favoritesCount}</span>
+            
+            <div class="w-full h-[1px] bg-brand-cardBorder mt-2"></div>
         </div>
     `;
     document.getElementById('stats-row').innerHTML = statsHTML;
@@ -352,21 +388,21 @@ function loadPlanner() {
         }
 
         plannerList.innerHTML = tasks.map((task, index) => `
-            <div class="flex items-center gap-4 p-4 rounded-xl border ${task.completed ? 'bg-glass-100/50 border-glass-border opacity-50' : 'bg-glass-100 border-glass-borderHighlight shadow-lg'} transition-all group backdrop-blur-sm">
+            <div class="flex items-center gap-4 p-4 rounded-2xl border ${task.completed ? 'bg-brand-iconBg/40 border-transparent opacity-60' : 'bg-brand-iconBg border-brand-cardBorder shadow-[0_4px_15px_rgba(0,0,0,0.02)] hover:border-brand-accent/30'} transition-all duration-300 group transform hover:-translate-y-0.5">
                 
                 <label class="relative flex items-center justify-center cursor-pointer">
                     <input type="checkbox" class="peer sr-only" ${task.completed ? 'checked' : ''} onchange="toggleTask(${index})">
-                    <div class="w-6 h-6 rounded border-2 ${task.completed ? 'border-fuchsia-500 bg-fuchsia-500' : 'border-glass-borderHighlight bg-glass-200'} peer-checked:bg-fuchsia-500 peer-checked:border-fuchsia-500 transition-all flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
-                        <svg class="w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <div class="w-6 h-6 rounded-full border-2 ${task.completed ? 'border-brand-accent bg-brand-accent' : 'border-brand-cardBorder hover:border-brand-accent/50 bg-brand-bg'} peer-checked:bg-brand-accent peer-checked:border-brand-accent transition-all flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-300 transform scale-50 peer-checked:scale-100" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                     </div>
                 </label>
 
-                <span class="flex-1 text-sm ${task.completed ? 'line-through text-brand-textSecondary' : 'text-white font-medium'} transition-all cursor-pointer" onclick="toggleTask(${index})">
+                <span class="flex-1 text-sm ${task.completed ? 'line-through text-brand-textSecondary' : 'text-brand-textPrimary font-medium'} transition-all duration-300 cursor-pointer select-none" onclick="toggleTask(${index})">
                     ${task.text}
                 </span>
                 
-                <button onclick="deleteTask(${index})" class="w-8 h-8 rounded-lg flex items-center justify-center text-rose-400/50 hover:bg-rose-500/10 hover:text-rose-400 opacity-0 group-hover:opacity-100 transition-all border border-transparent hover:border-rose-500/20">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                <button onclick="deleteTask(${index})" class="w-8 h-8 rounded-xl flex items-center justify-center text-rose-400/50 hover:bg-rose-50 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 </button>
             </div>
         `).join('');

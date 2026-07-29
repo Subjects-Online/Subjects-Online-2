@@ -3,13 +3,20 @@
    =================================================== */
 
 :root {
-    --color-bg: #F0F9FF;                              /* Sky blue tinted background */
-    --color-card-bg: #FFFFFF;                         /* Pure white cards */
-    --color-card-border: rgba(14, 165, 233, 0.15);    /* Soft sky blue border */
-    --color-card-border-hover: rgba(14, 165, 233, 0.5); /* Stronger sky blue on hover */
-    --color-text-primary: #0C1A2E;                    /* Deep navy text */
-    --color-text-secondary: #475569;                  /* Slate grey */
-    --color-icon-bg: #E0F2FE;                         /* Light sky blue icon bg */
+    --color-bg: #F0F9FF;
+    /* Sky blue tinted background */
+    --color-card-bg: #FFFFFF;
+    /* Pure white cards */
+    --color-card-border: rgba(14, 165, 233, 0.15);
+    /* Soft sky blue border */
+    --color-card-border-hover: rgba(14, 165, 233, 0.5);
+    /* Stronger sky blue on hover */
+    --color-text-primary: #0C1A2E;
+    /* Deep navy text */
+    --color-text-secondary: #475569;
+    /* Slate grey */
+    --color-icon-bg: #E0F2FE;
+    /* Light sky blue icon bg */
     --color-grid-dots: transparent;
 }
 

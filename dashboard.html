@@ -85,7 +85,9 @@
         <div class="flex flex-col items-center justify-center text-center h-screen relative hero-container px-6">
 
             <!-- Avatar & Breathing Ring -->
-            <a href="profile.html" class="relative group mb-12 cursor-pointer flex flex-col items-center justify-center z-10 hero-avatar" style="text-decoration:none;">
+            <a href="profile.html"
+                class="relative group mb-12 cursor-pointer flex flex-col items-center justify-center z-10 hero-avatar"
+                style="text-decoration:none;">
 
                 <!-- Breathing Aura (Indigo) -->
                 <div
@@ -357,7 +359,7 @@
                         <span class="tracking-wider uppercase text-[11px]">Analytics</span>
                     </h2>
 
-                    <div class="grid grid-cols-2 gap-4 mb-8" id="stats-row">
+                    <div class="mb-8" id="stats-row">
                         <!-- JS Injected Stats -->
                     </div>
 
@@ -381,12 +383,29 @@
                         <span class="tracking-wider uppercase text-[11px]">Study Planner</span>
                     </h2>
 
-                    <form id="planner-form" class="flex flex-col sm:flex-row gap-3 mb-6 relative z-10">
-                        <input type="text" id="planner-input" placeholder="Define your next objective..."
-                            class="flex-1 bg-brand-iconBg border border-brand-cardBorder text-brand-textPrimary text-sm rounded-2xl px-5 py-4 focus:outline-none focus:ring-1 focus:ring-brand-accent/50 focus:border-brand-accent/30 transition-all placeholder:text-brand-textSecondary w-full">
+                    <form id="planner-form" class="flex flex-col sm:flex-row gap-3 mb-8 relative z-10">
+                        <div class="relative flex-1 group">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-brand-accent/50 group-focus-within:text-brand-accent transition-colors"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                </svg>
+                            </div>
+                            <input type="text" id="planner-input" placeholder="What's your next objective?"
+                                class="w-full bg-brand-iconBg border border-brand-cardBorder text-brand-textPrimary text-sm rounded-2xl pl-12 pr-5 py-4 focus:outline-none focus:ring-2 focus:ring-brand-accent/20 focus:border-brand-accent transition-all placeholder:text-brand-textSecondary shadow-sm">
+                        </div>
                         <button type="submit"
-                            class="bg-brand-accent hover:opacity-90 text-white font-bold py-4 sm:py-3 px-8 rounded-2xl transition-all shadow-[0_0_20px_rgba(99,102,241,0.3)] w-full sm:w-auto text-sm tracking-wider uppercase">
-                            Add Task
+                            class="group relative bg-gradient-to-r from-blue-500 to-brand-accent hover:from-blue-600 hover:to-blue-500 text-white font-bold py-4 sm:py-3 px-8 rounded-2xl transition-all shadow-[0_8px_20px_rgba(14,165,233,0.3)] hover:shadow-[0_8px_25px_rgba(14,165,233,0.5)] w-full sm:w-auto text-sm tracking-wider uppercase flex items-center justify-center gap-2 overflow-hidden">
+                            <span class="relative z-10">Add Task</span>
+                            <svg class="w-4 h-4 relative z-10 transform group-hover:translate-x-1 transition-transform"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                            <div
+                                class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out">
+                            </div>
                         </button>
                     </form>
 
