@@ -288,21 +288,21 @@ function initAnimations() {
     const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
 
     // 1. Luxury Hero Animations
-    tl.fromTo(".hero-container", 
+    tl.fromTo(".hero-container",
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.5, ease: "power3.out" }, 
+        { y: 0, opacity: 1, duration: 1.5, ease: "power3.out" },
         0
     );
 
-    tl.fromTo(".hero-avatar", 
-        { scale: 0.8, opacity: 0 }, 
-        { scale: 1, opacity: 1, duration: 1.5, ease: "power4.out" }, 
+    tl.fromTo(".hero-avatar",
+        { scale: 0.8, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 1.5, ease: "power4.out" },
         0.3
     );
 
-    tl.fromTo(".hero-title > *", 
-        { x: -30, opacity: 0 }, 
-        { x: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" }, 
+    tl.fromTo(".hero-title > *",
+        { x: -30, opacity: 0 },
+        { x: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" },
         0.5
     );
 

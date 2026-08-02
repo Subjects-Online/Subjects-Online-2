@@ -56,6 +56,29 @@
         " onmouseover="this.style.transform='translateX(-50%) scale(1.05)'" onmouseout="this.style.transform='translateX(-50%) scale(1)'">
             <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
         </a>
+
+        <!-- RIGHT: Theme Toggle -->
+        <button id="theme-toggle-btn" class="theme-btn" style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 60;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(14,165,233,0.1);
+            border: 1px solid rgba(14,165,233,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            color: #0EA5E9;
+            transition: all 0.3s;
+        " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+            <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            <svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+        </button>
     </nav>
     <style>
         /* Hidden elements in this new minimal layout */
@@ -177,7 +200,7 @@
         ::-webkit-scrollbar-thumb { background: #7DD3FC; border-radius: 999px; }
 
         /* Override welcome.css dark variables */
-        body:not(.dashboard-page) {
+        html:not(.dark-mode) body:not(.dashboard-page) {
             --bg:           #F0F9FF !important;
             --bg-1:         #FFFFFF !important;
             --bg-2:         #EFF6FF !important;
@@ -192,119 +215,119 @@
         }
 
         /* Body background global override */
-        body {
+        html:not(.dark-mode) body {
             background: #F0F9FF !important;
             color: #0C1A2E !important;
         }
 
         /* Dark mesh orbs → light sky blue orbs */
-        .mesh-orb-1 {
+        html:not(.dark-mode) .mesh-orb-1 {
             background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 65%) !important;
         }
-        .mesh-orb-2 {
+        html:not(.dark-mode) .mesh-orb-2 {
             background: radial-gradient(circle, rgba(56,189,248,0.10) 0%, transparent 65%) !important;
         }
-        .mesh-orb-3 {
+        html:not(.dark-mode) .mesh-orb-3 {
             background: radial-gradient(circle, rgba(99,214,250,0.06) 0%, transparent 65%) !important;
         }
 
         /* Site header — light frosted glass */
-        .site-header {
+        html:not(.dark-mode) .site-header {
             background: rgba(240, 249, 255, 0.85) !important;
             border-bottom-color: rgba(14,165,233,0.1) !important;
         }
 
         /* Nav logo text */
-        .nav-logo-name { color: #0C1A2E !important; }
-        .nav-link { color: #334155 !important; }
-        .nav-link:hover { color: #0EA5E9 !important; }
+        html:not(.dark-mode) .nav-logo-name { color: #0C1A2E !important; }
+        html:not(.dark-mode) .nav-link { color: #334155 !important; }
+        html:not(.dark-mode) .nav-link:hover { color: #0EA5E9 !important; }
 
         /* Cards — white with sky blue borders */
-        .preview-main, .preview-stat, .preview-badge-float {
+        html:not(.dark-mode) .preview-main, html:not(.dark-mode) .preview-stat, html:not(.dark-mode) .preview-badge-float {
             background: #FFFFFF !important;
             border-color: rgba(14,165,233,0.15) !important;
             box-shadow: 0 4px 20px rgba(14,165,233,0.06) !important;
         }
-        .subject-card {
+        html:not(.dark-mode) .subject-card {
             background: #F0F9FF !important;
             border-color: rgba(14,165,233,0.12) !important;
         }
-        .subject-card.active {
+        html:not(.dark-mode) .subject-card.active {
             background: rgba(14,165,233,0.06) !important;
             border-color: rgba(14,165,233,0.3) !important;
         }
-        .subject-name { color: #0C1A2E !important; }
-        .subject-meta { color: #64748B !important; }
-        .preview-stat-value { color: #0C1A2E !important; }
-        .preview-stat-label { color: #64748B !important; }
+        html:not(.dark-mode) .subject-name { color: #0C1A2E !important; }
+        html:not(.dark-mode) .subject-meta { color: #64748B !important; }
+        html:not(.dark-mode) .preview-stat-value { color: #0C1A2E !important; }
+        html:not(.dark-mode) .preview-stat-label { color: #64748B !important; }
 
         /* Stats strip */
-        .stats-strip {
+        html:not(.dark-mode) .stats-strip {
             border-color: rgba(14,165,233,0.1) !important;
             background: rgba(14,165,233,0.03) !important;
         }
-        .stat-item { border-right-color: rgba(14,165,233,0.1) !important; }
-        .stat-value { color: #0C1A2E !important; }
-        .stat-label { color: #64748B !important; }
+        html:not(.dark-mode) .stat-item { border-right-color: rgba(14,165,233,0.1) !important; }
+        html:not(.dark-mode) .stat-value { color: #0C1A2E !important; }
+        html:not(.dark-mode) .stat-label { color: #64748B !important; }
 
         /* Headings in light sections */
-        .section-heading { color: #0C1A2E !important; }
-        .hero-title { color: #0C1A2E !important; }
-        .hero-subtitle { color: #334155 !important; }
+        html:not(.dark-mode) .section-heading { color: #0C1A2E !important; }
+        html:not(.dark-mode) .hero-title { color: #0C1A2E !important; }
+        html:not(.dark-mode) .hero-subtitle { color: #334155 !important; }
 
         /* Feature cards */
-        .feature-visual {
+        html:not(.dark-mode) .feature-visual {
             background: #FFFFFF !important;
             border-color: rgba(14,165,233,0.12) !important;
         }
-        .feature-visual::after {
+        html:not(.dark-mode) .feature-visual::after {
             background: linear-gradient(90deg, transparent, rgba(14,165,233,0.3), transparent) !important;
         }
 
         /* Chapter cards in light mode */
-        .chap-card {
+        html:not(.dark-mode) .chap-card {
             background: rgba(255,255,255,0.95) !important;
             border-color: rgba(14,165,233,0.12) !important;
         }
-        .chap-card:hover {
+        html:not(.dark-mode) .chap-card:hover {
             border-color: rgba(14,165,233,0.3) !important;
         }
 
         /* proof-avatars */
-        .proof-avatar { border-color: #F0F9FF !important; }
+        html:not(.dark-mode) .proof-avatar { border-color: #F0F9FF !important; }
 
         /* Ghost button */
-        .btn-hero-ghost {
+        html:not(.dark-mode) .btn-hero-ghost {
             border-color: rgba(14,165,233,0.25) !important;
             color: #334155 !important;
         }
-        .btn-hero-ghost:hover {
+        html:not(.dark-mode) .btn-hero-ghost:hover {
             border-color: rgba(14,165,233,0.45) !important;
             color: #0C1A2E !important;
             background: rgba(14,165,233,0.05) !important;
         }
 
         /* Subject progress fill */
-        .subject-progress-fill { background: #0EA5E9 !important; }
-        .subject-progress-bar { background: #BFDBFE !important; }
+        html:not(.dark-mode) .subject-progress-fill { background: #0EA5E9 !important; }
+        html:not(.dark-mode) .subject-progress-bar { background: #BFDBFE !important; }
 
         /* Section labels */
-        .section-label-line { background: #0EA5E9 !important; }
-        .section-label-text { color: #0EA5E9 !important; }
-        .eyebrow-text { color: #0EA5E9 !important; }
-        .eyebrow-dot { background: #0EA5E9 !important; }
+        html:not(.dark-mode) .section-label-line { background: #0EA5E9 !important; }
+        html:not(.dark-mode) .section-label-text { color: #0EA5E9 !important; }
+        html:not(.dark-mode) .eyebrow-text { color: #0EA5E9 !important; }
+        html:not(.dark-mode) .eyebrow-dot { background: #0EA5E9 !important; }
 
         /* outline text */
-        .hero-title-outline {
+        html:not(.dark-mode) .hero-title-outline {
             -webkit-text-stroke-color: rgba(14,165,233,0.25) !important;
         }
 
         /* Topbar preview dots context */
-        .preview-topbar {
+        html:not(.dark-mode) .preview-topbar {
             background: rgba(240,249,255,0.5) !important;
             border-bottom-color: rgba(14,165,233,0.1) !important;
         }
-        .topbar-title { color: #94A3B8 !important; }
+        html:not(.dark-mode) .topbar-title { color: #94A3B8 !important; }
     `;
     document.head.appendChild(globalTheme);
 
@@ -339,7 +362,101 @@
         html.dark-mode .mega-socials a { background: rgba(255,255,255,0.05) !important; color: #94a3b8 !important; }
         html.dark-mode .mega-socials a:hover { background: #0EA5E9 !important; color: #fff !important; }
     `;
-    document.head.appendChild(style);
+    // ── Global Dark Theme Injection (Applies to all pages) ──────────────────────
+    const darkTheme = document.createElement('style');
+    darkTheme.textContent = `
+        /* =====================================================
+           GLOBAL DARK MODE THEME (Applies to all pages)
+           ===================================================== */
+        html.dark-mode body {
+            background: #020617 !important;
+            color: #f8fafc !important;
+        }
+
+        /* Typography */
+        html.dark-mode h1, html.dark-mode h2, html.dark-mode h3, html.dark-mode h4,
+        html.dark-mode .browse-title, html.dark-mode .favorites-title, html.dark-mode .essays-title,
+        html.dark-mode .card-title, html.dark-mode .section-heading, html.dark-mode .essay-title {
+            color: #f8fafc !important;
+        }
+
+        html.dark-mode p, html.dark-mode span:not(.hero-level-badge):not(.display-dept), 
+        html.dark-mode .browse-subtitle, html.dark-mode .card-desc, html.dark-mode .empty-state {
+            color: #94a3b8 !important;
+        }
+
+        /* Generic Gradients */
+        html.dark-mode .browse-hero::before, html.dark-mode .favorites-hero::before, html.dark-mode .essays-hero::before {
+            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(14,165,233,0.05) 0%, transparent 70%), 
+                        radial-gradient(ellipse 40% 40% at 80% 100%, rgba(99,102,241,0.05) 0%, transparent 70%) !important;
+        }
+
+        /* Inputs */
+        html.dark-mode .search-input {
+            background: #0f172a !important;
+            border-color: rgba(56,189,248,0.15) !important;
+            color: #f8fafc !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
+        }
+        html.dark-mode .search-input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 4px rgba(56,189,248,0.1), 0 4px 20px rgba(0,0,0,0.3) !important;
+        }
+
+        /* General Cards */
+        html.dark-mode .material-card, html.dark-mode .essay-card, html.dark-mode .subject-card, html.dark-mode .preview-main {
+            background: #0f172a !important;
+            border-color: rgba(56,189,248,0.1) !important;
+        }
+        html.dark-mode .material-card:hover, html.dark-mode .essay-card:hover, html.dark-mode .subject-card.active {
+            border-color: rgba(56,189,248,0.35) !important;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.2) !important;
+            background: rgba(15,23,42,0.9) !important;
+        }
+
+        /* Action Buttons */
+        html.dark-mode .action-btn {
+            background: rgba(255,255,255,0.05) !important;
+            border-color: rgba(255,255,255,0.1) !important;
+            color: #94a3b8 !important;
+        }
+        html.dark-mode .action-btn:hover {
+            background: rgba(14,165,233,0.15) !important;
+            border-color: rgba(56,189,248,0.4) !important;
+            color: #38bdf8 !important;
+        }
+
+        /* Icons */
+        html.dark-mode .card-icon-wrap {
+            border-color: rgba(56,189,248,0.2) !important;
+            background: rgba(14,165,233,0.1) !important;
+        }
+        
+        /* Links and accents */
+        html.dark-mode .card-title { color: #f8fafc !important; }
+        html.dark-mode .material-card:hover .card-title { color: #38bdf8 !important; }
+        html.dark-mode .card-cta { 
+            color: #38bdf8 !important; 
+            border-color: rgba(56,189,248,0.3) !important; 
+        }
+        html.dark-mode .material-card:hover .card-cta {
+            background: rgba(14,165,233,0.1) !important;
+        }
+        
+        /* Modals and Overlays */
+        html.dark-mode .modal-content, html.dark-mode .dropdown-menu {
+            background: #0f172a !important;
+            border-color: rgba(56,189,248,0.2) !important;
+        }
+        html.dark-mode .modal-header { border-bottom-color: rgba(255,255,255,0.1) !important; }
+        html.dark-mode .modal-footer { border-top-color: rgba(255,255,255,0.1) !important; }
+        
+        /* Scrollbars (Dark Mode) */
+        html.dark-mode ::-webkit-scrollbar-track { background: #020617 !important; }
+        html.dark-mode ::-webkit-scrollbar-thumb { background: #1e293b !important; }
+        html.dark-mode ::-webkit-scrollbar-thumb:hover { background: #334155 !important; }
+    `;
+    document.head.appendChild(darkTheme);
 
     // ── Sign Out Button ────────────────────────────────────────────────────────
     const signoutBtn = document.getElementById('snav-signout-btn');
@@ -360,6 +477,37 @@
                 localStorage.removeItem('soPlannerTasks');
                 window.location.href = 'index.html';
             }
+        });
+    }
+
+    // ── Theme Toggle Logic ──────────────────────────────────────────────────────
+    const themeBtn = document.getElementById('theme-toggle-btn');
+    const iconMoon = document.getElementById('theme-icon-moon');
+    const iconSun = document.getElementById('theme-icon-sun');
+    
+    function applyTheme(isDark) {
+        if(isDark) {
+            document.documentElement.classList.add('dark-mode');
+            if(iconMoon) iconMoon.style.display = 'none';
+            if(iconSun) iconSun.style.display = 'block';
+        } else {
+            document.documentElement.classList.remove('dark-mode');
+            if(iconMoon) iconMoon.style.display = 'block';
+            if(iconSun) iconSun.style.display = 'none';
+        }
+    }
+    
+    // Check saved theme or system preference
+    const savedTheme = localStorage.getItem('subjectsOnlineTheme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        applyTheme(true);
+    }
+    
+    if (themeBtn) {
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.documentElement.classList.contains('dark-mode');
+            applyTheme(!isDark);
+            localStorage.setItem('subjectsOnlineTheme', !isDark ? 'dark' : 'light');
         });
     }
 

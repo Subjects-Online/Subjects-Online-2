@@ -4,35 +4,43 @@
 
 :root {
     --color-bg: #F0F9FF;
-    /* Sky blue tinted background */
     --color-card-bg: #FFFFFF;
-    /* Pure white cards */
     --color-card-border: rgba(14, 165, 233, 0.15);
-    /* Soft sky blue border */
     --color-card-border-hover: rgba(14, 165, 233, 0.5);
-    /* Stronger sky blue on hover */
     --color-text-primary: #0C1A2E;
-    /* Deep navy text */
     --color-text-secondary: #475569;
-    /* Slate grey */
     --color-icon-bg: #E0F2FE;
-    /* Light sky blue icon bg */
     --color-grid-dots: transparent;
+
+    /* Theme backgrounds */
+    --app-bg: #F0F9FF;
+    --app-bg-top: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(240, 249, 255, 0) 70%);
+    --app-glow-br: radial-gradient(circle, rgba(14, 165, 233, 0.2) 0%, transparent 70%);
+    --app-glow-tl: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
 }
 
-.light-mode {
-    --color-bg: #f8fafc;
-    /* Tailwind slate-50 */
-    --color-card-bg: #ffffff;
-    --color-card-border: rgba(0, 0, 0, 0.05);
-    --color-card-border-hover: rgba(99, 102, 241, 0.8);
-    --color-text-primary: #0f172a;
-    /* Tailwind slate-900 */
-    --color-text-secondary: #475569;
-    /* Tailwind slate-600 */
-    --color-icon-bg: rgba(0, 0, 0, 0.03);
-    --color-grid-dots: rgba(0, 0, 0, 0.12);
+html.dark-mode {
+    --color-bg: #020617; /* Slate-950 */
+    --color-card-bg: #0f172a; /* Slate-900 */
+    --color-card-border: rgba(56, 189, 248, 0.15);
+    --color-card-border-hover: rgba(56, 189, 248, 0.4);
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #94a3b8;
+    --color-icon-bg: rgba(14, 165, 233, 0.05);
+    
+    /* Sleek dark mode backgrounds */
+    --app-bg: #020617;
+    --app-bg-top: radial-gradient(ellipse at 50% 0%, rgba(15, 23, 42, 1) 0%, rgba(2, 6, 23, 0) 70%);
+    --app-glow-br: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, transparent 70%);
+    --app-glow-tl: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
 }
+
+.app-bg-container { background: var(--app-bg); }
+.app-bg-top { background: var(--app-bg-top); }
+.app-glow-br { background: var(--app-glow-br); }
+.app-glow-tl { background: var(--app-glow-tl); }
+
+/* Removed old light-mode class to prevent conflicts */
 
 /* GLOBAL MAIN PADDING FIX FOR SCROLLING */
 main {

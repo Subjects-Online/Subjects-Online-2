@@ -48,6 +48,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const storageModal = document.getElementById('storage-modal');
     const storageModalContent = document.getElementById('storage-modal-content');
     const closeStorageModalBtn = document.getElementById('close-storage-modal');
+
+    // Folder Name Modal
+    const folderNameModal = document.getElementById('folder-name-modal');
+    const folderNameModalContent = document.getElementById('folder-name-modal-content');
+    const folderNameModalTitle = document.getElementById('folder-name-modal-title');
+    const folderNameInput = document.getElementById('folder-name-input');
+    const confirmFolderNameBtn = document.getElementById('confirm-folder-name-btn');
+    const cancelFolderNameBtn = document.getElementById('cancel-folder-name-btn');
+    const closeFolderNameModalBtn = document.getElementById('close-folder-name-modal');
+    let _folderNameCallback = null;
+
+    function showFolderNameModal({ title = 'New Folder', confirmLabel = 'Create', defaultValue = '', callback }) {
+        _folderNameCallback = callback;
+        folderNameModalTitle.textContent = title;
+        folderNameInput.value = defaultValue;
+        confirmFolderNameBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            ${confirmLabel}
+        `;
+        folderNameModal.classList.remove('hidden');
+        folderNameModal.classList.add('flex');
+        setTimeout(() => {
+            folderNameModalContent.classList.remove('scale-95', 'opacity-0');
+            folderNameModalContent.classList.add('scale-100', 'opacity-100');
+            folderNameInput.focus();
+            folderNameInput.select();
+        }, 10);
+    }
+
+    function closeFolderNameModal() {
+        folderNameModalContent.classList.remove('scale-100', 'opacity-100');
+        folderNameModalContent.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            folderNameModal.classList.add('hidden');
+            folderNameModal.classList.remove('flex');
+            _folderNameCallback = null;
+        }, 300);
+    }
+
+    function submitFolderName() {
+        const val = folderNameInput.value.trim();
+        if (!val) {
+            folderNameInput.classList.add('border-red-400', 'ring-2', 'ring-red-200');
+            folderNameInput.focus();
+            setTimeout(() => folderNameInput.classList.remove('border-red-400', 'ring-2', 'ring-red-200'), 1200);
+            return;
+        }
+        const cb = _folderNameCallback;
+        closeFolderNameModal();
+        if (cb) cb(val);
+    }
+
+    closeFolderNameModalBtn.addEventListener('click', closeFolderNameModal);
+    cancelFolderNameBtn.addEventListener('click', closeFolderNameModal);
+    confirmFolderNameBtn.addEventListener('click', submitFolderName);
+    folderNameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submitFolderName(); }
+        if (e.key === 'Escape') closeFolderNameModal();
+    });
+    folderNameModal.addEventListener('click', (e) => { if (e.target === folderNameModal) closeFolderNameModal(); });
     
     const bulkActionBar = document.getElementById('bulk-action-bar');
     const selectedCountText = document.getElementById('selected-count');
@@ -73,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     btnSelectMode.addEventListener('click', () => {
         isSelectMode = true;
         selectedItems.clear();
+        btnSelectMode.classList.add('active');
         renderLibrary();
         showBulkActionBar();
     });
@@ -133,13 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showBulkActionBar() {
         btnSelectMode.classList.add('hidden');
-        bulkActionBar.classList.remove('translate-y-full');
+        btnSelectMode.classList.remove('active');
+        bulkActionBar.classList.add('show');
         updateBulkCount();
     }
     
     function hideBulkActionBar() {
         btnSelectMode.classList.remove('hidden');
-        bulkActionBar.classList.add('translate-y-full');
+        bulkActionBar.classList.remove('show');
     }
 
     function updateBulkCount() {
@@ -155,21 +217,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     btnNewFolder.addEventListener('click', () => {
-        const folderName = prompt('Enter folder name:');
-        if (folderName && folderName.trim()) {
-            const newId = 'folder_' + Date.now();
-            const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-            folders.push({
-                id: newId,
-                title: folderName.trim(),
-                dateAdded: new Date().toISOString(),
-                color: 'blue',
-                isPinned: false
-            });
-            localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-            renderLibrary();
-            openColorModal(newId);
-        }
+        showFolderNameModal({
+            title: 'New Folder',
+            confirmLabel: 'Create',
+            defaultValue: '',
+            callback: (folderName) => {
+                const newId = 'folder_' + Date.now();
+                const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
+                folders.push({
+                    id: newId,
+                    title: folderName,
+                    dateAdded: new Date().toISOString(),
+                    color: 'blue',
+                    isPinned: false
+                });
+                localStorage.setItem('so_offline_folders', JSON.stringify(folders));
+                renderLibrary();
+                openColorModal(newId);
+            }
+        });
     });
 
     // ── Color Modal ──
@@ -357,16 +423,16 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentFolderId === null) {
             libraryTitle.textContent = 'My Library';
             btnBackFolder.classList.add('hidden');
-            btnBackFolder.classList.remove('flex');
+            btnBackFolder.classList.remove('inline-flex');
             btnNewFolder.classList.remove('hidden');
-            btnNewFolder.classList.add('flex');
+            btnNewFolder.classList.add('inline-flex');
         } else {
             const currentFolder = folders.find(f => f.id === currentFolderId);
             libraryTitle.textContent = currentFolder ? currentFolder.title : 'My Library';
             btnBackFolder.classList.remove('hidden');
-            btnBackFolder.classList.add('flex');
+            btnBackFolder.classList.add('inline-flex');
             btnNewFolder.classList.add('hidden');
-            btnNewFolder.classList.remove('flex');
+            btnNewFolder.classList.remove('inline-flex');
         }
 
         const isRootEmpty = (currentFolderId === null && currentFolders.length === 0 && currentItems.length === 0);
@@ -376,7 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
             libraryGrid.innerHTML = '';
             libraryGrid.classList.add('hidden');
             emptyState.classList.remove('hidden');
-            emptyState.classList.add('flex');
             
             if(isFolderEmpty) {
                 emptyState.querySelector('h2').textContent = 'This folder is empty';
@@ -391,7 +456,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         emptyState.classList.add('hidden');
-        emptyState.classList.remove('flex');
         libraryGrid.classList.remove('hidden');
         libraryGrid.innerHTML = '';
 
@@ -500,7 +564,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let readAction = isSelectMode ? '' : `
                 <a href="player.html?type=${item.type}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" 
-                   class="read-now-link text-sm font-semibold text-white bg-blue-600 px-4 py-2 rounded-full shadow-[0_4px_10px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_15px_rgba(37,99,235,0.4)] hover:-translate-y-0.5 transition-all"
+                   class="read-now-link lib-btn-primary text-sm px-4 py-2"
                    data-id="${item.id}">Read Now</a>
             `;
 
@@ -617,13 +681,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
                 const folder = folders.find(f => f.id === id);
                 if (folder) {
-                    const newName = prompt('Enter new folder name:', folder.title);
-                    if (newName && newName.trim()) {
-                        folder.title = newName.trim();
-                        localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-                    }
-                    // Offer to change color too
-                    openColorModal(id);
+                    showFolderNameModal({
+                        title: 'Rename Folder',
+                        confirmLabel: 'Save',
+                        defaultValue: folder.title,
+                        callback: (newName) => {
+                            const folders2 = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
+                            const f2 = folders2.find(f => f.id === id);
+                            if (f2) {
+                                f2.title = newName;
+                                localStorage.setItem('so_offline_folders', JSON.stringify(folders2));
+                                renderLibrary();
+                            }
+                            // Offer to change color too
+                            openColorModal(id);
+                        }
+                    });
                 }
             });
         });
