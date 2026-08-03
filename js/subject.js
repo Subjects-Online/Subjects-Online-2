@@ -114,17 +114,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="sp-desc">${s.desc}</p>
 
                 <div class="sp-cta-row">
-                    <a href="${(s.id === 'cc' || s.id === 'qz' || s.id === 'sc') ? (s.id === 'cc' ? `chapters.html?id=${subjectId}` : (s.id === 'qz' ? `quizzes.html?id=${subjectId}` : `sections.html?id=${subjectId}`)) : '#'}" class="sp-cta-btn" style="background: linear-gradient(135deg, ${s.accent}, ${darkenHex(s.accent,15)});">
+                    <a href="${(s.id === 'cc') ? `chapters.html?id=${subjectId}` : (s.id === 'qz' ? `quizzes.html?id=${subjectId}` : (s.id === 'sc' ? `sections.html?id=${subjectId}` : (s.id === 'sk' ? `summaries.html?id=${subjectId}` : (s.id === 'qa' ? `qa.html?id=${subjectId}` : '#'))))}" class="sp-cta-btn" style="background: linear-gradient(135deg, ${s.accent}, ${darkenHex(s.accent,15)});">
                         Open Section
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </a>
-                    ${(s.id === 'cc' || s.id === 'qz' || s.id === 'sc') ? '' : `
+                    ${(s.id === 'fr') ? `
                     <span class="sp-coming-badge">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         Coming soon
-                    </span>`}
+                    </span>` : ''}
                 </div>
             </div>
         </div>

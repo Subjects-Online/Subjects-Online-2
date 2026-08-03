@@ -47,41 +47,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const oldHeroBg = document.getElementById('chap-hero-bg');
     if(oldHeroBg) oldHeroBg.style.display = 'none';
 
-    // Mock Data for Chapters
-    const chapters = [
+    const defaultChapters = [
         {
-            num: 1,
-            title: "Introduction & Basic Concepts",
-            time: "2h 15m",
+            num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview ", type: "pdf", url: "materials/Pdfs/dummy.pdf" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/Pdfs/Eco section 4 .pdf" },
-                { id: 103, title: "Lec 3: Practical Examples", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
             ]
         },
         {
-            num: 2,
-            title: "The Core Framework",
-            time: "3h 40m",
+            num: 2, title: "The Core Framework", time: "3h 40m",
             lectures: [
-                { id: 201, title: "Lec 4: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 202, title: "Lec 5: Formulas & Models", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 203, title: "Lec 6: Applied Work", type: "video", url: "materials/dummy.mp4" },
-                { id: 204, title: "Lec 7: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
-            ]
-        },
-        {
-            num: 3,
-            title: "Advanced Applications",
-            time: "4h 20m",
-            lectures: [
-                { id: 301, title: "Lec 8: Edge Cases", type: "video", url: "materials/dummy.mp4" },
-                { id: 302, title: "Lec 9: Complex Scenarios", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 303, title: "Lec 10: Case Studies", type: "video", url: "materials/dummy.mp4" },
-                { id: 304, title: "Lec 11: Exam Focus", duration: "65m" }
+                { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
             ]
         }
     ];
+
+    // Load chapters for the specific subject, or fallback to default
+    const chapters = (subject.content && subject.content.chapters) ? subject.content.chapters : defaultChapters;
 
     const timelineContainer = document.getElementById('timeline-container');
 
@@ -90,31 +74,41 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('expanded');
     };
     window.markLectureDone = function (event, element, lecId) {
-        event.stopPropagation(); // Stop the click from closing the chapter
-
-        // Toggle the UI state
+        event.stopPropagation();
         element.classList.add('done');
-
-        // Save to localStorage
         const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-        completed[lecId] = true;
+        completed[lecId] = Date.now();
         localStorage.setItem('soCompletedLectures', JSON.stringify(completed));
     };
 
     window.removeLectureDone = function (event, element, lecId) {
         event.preventDefault();
         event.stopPropagation();
-
-        // Remove state
         const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
         delete completedLectures[lecId];
         localStorage.setItem('soCompletedLectures', JSON.stringify(completedLectures));
-
-        // Remove done class
         const lecItem = element.closest('.lecture-item');
-        if (lecItem) {
+        if (lecItem) lecItem.classList.remove('done');
+    };
+
+    window.toggleCircleDone = function (event, btn, lecId) {
+        event.preventDefault();
+        event.stopPropagation();
+        const lecItem = btn.closest('.lecture-item');
+        const isDone = btn.classList.contains('is-done');
+        const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
+        if (isDone) {
+            btn.classList.remove('is-done');
             lecItem.classList.remove('done');
+            delete completed[lecId];
+        } else {
+            btn.classList.add('is-done');
+            lecItem.classList.add('done');
+            completed[lecId] = Date.now();
+            btn.classList.add('burst');
+            setTimeout(() => btn.classList.remove('burst'), 600);
         }
+        localStorage.setItem('soCompletedLectures', JSON.stringify(completed));
     };
 
     const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
@@ -122,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = chapters.map((ch, chIndex) => {
         const lecturesHtml = ch.lectures.map((lec, lecIndex) => {
             const isPdf = lec.type === 'pdf';
-            const isDone = completedLectures[lec.id] === true;
+            const isDone = !!completedLectures[lec.id];
 
             // Find next lecture
             let nextLec = null;
@@ -181,42 +175,35 @@ document.addEventListener('DOMContentLoaded', () => {
             const clickHandler = isPdf ? `onclick="markLectureDone(event, this, ${lec.id})"` : '';
 
             return `
-            <a href="player.html?id=${lec.id}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
+            <div class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
                 <div class="lec-info">
                     <div class="lec-icon" ${accentStyle}>
                         ${isPdf
                     ? `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`
                     : `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>`}
                     </div>
-                    <div>
+                    <div class="lec-text-col">
                         <h4 class="lec-title">${lec.title}</h4>
                         <span class="lec-duration" id="dur-${lec.id}">
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
+                        <a href="player.html?id=${lec.id}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
+                            Open
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
                     </div>
                 </div>
-                
-                <div class="lec-play-btn-wrapper">
-                    <div class="lec-play-btn">
-                        <!-- Front Face (Play/Open) -->
-                        <div class="btn-face btn-front">
-                            <span id="action-text-${lec.id}">${actionText}</span>
-                            ${actionIcon}
-                        </div>
-                        <!-- Back Face (Done) -->
-                        <div class="btn-face btn-back" id="done-btn-${lec.id}">
-                            <span>Done</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="lec-undone-btn" onclick="removeLectureDone(event, this, ${lec.id})" title="Undo">✕</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+
+                <button class="lec-circle-btn ${isDone ? 'is-done' : ''}" onclick="toggleCircleDone(event, this, ${lec.id})" title="Mark as done">
+                    <svg class="circle-check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
             `;
         }).join('');
+
 
         return `
         <div class="chap-card group" onclick="toggleChapter(this)">
@@ -297,7 +284,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Dynamically update the action text for progress now that we have duration
-                    const isDone = completedLectures[lec.id] === true;
+                    const isDone = !!completedLectures[lec.id];
                     if (!isDone) {
                         const storageKey = `so_vid_progress_${encodeURIComponent(lec.url)}`;
                         const savedTime = localStorage.getItem(storageKey);

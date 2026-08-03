@@ -4,7 +4,64 @@
 
 const MATERIALS = {
     accounting: [
-        { id: 'a1', title: 'Financial Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Basics of financial statements, ledgers and balance sheets.' },
+        { 
+            id: 'a1', title: 'Financial Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Basics of financial statements, ledgers and balance sheets.',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Introduction to Financial Accounting", time: "2h 30m",
+                        lectures: [
+                            { id: 101, title: "Lec 1: Accounting Principles", type: "video", url: "materials/dummy.mp4" },
+                            { id: 102, title: "Lec 2: The Accounting Equation", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "Recording Transactions", time: "3h 15m",
+                        lectures: [
+                            { id: 201, title: "Lec 3: Journal Entries", type: "video", url: "materials/dummy.mp4" },
+                            { id: 202, title: "Lec 4: General Ledger", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    }
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "1h 30m",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: Accounting Equation", type: "pdf", url: "materials/dummy.pdf" },
+                            { id: 1002, title: "Quiz 2: Journal Entries", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    }
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Sections - Midterm", time: "2h",
+                        lectures: [
+                            { id: 2001, title: "Section 1: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" },
+                            { id: 2002, title: "Section 2: Adjusting Entries", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    }
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summaries - Midterm", time: "45m",
+                        lectures: [
+                            { id: 101, title: "Summary: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "Test Bank - Part 1", time: "1h 20m",
+                        lectures: [
+                            { id: 101, title: "Q&A: Basics", type: "pdf", url: "materials/dummy.pdf" }
+                        ]
+                    }
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
         { id: 'a2', title: 'Cost Accounting', icon: '🧮', color: '#ede9fe', accent: '#7c3aed', desc: 'Cost classification, marginal costing and variance analysis.' },
         { id: 'a3', title: 'Auditing', icon: '🔍', color: '#dcfce7', accent: '#16a34a', desc: 'Internal & external auditing standards and procedures.' },
         { id: 'a4', title: 'Tax Accounting', icon: '📋', color: '#fef9c3', accent: '#ca8a04', desc: 'Egyptian tax law, VAT, income tax returns & filings.' },
@@ -35,13 +92,13 @@ const MATERIALS = {
         { id: 's5', title: 'Time Series Analysis', icon: '📈', color: '#fee2e2', accent: '#dc2626', desc: 'Trend analysis, seasonal decomposition and forecasting.' },
         { id: 's6', title: 'Statistical Software', icon: '💻', color: '#cffafe', accent: '#0891b2', desc: 'SPSS, R and Python for statistical computing.' },
     ],
-    is: [
-        { id: 'i1', title: 'Database Systems', icon: '🗄️', color: '#dbeafe', accent: '#2563eb', desc: 'SQL, ERD design, normalization and relational databases.' },
-        { id: 'i2', title: 'Systems Analysis', icon: '🖥️', color: '#ede9fe', accent: '#7c3aed', desc: 'SDLC, UML diagrams and business requirements analysis.' },
-        { id: 'i3', title: 'Networking Fundamentals', icon: '🌐', color: '#dcfce7', accent: '#16a34a', desc: 'TCP/IP, OSI model, routing protocols and network security.' },
-        { id: 'i4', title: 'Programming (Python)', icon: '🐍', color: '#fef9c3', accent: '#ca8a04', desc: 'Data structures, OOP and automation using Python.' },
-        { id: 'i5', title: 'IT Project Management', icon: '📋', color: '#fee2e2', accent: '#dc2626', desc: 'Agile, Scrum, Gantt charts and risk management.' },
-        { id: 'i6', title: 'E-Commerce Systems', icon: '🛒', color: '#cffafe', accent: '#0891b2', desc: 'Online business models, payment gateways and UX.' },
+    political: [
+        { id: 'p1', title: 'Intro to Political Science', icon: '🏛️', color: '#dbeafe', accent: '#2563eb', desc: 'Fundamentals of political theory, government systems and ideologies.' },
+        { id: 'p2', title: 'International Relations', icon: '🌍', color: '#ede9fe', accent: '#7c3aed', desc: 'Global politics, diplomacy, international organizations and conflicts.' },
+        { id: 'p3', title: 'Public Administration', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Public policy, bureaucracy and administrative law.' },
+        { id: 'p4', title: 'Comparative Politics', icon: '⚖️', color: '#fef9c3', accent: '#ca8a04', desc: 'Comparative analysis of political systems and institutions.' },
+        { id: 'p5', title: 'Political Economy', icon: '💰', color: '#fee2e2', accent: '#dc2626', desc: 'Interaction of politics and economics in shaping public policy.' },
+        { id: 'p6', title: 'Political Sociology', icon: '👥', color: '#cffafe', accent: '#0891b2', desc: 'Social foundations of politics, power and political behavior.' },
     ],
 };
 
@@ -59,7 +116,7 @@ function getDeptKey(deptText) {
     if (lower.includes('business') || lower.includes('admin')) return 'business';
     if (lower.includes('econom')) return 'economics';
     if (lower.includes('statistic')) return 'statistics';
-    if (lower.includes('information') || lower.includes(' is')) return 'is';
+    if (lower.includes('political') || lower.includes('science')) return 'political';
     return 'accounting';
 }
 

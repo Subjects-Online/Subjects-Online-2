@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Chapters — Subjects Online</title>
+    <title>Summaries & Keywords — Subjects Online</title>
     <script src="js/page-transition.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>tailwind.config={theme:{extend:{colors:{blue:{50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e40af',900:'#1e3a8a',950:'#172554'},surface:'#ffffff'},fontFamily:{heading:['"Playfair Display"','Georgia','serif'],body:['Inter','system-ui','sans-serif']}}}}</script>
@@ -22,7 +22,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Subjects Online">
     <link rel="apple-touch-icon" href="images/icon-512.png"></head>
-<body class="bg-surface font-body antialiased text-purple-900 min-h-screen relative overflow-x-hidden">
+<body class="bg-surface font-body antialiased text-emerald-900 min-h-screen relative overflow-x-hidden">
 
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
         <div class="glow-orb orb-1" style="opacity:0.10;"></div>
@@ -41,54 +41,54 @@
             
             <!-- Navigation elements moved OUTSIDE the card -->
             <div class="flex items-center gap-4 px-2">
-                <a href="javascript:history.back()" class="inline-flex items-center gap-2 text-purple-600 font-bold text-sm hover:text-purple-800 transition-colors group">
-                    <span class="bg-white/60 backdrop-blur-md shadow-sm text-purple-600 p-2 rounded-full group-hover:-translate-x-1 transition-transform border border-white">
+                <a href="javascript:history.back()" class="inline-flex items-center gap-2 text-emerald-600 font-bold text-sm hover:text-emerald-800 transition-colors group">
+                    <span class="bg-white/60 backdrop-blur-md shadow-sm text-emerald-600 p-2 rounded-full group-hover:-translate-x-1 transition-transform border border-white">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     </span>
                     Back
                 </a>
-                <div class="inline-block px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-white shadow-sm text-purple-700 text-[10px] font-bold uppercase tracking-widest">
-                    Sections
+                <div class="inline-block px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-white shadow-sm text-emerald-700 text-[10px] font-bold uppercase tracking-widest">
+                    Summaries & Keywords
                 </div>
             </div>
 
             <!-- The Main Card -->
-            <div class="bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_20px_50px_rgba(168,85,247,0.08)] rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden flex flex-col items-center text-center">
+            <div class="bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_20px_50px_rgba(16,185,129,0.08)] rounded-[2.5rem] p-8 lg:p-10 relative overflow-hidden flex flex-col items-center text-center">
                 <!-- Decorative Glow inside sidebar -->
-                <div class="absolute top-0 right-0 w-40 h-40 bg-purple-400/10 rounded-full blur-[30px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
-                <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-400/10 rounded-full blur-[30px] pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
+                <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-400/10 rounded-full blur-[30px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-teal-400/10 rounded-full blur-[30px] pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
                 
                 <!-- Circular Progress Bar -->
                 <div class="relative w-36 h-36 mb-6">
                     <!-- SVG Circle -->
                     <svg class="w-full h-full transform -rotate-90 drop-shadow-md" viewBox="0 0 100 100">
                         <!-- Background Track -->
-                        <circle cx="50" cy="50" r="42" fill="none" stroke="#faf5ff" stroke-width="8" />
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="#d1fae5" stroke-width="8" />
                         <!-- Progress Track -->
                         <circle id="circular-progress-bar" cx="50" cy="50" r="42" fill="none" stroke="url(#progress-gradient)" stroke-width="8" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" class="transition-all duration-1000 ease-out" />
                         <defs>
                             <linearGradient id="progress-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#a855f7" />
-                                <stop offset="100%" stop-color="#c084fc" />
+                                <stop offset="0%" stop-color="#10b981" />
+                                <stop offset="100%" stop-color="#34d399" />
                             </linearGradient>
                         </defs>
                     </svg>
                     <!-- Center Content (Progress Percentage) -->
                     <div class="absolute inset-0 flex flex-col items-center justify-center">
-                        <span id="progress-text-circle" class="text-3xl font-heading font-bold text-purple-950">0%</span>
-                        <span class="text-[9px] uppercase tracking-wider text-purple-500 font-bold mt-1">Completed</span>
+                        <span id="progress-text-circle" class="text-3xl font-heading font-bold text-emerald-950">0%</span>
+                        <span class="text-[9px] uppercase tracking-wider text-emerald-500 font-bold mt-1">Completed</span>
                     </div>
                 </div>
                 
                 <!-- Subject Info -->
-                <h1 id="chap-subj-title" class="font-heading text-4xl font-bold text-purple-950 mb-4 leading-tight tracking-tight">Loading...</h1>
+                <h1 id="chap-subj-title" class="font-heading text-4xl font-bold text-emerald-950 mb-4 leading-tight tracking-tight">Loading...</h1>
                 
-                <p class="text-slate-500 text-sm leading-relaxed mb-8 font-medium">Study detailed sections with practical exercises.</p>
+                <p class="text-slate-500 text-sm leading-relaxed mb-8 font-medium">Review the key concepts and keywords for each part of the curriculum.</p>
                 
                 <!-- Lectures Count -->
-                <div class="w-full flex items-center justify-center gap-2 text-xs text-purple-700 font-bold bg-purple-50/80 py-3.5 px-4 rounded-2xl border border-purple-100 shadow-sm">
+                <div class="w-full flex items-center justify-center gap-2 text-xs text-emerald-700 font-bold bg-emerald-50/80 py-3.5 px-4 rounded-2xl border border-emerald-100 shadow-sm">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-                    <span id="progress-count">0 of 0 sections completed</span>
+                    <span id="progress-count">0 of 0 lectures completed</span>
                 </div>
             </div>
         </aside>
@@ -115,7 +115,7 @@
     <script src="js/premium-effects.js"></script>
     <script src="js/data.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <script src="js/sections.js?v=2"></script>
+    <script src="js/summaries.js?v=2"></script>
     <script src="js/pwa.js"></script>
 </body>
 </html>

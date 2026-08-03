@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Force Pink Theme Colors for this page
-    document.documentElement.style.setProperty('--subject-accent', '#ec4899'); // Sky Blue 500
-    document.documentElement.style.setProperty('--subject-glow', '#fbcfe8');   // Sky Blue 300
+    // Force Amber Theme Colors for this page
+    document.documentElement.style.setProperty('--subject-accent', '#f59e0b'); // Sky Blue 500
+    document.documentElement.style.setProperty('--subject-glow', '#fcd34d');   // Sky Blue 300
 
     // Setup Hero
     document.getElementById('chap-subj-title').textContent = subject.title;
@@ -31,13 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
     globalBg.style.inset = '0';
     globalBg.style.zIndex = '-1';
     globalBg.style.pointerEvents = 'none';
-    globalBg.style.background = `radial-gradient(circle at 80% 10%, rgba(244, 114, 182, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%), linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%)`;
+    globalBg.style.background = `radial-gradient(circle at 80% 10%, rgba(251, 191, 36, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%), linear-gradient(135deg, #ffffff 0%, #fffbeb 100%)`;
     
     // Add subtle grid texture over the whole page
     const gridTexture = document.createElement('div');
     gridTexture.style.position = 'absolute';
     gridTexture.style.inset = '0';
-    gridTexture.style.backgroundImage = 'linear-gradient(rgba(236, 72, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(236, 72, 153, 0.03) 1px, transparent 1px)';
+    gridTexture.style.backgroundImage = 'linear-gradient(rgba(245, 158, 11, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245, 158, 11, 0.03) 1px, transparent 1px)';
     gridTexture.style.backgroundSize = '40px 40px';
     globalBg.appendChild(gridTexture);
     
@@ -49,23 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const defaultChapters = [
         {
-            num: 1, title: "Quiz Set 1", time: "2h 15m",
+            num: 1, title: "Q&A - Part One", time: "45m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
-            ]
-        },
-        {
-            num: 2, title: "Quiz Set 2", time: "3h 40m",
-            lectures: [
-                { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 101, title: "Q&A 1: Basics", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 102, title: "Q&A 2: Core Concepts", type: "pdf", url: "materials/dummy.pdf" }
             ]
         }
     ];
 
     // Load chapters for the specific subject, or fallback to default
-    const chapters = (subject.content && subject.content.quizzes) ? subject.content.quizzes : defaultChapters;
+    const chapters = (subject.content && subject.content.qa && subject.content.qa.length > 0) ? subject.content.qa : defaultChapters;
 
     const timelineContainer = document.getElementById('timeline-container');
 
@@ -74,21 +67,31 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('expanded');
     };
     window.markLectureDone = function (event, element, lecId) {
-        event.stopPropagation();
+        event.stopPropagation(); // Stop the click from closing the chapter
+
+        // Toggle the UI state
         element.classList.add('done');
-        const completed = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
+
+        // Save to localStorage
+        const completed = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
         completed[lecId] = Date.now();
-        localStorage.setItem('soCompletedQuizzes', JSON.stringify(completed));
+        localStorage.setItem('soCompletedQA', JSON.stringify(completed));
     };
 
     window.removeLectureDone = function (event, element, lecId) {
         event.preventDefault();
         event.stopPropagation();
-        const completedLectures = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
+
+        // Remove state
+        const completedLectures = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
         delete completedLectures[lecId];
-        localStorage.setItem('soCompletedQuizzes', JSON.stringify(completedLectures));
+        localStorage.setItem('soCompletedQA', JSON.stringify(completedLectures));
+
+        // Remove done class
         const lecItem = element.closest('.lecture-item');
-        if (lecItem) lecItem.classList.remove('done');
+        if (lecItem) {
+            lecItem.classList.remove('done');
+        }
     };
 
     window.toggleCircleDone = function (event, btn, lecId) {
@@ -96,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
         const lecItem = btn.closest('.lecture-item');
         const isDone = btn.classList.contains('is-done');
-        const completed = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
+        const completed = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
         if (isDone) {
             btn.classList.remove('is-done');
             lecItem.classList.remove('done');
@@ -105,14 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('is-done');
             lecItem.classList.add('done');
             completed[lecId] = Date.now();
-            // Burst animation
             btn.classList.add('burst');
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
-        localStorage.setItem('soCompletedQuizzes', JSON.stringify(completed));
+        localStorage.setItem('soCompletedQA', JSON.stringify(completed));
     };
-
-    const completedLectures = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
+    const completedLectures = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
 
     const html = chapters.map((ch, chIndex) => {
         const lecturesHtml = ch.lectures.map((lec, lecIndex) => {
@@ -183,28 +184,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     ? `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`
                     : `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>`}
                     </div>
-                    <div class="lec-text-col">
+                    <div>
                         <h4 class="lec-title">${lec.title}</h4>
                         <span class="lec-duration" id="dur-${lec.id}">
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
-                        <a href="player.html?id=${lec.id}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
-                            Open
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                        </a>
                     </div>
                 </div>
-
-                <button class="lec-circle-btn ${isDone ? 'is-done' : ''}" onclick="toggleCircleDone(event, this, ${lec.id})" title="Mark as done">
-                    <svg class="circle-check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                    </svg>
-                </button>
-            </div>
+                
+                <div class="lec-play-btn-wrapper">
+                    <div class="lec-play-btn">
+                        <!-- Front Face (Play/Open) -->
+                        <div class="btn-face btn-front">
+                            <span id="action-text-${lec.id}">${actionText}</span>
+                            ${actionIcon}
+                        </div>
+                        <!-- Back Face (Done) -->
+                        <div class="btn-face btn-back" id="done-btn-${lec.id}">
+                            <span>Done</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                            <span class="lec-undone-btn" onclick="removeLectureDone(event, this, ${lec.id})" title="Undo">✕</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
             `;
         }).join('');
-
 
         return `
         <div class="chap-card group" onclick="toggleChapter(this)">
@@ -213,10 +221,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="chap-main-content">
                 <div class="chap-header">
                     <div class="chap-header-left">
-                        <span class="chap-ch-label">Quiz ${ch.num}</span>
-                        <h2 class="chap-title-text group-hover:text-pink-700 transition-colors">${ch.title}</h2>
+                        <span class="chap-ch-label">Part ${ch.num}</span>
+                        <h2 class="chap-title-text group-hover:text-amber-700 transition-colors">${ch.title}</h2>
                     </div>
-                    <div class="chap-toggle-icon group-hover:bg-pink-100 group-hover:text-pink-700 transition-colors shadow-sm">
+                    <div class="chap-toggle-icon group-hover:bg-amber-100 group-hover:text-amber-700 transition-colors shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -224,14 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 
                 <div class="chap-meta">
-                    <div class="chap-meta-item shadow-sm border border-pink-50/50">
+                    <div class="chap-meta-item shadow-sm border border-amber-50/50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/>
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                         ${ch.lectures.length} Lectures
                     </div>
-                    <div class="chap-meta-item shadow-sm border border-pink-50/50">
+                    <div class="chap-meta-item shadow-sm border border-amber-50/50">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
@@ -271,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     chapters.forEach(ch => {
-        const completedLectures = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
+        const completedLectures = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
 
         ch.lectures.forEach(lec => {
             if (lec.type === 'video') {
