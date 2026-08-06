@@ -67,9 +67,13 @@
         <!-- Main top gradient -->
         <div class="absolute inset-0 app-bg-top"></div>
         <!-- Soft glow bottom right -->
-        <div class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full mix-blend-multiply opacity-50 app-glow-br"></div>
+        <div
+            class="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full mix-blend-multiply opacity-50 app-glow-br">
+        </div>
         <!-- Soft glow top left -->
-        <div class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full mix-blend-multiply opacity-30 app-glow-tl"></div>
+        <div
+            class="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full mix-blend-multiply opacity-30 app-glow-tl">
+        </div>
     </div>
 
     <!-- Shared Navbar injected by JS -->
@@ -419,17 +423,45 @@
                 <!-- Weekly Summary -->
                 <div
                     class="bg-brand-cardBg rounded-3xl border border-brand-cardBorder p-10 lg:col-span-1 flex flex-col">
-                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-4 flex items-center gap-3">
-                        <span class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
-                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <h2 class="font-heading text-xl text-brand-textPrimary font-medium mb-8 flex items-center gap-3">
+                        <span
+                            class="w-10 h-10 rounded-2xl bg-brand-iconBg border border-brand-cardBorder flex items-center justify-center text-brand-accent">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </span>
-                        <span class="tracking-wider uppercase text-[11px]">Learning Activity</span>
+                        <span class="tracking-wider uppercase text-[11px]">This Week</span>
                     </h2>
 
-                    <div class="flex-1 w-full relative min-h-[200px]">
-                        <canvas id="activityChart"></canvas>
+                    <div class="flex-1 flex flex-col justify-center gap-8 z-10">
+                        <div>
+                            <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Time Studied
+                            </p>
+                            <div class="flex items-baseline gap-3">
+                                <span class="text-4xl font-heading font-medium text-brand-textPrimary">12<span
+                                        class="text-lg text-brand-textSecondary font-light">h</span> 45<span
+                                        class="text-lg text-brand-textSecondary font-light">m</span></span>
+                                <span
+                                    class="text-[9px] font-bold text-brand-accent flex items-center bg-brand-accent/10 px-2.5 py-1 rounded-full border border-brand-accent/20 tracking-widest uppercase">
+                                    <svg class="w-3 h-3 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                                            d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                                    </svg>
+                                    15%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="h-px w-full bg-brand-cardBorder"></div>
+                        <div>
+                            <p class="text-brand-textSecondary text-[9px] uppercase tracking-[0.3em] mb-3">Lectures
+                                Completed</p>
+                            <div class="flex items-baseline gap-3">
+                                <span class="text-3xl font-heading font-medium text-brand-accent">8</span>
+                                <span class="text-sm font-medium text-brand-textSecondary">videos</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -462,8 +494,6 @@
 
     </main>
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
