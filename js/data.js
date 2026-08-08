@@ -142,11 +142,82 @@ function toggleFav(id, btnEl) {
     saveFavorites(favs);
 }
 
+// Default lectures shown by chapters.js when a subject has no custom content
+const DEFAULT_CHAPTERS = [
+    { num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
+      lectures: [
+        { id: 101, title: "Lec 1: Overview",         type: "pdf",   url: "materials/dummy.pdf" },
+        { id: 102, title: "Lec 2: First Principles",  type: "pdf",   url: "materials/dummy.pdf" }
+      ]
+    },
+    { num: 2, title: "The Core Framework", time: "3h 40m",
+      lectures: [
+        { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+        { id: 202, title: "Lec 4: Review Questions",    type: "pdf",   url: "materials/dummy.pdf" }
+      ]
+    }
+];
+
+function getSubjectProgress(item) {
+    // Collect all lecture IDs across all content types for this subject
+    const allLecIds = [];
+    if (item.content) {
+        const sections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
+        sections.forEach(sec => {
+            if (item.content[sec]) {
+                item.content[sec].forEach(ch => {
+                    if (ch.lectures) ch.lectures.forEach(lec => allLecIds.push(lec.id));
+                });
+            }
+        });
+    }
+    // Fallback to default chapters if no custom content is defined
+    if (allLecIds.length === 0) {
+        DEFAULT_CHAPTERS.forEach(ch => ch.lectures.forEach(lec => allLecIds.push(lec.id)));
+    }
+    if (allLecIds.length === 0) return 0;
+
+    // Check across all completion stores
+    const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
+    const completedSections = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
+    const completedQuizzes  = JSON.parse(localStorage.getItem('soCompletedQuizzes')  || '{}');
+    const completedSummaries = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
+    const completedQA       = JSON.parse(localStorage.getItem('soCompletedQA')        || '{}');
+
+    let doneCount = 0;
+    allLecIds.forEach(id => {
+        if (completedLectures[id] || completedSections[id] || completedQuizzes[id] ||
+            completedSummaries[id] || completedQA[id]) {
+            doneCount++;
+        }
+    });
+    return Math.round((doneCount / allLecIds.length) * 100);
+}
+
+function getSubjectModulesCount(item) {
+    // Count total lectures across all content types
+    let total = 0;
+    if (item.content) {
+        const sections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
+        sections.forEach(sec => {
+            if (item.content[sec]) {
+                item.content[sec].forEach(ch => { if (ch.lectures) total += ch.lectures.length; });
+            }
+        });
+    }
+    // Fallback to default chapters if no custom content is defined
+    if (total === 0) {
+        DEFAULT_CHAPTERS.forEach(ch => { total += ch.lectures.length; });
+    }
+    return total;
+}
+
 function materialCardHTML(item, isFav, isPinned = false) {
-    // Mock progress and chapter count based on ID
-    const idSum = item.id.charCodeAt(0) + item.id.charCodeAt(1);
-    const progress = (idSum % 10) * 10 + Math.floor(idSum % 5) * 5; // e.g. 45, 80, 20
-    const chaptersCount = (idSum % 6) + 7; // e.g. 7 to 12
+    // Real progress from localStorage completed items
+    const progress = getSubjectProgress(item);
+    const modulesFromContent = getSubjectModulesCount(item);
+    // Fallback: if subject has no content defined yet, show 0 modules
+    const chaptersCount = modulesFromContent;
 
     return `
     <a href="subject.html?id=${item.id}" class="material-card group" style="text-decoration: none; position: relative; overflow: hidden; background: linear-gradient(135deg, ${item.color}60, #ffffff 80%); border: 1px solid ${item.accent}20; border-radius: 2rem; padding: 1.75rem; display: flex; flex-direction: column; min-height: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">

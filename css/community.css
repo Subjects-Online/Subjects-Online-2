@@ -1697,3 +1697,104 @@ html.dark-mode .comm-anon-switch { background: rgba(255,255,255,0.08); }
     .comm-messages { min-height: 300px; max-height: 400px; }
     .comm-vault-grid { grid-template-columns: 1fr; }
 }
+
+/* ══════════════════════════════════════════════════
+   ADVANCED FEATURES (Voice, Polls, Badges, etc.)
+══════════════════════════════════════════════════ */
+
+/* Voice Recording UI */
+.comm-voice-recording-ui {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.5rem 1rem; border-radius: var(--radius-md);
+    background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2);
+    margin-top: 0.5rem;
+}
+.comm-voice-recording-indicator {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 0.85rem; font-weight: 600; color: #dc2626;
+}
+.comm-voice-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: #dc2626;
+    animation: pulseDot 1s ease-in-out infinite;
+}
+.comm-voice-cancel {
+    background: transparent; border: none; font-size: 1.2rem;
+    color: #dc2626; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    width: 24px; height: 24px; border-radius: 50%;
+}
+.comm-voice-cancel:hover { background: rgba(239, 68, 68, 0.15); }
+.comm-chat-mic-btn {
+    background: transparent; border: none; color: var(--c-text-3);
+    cursor: pointer; padding: 4px; transition: var(--transition);
+}
+.comm-chat-mic-btn:hover { color: var(--c-sky-500); }
+
+/* Audio Player */
+.comm-audio-player { width: 100%; max-width: 300px; margin: 0.5rem 0; height: 36px; outline: none; }
+
+/* Polls UI */
+.comm-poll-composer { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.comm-poll-option-input-wrap { display: flex; align-items: center; gap: 0.5rem; }
+.comm-poll-option-input {
+    flex: 1; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm);
+    border: 1px solid var(--c-border); background: var(--c-bg);
+    font-size: 0.85rem; color: var(--c-text-1); outline: none;
+}
+.comm-poll-option-input:focus { border-color: var(--c-sky-400); }
+.comm-add-poll-option {
+    align-self: flex-start; font-size: 0.75rem; font-weight: 600;
+    color: var(--c-sky-500); background: transparent; border: none; cursor: pointer;
+}
+.comm-add-poll-option:hover { text-decoration: underline; }
+
+/* Rendered Poll */
+.comm-poll-container { margin: 1rem 0; display: flex; flex-direction: column; gap: 0.5rem; }
+.comm-poll-option {
+    position: relative; display: flex; justify-content: space-between; align-items: center;
+    padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--c-border);
+    cursor: pointer; overflow: hidden; background: var(--c-white); transition: var(--transition);
+}
+.comm-poll-option:hover { border-color: var(--c-sky-400); }
+.comm-poll-option-bg {
+    position: absolute; left: 0; top: 0; bottom: 0; background: rgba(14, 165, 233, 0.1);
+    z-index: 0; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.comm-poll-option-text { position: relative; z-index: 1; font-size: 0.9rem; font-weight: 500; color: var(--c-text-1); }
+.comm-poll-option-pct { position: relative; z-index: 1; font-size: 0.8rem; font-weight: 600; color: var(--c-text-3); }
+.comm-poll-option.selected { border-color: var(--c-sky-500); }
+.comm-poll-option.selected .comm-poll-option-bg { background: rgba(14, 165, 233, 0.2); }
+
+/* Badges */
+.comm-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 700;
+    text-transform: uppercase; margin-left: 6px; vertical-align: middle;
+}
+.comm-badge-legend { background: linear-gradient(135deg, #fbbf24, #d97706); color: white; }
+.comm-badge-star { background: linear-gradient(135deg, #60a5fa, #2563eb); color: white; }
+.comm-badge-beginner { background: var(--c-sky-100); color: var(--c-sky-700); }
+
+/* Hashtags & Mentions */
+.comm-hashtag { color: var(--c-sky-500); font-weight: 600; cursor: pointer; }
+.comm-hashtag:hover { text-decoration: underline; }
+.comm-mention { color: #8b5cf6; font-weight: 600; cursor: pointer; background: rgba(139, 92, 246, 0.1); padding: 0 4px; border-radius: 4px; }
+.comm-mention:hover { background: rgba(139, 92, 246, 0.2); }
+
+/* Pinned Posts */
+.comm-post-card.pinned {
+    border: 2px solid var(--c-sky-400);
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.15);
+}
+.comm-pinned-label {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 0.75rem;
+    font-weight: 700; color: var(--c-sky-500); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* Post Header Actions (Report & Pin) */
+.comm-post-actions { position: relative; margin-left: auto; display: flex; align-items: center; gap: 0.5rem; }
+.comm-action-icon-btn {
+    background: transparent; border: none; color: var(--c-text-4); cursor: pointer;
+    padding: 4px; border-radius: 50%; transition: var(--transition);
+}
+.comm-action-icon-btn:hover { background: var(--c-sky-50); color: var(--c-text-2); }
+.comm-action-icon-btn.report:hover { color: #dc2626; background: rgba(239, 68, 68, 0.1); }

@@ -54,6 +54,40 @@ function loadStats(deptText) {
     const favs = getFavorites();
     const favoritesCount = favs.length;
 
+    // Collect all lectures across all subjects in this dept
+    const completedLectures  = JSON.parse(localStorage.getItem('soCompletedLectures')  || '{}');
+    const completedSections  = JSON.parse(localStorage.getItem('soCompletedSections')  || '{}');
+    const completedQuizzes   = JSON.parse(localStorage.getItem('soCompletedQuizzes')   || '{}');
+    const completedSummaries = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
+    const completedQA        = JSON.parse(localStorage.getItem('soCompletedQA')        || '{}');
+
+    let totalVideos = 0, totalPDFs = 0, doneVideos = 0, donePDFs = 0;
+    let totalLectures = 0, doneLectures = 0;
+
+    materials.forEach(subj => {
+        if (!subj.content) return;
+        const contentSections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
+        contentSections.forEach(sec => {
+            if (!subj.content[sec]) return;
+            subj.content[sec].forEach(ch => {
+                if (!ch.lectures) return;
+                ch.lectures.forEach(lec => {
+                    totalLectures++;
+                    const isDone = !!(completedLectures[lec.id] || completedSections[lec.id] ||
+                                     completedQuizzes[lec.id]  || completedSummaries[lec.id] || completedQA[lec.id]);
+                    if (lec.type === 'video') {
+                        totalVideos++;
+                        if (isDone) doneVideos++;
+                    } else {
+                        totalPDFs++;
+                        if (isDone) donePDFs++;
+                    }
+                    if (isDone) doneLectures++;
+                });
+            });
+        });
+    });
+
     // Determine opened subjects from localStorage
     const lastOpened = JSON.parse(localStorage.getItem('soLastOpened') || '{}');
     materials.forEach(m => {
@@ -98,10 +132,8 @@ function loadStats(deptText) {
     if (essaysCount) essaysCount.textContent = `${typeof ESSAYS !== 'undefined' ? ESSAYS.length : 0} Essays`;
     if (favCount) favCount.textContent = `${favoritesCount} Saved`;
 
-    // Feature 4: Overall Progress Ring
-    // Calculate a mock progress based on opened subjects and favorites for demo
-    let progressPct = Math.min(100, Math.round(((openedSubjects * 10) + (favoritesCount * 5)) / (totalSubjects * 10 + 20) * 100));
-    if (progressPct === 0) progressPct = 5;
+    // Feature 4: Overall Progress Ring — based on actual completed lectures
+    let progressPct = totalLectures > 0 ? Math.round((doneLectures / totalLectures) * 100) : 0;
 
     if (libProgress) libProgress.style.width = `${progressPct}%`;
 
@@ -151,9 +183,9 @@ function loadStats(deptText) {
     }
 
     const openedSubjectsPct = totalSubjects ? Math.round((openedSubjects / totalSubjects) * 100) : 0;
-    const openedPDFsPct = 0; // Placeholder for now
-    const openedVideosPct = 0; // Placeholder for now
-    const favoritesPct = Math.min(100, favoritesCount * 10); // Arbitrary percentage for demo
+    const openedPDFsPct   = totalPDFs   > 0 ? Math.round((donePDFs   / totalPDFs)   * 100) : 0;
+    const openedVideosPct = totalVideos > 0 ? Math.round((doneVideos / totalVideos) * 100) : 0;
+    const favoritesPct = Math.min(100, favoritesCount * 10);
 
     const statsHTML = `
         <div class="w-full">

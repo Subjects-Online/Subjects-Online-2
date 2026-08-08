@@ -109,7 +109,37 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
         localStorage.setItem('soCompletedLectures', JSON.stringify(completed));
+        updateSidebarProgress();
     };
+
+    // ── Sidebar Progress Update ───────────────────────────
+    function updateSidebarProgress() {
+        const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
+
+        let total = 0;
+        let done  = 0;
+        chapters.forEach(ch => {
+            ch.lectures.forEach(lec => {
+                total++;
+                if (completed[lec.id]) done++;
+            });
+        });
+
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+        // Update text
+        const progressText = document.getElementById('progress-text-circle');
+        const progressCount = document.getElementById('progress-count');
+        const progressBar  = document.getElementById('circular-progress-bar');
+
+        if (progressText)  progressText.textContent  = `${pct}%`;
+        if (progressCount) progressCount.textContent = `${done} of ${total} lectures completed`;
+        if (progressBar) {
+            const circumference = 264; // 2 * π * 42
+            const offset = circumference - (pct / 100) * circumference;
+            progressBar.style.strokeDashoffset = offset;
+        }
+    }
 
     const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
 
@@ -251,6 +281,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
 
     timelineContainer.innerHTML = html;
+
+    // Show correct progress on initial load
+    updateSidebarProgress();
 
     // Optional: GSAP Animation for staggered entrance
     if (typeof gsap !== 'undefined') {

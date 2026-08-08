@@ -59,7 +59,7 @@
                 <div class="absolute bottom-0 left-0 w-32 h-32 bg-fuchsia-400/10 rounded-full blur-[30px] pointer-events-none translate-y-1/2 -translate-x-1/2"></div>
                 
                 <!-- Circular Progress Bar -->
-                <div class="relative w-36 h-36 mb-6">
+                <div class="relative w-36 h-36 mb-6" id="progress-ring-wrapper" style="cursor:pointer">
                     <!-- SVG Circle -->
                     <svg class="w-full h-full transform -rotate-90 drop-shadow-md" viewBox="0 0 100 100">
                         <!-- Background Track -->
@@ -77,6 +77,40 @@
                     <div class="absolute inset-0 flex flex-col items-center justify-center">
                         <span id="progress-text-circle" class="text-3xl font-heading font-bold text-purple-950">0%</span>
                         <span class="text-[9px] uppercase tracking-wider text-purple-500 font-bold mt-1">Completed</span>
+                    </div>
+                    <!-- Hover Breakdown Tooltip -->
+                    <div id="progress-tooltip" style="
+                        position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) scale(0.92);
+                        background: rgba(255,255,255,0.97); backdrop-filter: blur(16px);
+                        border: 1px solid rgba(168,85,247,0.15); border-radius: 16px;
+                        padding: 12px 16px; min-width: 170px;
+                        box-shadow: 0 12px 32px rgba(168,85,247,0.18), 0 2px 8px rgba(0,0,0,0.06);
+                        opacity: 0; pointer-events: none;
+                        transition: opacity 0.22s ease, transform 0.22s ease;
+                        z-index: 100;
+                    ">
+                        <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#a855f7;margin-bottom:10px;display:flex;align-items:center;gap:5px;">
+                            <svg width="10" height="10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 010 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 010 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 010 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+                            Breakdown
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:8px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <div style="width:8px;height:8px;border-radius:50%;background:#ef4444;"></div>
+                                    <span style="font-size:11px;color:#64748b;font-weight:500;">PDFs</span>
+                                </div>
+                                <span id="tooltip-pdfs" style="font-size:12px;font-weight:800;color:#0f172a;">0 / 0</span>
+                            </div>
+                            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <div style="width:8px;height:8px;border-radius:50%;background:#a855f7;"></div>
+                                    <span style="font-size:11px;color:#64748b;font-weight:500;">Videos</span>
+                                </div>
+                                <span id="tooltip-videos" style="font-size:12px;font-weight:800;color:#0f172a;">0 / 0</span>
+                            </div>
+                        </div>
+                        <!-- Arrow -->
+                        <div style="position:absolute;bottom:-7px;left:50%;transform:translateX(-50%) rotate(45deg);width:13px;height:13px;background:rgba(255,255,255,0.97);border-right:1px solid rgba(168,85,247,0.15);border-bottom:1px solid rgba(168,85,247,0.15);"></div>
                     </div>
                 </div>
                 
