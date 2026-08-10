@@ -16,7 +16,7 @@
 
     if (!isStandalone) return;
 
-    const uid  = localStorage.getItem('subjectsOnlineUID');
+    const uid = localStorage.getItem('subjectsOnlineUID');
     const path = window.location.pathname;
     const page = path.split('/').pop() || '';
 
@@ -24,11 +24,11 @@
     // e.g. /Subjects-Online-2/  (handles GitHub Pages subdirectories)
     const base = path.substring(0, path.lastIndexOf('/') + 1);
 
-    const authPages      = ['login.html', 'index.html', 'welcome.html', ''];
+    const authPages = ['login.html', 'index.html', 'welcome.html', ''];
     const protectedPages = [
-      'dashboard.html','browse.html','profile.html','favorites.html',
-      'player.html','quizzes.html','chapters.html','sections.html',
-      'subject.html','essays.html'
+      'dashboard.html', 'browse.html', 'profile.html', 'favorites.html',
+      'player.html', 'quizzes.html', 'chapters.html', 'sections.html',
+      'subject.html', 'essays.html'
     ];
 
     if (uid) {
@@ -397,17 +397,17 @@
 
     const steps = isIOS
       ? [
-          { icon: '⬆️', text: 'اضغط على زرار الـ <strong>Share</strong> في Safari' },
-          { icon: '📲', text: 'اختار <strong>"Add to Home Screen"</strong>' },
-          { icon: '✅', text: 'اضغط <strong>Add</strong> وهيتحمل على الشاشة الرئيسية' },
-        ]
+        { icon: '⬆️', text: 'اضغط على زرار الـ <strong>Share</strong> في Safari' },
+        { icon: '📲', text: 'اختار <strong>"Add to Home Screen"</strong>' },
+        { icon: '✅', text: 'اضغط <strong>Add</strong> وهيتحمل على الشاشة الرئيسية' },
+      ]
       : isAndroid
-      ? [
-          { icon: '⋮',  text: 'افتح القائمة في <strong>Chrome</strong> (النقاط الثلاثة)' },
+        ? [
+          { icon: '⋮', text: 'افتح القائمة في <strong>Chrome</strong> (النقاط الثلاثة)' },
           { icon: '📲', text: 'اختار <strong>"Add to Home screen"</strong>' },
           { icon: '✅', text: 'اضغط <strong>Add</strong> وجاهز!' },
         ]
-      : [
+        : [
           { icon: '🖥️', text: 'افتح السايت في <strong>Chrome</strong> أو <strong>Edge</strong>' },
           { icon: '⬇️', text: 'اضغط على أيقونة التثبيت في <strong>شريط العنوان</strong>' },
           { icon: '✅', text: 'اضغط <strong>Install</strong> وهيتثبت كتطبيق' },

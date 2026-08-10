@@ -3,13 +3,19 @@
    =================================================== */
 
 :root {
-    --color-bg: #dbeafe;                          /* كان F0F9FF — أعمق شوية */
-    --color-card-bg: #eff6ff;                     /* كان FFFFFF — مش أبيض خالص */
-    --color-card-border: rgba(14, 165, 233, 0.30); /* كان 0.15 — أوضح */
+    --color-bg: #dbeafe;
+    /* كان F0F9FF — أعمق شوية */
+    --color-card-bg: #eff6ff;
+    /* كان FFFFFF — مش أبيض خالص */
+    --color-card-border: rgba(14, 165, 233, 0.30);
+    /* كان 0.15 — أوضح */
     --color-card-border-hover: rgba(14, 165, 233, 0.65);
-    --color-text-primary: #060f1e;                /* كان 0C1A2E — أغمق */
-    --color-text-secondary: #1e3a5f;              /* كان 475569 — أغمق وأوضح */
-    --color-icon-bg: #bfdbfe;                     /* كان E0F2FE — أغمق شوية */
+    --color-text-primary: #060f1e;
+    /* كان 0C1A2E — أغمق */
+    --color-text-secondary: #1e3a5f;
+    /* كان 475569 — أغمق وأوضح */
+    --color-icon-bg: #bfdbfe;
+    /* كان E0F2FE — أغمق شوية */
     --color-grid-dots: transparent;
 
     /* Theme backgrounds */
@@ -20,14 +26,16 @@
 }
 
 html.dark-mode {
-    --color-bg: #020617; /* Slate-950 */
-    --color-card-bg: #0f172a; /* Slate-900 */
+    --color-bg: #020617;
+    /* Slate-950 */
+    --color-card-bg: #0f172a;
+    /* Slate-900 */
     --color-card-border: rgba(56, 189, 248, 0.15);
     --color-card-border-hover: rgba(56, 189, 248, 0.4);
     --color-text-primary: #f8fafc;
     --color-text-secondary: #94a3b8;
     --color-icon-bg: rgba(14, 165, 233, 0.05);
-    
+
     /* Sleek dark mode backgrounds */
     --app-bg: #020617;
     --app-bg-top: radial-gradient(ellipse at 50% 0%, rgba(15, 23, 42, 1) 0%, rgba(2, 6, 23, 0) 70%);
@@ -35,10 +43,21 @@ html.dark-mode {
     --app-glow-tl: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
 }
 
-.app-bg-container { background: var(--app-bg); }
-.app-bg-top { background: var(--app-bg-top); }
-.app-glow-br { background: var(--app-glow-br); }
-.app-glow-tl { background: var(--app-glow-tl); }
+.app-bg-container {
+    background: var(--app-bg);
+}
+
+.app-bg-top {
+    background: var(--app-bg-top);
+}
+
+.app-glow-br {
+    background: var(--app-glow-br);
+}
+
+.app-glow-tl {
+    background: var(--app-glow-tl);
+}
 
 /* Removed old light-mode class to prevent conflicts */
 
@@ -51,6 +70,179 @@ main {
     main {
         padding-bottom: 12rem !important;
     }
+}
+
+/* ════════════════════════════════════════════════
+   PREMIUM DASHBOARD CARDS (Analytics, Planner, Weekly, Recommended)
+════════════════════════════════════════════════ */
+
+.dash-premium-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 1.5rem;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 10px 15px -3px rgba(0, 0, 0, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html.dark-mode .dash-premium-card {
+    background: var(--bg-card);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.dash-premium-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.08),
+        0 10px 20px -5px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+}
+
+html.dark-mode .dash-premium-card:hover {
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dash-card-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 20;
+}
+
+.dash-card-icon-badge {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+/* Planner Input */
+.dash-planner-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    border-radius: 1rem;
+    padding: 1rem 1.25rem 1rem 3rem;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+html.dark-mode .dash-planner-input {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dash-planner-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), inset 0 1px 2px rgba(0, 0, 0, 0.01);
+}
+
+html.dark-mode .dash-planner-input:focus {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+.dash-planner-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Planner Button */
+.dash-planner-btn {
+    position: relative;
+    background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+    color: white;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .dash-planner-btn {
+        width: auto;
+        padding: 0.75rem 2rem;
+    }
+}
+
+.dash-planner-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(14, 165, 233, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+/* Trend Badges */
+.dash-trend-badge {
+    font-size: 0.55rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.dash-trend-up {
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+html.dark-mode .dash-trend-up {
+    color: #34d399;
+    background: rgba(52, 211, 153, 0.15);
+    border-color: rgba(52, 211, 153, 0.25);
+}
+
+/* Stat Divider */
+.dash-stat-divider {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+}
+
+html.dark-mode .dash-stat-divider {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* Gradient Text */
+.dash-gradient-text {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
 }
 
 /* ========== NAVBAR ========== */
@@ -650,10 +842,13 @@ main {
 }
 
 @keyframes chevronDrop {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(-4px);
         opacity: 0.2;
     }
+
     50% {
         transform: translateY(4px);
         opacity: 0.8;
@@ -677,8 +872,15 @@ main {
 }
 
 @keyframes quoteFadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 0.45; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+
+    to {
+        opacity: 0.45;
+        transform: translateY(0);
+    }
 }
 
 .dark-mode #hero-quote {
@@ -729,14 +931,14 @@ main {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(2,132,199,0.25));
+    filter: drop-shadow(0 2px 12px rgba(2, 132, 199, 0.25));
 }
 
 html.dark-mode .wi-word-accent {
     background: linear-gradient(135deg, #38bdf8 0%, #67e8f9 60%, #a5b4fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(56,189,248,0.3));
+    filter: drop-shadow(0 2px 12px rgba(56, 189, 248, 0.3));
 }
 
 /* ── Divider ── */
@@ -755,17 +957,50 @@ html.dark-mode .wi-word-accent {
     border-radius: 999px;
     background: linear-gradient(90deg, transparent, #0EA5E9, #818cf8, #0EA5E9, transparent);
     background-size: 200%;
-    box-shadow: 0 0 12px rgba(14,165,233,0.4);
+    box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
     animation: wiDividerShimmer 3s linear infinite 1.5s;
 }
 
 @keyframes wiDividerShimmer {
-    0%   { background-position: 0%; }
-    100% { background-position: 200%; }
+    0% {
+        background-position: 0%;
+    }
+
+    100% {
+        background-position: 200%;
+    }
 }
 
 @media (max-width: 600px) {
-    .wi-heading { font-size: clamp(2rem, 9vw, 2.8rem); }
+    .wi-heading {
+        font-size: clamp(2rem, 9vw, 2.8rem);
+    }
+}
+
+/* ── Alternate Section ("Track Your Growth") ── */
+.wi-section-alt {
+    padding: 80px 24px 40px;
+}
+
+/* "Your" — warm gradient text */
+.wi-word-accent-alt {
+    background: linear-gradient(135deg, #f97316 0%, #f43f5e 60%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 12px rgba(249, 115, 22, 0.25));
+}
+
+html.dark-mode .wi-word-accent-alt {
+    background: linear-gradient(135deg, #fb923c 0%, #fb7185 60%, #c084fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: drop-shadow(0 2px 12px rgba(251, 146, 60, 0.3));
+}
+
+.wi-divider-line-alt {
+    background: linear-gradient(90deg, transparent, #f97316, #f43f5e, #a855f7, transparent) !important;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.4) !important;
 }
 
 
@@ -776,7 +1011,11 @@ html.dark-mode .wi-word-accent {
    =================================================== */
 
 /* Base shared styles for the new cards */
-.card-browse, .card-library, .card-essays, .card-favorites, .card-community {
+.card-browse,
+.card-library,
+.card-essays,
+.card-favorites,
+.card-community {
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -784,7 +1023,11 @@ html.dark-mode .wi-word-accent {
     z-index: 1;
 }
 
-.card-browse:hover, .card-library:hover, .card-essays:hover, .card-favorites:hover, .card-community:hover {
+.card-browse:hover,
+.card-library:hover,
+.card-essays:hover,
+.card-favorites:hover,
+.card-community:hover {
     transform: translateY(-12px) scale(1.02);
 }
 
@@ -792,10 +1035,11 @@ html.dark-mode .wi-word-accent {
 .card-browse {
     background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #4f46e5 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 20px 40px -10px rgba(59, 130, 246, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(59, 130, 246, 0.4);
 }
+
 .card-browse:hover {
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 35px 60px -15px rgba(59, 130, 246, 0.6), 0 0 0 2px rgba(255,255,255,0.2) inset;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(59, 130, 246, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
 
 /* Browse Orbs for background depth */
@@ -807,9 +1051,32 @@ html.dark-mode .wi-word-accent {
     opacity: 0.6;
     animation: wiOrbDrift1 15s ease-in-out infinite alternate;
 }
-.orb-1 { width: 300px; height: 300px; background: #38bdf8; top: -100px; left: -100px; }
-.orb-2 { width: 400px; height: 400px; background: #818cf8; bottom: -150px; right: -100px; animation-delay: -5s; }
-.orb-3 { width: 250px; height: 250px; background: #c084fc; top: 20%; left: 40%; animation-delay: -10s; }
+
+.orb-1 {
+    width: 300px;
+    height: 300px;
+    background: #38bdf8;
+    top: -100px;
+    left: -100px;
+}
+
+.orb-2 {
+    width: 400px;
+    height: 400px;
+    background: #818cf8;
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+.orb-3 {
+    width: 250px;
+    height: 250px;
+    background: #c084fc;
+    top: 20%;
+    left: 40%;
+    animation-delay: -10s;
+}
 
 /* Generic Orb for other cards */
 .card-orb {
@@ -825,45 +1092,77 @@ html.dark-mode .wi-word-accent {
 .card-library {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #4338ca 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 20px 40px -10px rgba(79, 70, 229, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(79, 70, 229, 0.4);
 }
+
 .card-library:hover {
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 35px 60px -15px rgba(79, 70, 229, 0.6), 0 0 0 2px rgba(255,255,255,0.2) inset;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(79, 70, 229, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
-.card-library .card-orb { background: #818cf8; width: 200px; height: 200px; top: -50px; left: -50px; }
+
+.card-library .card-orb {
+    background: #818cf8;
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    left: -50px;
+}
 
 /* --- 3. Essays (Deep Amber Theme) --- */
 .card-essays {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 20px 40px -10px rgba(217, 119, 6, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(217, 119, 6, 0.4);
 }
+
 .card-essays:hover {
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 35px 60px -15px rgba(217, 119, 6, 0.6), 0 0 0 2px rgba(255,255,255,0.2) inset;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(217, 119, 6, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
-.card-essays .card-orb { background: #fbbf24; width: 200px; height: 200px; bottom: -50px; right: -50px; }
+
+.card-essays .card-orb {
+    background: #fbbf24;
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    right: -50px;
+}
 
 /* --- 4. Favorites (Deep Rose Theme) --- */
 .card-favorites {
     background: linear-gradient(135deg, #f43f5e 0%, #e11d48 50%, #be123c 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 20px 40px -10px rgba(225, 29, 72, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(225, 29, 72, 0.4);
 }
+
 .card-favorites:hover {
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 35px 60px -15px rgba(225, 29, 72, 0.6), 0 0 0 2px rgba(255,255,255,0.2) inset;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(225, 29, 72, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
-.card-favorites .card-orb { background: #fb7185; width: 200px; height: 200px; top: 50%; left: -50px; }
+
+.card-favorites .card-orb {
+    background: #fb7185;
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: -50px;
+}
 
 /* --- 5. Community (Deep Emerald Theme) --- */
 .card-community {
     background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 20px 40px -10px rgba(5, 150, 105, 0.4);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(5, 150, 105, 0.4);
 }
+
 .card-community:hover {
-    box-shadow: inset 0 1px 2px rgba(255,255,255,0.5), 0 35px 60px -15px rgba(5, 150, 105, 0.6), 0 0 0 2px rgba(255,255,255,0.2) inset;
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(5, 150, 105, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
 }
-.card-community .card-orb { background: #34d399; width: 200px; height: 200px; bottom: -50px; left: 50%; }
+
+.card-community .card-orb {
+    background: #34d399;
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    left: 50%;
+}
 
 /* Ensure dark mode doesn't override these vibrant themes */
 html.dark-mode .card-browse,
@@ -872,4 +1171,276 @@ html.dark-mode .card-essays,
 html.dark-mode .card-favorites,
 html.dark-mode .card-community {
     border-color: rgba(255, 255, 255, 0.1);
-}
+}
+
+/* ════════════════════════════════════════════════
+   BENTO BOX LUXURY DASHBOARD (Analytics, Weekly, Planner, Recommended)
+════════════════════════════════════════════════ */
+
+.bento-grid {
+    grid-auto-flow: dense;
+}
+
+.bento-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+        0 20px 40px -10px rgba(0, 0, 0, 0.05),
+        inset 0 1px 3px rgba(255, 255, 255, 1),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.02);
+    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+html.dark-mode .bento-card {
+    background: rgba(20, 20, 30, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.bento-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 30px 60px -15px rgba(0, 0, 0, 0.1),
+        inset 0 1px 3px rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 1);
+}
+
+html.dark-mode .bento-card:hover {
+    box-shadow:
+        0 40px 80px -15px rgba(0, 0, 0, 0.6),
+        inset 0 1px 3px rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Background Mesh Gradients - OPTIMIZED */
+.bento-mesh-bg {
+    position: absolute;
+    inset: -30%;
+    z-index: 0;
+    opacity: 0.4;
+    /* Removed heavy filter: blur() to fix performance lag */
+    animation: bentoRotate 60s linear infinite;
+    pointer-events: none;
+    will-change: transform;
+}
+
+html.dark-mode .bento-mesh-bg {
+    opacity: 0.5;
+}
+
+@keyframes bentoRotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+
+    100% {
+        transform: rotate(180deg) scale(1.2);
+    }
+}
+
+/* Animated Shine Sweep - OPTIMIZED */
+.bento-shine {
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: skewX(-20deg);
+    animation: bentoShine 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+html.dark-mode .bento-shine {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+@keyframes bentoShine {
+    0% {
+        left: -150%;
+    }
+
+    20% {
+        left: 200%;
+    }
+
+    100% {
+        left: 200%;
+    }
+}
+
+/* Icon Badges */
+.bento-icon-glow {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 2;
+}
+
+html.dark-mode .bento-icon-glow {
+    background: rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Command Palette Input (Planner) */
+.bento-cmd-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 99px;
+    padding: 1.25rem 4rem 1.25rem 3rem;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.02),
+        0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+html.dark-mode .bento-cmd-input {
+    background: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.bento-cmd-input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 1);
+    border-color: #8b5cf6;
+    box-shadow:
+        0 0 0 4px rgba(139, 92, 246, 0.15),
+        0 15px 30px rgba(139, 92, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+html.dark-mode .bento-cmd-input:focus {
+    background: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25);
+}
+
+.bento-cmd-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: #8b5cf6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
+}
+
+.bento-cmd-btn:hover {
+    background: #7c3aed;
+    transform: scale(1.1);
+}
+
+/* Gradient Text */
+.bento-gradient-text {
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Horizontal Progress Bars */
+.bento-prog-bar-container {
+    height: 12px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 99px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+html.dark-mode .bento-prog-bar-container {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.bento-prog-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-prog-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: barShine 2s infinite linear;
+}
+
+@keyframes barShine {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Task Item */
+.bento-task-item {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 1rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+html.dark-mode .bento-task-item {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.bento-task-item:hover {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(255, 255, 255, 1);
+    transform: translateX(4px);
+}
+
+html.dark-mode .bento-task-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Recommended Item */
+.bento-rec-item {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 1.5rem;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+html.dark-mode .bento-rec-item {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.bento-rec-item:hover {
+    transform: translateX(8px);
+    background: rgba(255, 255, 255, 0.8);
+}
+
+html.dark-mode .bento-rec-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
