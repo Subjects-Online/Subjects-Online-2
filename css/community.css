@@ -1,4 +1,4 @@
-/* ===================================================
+﻿/* ===================================================
    SUBJECTS ONLINE — Community Page
    White & Sky Blue Premium Theme
    =================================================== */
@@ -189,7 +189,7 @@ html.dark-mode ::-webkit-scrollbar-thumb { background: #1e3a5f; }
 }
 
 .comm-hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: clamp(2.75rem, 6vw, 4.5rem);
     font-weight: 800;
     color: var(--c-text-1);
@@ -238,7 +238,7 @@ html.dark-mode ::-webkit-scrollbar-thumb { background: #1e3a5f; }
 }
 
 .comm-stat-num {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
     color: var(--c-sky-500);
@@ -435,7 +435,7 @@ html.dark-mode .comm-tab-badge {
     border-radius: 50%;
     background: linear-gradient(135deg, #bae6fd, #e0f2fe);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--c-sky-600);
@@ -688,7 +688,7 @@ html.dark-mode .comm-anon-switch {
     border-radius: 50%;
     background: linear-gradient(135deg, #bae6fd, #e0f2fe);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1rem; font-weight: 700;
     color: var(--c-sky-600);
     flex-shrink: 0;
@@ -838,7 +838,7 @@ html.dark-mode .comm-anon-switch {
     border-radius: 50%;
     background: linear-gradient(135deg, #bae6fd, #e0f2fe);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.25rem; font-weight: 700;
     color: var(--c-sky-600);
     overflow: hidden;
@@ -863,7 +863,7 @@ html.dark-mode .comm-anon-switch {
     display: flex; flex-direction: column; gap: 2px;
 }
 
-.comm-pstat-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--c-sky-500); }
+.comm-pstat-num { font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif; font-size: 1.4rem; font-weight: 700; color: var(--c-sky-500); }
 .comm-pstat-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-text-4); }
 .comm-pstat-divider { width: 1px; height: 30px; background: var(--c-border); }
 
@@ -971,7 +971,7 @@ html.dark-mode .comm-anon-switch {
 }
 
 .comm-vault-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 2rem; font-weight: 800;
     color: var(--c-text-1); letter-spacing: -0.03em;
 }
@@ -1397,7 +1397,7 @@ html.dark-mode .comm-anon-switch {
 .comm-modal-body { padding: 1.75rem; }
 
 .comm-modal-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.5rem; font-weight: 800;
     color: var(--c-text-1); letter-spacing: -0.02em;
     margin-bottom: 0.35rem;

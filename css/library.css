@@ -1,4 +1,4 @@
-/* ===================================================
+﻿/* ===================================================
    SUBJECTS ONLINE — Library (Luxury Theme)
    =================================================== */
 
@@ -342,7 +342,7 @@ body.lib-page::before {
 }
 
 .lib-empty-title {
-    font-family: "Playfair Display", Georgia, serif;
+    font-family: "Plus Jakarta Sans", Inter, system-ui, sans-serif;
     font-size: 1.625rem;
     font-weight: 700;
     color: var(--lib-navy);

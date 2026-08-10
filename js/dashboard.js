@@ -37,6 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ── Rotating Motivational Quote ──────────────────────────────────────────
+    const quotes = [
+        "Consistency is the bridge between goals and achievement.",
+        "Knowledge is the only asset that compounds over time.",
+        "Every page you study is a step ahead of yesterday.",
+        "Discipline is choosing what you want most over what you want now.",
+        "The secret of getting ahead is getting started.",
+        "Success is the sum of small efforts, repeated day in and day out.",
+        "You don't rise to the level of your goals — you fall to the level of your systems.",
+        "One hour of focused study beats three hours of distraction."
+    ];
+    const quoteEl = document.getElementById('hero-quote');
+    if (quoteEl) {
+        let quoteIndex = Math.floor(Math.random() * quotes.length);
+        quoteEl.textContent = `"${quotes[quoteIndex]}"`;
+
+        setInterval(() => {
+            quoteEl.style.opacity = '0';
+            quoteEl.style.transform = 'translateY(6px)';
+            setTimeout(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteEl.textContent = `"${quotes[quoteIndex]}"`;
+                quoteEl.style.opacity = '0.45';
+                quoteEl.style.transform = 'translateY(0)';
+            }, 600);
+        }, 6000);
+    }
+
     initAnimations();
     loadStats(userDept);
     loadPlanner();
@@ -317,93 +345,131 @@ function loadStats(deptText) {
 }
 
 function initAnimations() {
-    const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
-
-    // 1. Luxury Hero Animations
-    tl.fromTo(".hero-container",
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1.5, ease: "power3.out" },
-        0
-    );
-
-    tl.fromTo(".hero-avatar",
-        { scale: 0.8, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.5, ease: "power4.out" },
-        0.3
-    );
-
-    tl.fromTo(".hero-title > *",
-        { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "power3.out" },
-        0.5
-    );
-
-    tl.fromTo(".scroll-indicator",
-        { opacity: 0, y: 10 },
-        { opacity: 0.4, y: 0, duration: 1.5, ease: "power2.out" },
-        1
-    );
-
-    // 2. Luxury Cards Stagger
-    tl.fromTo(".section-cards > a, .section-cards > div > a",
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power2.out" },
-        0.8
-    );
-
-    // Stats section & Planner section
-    tl.fromTo('.stats-section',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1 },
-        1.2
-    );
-
-    // New Sections
-    tl.fromTo('.new-sections',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1 },
-        1.4
-    );
-
-    // Feature 19: Parallax Effect on Hero using GSAP ScrollTrigger
+    // Register ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
         gsap.registerPlugin(ScrollTrigger);
+    }
 
+    // ── 1. HERO entrance (no scroll trigger — plays on load) ──────────────────
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+
+    heroTl
+        .fromTo('.hero-container',
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.4 }, 0)
+        .fromTo('.hero-avatar',
+            { scale: 0.75, opacity: 0 },
+            { scale: 1, opacity: 1, duration: 1.5, ease: 'elastic.out(1, 0.6)' }, 0.2)
+        .fromTo('.hero-title > *',
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1, stagger: 0.12 }, 0.4)
+        .fromTo('.scroll-indicator',
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 1.2 }, 1);
+
+    // ── 2. WHAT'S INSIDE section — scroll-triggered ──────────────────────────────
+    if (typeof ScrollTrigger !== 'undefined') {
+
+        // Words stagger up one by one
+        gsap.to('.wi-word', {
+            opacity: 1, y: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            stagger: 0.12,
+            scrollTrigger: { trigger: '#wi-section', start: 'top 75%' },
+            delay: 0.1
+        });
+
+        // Divider reveals and grows
+        gsap.to('#wi-divider', {
+            opacity: 1, duration: 0.5,
+            scrollTrigger: { trigger: '#wi-section', start: 'top 70%' },
+            delay: 0.4,
+            onComplete: () => {
+                const line = document.querySelector('.wi-divider-line');
+                if (line) gsap.to(line, { width: '300px', duration: 1, ease: 'power3.out' });
+            }
+        });
+
+        // ── 3. CARDS — each card animates in on scroll ──────────────────────
+        gsap.fromTo('.section-cards > a, .section-cards > div',
+            { y: 60, opacity: 0, scale: 0.96 },
+            {
+                y: 0, opacity: 1, scale: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                stagger: 0.12,
+                scrollTrigger: {
+                    trigger: '.section-cards',
+                    start: 'top 85%',
+                    toggleActions: 'play none none none'
+                }
+            }
+        );
+
+        // ── 4. STATS & PLANNER section ───────────────────────────────────────
+        gsap.fromTo('.stats-section > div',
+            { y: 50, opacity: 0 },
+            {
+                y: 0, opacity: 1,
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.stats-section',
+                    start: 'top 82%'
+                }
+            }
+        );
+
+        // ── 5. WEEKLY + RECOMMENDED ──────────────────────────────────────────
+        gsap.fromTo('.new-sections > div',
+            { y: 50, opacity: 0 },
+            {
+                y: 0, opacity: 1,
+                duration: 0.9,
+                ease: 'power3.out',
+                stagger: 0.15,
+                scrollTrigger: {
+                    trigger: '.new-sections',
+                    start: 'top 82%'
+                }
+            }
+        );
+
+        // ── 6. HERO PARALLAX on scroll ───────────────────────────────────────
         gsap.to('.hero-avatar', {
-            y: 80,
-            ease: "none",
+            y: 100,
+            ease: 'none',
             scrollTrigger: {
-                trigger: ".hero-container",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
+                trigger: '.hero-container',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1.5
             }
         });
 
         gsap.to('.hero-title', {
-            y: 120,
+            y: 130,
             opacity: 0,
-            ease: "none",
+            ease: 'none',
             scrollTrigger: {
-                trigger: ".hero-container",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
+                trigger: '.hero-container',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
             }
         });
 
-        gsap.to('.dept-badge', {
-            y: 60,
-            ease: "none",
-            scrollTrigger: {
-                trigger: ".hero-container",
-                start: "top top",
-                end: "bottom top",
-                scrub: true
-            }
-        });
+    } else {
+        // Fallback: show everything immediately if GSAP isn't ready
+        gsap.set(['.wi-word', '#wi-divider',
+                   '.section-cards > a', '.stats-section', '.new-sections'],
+            { opacity: 1, y: 0, scale: 1 }
+        );
     }
 }
+
 
 /* ===== STUDY PLANNER LOGIC ===== */
 function loadPlanner() {

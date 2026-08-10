@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    sections.css — Sections Page Styles (Parts + Cards)
    ========================================================= */
 
@@ -98,7 +98,7 @@
 }
 
 .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     color: white;
@@ -140,7 +140,7 @@
 }
 
 .section-part-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 2rem;
     font-weight: 700;
     color: #1e293b;
@@ -245,7 +245,7 @@
     font-weight: 700;
     color: #0f172a;
     margin-bottom: 0.2rem;
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
 }
 
 .dark-mode .section-title {

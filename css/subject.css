@@ -1,4 +1,4 @@
-/* =========================================================
+﻿/* =========================================================
    subject.css — Spotify Album Cover Edition
    ========================================================= */
 
@@ -182,7 +182,7 @@
 }
 
 .subj-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: clamp(2.4rem, 5vw, 3.6rem);
     font-weight: 800;
     color: #0C1A2E;
@@ -220,7 +220,7 @@
 }
 
 .subj-stat-num {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.6rem;
     font-weight: 800;
     color: #0EA5E9;
@@ -430,7 +430,7 @@
 }
 
 .sp-title {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: clamp(2rem, 3.5vw, 2.6rem);
     font-weight: 800;
     color: #0C1A2E;
