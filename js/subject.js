@@ -133,12 +133,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Tab Switching ─────────────────────────────────────
     let currentTab = STUDY[0].id;
+    let isAnimating = false;
 
-    tabNav.addEventListener('click', e => {
-        const btn = e.target.closest('.tab-pill');
-        if (!btn) return;
-        const tabId = btn.dataset.tab;
-        if (tabId === currentTab) return;
+    const tabPills = tabNav.querySelectorAll('.tab-pill');
+    tabPills.forEach(btn => {
+        btn.addEventListener('click', e => {
+            if (isAnimating) return;
+            const tabId = btn.dataset.tab;
+            if (tabId === currentTab) return;
+
+            isAnimating = true;
 
         // Update buttons
         tabNav.querySelectorAll('.tab-pill').forEach(b => {
@@ -163,11 +167,12 @@ document.addEventListener('DOMContentLoaded', () => {
             next.classList.add('sp-active');
             gsap.fromTo(next, 
                 { opacity: 0, x: 16 },
-                { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out' }
+                { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out', onComplete: () => { isAnimating = false; } }
             );
 
             currentTab = tabId;
         }});
+    });
     });
 
     // ── Entrance Animations ───────────────────────────────

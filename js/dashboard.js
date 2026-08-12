@@ -293,25 +293,31 @@ function initAnimations() {
     if (typeof ScrollTrigger !== 'undefined') {
 
         // Words stagger up one by one
-        gsap.to('.wi-word', {
-            opacity: 1, y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            stagger: 0.12,
-            scrollTrigger: { trigger: '#wi-section', start: 'top 75%' },
-            delay: 0.1
-        });
+        gsap.fromTo('.wi-word', 
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.7,
+                ease: 'power3.out',
+                stagger: 0.12,
+                scrollTrigger: { trigger: '#wi-section', start: 'top 75%' },
+                delay: 0.1
+            }
+        );
 
         // Divider reveals and grows
-        gsap.to('#wi-divider', {
-            opacity: 1, duration: 0.5,
-            scrollTrigger: { trigger: '#wi-section', start: 'top 70%' },
-            delay: 0.4,
-            onComplete: () => {
-                const line = document.querySelector('.wi-divider-line');
-                if (line) gsap.to(line, { width: '300px', duration: 1, ease: 'power3.out' });
+        gsap.fromTo('#wi-divider', 
+            { opacity: 0 },
+            {
+                opacity: 1, duration: 0.5,
+                scrollTrigger: { trigger: '#wi-section', start: 'top 70%' },
+                delay: 0.4,
+                onComplete: () => {
+                    const line = document.querySelector('.wi-divider-line');
+                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
+                }
             }
-        });
+        );
 
         // ── 3. CARDS — each card animates in on scroll ──────────────────────
         gsap.fromTo('.section-cards > a, .section-cards > div',
@@ -330,24 +336,30 @@ function initAnimations() {
         );
 
         // ── 3.5 TRACK YOUR GROWTH section — scroll-triggered ─────────────────
-        gsap.to('#tyg-section .wi-word', {
-            opacity: 1, y: 0,
-            duration: 0.7,
-            ease: 'power3.out',
-            stagger: 0.12,
-            scrollTrigger: { trigger: '#tyg-section', start: 'top 75%' },
-            delay: 0.1
-        });
-
-        gsap.to('#tyg-divider', {
-            opacity: 1, duration: 0.5,
-            scrollTrigger: { trigger: '#tyg-section', start: 'top 70%' },
-            delay: 0.4,
-            onComplete: () => {
-                const line = document.querySelector('#tyg-divider .wi-divider-line-alt');
-                if (line) gsap.to(line, { width: '300px', duration: 1, ease: 'power3.out' });
+        gsap.fromTo('#tyg-section .wi-word', 
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0,
+                duration: 0.7,
+                ease: 'power3.out',
+                stagger: 0.12,
+                scrollTrigger: { trigger: '#tyg-section', start: 'top 75%' },
+                delay: 0.1
             }
-        });
+        );
+
+        gsap.fromTo('#tyg-divider', 
+            { opacity: 0 },
+            {
+                opacity: 1, duration: 0.5,
+                scrollTrigger: { trigger: '#tyg-section', start: 'top 70%' },
+                delay: 0.4,
+                onComplete: () => {
+                    const line = document.querySelector('#tyg-divider .wi-divider-line-alt');
+                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
+                }
+            }
+        );
 
         // ── 4. BENTO BOX CARDS ───────────────────────────────────────────────
         gsap.fromTo('.bento-card',

@@ -921,8 +921,6 @@ html.dark-mode .dash-stat-divider {
 
 .wi-word {
     display: inline-block;
-    opacity: 0;
-    transform: translateY(30px);
 }
 
 /* "Inside" — vivid gradient text */
@@ -948,7 +946,6 @@ html.dark-mode .wi-word-accent {
     display: flex;
     justify-content: center;
     margin: 32px 0 28px;
-    opacity: 0;
 }
 
 .wi-divider-line {
