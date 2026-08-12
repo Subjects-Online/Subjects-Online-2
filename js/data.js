@@ -4,15 +4,17 @@
 
 const MATERIALS = {
     accounting: [
-        { 
+        {
             id: 'a1', title: 'Financial Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Basics of financial statements, ledgers and balance sheets.',
             content: {
                 chapters: [
                     {
                         num: 1, title: "Introduction to Financial Accounting", time: "2h 30m",
                         lectures: [
-                            { id: 101, title: "Lec 1: Accounting Principles", type: "video", url: "materials/dummy.mp4" },
-                            { id: 102, title: "Lec 2: The Accounting Equation", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 101, title: "Lec 1: Accounting Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
+                            { id: 102, title: "Lec 2: The Accounting Equation", type: "pdf", url: "materials/dummy.pdf" },
+                            { id: 103, title: "Lec 3: Accounting Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
+
                         ]
                     },
                     {
@@ -221,10 +223,10 @@ function materialCardHTML(item, isFav, isPinned = false) {
 
     return `
     <a href="subject.html?id=${item.id}" class="material-card group" style="text-decoration: none; position: relative; overflow: hidden; background: linear-gradient(135deg, ${item.color}60, #ffffff 80%); border: 1px solid ${item.accent}20; border-radius: 2rem; padding: 1.75rem; display: flex; flex-direction: column; min-height: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-        
+
         <!-- Background Blur Glow -->
         <div style="position: absolute; top: -20%; right: -10%; width: 180px; height: 180px; background: ${item.accent}; opacity: 0.12; filter: blur(40px); border-radius: 50%; pointer-events: none;"></div>
-        
+
         <!-- HUGE Emoji Icon on the Right -->
         <div style="position: absolute; right: -15px; bottom: -20px; font-size: 8rem; line-height: 1; opacity: 0.15; transform: rotate(-15deg); filter: drop-shadow(0 20px 20px rgba(0,0,0,0.1)); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);" class="group-hover:scale-110 group-hover:-translate-y-4 group-hover:-translate-x-2 group-hover:opacity-30 group-hover:rotate-0">
             ${item.icon}
@@ -232,7 +234,7 @@ function materialCardHTML(item, isFav, isPinned = false) {
 
         <!-- Top Row: Chapters Tag & Actions -->
         <div style="position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: auto; width: 100%;">
-            
+
             <!-- Small Clean Icon -->
             <div style="width: 44px; height: 44px; border-radius: 1rem; background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid ${item.accent}30; box-shadow: 0 8px 20px ${item.accent}15; transition: transform 0.3s;" class="group-hover:scale-110">
                 ${item.icon}
@@ -243,7 +245,7 @@ function materialCardHTML(item, isFav, isPinned = false) {
                 <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; color: ${item.accent}; border: 1px solid ${item.accent}20; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
                     ${progress}% <span style="opacity:0.6; font-weight:500;">done</span>
                 </div>
-                
+
                 <div style="display:flex; gap:6px;">
                     <!-- Pin Button -->
                     <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
@@ -252,7 +254,7 @@ function materialCardHTML(item, isFav, isPinned = false) {
                             <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
                         </svg>
                     </button>
-                    
+
                     <!-- Fav Button -->
                     <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
                         style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); border: 1px solid ${item.accent}20; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s;" onmouseover="this.style.background='rgba(251,191,36,0.1)'; this.style.color='#F59E0B'" onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255,255,255,0.8)'; this.style.color='#94a3b8'; }">
@@ -289,17 +291,17 @@ function essayCardHTML(e, isFav) {
     <div class="essay-card group">
         <div class="card-accent" style="background: linear-gradient(90deg, ${e.tagText}, ${e.tagColor});"></div>
         <div class="card-glow" style="background: radial-gradient(circle, ${e.tagColor} 0%, transparent 70%);"></div>
-        
+
         <div class="card-inner">
             <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${e.id}" title="Save to Favorites">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
             </button>
-            
+
             <div class="tag" style="background: ${e.tagColor}30; color: ${e.tagText}; border-color: ${e.tagColor};">${e.tag}</div>
-            
+
             <h3 class="card-title pr-8">${e.title}</h3>
             <p class="card-desc mb-6">${e.desc}</p>
-            
+
             <div class="essay-meta">
                 <div>
                     <p class="meta-author">${e.doctor}</p>
