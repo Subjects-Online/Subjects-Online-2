@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,6 +27,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/mobile-perf.css">
     <!-- PWA -->
     <link rel="manifest" href="manifest.json">
@@ -96,21 +97,9 @@
             50% { opacity: 0.5; transform: scale(1.3); }
         }
 
+        /* We will reuse wi-heading from dashboard.css, removing inline browse-title overrides that clash */
         .browse-title {
-            font-family: 'Plus Jakarta Sans', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 800;
-            color: #0C1A2E;
-            letter-spacing: -0.03em;
-            line-height: 1.08;
-            margin-bottom: 1rem;
-        }
-
-        .browse-title span {
-            background: linear-gradient(135deg, #0EA5E9, #38BDF8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 2rem; /* Adjusted for the new heading */
         }
 
         .browse-subtitle {
@@ -348,7 +337,15 @@
             <div class="hero-badge-dot"></div>
             Course Materials
         </div>
-        <h1 class="browse-title">Browse <span>Material</span></h1>
+        <div class="wi-section" style="padding-top: 0; padding-bottom: 0;">
+            <h1 class="wi-heading" style="margin-bottom: 1rem;">
+                <span class="wi-word">Browse</span>
+                <span class="wi-word wi-word-accent">Material</span>
+            </h1>
+            <div class="wi-divider" style="margin-bottom: 2rem;">
+                <div class="wi-divider-line"></div>
+            </div>
+        </div>
         <p class="browse-subtitle" id="browse-subtitle">Loading your department's modules…</p>
 
         <!-- Search -->
