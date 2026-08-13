@@ -324,7 +324,7 @@ function initAnimations() {
                 delay: 0.4,
                 onComplete: () => {
                     const line = document.querySelector('.wi-divider-line');
-                    if (line) gsap.from(line, { width: '0%', duration: 1, ease: 'power3.out' });
+                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
                 }
             }
         );
@@ -366,7 +366,7 @@ function initAnimations() {
                 delay: 0.4,
                 onComplete: () => {
                     const line = document.querySelector('#tyg-divider .wi-divider-line-alt');
-                    if (line) gsap.from(line, { width: '0%', duration: 1, ease: 'power3.out' });
+                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
                 }
             }
         );
