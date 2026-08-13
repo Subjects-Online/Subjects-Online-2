@@ -99,20 +99,69 @@
                 class="relative group mb-12 cursor-pointer flex flex-col items-center justify-center z-10 hero-avatar"
                 style="text-decoration:none;">
 
+                <!-- Radial Light Beams -->
+                <div class="hero-beams" id="hero-beams" aria-hidden="true">
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                    <div class="hero-beam"></div>
+                </div>
+
+                <!-- Floating Particles Container -->
+                <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+
                 <!-- Breathing Aura (Indigo) -->
                 <div
-                    class="absolute w-44 h-44 bg-brand-accent rounded-full blur-[50px] opacity-15 animate-[pulse_4s_ease-in-out_infinite] pointer-events-none">
+                    class="absolute w-56 h-56 bg-brand-accent rounded-full blur-[70px] opacity-15 animate-[pulse_4s_ease-in-out_infinite] pointer-events-none">
                 </div>
                 <!-- Expanding Sonar Ring -->
                 <div
-                    class="absolute w-32 h-32 border border-brand-accent/30 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 pointer-events-none">
+                    class="absolute w-44 h-44 border border-brand-accent/30 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 pointer-events-none">
                 </div>
+
+                <!-- Laser Split SVG Ring -->
+                <svg class="hero-avatar-svg-ring" id="hero-avatar-svg-ring" viewBox="0 0 200 200" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="ringGradLeft" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#38BDF8" />
+                            <stop offset="50%" stop-color="#0EA5E9" />
+                            <stop offset="100%" stop-color="#6366F1" />
+                        </linearGradient>
+                        <linearGradient id="ringGradRight" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#38BDF8" />
+                            <stop offset="50%" stop-color="#0EA5E9" />
+                            <stop offset="100%" stop-color="#6366F1" />
+                        </linearGradient>
+                        <filter id="ringGlowFilter">
+                            <feGaussianBlur stdDeviation="3" result="blur" />
+                            <feMerge>
+                                <feMergeNode in="blur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Left Arc (opens from top dot down to bottom) -->
+                    <path id="ring-arc-left" class="ring-arc-path" d="M 100 6 A 94 94 0 0 0 100 194" fill="none" stroke="url(#ringGradLeft)" stroke-width="4" stroke-linecap="round" filter="url(#ringGlowFilter)" />
+                    <!-- Right Arc (opens from top dot down to bottom) -->
+                    <path id="ring-arc-right" class="ring-arc-path" d="M 100 6 A 94 94 0 0 1 100 194" fill="none" stroke="url(#ringGradRight)" stroke-width="4" stroke-linecap="round" filter="url(#ringGlowFilter)" />
+
+                    <!-- Top Origin Dot -->
+                    <circle id="ring-origin-dot" cx="100" cy="6" r="5" fill="#38BDF8" filter="url(#ringGlowFilter)" />
+                    <!-- Bottom Snap Dot -->
+                    <circle id="ring-snap-dot" cx="100" cy="194" r="7" fill="#38BDF8" opacity="0" filter="url(#ringGlowFilter)" />
+                </svg>
 
                 <!-- Avatar Inner -->
                 <div
-                    class="relative w-32 h-32 rounded-full bg-brand-cardBg border border-brand-cardBorder flex items-center justify-center overflow-hidden shadow-[0_0_40px_rgba(99,102,241,0.12)] z-10 transition-transform duration-1000 group-hover:scale-105 group-hover:shadow-[0_0_50px_rgba(99,102,241,0.35)]">
+                    class="relative w-44 h-44 rounded-full bg-brand-cardBg flex items-center justify-center overflow-hidden z-10 transition-transform duration-1000 group-hover:scale-105 hero-avatar-img-wrap"
+                    id="hero-avatar-wrap">
                     <div id="hero-avatar"
-                        class="w-full h-full flex items-center justify-center text-brand-accent font-heading font-light text-5xl bg-cover bg-center">
+                        class="w-full h-full flex items-center justify-center text-brand-accent font-heading font-light text-6xl bg-cover bg-center">
                         S
                     </div>
                 </div>
@@ -124,10 +173,24 @@
                     class="text-brand-textSecondary text-[9px] tracking-[0.5em] uppercase font-light mb-6 opacity-60">
                     Initializing</p>
 
-                <h1 id="display-name"
-                    class="font-heading text-4xl sm:text-5xl lg:text-6xl text-brand-textPrimary font-medium tracking-wider mb-10 leading-tight">
-                    Student
-                </h1>
+                <div class="relative flex flex-col items-center justify-center w-full">
+                    <!-- Name Ambient Glow Backdrop -->
+                    <div class="name-ambient-aura" id="name-ambient-aura" aria-hidden="true"></div>
+
+                    <h1 id="display-name"
+                        class="font-heading text-4xl sm:text-5xl lg:text-6xl text-brand-textPrimary font-medium tracking-wider mb-3 leading-tight hero-name-typed relative z-10">
+                        <span id="display-name-text"></span><span class="hero-cursor" aria-hidden="true">|</span>
+                    </h1>
+
+                    <!-- Laser Underline Beam -->
+                    <div class="hero-laser-wrap mb-8" id="hero-laser-wrap" aria-hidden="true">
+                        <div class="hero-laser-line" id="hero-laser-line">
+                            <div class="hero-laser-sweep"></div>
+                            <div class="hero-laser-dot laser-dot-left"></div>
+                            <div class="hero-laser-dot laser-dot-right"></div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="flex items-center gap-6 opacity-70">
                     <span id="hero-level-badge"

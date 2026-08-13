@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Top hero info
     const displayDept = document.getElementById('display-dept');
-    const displayName = document.getElementById('display-name');
     const heroAvatar = document.getElementById('hero-avatar');
 
     // Feature 1: Time-based Greeting
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (displayDept) displayDept.textContent = userDept;
-    if (displayName) displayName.textContent = userName;
     if (heroAvatar) {
         if (avatarImg) {
             heroAvatar.style.backgroundImage = `url(${avatarImg})`;
@@ -36,6 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
             heroAvatar.textContent = userName[0].toUpperCase();
         }
     }
+
+    // GSAP Stroke Drawing animation for name
+    const nameTextEl = document.getElementById('display-name-text');
+    const cursorEl   = document.querySelector('.hero-cursor');
+    if (cursorEl) cursorEl.style.display = 'none';
+    if (nameTextEl) {
+        setTimeout(() => gsapDrawName(nameTextEl, userName), 400);
+    }
+
+    // Spawn floating particles
+    spawnHeroParticles();
 
     // ── Rotating Motivational Quote ──────────────────────────────────────────
     const quotes = [
@@ -66,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initAnimations();
+    initHologramAvatarSequence();
     loadStats(userDept);
     loadPlanner();
 });
@@ -293,7 +303,7 @@ function initAnimations() {
     if (typeof ScrollTrigger !== 'undefined') {
 
         // Words stagger up one by one
-        gsap.fromTo('.wi-word', 
+        gsap.fromTo('.wi-word',
             { opacity: 0, y: 30 },
             {
                 opacity: 1, y: 0,
@@ -306,7 +316,7 @@ function initAnimations() {
         );
 
         // Divider reveals and grows
-        gsap.fromTo('#wi-divider', 
+        gsap.fromTo('#wi-divider',
             { opacity: 0 },
             {
                 opacity: 1, duration: 0.5,
@@ -336,7 +346,7 @@ function initAnimations() {
         );
 
         // ── 3.5 TRACK YOUR GROWTH section — scroll-triggered ─────────────────
-        gsap.fromTo('#tyg-section .wi-word', 
+        gsap.fromTo('#tyg-section .wi-word',
             { opacity: 0, y: 30 },
             {
                 opacity: 1, y: 0,
@@ -348,7 +358,7 @@ function initAnimations() {
             }
         );
 
-        gsap.fromTo('#tyg-divider', 
+        gsap.fromTo('#tyg-divider',
             { opacity: 0 },
             {
                 opacity: 1, duration: 0.5,
@@ -411,6 +421,199 @@ function initAnimations() {
 
 
 /* ===== STUDY PLANNER LOGIC ===== */
+/* ── GSAP Stroke Drawing Name Animation ───────────────────── */
+function gsapDrawName(el, text) {
+    if (!el) return;
+    el.innerHTML = ''; // Clear container
+
+    const svgNS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttribute("class", "gsap-name-svg");
+
+    const defs = document.createElementNS(svgNS, "defs");
+    defs.innerHTML = `
+        <linearGradient id="nameFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop id="nStop1" offset="0%" stop-color="#38BDF8" />
+            <stop id="nStop2" offset="50%" stop-color="#0284C7" />
+            <stop id="nStop3" offset="100%" stop-color="#6366F1" />
+        </linearGradient>
+        <linearGradient id="nameStrokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#38BDF8" />
+            <stop offset="50%" stop-color="#60A5FA" />
+            <stop offset="100%" stop-color="#A78BFA" />
+        </linearGradient>
+    `;
+    svg.appendChild(defs);
+
+    const textEl = document.createElementNS(svgNS, "text");
+    textEl.setAttribute("x", "5");
+    textEl.setAttribute("y", "55");
+    textEl.setAttribute("font-family", "'Plus Jakarta Sans', 'Inter', system-ui, sans-serif");
+    textEl.setAttribute("font-size", "52");
+    textEl.setAttribute("font-weight", "800");
+    textEl.setAttribute("letter-spacing", "0.02em");
+    textEl.setAttribute("fill", "transparent");
+    textEl.setAttribute("stroke", "url(#nameStrokeGrad)");
+    textEl.setAttribute("stroke-width", "2");
+    textEl.setAttribute("stroke-linecap", "round");
+    textEl.setAttribute("stroke-linejoin", "round");
+
+    const letters = text.split('');
+    const tspanElements = [];
+
+    letters.forEach((ch) => {
+        const tspan = document.createElementNS(svgNS, "tspan");
+        tspan.setAttribute("class", "gsap-stroke-letter");
+        tspan.textContent = ch === ' ' ? '\u00A0' : ch;
+        textEl.appendChild(tspan);
+        tspanElements.push(tspan);
+    });
+
+    svg.appendChild(textEl);
+    el.appendChild(svg);
+
+    // Exact bounding box measurement for flawless SVG viewBox scaling
+    requestAnimationFrame(() => {
+        try {
+            const bbox = textEl.getBBox();
+            if (bbox && bbox.width > 0) {
+                svg.setAttribute("viewBox", `${bbox.x - 8} ${bbox.y - 8} ${bbox.width + 16} ${bbox.height + 16}`);
+            } else {
+                svg.setAttribute("viewBox", `0 0 ${text.length * 36 + 20} 75`);
+            }
+        } catch (e) {
+            svg.setAttribute("viewBox", `0 0 ${text.length * 36 + 20} 75`);
+        }
+    });
+
+    // Set stroke dash offset on each letter element
+    tspanElements.forEach(tspan => {
+        const length = 400;
+        tspan.style.strokeDasharray = length;
+        tspan.style.strokeDashoffset = length;
+    });
+
+    // GSAP Timeline animation (Slow, cinematic stroke drawing)
+    if (typeof gsap !== 'undefined') {
+        const tl = gsap.timeline({ delay: 0.2 });
+
+        // Step 1: Draw stroke outline of each letter slowly
+        tl.to(tspanElements, {
+            strokeDashoffset: 0,
+            duration: 1.5,
+            ease: "power2.inOut",
+            stagger: 0.35
+        });
+
+        // Step 2: Smoothly fill text with glowing cyan/indigo luxury gradient
+        tl.to(tspanElements, {
+            fill: "url(#nameFillGrad)",
+            stroke: "rgba(56, 189, 248, 0.4)",
+            strokeWidth: 0.8,
+            duration: 1.3,
+            ease: "power2.out",
+            stagger: 0.12
+        }, "-=0.7");
+
+        // Step 3: Rich aura glow effect around the name & trigger continuous color morph
+        tl.to(svg, {
+            filter: "drop-shadow(0 8px 30px rgba(14, 165, 233, 0.45))",
+            duration: 1.2,
+            ease: "power1.out",
+            onComplete: () => {
+                const laserLine = document.getElementById('hero-laser-line');
+                if (laserLine) laserLine.classList.add('laser-active');
+                startContinuousColorShift();
+            }
+        });
+    }
+}
+
+/* ── Continuous GSAP Color Shift (Fluid Cyan -> Ocean Blue -> Deep Indigo) ── */
+function startContinuousColorShift() {
+    if (typeof gsap === 'undefined') return;
+
+    const colorPairs = [
+        { s1: "#38BDF8", s2: "#0284C7", s3: "#6366F1" }, // Sky -> Deep Blue -> Indigo
+        { s1: "#0EA5E9", s2: "#2563EB", s3: "#4F46E5" }, // Electric Blue -> Royal Blue -> Deep Indigo
+        { s1: "#06B6D4", s2: "#0284C7", s3: "#8B5CF6" }, // Cyan -> Ocean Blue -> Purple Accent
+        { s1: "#60A5FA", s2: "#0369A1", s3: "#A855F7" }, // Ice Blue -> Dark Sky -> Violet
+        { s1: "#38BDF8", s2: "#0284C7", s3: "#6366F1" }  // Loop back
+    ];
+
+    let step = 0;
+    function cycle() {
+        step = (step + 1) % colorPairs.length;
+        const target = colorPairs[step];
+
+        gsap.to("#nStop1", { stopColor: target.s1, duration: 3.5, ease: "sine.inOut" });
+        gsap.to("#nStop2", { stopColor: target.s2, duration: 4.0, ease: "sine.inOut" });
+        gsap.to("#nStop3", { stopColor: target.s3, duration: 3.8, ease: "sine.inOut", onComplete: cycle });
+    }
+
+    cycle();
+}
+
+/* ── Laser Split Ring Avatar Reveal ────────────────────── */
+function initHologramAvatarSequence() {
+    if (typeof gsap === 'undefined') return;
+
+    const arcLeft = document.getElementById('ring-arc-left');
+    const arcRight = document.getElementById('ring-arc-right');
+    const originDot = document.getElementById('ring-origin-dot');
+    const snapDot = document.getElementById('ring-snap-dot');
+    const avatarWrap = document.getElementById('hero-avatar-wrap');
+
+    if (!arcLeft || !arcRight) return;
+
+    const arcLength = 298; // SVG arc length for r=94
+
+    // Prepare initial hidden states
+    arcLeft.style.strokeDasharray = arcLength;
+    arcLeft.style.strokeDashoffset = arcLength;
+    arcRight.style.strokeDasharray = arcLength;
+    arcRight.style.strokeDashoffset = arcLength;
+
+    if (avatarWrap) {
+        gsap.set(avatarWrap, { opacity: 0, scale: 0.85 });
+    }
+
+    const ringTl = gsap.timeline({ delay: 0.3 });
+
+    // Step 1: Origin top dot pulse
+    ringTl.fromTo(originDot, 
+        { scale: 0, opacity: 0 }, 
+        { scale: 1.5, opacity: 1, duration: 0.4, ease: "back.out(2)" }
+    );
+
+    // Step 2: Both arcs split & open downwards from top dot down to bottom
+    ringTl.to([arcLeft, arcRight], {
+        strokeDashoffset: 0,
+        duration: 1.3,
+        ease: "power2.inOut"
+    }, "+=0.1");
+
+    // Step 3: Snap shut at bottom dot with bright flash & clean avatar reveal
+    ringTl.to(snapDot, {
+        opacity: 1,
+        scale: 2.2,
+        duration: 0.15,
+        ease: "power4.out",
+        onComplete: () => {
+            gsap.to(snapDot, { scale: 1, opacity: 0.8, duration: 0.4 });
+            // Clean & Elegant Avatar Reveal
+            if (avatarWrap) {
+                gsap.to(avatarWrap, {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.7,
+                    ease: "back.out(1.5)"
+                });
+            }
+        }
+    });
+}
+
 function loadPlanner() {
     const plannerForm = document.getElementById('planner-form');
     const plannerInput = document.getElementById('planner-input');
@@ -470,3 +673,61 @@ function loadPlanner() {
     renderTasks();
 }
 
+/* ── Typing Animation ─────────────────────────────── */
+function typeWriter(el, cursorEl, text, speed, onDone) {
+    el.textContent = '';
+    let i = 0;
+    const delay = 600; // wait a bit before starting (hero entrance)
+    setTimeout(() => {
+        const interval = setInterval(() => {
+            el.textContent += text[i];
+            i++;
+            if (i >= text.length) {
+                clearInterval(interval);
+                if (typeof onDone === 'function') onDone();
+            }
+        }, speed);
+    }, delay);
+}
+
+/* ── Floating Particles ───────────────────────────── */
+function spawnHeroParticles() {
+    const container = document.getElementById('hero-particles');
+    if (!container) return;
+
+    const colors = ['#0EA5E9', '#6366f1', '#a855f7', '#06b6d4', '#38bdf8'];
+    const count = 18;
+
+    for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'hero-particle';
+
+        const size = Math.random() * 5 + 2;       // 2–7 px
+        const angle = Math.random() * 360;          // any direction
+        const dist = 120 + Math.random() * 100;    // distance from center
+        const tx = Math.cos(angle * Math.PI / 180) * dist;
+        const ty = Math.sin(angle * Math.PI / 180) * dist;
+        const dur = 3 + Math.random() * 4;        // 3–7s
+        const delay = Math.random() * dur;           // staggered start
+        const color = colors[Math.floor(Math.random() * colors.length)];
+
+        // Start position: near center (200x200 container, center = 200,200)
+        const startX = 185 + Math.random() * 30;
+        const startY = 185 + Math.random() * 30;
+
+        Object.assign(p.style, {
+            width: `${size}px`,
+            height: `${size}px`,
+            background: color,
+            boxShadow: `0 0 ${size * 2}px ${color}`,
+            left: `${startX}px`,
+            top: `${startY}px`,
+            '--tx': `${tx}px`,
+            '--ty': `${ty}px`,
+            animationDuration: `${dur}s`,
+            animationDelay: `${delay}s`,
+        });
+
+        container.appendChild(p);
+    }
+}

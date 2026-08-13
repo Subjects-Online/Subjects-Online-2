@@ -595,6 +595,123 @@ html.dark-mode .dash-stat-divider {
     gap: 0.8rem;
 }
 
+/* ── GSAP Stroke Drawing SVG Name ─────────────────── */
+.gsap-name-svg {
+    height: 1.3em;
+    width: auto;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: visible !important;
+    filter: drop-shadow(0 2px 10px rgba(14, 165, 233, 0.15));
+    transition: filter 0.8s ease;
+}
+
+.gsap-stroke-letter {
+    will-change: stroke-dashoffset, fill, stroke;
+}
+
+/* ── Name Ambient Aura & Sparkles ─────────────────── */
+.name-ambient-aura {
+    position: absolute;
+    width: 120%;
+    height: 180%;
+    top: -40%;
+    left: -10%;
+    border-radius: 999px;
+    background: radial-gradient(ellipse at center, rgba(14, 165, 233, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 70%);
+    filter: blur(25px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transform: scale(0.85);
+    animation: nameAuraPulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes nameAuraPulse {
+    0% {
+        opacity: 0.35;
+        transform: scale(0.9) rotate(0deg);
+        filter: blur(22px);
+    }
+    50% {
+        opacity: 0.75;
+        transform: scale(1.1) rotate(2deg);
+        filter: blur(30px);
+    }
+    100% {
+        opacity: 0.45;
+        transform: scale(0.95) rotate(-2deg);
+        filter: blur(24px);
+    }
+}
+
+html.dark-mode .name-ambient-aura {
+    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.35) 0%, rgba(129, 140, 248, 0.2) 50%, transparent 70%);
+}
+
+/* ── Laser Underline Beam ─────────────────────────── */
+.hero-laser-wrap {
+    position: relative;
+    width: 280px;
+    max-width: 85vw;
+    height: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.hero-laser-line {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #38BDF8 25%, #6366F1 50%, #38BDF8 75%, transparent 100%);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 20px rgba(99, 102, 241, 0.4);
+    border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: visible;
+}
+
+.hero-laser-line.laser-active {
+    transform: scaleX(1);
+}
+
+.hero-laser-sweep {
+    position: absolute;
+    top: -2px;
+    left: -20%;
+    width: 30%;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #38BDF8, #FFFFFF, #38BDF8, transparent);
+    box-shadow: 0 0 12px #38BDF8, 0 0 24px #0EA5E9;
+    opacity: 0.9;
+    animation: laserSweep 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes laserSweep {
+    0%   { left: -10%; opacity: 0.3; }
+    50%  { opacity: 1; }
+    100% { left: 80%;  opacity: 0.3; }
+}
+
+.hero-laser-dot {
+    position: absolute;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #38BDF8;
+    box-shadow: 0 0 12px #38BDF8, 0 0 20px #0EA5E9;
+    opacity: 0.8;
+}
+
+.laser-dot-left  { left: 0; transform: translateX(-50%); }
+.laser-dot-right { right: 0; transform: translateX(50%); }
+
 /* ========== PANEL ANIMATION ========== */
 .page-content {
     animation: fadeUp 0.5s ease both;
@@ -1440,4 +1557,234 @@ html.dark-mode .bento-rec-item {
 
 html.dark-mode .bento-rec-item:hover {
     background: rgba(255, 255, 255, 0.05);
+}
+
+/* =====================================================
+   HERO ENHANCEMENTS — Gradient Ring, Particles, Beams
+   ===================================================== */
+
+/* ── Laser Split SVG Ring & Hologram ──────────────── */
+.hero-avatar-svg-ring {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    z-index: 15;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.ring-arc-path {
+    will-change: stroke-dashoffset;
+}
+
+/* Hologram Glitch Container & Scanlines */
+.hero-avatar-img-wrap {
+    position: relative;
+    box-shadow:
+        0 0 0 4px var(--color-bg),
+        0 0 50px rgba(14, 165, 233, 0.25),
+        0 20px 40px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.5s, transform 1s;
+    opacity: 0;
+    transform: scale(0.85);
+}
+
+.holo-scanlines {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(14, 165, 233, 0.18) 0px,
+        rgba(14, 165, 233, 0.18) 2px,
+        transparent 2px,
+        transparent 5px
+    );
+    z-index: 12;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.holo-beam-sweep {
+    position: absolute;
+    top: -100%;
+    left: -20%;
+    width: 140%;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(56, 189, 248, 0.5), transparent);
+    z-index: 13;
+    pointer-events: none;
+    opacity: 0;
+}
+
+/* Sci-Fi Hologram Cyan Tint on Avatar */
+.holo-avatar-img {
+    will-change: filter, opacity, transform;
+}
+
+.holo-avatar-img.holo-flicker {
+    filter: brightness(1.8) contrast(1.4) hue-rotate(170deg) drop-shadow(0 0 12px #38BDF8);
+}
+
+/* ── Radial Light Beams ────────────────────────────── */
+.hero-beams {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+}
+
+html.dark-mode .hero-beams {
+    opacity: 0.08;
+}
+
+.hero-beam {
+    position: absolute;
+    width: 3px;
+    height: 280px;
+    background: linear-gradient(to top, transparent, #0EA5E9, transparent);
+    top: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 999px;
+    animation: heroBeamPulse 4s ease-in-out infinite alternate;
+}
+
+.hero-beam:nth-child(1) {
+    transform: rotate(0deg) translateY(-140px);
+    animation-delay: 0s;
+}
+
+.hero-beam:nth-child(2) {
+    transform: rotate(45deg) translateY(-140px);
+    animation-delay: 0.5s;
+}
+
+.hero-beam:nth-child(3) {
+    transform: rotate(90deg) translateY(-140px);
+    animation-delay: 1s;
+}
+
+.hero-beam:nth-child(4) {
+    transform: rotate(135deg) translateY(-140px);
+    animation-delay: 1.5s;
+}
+
+.hero-beam:nth-child(5) {
+    transform: rotate(180deg) translateY(-140px);
+    animation-delay: 2s;
+}
+
+.hero-beam:nth-child(6) {
+    transform: rotate(225deg) translateY(-140px);
+    animation-delay: 2.5s;
+}
+
+.hero-beam:nth-child(7) {
+    transform: rotate(270deg) translateY(-140px);
+    animation-delay: 3s;
+}
+
+.hero-beam:nth-child(8) {
+    transform: rotate(315deg) translateY(-140px);
+    animation-delay: 3.5s;
+}
+
+@keyframes heroBeamPulse {
+    0% {
+        opacity: 0.4;
+        transform: rotate(var(--r, 0deg)) translateY(-140px) scaleX(1);
+    }
+
+    100% {
+        opacity: 1;
+        transform: rotate(var(--r, 0deg)) translateY(-140px) scaleX(1.5);
+    }
+}
+
+/* ── Floating Particles ────────────────────────────── */
+.hero-particles {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: #0EA5E9;
+    pointer-events: none;
+    animation: heroParticleFloat linear infinite;
+    opacity: 0;
+}
+
+@keyframes heroParticleFloat {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0);
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx, 60px), var(--ty, -80px)) scale(0.3);
+    }
+}
+
+/* ── Avatar image wrapper shadow ──────────────────── */
+.hero-avatar-img-wrap {
+    box-shadow:
+        0 0 0 4px var(--color-bg),
+        0 0 50px rgba(14, 165, 233, 0.25),
+        0 20px 40px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.5s, transform 1s;
+}
+
+.hero-avatar-img-wrap:hover,
+.hero-avatar:hover .hero-avatar-img-wrap {
+    box-shadow:
+        0 0 0 4px var(--color-bg),
+        0 0 70px rgba(14, 165, 233, 0.4),
+        0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Typing Cursor ─────────────────────────────────── */
+.hero-name-typed {
+    min-height: 1.2em;
+}
+
+.hero-cursor {
+    display: inline-block;
+    color: #0EA5E9;
+    font-weight: 100;
+    margin-left: 2px;
+    animation: heroCursorBlink 0.9s step-end infinite;
+}
+
+.hero-cursor.hidden {
+    visibility: hidden;
+}
+
+@keyframes heroCursorBlink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
