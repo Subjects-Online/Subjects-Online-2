@@ -324,7 +324,7 @@ function initAnimations() {
                 delay: 0.4,
                 onComplete: () => {
                     const line = document.querySelector('.wi-divider-line');
-                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
+                    if (line) gsap.from(line, { width: '0%', duration: 1, ease: 'power3.out' });
                 }
             }
         );
@@ -366,7 +366,7 @@ function initAnimations() {
                 delay: 0.4,
                 onComplete: () => {
                     const line = document.querySelector('#tyg-divider .wi-divider-line-alt');
-                    if (line) gsap.fromTo(line, { width: '0' }, { width: '300px', duration: 1, ease: 'power3.out' });
+                    if (line) gsap.from(line, { width: '0%', duration: 1, ease: 'power3.out' });
                 }
             }
         );
@@ -517,7 +517,6 @@ function gsapDrawName(el, text) {
 
         // Step 3: Rich aura glow effect around the name & trigger continuous color morph
         tl.to(svg, {
-            filter: "drop-shadow(0 8px 30px rgba(14, 165, 233, 0.45))",
             duration: 1.2,
             ease: "power1.out",
             onComplete: () => {
@@ -574,10 +573,6 @@ function initHologramAvatarSequence() {
     arcRight.style.strokeDasharray = arcLength;
     arcRight.style.strokeDashoffset = arcLength;
 
-    if (avatarWrap) {
-        gsap.set(avatarWrap, { opacity: 0, scale: 0.85 });
-    }
-
     const ringTl = gsap.timeline({ delay: 0.3 });
 
     // Step 1: Origin top dot pulse
@@ -603,12 +598,15 @@ function initHologramAvatarSequence() {
             gsap.to(snapDot, { scale: 1, opacity: 0.8, duration: 0.4 });
             // Clean & Elegant Avatar Reveal
             if (avatarWrap) {
-                gsap.to(avatarWrap, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.7,
-                    ease: "back.out(1.5)"
-                });
+                gsap.fromTo(avatarWrap, 
+                    { opacity: 0, scale: 0.85 },
+                    {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.7,
+                        ease: "back.out(1.5)"
+                    }
+                );
             }
         }
     });

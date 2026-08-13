@@ -603,7 +603,6 @@ html.dark-mode .dash-stat-divider {
     display: inline-block;
     vertical-align: middle;
     overflow: visible !important;
-    filter: drop-shadow(0 2px 10px rgba(14, 165, 233, 0.15));
     transition: filter 0.8s ease;
 }
 
@@ -1046,14 +1045,12 @@ html.dark-mode .name-ambient-aura {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(2, 132, 199, 0.25));
 }
 
 html.dark-mode .wi-word-accent {
     background: linear-gradient(135deg, #38bdf8 0%, #67e8f9 60%, #a5b4fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(56, 189, 248, 0.3));
 }
 
 /* ── Divider ── */
@@ -1067,7 +1064,8 @@ html.dark-mode .wi-word-accent {
 
 .wi-divider-line {
     height: 3px;
-    width: 0;
+    width: 100%;
+    max-width: 300px;
     border-radius: 999px;
     background: linear-gradient(90deg, transparent, #0EA5E9, #818cf8, #0EA5E9, transparent);
     background-size: 200%;
@@ -1087,7 +1085,7 @@ html.dark-mode .wi-word-accent {
 
 @media (max-width: 600px) {
     .wi-heading {
-        font-size: clamp(2rem, 9vw, 2.8rem);
+        font-size: clamp(1.5rem, 6vw, 2rem);
     }
 }
 
@@ -1102,14 +1100,12 @@ html.dark-mode .wi-word-accent {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(249, 115, 22, 0.25));
 }
 
 html.dark-mode .wi-word-accent-alt {
     background: linear-gradient(135deg, #fb923c 0%, #fb7185 60%, #c084fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(251, 146, 60, 0.3));
 }
 
 .wi-divider-line-alt {
@@ -1585,8 +1581,6 @@ html.dark-mode .bento-rec-item:hover {
         0 0 50px rgba(14, 165, 233, 0.25),
         0 20px 40px rgba(0, 0, 0, 0.12);
     transition: box-shadow 0.5s, transform 1s;
-    opacity: 0;
-    transform: scale(0.85);
 }
 
 .holo-scanlines {
