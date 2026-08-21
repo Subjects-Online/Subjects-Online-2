@@ -197,94 +197,79 @@ function getSubjectProgress(item) {
 }
 
 function getSubjectModulesCount(item) {
-    // Count total lectures across all content types
+    // Count total modules (chapters, sections, etc) instead of individual lectures
     let total = 0;
     if (item.content) {
         const sections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
         sections.forEach(sec => {
             if (item.content[sec]) {
-                item.content[sec].forEach(ch => { if (ch.lectures) total += ch.lectures.length; });
+                total += item.content[sec].length;
             }
         });
     }
     // Fallback to default chapters if no custom content is defined
     if (total === 0) {
-        DEFAULT_CHAPTERS.forEach(ch => { total += ch.lectures.length; });
+        total = DEFAULT_CHAPTERS.length;
     }
     return total;
 }
 
 function materialCardHTML(item, isFav, isPinned = false) {
-    // Real progress from localStorage completed items
     const progress = getSubjectProgress(item);
     const modulesFromContent = getSubjectModulesCount(item);
-    // Fallback: if subject has no content defined yet, show 0 modules
     const chaptersCount = modulesFromContent;
 
     return `
-    <a href="subject.html?id=${item.id}" class="material-card group" style="text-decoration: none; position: relative; overflow: hidden; background: linear-gradient(135deg, ${item.color}60, #ffffff 80%); border: 1px solid ${item.accent}20; border-radius: 2rem; padding: 1.75rem; display: flex; flex-direction: column; min-height: 240px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <a href="subject.html?id=${item.id}" class="material-card group" style="text-decoration: none; position: relative; display: flex; flex-direction: column; overflow: hidden; background: #ffffff; border-radius: 24px; padding: 28px; box-shadow: 0 10px 40px -10px ${item.accent}15; border: 1px solid rgba(0,0,0,0.03); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); isolation: isolate; outline: none; margin-bottom: 24px;">
 
-        <!-- Background Blur Glow -->
-        <div style="position: absolute; top: -20%; right: -10%; width: 180px; height: 180px; background: ${item.accent}; opacity: 0.12; filter: blur(40px); border-radius: 50%; pointer-events: none;"></div>
+        <!-- Background glowing orbs -->
+        <div style="position: absolute; top: -20%; right: -20%; width: 250px; height: 250px; background: radial-gradient(circle, ${item.accent}40 0%, transparent 70%); z-index: -1; transition: all 0.6s ease; opacity: 0.6; filter: blur(20px);" class="glow-orb"></div>
+        <div style="position: absolute; bottom: -10%; left: -10%; width: 150px; height: 150px; background: radial-gradient(circle, ${item.color} 0%, transparent 70%); z-index: -1; filter: blur(20px);"></div>
 
-        <!-- HUGE Emoji Icon on the Right -->
-        <div style="position: absolute; right: -15px; bottom: -20px; font-size: 8rem; line-height: 1; opacity: 0.15; transform: rotate(-15deg); filter: drop-shadow(0 20px 20px rgba(0,0,0,0.1)); pointer-events: none; transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);" class="group-hover:scale-110 group-hover:-translate-y-4 group-hover:-translate-x-2 group-hover:opacity-30 group-hover:rotate-0">
-            ${item.icon}
-        </div>
-
-        <!-- Top Row: Chapters Tag & Actions -->
-        <div style="position: relative; z-index: 10; display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: auto; width: 100%;">
-
-            <!-- Small Clean Icon -->
-            <div style="width: 44px; height: 44px; border-radius: 1rem; background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; border: 1px solid ${item.accent}30; box-shadow: 0 8px 20px ${item.accent}15; transition: transform 0.3s;" class="group-hover:scale-110">
-                ${item.icon}
+        <!-- Header Row -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+            
+            <!-- Icon Container -->
+            <div style="width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, ${item.color}cc, ${item.color}40); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: inset 0 2px 10px rgba(255,255,255,0.8), 0 8px 16px ${item.accent}15; border: 1px solid ${item.accent}20; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" class="card-icon">
+                <span style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">${item.icon}</span>
             </div>
 
-            <!-- Right Actions & Progress -->
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <div style="background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); padding: 6px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 800; color: ${item.accent}; border: 1px solid ${item.accent}20; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-                    ${progress}% <span style="opacity:0.6; font-weight:500;">done</span>
-                </div>
-
-                <div style="display:flex; gap:6px;">
-                    <!-- Pin Button -->
-                    <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
-                        style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); border: 1px solid ${item.accent}20; color: ${isPinned ? item.accent : '#94a3b8'}; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s;" onmouseover="this.style.background='${item.color}'; this.style.color='${item.accent}'" onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255,255,255,0.8)'; this.style.color='#94a3b8'; }">
-                        <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                        </svg>
-                    </button>
-
-                    <!-- Fav Button -->
-                    <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
-                        style="width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); border: 1px solid ${item.accent}20; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: all 0.2s;" onmouseover="this.style.background='rgba(251,191,36,0.1)'; this.style.color='#F59E0B'" onmouseout="if(!this.classList.contains('active')) { this.style.background='rgba(255,255,255,0.8)'; this.style.color='#94a3b8'; }">
-                        <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-                        </svg>
-                    </button>
-                </div>
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 8px;">
+                <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
+                    style="width: 32px; height: 32px; border-radius: 10px; background: ${isPinned ? item.color : '#f8fafc'}; border: 1px solid ${isPinned ? item.accent + '30' : '#f1f5f9'}; color: ${isPinned ? item.accent : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                    <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                    </svg>
+                </button>
+                <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
+                    style="width: 32px; height: 32px; border-radius: 10px; background: ${isFav ? 'rgba(251,191,36,0.1)' : '#f8fafc'}; border: 1px solid ${isFav ? 'rgba(251,191,36,0.3)' : '#f1f5f9'}; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+                    <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    </svg>
+                </button>
             </div>
         </div>
 
-        <!-- Bottom Text Content -->
-        <div style="position: relative; z-index: 10; margin-top: 3.5rem;">
-            <div style="display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:999px; font-size:0.65rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; background:rgba(255,255,255,0.6); color:${item.accent}; border:1px solid ${item.accent}20; margin-bottom: 0.75rem; backdrop-filter: blur(4px);">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253"/>
-                </svg>
-                ${chaptersCount} Modules
+        <!-- Content -->
+        <h3 class="card-title" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: #0f172a; line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em; transition: color 0.3s;">${item.title}</h3>
+        <p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 32px; flex: 1;">${item.desc}</p>
+
+        <!-- Bottom Footer (Stats & Progress) -->
+        <div style="margin-top: auto;">
+            
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 12px;">
+                <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8;">Progress</span>
+                <span style="font-size: 1rem; font-weight: 800; color: ${item.accent}; line-height: 1;">${progress}%</span>
             </div>
 
-            <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 0.5rem; transition: color 0.3s;" class="group-hover:text-blue-700">
-                ${item.title}
-            </h3>
-            <p style="font-size: 0.85rem; color: #475569; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 85%;">
-                ${item.desc}
-            </p>
+            <!-- Sleek Progress Bar -->
+            <div style="width: 100%; height: 6px; background: #f1f5f9; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid rgba(0,0,0,0.02);">
+                <div style="position: absolute; top: 0; left: 0; height: 100%; width: ${progress}%; background: linear-gradient(90deg, ${item.accent}cc, ${item.accent}); border-radius: 10px; transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);"></div>
+            </div>
         </div>
     </a>`;
 }
-
 
 function essayCardHTML(e, isFav) {
     return `

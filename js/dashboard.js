@@ -194,30 +194,7 @@ function loadStats(deptText) {
         levelBadge.textContent = level;
     }
 
-    // Feature 18: Recommended For You
-    const recList = document.getElementById('recommended-list');
-    if (recList) {
-        const recommendedItems = materials.filter(m => !favs.includes(m.id)).slice(0, 2);
-        if (recommendedItems.length < 2) {
-            recommendedItems.push(...materials.slice(0, 2 - recommendedItems.length));
-        }
 
-        recList.innerHTML = recommendedItems.map(item => `
-            <a href="subject.html?id=${item.id}" class="bento-rec-item flex items-center justify-between overflow-hidden cursor-pointer p-4 group relative">
-                <div class="absolute -right-4 -bottom-4 w-16 h-16 rounded-full blur-[20px] opacity-40 group-hover:opacity-70 transition-all" style="background-color: ${item.color}"></div>
-                <div class="flex items-center gap-4 z-10 w-full">
-                    <div class="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-[inset_0_1px_2px_rgba(255,255,255,0.5)] bg-white/60 dark:bg-black/30 border border-white/60 dark:border-white/20 shrink-0" style="color: ${item.color}">${item.icon}</div>
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-brand-textPrimary text-sm truncate group-hover:text-brand-accent transition-colors">${item.title}</h4>
-                        <p class="text-xs text-brand-textSecondary mt-0.5 truncate">${item.desc}</p>
-                    </div>
-                    <div class="flex items-center justify-center w-8 h-8 rounded-full bg-brand-accent/10 text-brand-accent group-hover:bg-brand-accent group-hover:text-white transition-colors shrink-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </div>
-                </div>
-            </a>
-        `).join('');
-    }
 
     const openedSubjectsPct = totalSubjects ? Math.round((openedSubjects / totalSubjects) * 100) : 0;
     const openedPDFsPct = totalPDFs > 0 ? Math.round((donePDFs / totalPDFs) * 100) : 0;
