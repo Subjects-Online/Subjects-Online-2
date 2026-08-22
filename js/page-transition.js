@@ -377,7 +377,7 @@
 
         // Target h1 and h2 headings that are NOT already split by the page's own JS
         const headings = document.querySelectorAll(
-            'h1:not(.hero-title-animated), h2:not(.hero-title-animated)'
+            'h1:not(.hero-title-animated):not(.wi-heading), h2:not(.hero-title-animated):not(.wi-heading)'
         );
 
         const wordObserver = new IntersectionObserver((entries) => {
