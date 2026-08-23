@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextTitle = params.get('nextTitle');
     const nextType = params.get('nextType');
     const lecId = params.get('id');
+    const subjectId = params.get('subjectId');
 
     // UI Elements
     const titleEl = document.getElementById('player-title');
@@ -143,9 +144,10 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.removeItem(storageKey);
 
             // Mark lecture as fully completed
-            if (lecId) {
+            if (lecId && subjectId) {
+                const key = subjectId + '_' + lecId;
                 const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-                completedLectures[lecId] = true;
+                completedLectures[key] = true;
                 localStorage.setItem('soCompletedLectures', JSON.stringify(completedLectures));
             }
 

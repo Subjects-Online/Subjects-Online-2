@@ -25,27 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Setup Hero
     document.getElementById('chap-subj-title').textContent = subject.title;
 
-    // Apply full-page beautiful background instead of just hero
-    const globalBg = document.createElement('div');
-    globalBg.style.position = 'fixed';
-    globalBg.style.inset = '0';
-    globalBg.style.zIndex = '-1';
-    globalBg.style.pointerEvents = 'none';
-    globalBg.style.background = `radial-gradient(circle at 80% 10%, rgba(56, 189, 248, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%), linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)`;
-    
-    // Add subtle grid texture over the whole page
-    const gridTexture = document.createElement('div');
-    gridTexture.style.position = 'absolute';
-    gridTexture.style.inset = '0';
-    gridTexture.style.backgroundImage = 'linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px)';
-    gridTexture.style.backgroundSize = '40px 40px';
-    globalBg.appendChild(gridTexture);
-    
-    document.body.appendChild(globalBg);
-    
-    // Remove the old hero bg element if it exists to avoid overlapping
-    const oldHeroBg = document.getElementById('chap-hero-bg');
-    if(oldHeroBg) oldHeroBg.style.display = 'none';
+    // The background is now purely handled in chapters.html with the app-bg-container class.
 
     const defaultChapters = [
         {
@@ -76,16 +56,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window.markLectureDone = function (event, element, lecId) {
         event.stopPropagation();
         element.classList.add('done');
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-        completed[lecId] = Date.now();
+        completed[key] = Date.now();
         localStorage.setItem('soCompletedLectures', JSON.stringify(completed));
     };
 
     window.removeLectureDone = function (event, element, lecId) {
         event.preventDefault();
         event.stopPropagation();
+        const key = subjectId + '_' + lecId;
         const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-        delete completedLectures[lecId];
+        delete completedLectures[key];
         localStorage.setItem('soCompletedLectures', JSON.stringify(completedLectures));
         const lecItem = element.closest('.lecture-item');
         if (lecItem) lecItem.classList.remove('done');
@@ -96,15 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
         const lecItem = btn.closest('.lecture-item');
         const isDone = btn.classList.contains('is-done');
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
         if (isDone) {
             btn.classList.remove('is-done');
             lecItem.classList.remove('done');
-            delete completed[lecId];
+            delete completed[key];
         } else {
             btn.classList.add('is-done');
             lecItem.classList.add('done');
-            completed[lecId] = Date.now();
+            completed[key] = Date.now();
             btn.classList.add('burst');
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
@@ -121,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chapters.forEach(ch => {
             ch.lectures.forEach(lec => {
                 total++;
-                if (completed[lec.id]) done++;
+                if (completed[subjectId + '_' + lec.id]) done++;
             });
         });
 
@@ -146,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = chapters.map((ch, chIndex) => {
         const lecturesHtml = ch.lectures.map((lec, lecIndex) => {
             const isPdf = lec.type === 'pdf';
-            const isDone = !!completedLectures[lec.id];
+            const isDone = !!completedLectures[subjectId + '_' + lec.id];
 
             // Find next lecture
             let nextLec = null;
@@ -218,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
-                        <a href="player.html?id=${lec.id}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
+                        <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
                             Open
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -236,17 +219,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         return `
-        <div class="chap-card group" onclick="toggleChapter(this)">
-            <span class="chap-num">${String(ch.num).padStart(2, '0')}</span>
+        <div class="chap-card group relative" onclick="toggleChapter(this)">
+            <span class="chap-num font-heading font-black italic absolute -top-4 right-2 text-blue-100 opacity-40 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 pointer-events-none select-none text-[5rem] leading-none" style="text-shadow: 0 10px 30px rgba(14,165,233,0.1);">${String(ch.num).padStart(2, '0')}</span>
             
-            <div class="chap-main-content">
-                <div class="chap-header">
-                    <div class="chap-header-left">
-                        <span class="chap-ch-label">Chapter ${ch.num}</span>
-                        <h2 class="chap-title-text group-hover:text-blue-700 transition-colors">${ch.title}</h2>
+            <div class="chap-main-content relative z-10">
+                <div class="chap-header flex items-start justify-between">
+                    <div class="chap-header-left flex flex-col gap-1.5">
+                        <span class="chap-ch-label text-[0.65rem] font-black uppercase tracking-[0.2em] text-blue-500 bg-blue-50/50 w-fit px-2.5 py-1 rounded-md border border-blue-100/50">Chapter ${ch.num}</span>
+                        <h2 class="chap-title-text font-heading text-[1.75rem] font-bold text-slate-800 leading-[1.15] tracking-tight group-hover:text-blue-700 transition-colors">${ch.title}</h2>
                     </div>
-                    <div class="chap-toggle-icon group-hover:bg-blue-100 group-hover:text-blue-700 transition-colors shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <div class="chap-toggle-icon w-10 h-10 rounded-full bg-white/60 border border-white/80 shadow-[0_4px_10px_rgba(0,0,0,0.03)] flex items-center justify-center text-blue-500 group-hover:bg-blue-500 group-hover:text-white group-hover:shadow-[0_8px_20px_rgba(14,165,233,0.3)] transition-all duration-300 transform group-hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
@@ -287,12 +270,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optional: GSAP Animation for staggered entrance
     if (typeof gsap !== 'undefined') {
-        gsap.from('.chap-node', {
+        gsap.from('.chap-card', {
             y: 40,
             opacity: 0,
             duration: 0.8,
             stagger: 0.15,
             ease: 'back.out(1.2)'
+        });
+    }
+
+    // Progress Tooltip Logic
+    const progressWrapper = document.getElementById('progress-ring-wrapper');
+    const progressTooltip = document.getElementById('progress-tooltip');
+    
+    if (progressWrapper && progressTooltip) {
+        progressWrapper.addEventListener('mouseenter', () => {
+            // Calculate totals
+            let pdfTotal = 0, pdfDone = 0;
+            let vidTotal = 0, vidDone = 0;
+            const completed = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
+            
+            chapters.forEach(ch => {
+                ch.lectures.forEach(lec => {
+                    if (lec.type === 'pdf') {
+                        pdfTotal++;
+                        if (completed[subjectId + '_' + lec.id]) pdfDone++;
+                    } else {
+                        vidTotal++;
+                        if (completed[subjectId + '_' + lec.id]) vidDone++;
+                    }
+                });
+            });
+
+            const pdfTooltipSpan = document.getElementById('tooltip-pdfs');
+            const vidTooltipSpan = document.getElementById('tooltip-videos');
+            
+            if(pdfTooltipSpan) pdfTooltipSpan.textContent = `${pdfDone} / ${pdfTotal}`;
+            if(vidTooltipSpan) vidTooltipSpan.textContent = `${vidDone} / ${vidTotal}`;
+
+            progressTooltip.style.opacity = '1';
+            progressTooltip.style.transform = 'translateX(-50%) scale(1)';
+        });
+
+        progressWrapper.addEventListener('mouseleave', () => {
+            progressTooltip.style.opacity = '0';
+            progressTooltip.style.transform = 'translateX(-50%) scale(0.92)';
         });
     }
 
@@ -317,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Dynamically update the action text for progress now that we have duration
-                    const isDone = !!completedLectures[lec.id];
+                    const isDone = !!completedLectures[subjectId + '_' + lec.id];
                     if (!isDone) {
                         const storageKey = `so_vid_progress_${encodeURIComponent(lec.url)}`;
                         const savedTime = localStorage.getItem(storageKey);

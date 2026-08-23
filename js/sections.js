@@ -74,27 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('expanded');
     };
     window.markLectureDone = function (event, element, lecId) {
-        event.stopPropagation(); // Stop the click from closing the chapter
-
-        // Toggle the UI state
+        event.stopPropagation();
         element.classList.add('done');
-
-        // Save to localStorage
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
-        completed[lecId] = Date.now();
+        completed[key] = Date.now();
         localStorage.setItem('soCompletedSections', JSON.stringify(completed));
     };
 
     window.removeLectureDone = function (event, element, lecId) {
         event.preventDefault();
         event.stopPropagation();
-
-        // Remove state
+        const key = subjectId + '_' + lecId;
         const completedLectures = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
-        delete completedLectures[lecId];
+        delete completedLectures[key];
         localStorage.setItem('soCompletedSections', JSON.stringify(completedLectures));
-
-        // Remove done class
         const lecItem = element.closest('.lecture-item');
         if (lecItem) {
             lecItem.classList.remove('done');
@@ -106,15 +100,16 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
         const lecItem = btn.closest('.lecture-item');
         const isDone = btn.classList.contains('is-done');
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
         if (isDone) {
             btn.classList.remove('is-done');
             lecItem.classList.remove('done');
-            delete completed[lecId];
+            delete completed[key];
         } else {
             btn.classList.add('is-done');
             lecItem.classList.add('done');
-            completed[lecId] = Date.now();
+            completed[key] = Date.now();
             btn.classList.add('burst');
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
@@ -131,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chapters.forEach(ch => {
             ch.lectures.forEach(lec => {
                 total++;
-                if (completed[lec.id]) done++;
+                if (completed[subjectId + '_' + lec.id]) done++;
             });
         });
 
@@ -156,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = chapters.map((ch, chIndex) => {
         const lecturesHtml = ch.lectures.map((lec, lecIndex) => {
             const isPdf = lec.type === 'pdf';
-            const isDone = !!completedLectures[lec.id];
+            const isDone = !!completedLectures[subjectId + '_' + lec.id];
 
             // Find next lecture
             let nextLec = null;
@@ -228,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
-                        <a href="player.html?id=${lec.id}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
+                        <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
                             Open
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
@@ -305,6 +300,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Progress Tooltip Logic
+    const progressWrapper = document.getElementById('progress-ring-wrapper');
+    const progressTooltip = document.getElementById('progress-tooltip');
+    
+    if (progressWrapper && progressTooltip) {
+        progressWrapper.addEventListener('mouseenter', () => {
+            let pdfTotal = 0, pdfDone = 0;
+            let vidTotal = 0, vidDone = 0;
+            const completed = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
+            
+            chapters.forEach(ch => {
+                ch.lectures.forEach(lec => {
+                    if (lec.type === 'pdf') {
+                        pdfTotal++;
+                        if (completed[subjectId + '_' + lec.id]) pdfDone++;
+                    } else {
+                        vidTotal++;
+                        if (completed[subjectId + '_' + lec.id]) vidDone++;
+                    }
+                });
+            });
+
+            const pdfTooltipSpan = document.getElementById('tooltip-pdfs');
+            const vidTooltipSpan = document.getElementById('tooltip-videos');
+            
+            if(pdfTooltipSpan) pdfTooltipSpan.textContent = `${pdfDone} / ${pdfTotal}`;
+            if(vidTooltipSpan) vidTooltipSpan.textContent = `${vidDone} / ${vidTotal}`;
+
+            progressTooltip.style.opacity = '1';
+            progressTooltip.style.transform = 'translateX(-50%) scale(1)';
+        });
+
+        progressWrapper.addEventListener('mouseleave', () => {
+            progressTooltip.style.opacity = '0';
+            progressTooltip.style.transform = 'translateX(-50%) scale(0.92)';
+        });
+    }
+
     // Process metadata asynchronously
     if (window['pdfjs-dist/build/pdf']) {
         window.pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -326,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Dynamically update the action text for progress now that we have duration
-                    const isDone = !!completedLectures[lec.id];
+                    const isDone = !!completedLectures[subjectId + '_' + lec.id];
                     if (!isDone) {
                         const storageKey = `so_vid_progress_${encodeURIComponent(lec.url)}`;
                         const savedTime = localStorage.getItem(storageKey);

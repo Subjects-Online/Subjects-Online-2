@@ -158,16 +158,31 @@
         .grid-header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 2.5rem;
+        }
+
+        .grid-header-line {
+            flex: 1;
+            max-width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.3), transparent);
         }
 
         .grid-count {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #64748B;
-            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #0EA5E9;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
+            padding: 8px 22px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.06), rgba(56, 189, 248, 0.04));
+            border: 1px solid rgba(14, 165, 233, 0.15);
+            border-radius: 999px;
+            white-space: nowrap;
+            position: relative;
+            box-shadow: 0 2px 12px rgba(14, 165, 233, 0.06);
         }
 
         #material-grid {
@@ -320,7 +335,9 @@
     <!-- Cards Grid -->
     <div class="material-grid-wrap relative z-10">
         <div class="grid-header">
+            <div class="grid-header-line"></div>
             <span class="grid-count" id="grid-count">—</span>
+            <div class="grid-header-line"></div>
         </div>
         <div id="material-grid">
             <!-- injected by JS -->

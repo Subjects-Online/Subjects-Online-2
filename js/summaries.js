@@ -67,27 +67,21 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.toggle('expanded');
     };
     window.markLectureDone = function (event, element, lecId) {
-        event.stopPropagation(); // Stop the click from closing the chapter
-
-        // Toggle the UI state
+        event.stopPropagation();
         element.classList.add('done');
-
-        // Save to localStorage
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
-        completed[lecId] = Date.now();
+        completed[key] = Date.now();
         localStorage.setItem('soCompletedSummaries', JSON.stringify(completed));
     };
 
     window.removeLectureDone = function (event, element, lecId) {
         event.preventDefault();
         event.stopPropagation();
-
-        // Remove state
+        const key = subjectId + '_' + lecId;
         const completedLectures = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
-        delete completedLectures[lecId];
+        delete completedLectures[key];
         localStorage.setItem('soCompletedSummaries', JSON.stringify(completedLectures));
-
-        // Remove done class
         const lecItem = element.closest('.lecture-item');
         if (lecItem) {
             lecItem.classList.remove('done');
@@ -99,15 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
         const lecItem = btn.closest('.lecture-item');
         const isDone = btn.classList.contains('is-done');
+        const key = subjectId + '_' + lecId;
         const completed = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
         if (isDone) {
             btn.classList.remove('is-done');
             lecItem.classList.remove('done');
-            delete completed[lecId];
+            delete completed[key];
         } else {
             btn.classList.add('is-done');
             lecItem.classList.add('done');
-            completed[lecId] = Date.now();
+            completed[key] = Date.now();
             btn.classList.add('burst');
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
@@ -118,7 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const html = chapters.map((ch, chIndex) => {
         const lecturesHtml = ch.lectures.map((lec, lecIndex) => {
             const isPdf = lec.type === 'pdf';
-            const isDone = !!completedLectures[lec.id];
+            const isDone = !!completedLectures[subjectId + '_' + lec.id];
 
             // Find next lecture
             let nextLec = null;
@@ -177,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const clickHandler = isPdf ? `onclick="markLectureDone(event, this, ${lec.id})"` : '';
 
             return `
-            <div class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
+            <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
                 <div class="lec-info">
                     <div class="lec-icon" ${accentStyle}>
                         ${isPdf
@@ -272,6 +267,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Progress Tooltip Logic
+    const progressWrapper = document.getElementById('progress-ring-wrapper');
+    const progressTooltip = document.getElementById('progress-tooltip');
+    
+    if (progressWrapper && progressTooltip) {
+        progressWrapper.addEventListener('mouseenter', () => {
+            let pdfTotal = 0, pdfDone = 0;
+            let vidTotal = 0, vidDone = 0;
+            const completed = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
+            
+            chapters.forEach(ch => {
+                ch.lectures.forEach(lec => {
+                    if (lec.type === 'pdf') {
+                        pdfTotal++;
+                        if (completed[subjectId + '_' + lec.id]) pdfDone++;
+                    } else {
+                        vidTotal++;
+                        if (completed[subjectId + '_' + lec.id]) vidDone++;
+                    }
+                });
+            });
+
+            const pdfTooltipSpan = document.getElementById('tooltip-pdfs');
+            const vidTooltipSpan = document.getElementById('tooltip-videos');
+            
+            if(pdfTooltipSpan) pdfTooltipSpan.textContent = `${pdfDone} / ${pdfTotal}`;
+            if(vidTooltipSpan) vidTooltipSpan.textContent = `${vidDone} / ${vidTotal}`;
+
+            progressTooltip.style.opacity = '1';
+            progressTooltip.style.transform = 'translateX(-50%) scale(1)';
+        });
+
+        progressWrapper.addEventListener('mouseleave', () => {
+            progressTooltip.style.opacity = '0';
+            progressTooltip.style.transform = 'translateX(-50%) scale(0.92)';
+        });
+    }
+
     // Process metadata asynchronously
     if (window['pdfjs-dist/build/pdf']) {
         window.pdfjsLib = window['pdfjs-dist/build/pdf'];
@@ -293,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Dynamically update the action text for progress now that we have duration
-                    const isDone = !!completedLectures[lec.id];
+                    const isDone = !!completedLectures[subjectId + '_' + lec.id];
                     if (!isDone) {
                         const storageKey = `so_vid_progress_${encodeURIComponent(lec.url)}`;
                         const savedTime = localStorage.getItem(storageKey);

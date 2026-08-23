@@ -433,6 +433,73 @@ html.dark-mode .dash-stat-divider {
     transform: scale(1.1) rotate(-6deg);
 }
 
+/* ── Premium Icon Container ── */
+.card-icon-container {
+    position: relative;
+}
+
+.material-card:hover .card-icon {
+    transform: scale(1.12) rotate(-5deg);
+}
+
+.material-card:hover .icon-glow {
+    width: 110px !important;
+    height: 110px !important;
+    opacity: 1.2;
+    filter: blur(14px) !important;
+}
+
+/* Dark mode — icon layers */
+.dark-mode .card-icon-container .card-icon {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.85)) !important;
+    box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.06), inset 0 -1px 3px rgba(0, 0, 0, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Dark mode — action buttons */
+.dark-mode .material-card .action-btn {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.6)) !important;
+    border-color: rgba(148, 163, 184, 0.15) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px);
+}
+
+.dark-mode .material-card .action-btn:not(.active) {
+    color: rgba(203, 213, 225, 0.7) !important;
+}
+
+.dark-mode .material-card .action-btn:hover {
+    background: linear-gradient(145deg, rgba(51, 65, 85, 0.9), rgba(30, 41, 59, 0.7)) !important;
+    border-color: rgba(96, 165, 250, 0.3) !important;
+    color: rgba(224, 231, 240, 0.95) !important;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transform: scale(1.12);
+}
+
+.dark-mode .material-card .pin-btn.active {
+    background: linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.1)) !important;
+    border-color: rgba(96, 165, 250, 0.3) !important;
+    color: #60a5fa !important;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+.dark-mode .material-card .fav-btn.active {
+    background: linear-gradient(145deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.08)) !important;
+    border-color: rgba(251, 191, 36, 0.3) !important;
+    color: #fbbf24 !important;
+    box-shadow: 0 0 12px rgba(251, 191, 36, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Light mode — action button hover */
+.material-card .action-btn {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.material-card .action-btn:hover {
+    transform: scale(1.12);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1) !important;
+}
+
+
 .card-title {
     font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
     font-size: 1.25rem;
@@ -633,11 +700,13 @@ html.dark-mode .dash-stat-divider {
         transform: scale(0.9) rotate(0deg);
         filter: blur(22px);
     }
+
     50% {
         opacity: 0.75;
         transform: scale(1.1) rotate(2deg);
         filter: blur(30px);
     }
+
     100% {
         opacity: 0.45;
         transform: scale(0.95) rotate(-2deg);
@@ -692,9 +761,19 @@ html.dark-mode .name-ambient-aura {
 }
 
 @keyframes laserSweep {
-    0%   { left: -10%; opacity: 0.3; }
-    50%  { opacity: 1; }
-    100% { left: 80%;  opacity: 0.3; }
+    0% {
+        left: -10%;
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        left: 80%;
+        opacity: 0.3;
+    }
 }
 
 .hero-laser-dot {
@@ -708,8 +787,15 @@ html.dark-mode .name-ambient-aura {
     opacity: 0.8;
 }
 
-.laser-dot-left  { left: 0; transform: translateX(-50%); }
-.laser-dot-right { right: 0; transform: translateX(50%); }
+.laser-dot-left {
+    left: 0;
+    transform: translateX(-50%);
+}
+
+.laser-dot-right {
+    right: 0;
+    transform: translateX(50%);
+}
 
 /* ========== PANEL ANIMATION ========== */
 .page-content {
@@ -1313,101 +1399,113 @@ html.dark-mode .card-trainings {
     grid-auto-flow: dense;
 }
 
+/* ==========================================
+   ULTRA-PREMIUM BENTO CARDS (Glassmorphic)
+   ========================================== */
 .bento-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 100%);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border-radius: 2.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.5);
     box-shadow:
-        0 20px 40px -10px rgba(0, 0, 0, 0.05),
-        inset 0 1px 3px rgba(255, 255, 255, 1),
-        inset 0 -1px 3px rgba(0, 0, 0, 0.02);
-    transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        0 25px 50px -12px rgba(14, 165, 233, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.8),
+        inset 0 -1px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+    perspective: 1000px;
 }
 
 html.dark-mode .bento-card {
-    background: rgba(20, 20, 30, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.3) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow:
-        0 25px 50px -12px rgba(0, 0, 0, 0.5),
-        inset 0 1px 2px rgba(255, 255, 255, 0.15);
+        0 30px 60px -15px rgba(0, 0, 0, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 .bento-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-8px) scale3d(1.01, 1.01, 1.01);
     box-shadow:
-        0 30px 60px -15px rgba(0, 0, 0, 0.1),
+        0 35px 60px -15px rgba(14, 165, 233, 0.25),
         inset 0 1px 3px rgba(255, 255, 255, 1);
-    border-color: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 html.dark-mode .bento-card:hover {
     box-shadow:
-        0 40px 80px -15px rgba(0, 0, 0, 0.6),
-        inset 0 1px 3px rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.2);
+        0 40px 80px -15px rgba(0, 0, 0, 0.8),
+        inset 0 1px 3px rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Background Mesh Gradients - OPTIMIZED */
+/* Glass Reflection Overlay */
+.bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 60%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+html.dark-mode .bento-card::before {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
+}
+
+/* Background Mesh Gradients - Beautiful Orbs */
 .bento-mesh-bg {
     position: absolute;
     inset: -30%;
     z-index: 0;
-    opacity: 0.4;
-    /* Removed heavy filter: blur() to fix performance lag */
-    animation: bentoRotate 60s linear infinite;
+    opacity: 0.6;
+    animation: bentoRotate 40s linear infinite;
     pointer-events: none;
     will-change: transform;
+    background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.3), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.2), transparent 50%);
+    filter: blur(40px);
 }
 
 html.dark-mode .bento-mesh-bg {
-    opacity: 0.5;
+    opacity: 0.8;
+    background: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.15), transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1), transparent 50%);
 }
 
 @keyframes bentoRotate {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-
-    100% {
-        transform: rotate(180deg) scale(1.2);
-    }
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
 }
 
-/* Animated Shine Sweep - OPTIMIZED */
+/* Animated Shine Sweep */
 .bento-shine {
     position: absolute;
     top: 0;
     left: -150%;
     width: 50%;
     height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
     transform: skewX(-20deg);
-    animation: bentoShine 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    z-index: 1;
+    animation: bentoShine 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    z-index: 3;
     pointer-events: none;
 }
 
 html.dark-mode .bento-shine {
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.05), transparent);
 }
 
 @keyframes bentoShine {
-    0% {
-        left: -150%;
-    }
-
-    20% {
-        left: 200%;
-    }
-
-    100% {
-        left: 200%;
-    }
+    0% { left: -150%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
 }
 
-/* Icon Badges */
+/* Icon Badges (Floating 3D style) */
 .bento-icon-glow {
     width: 3.5rem;
     height: 3.5rem;
@@ -1415,70 +1513,80 @@ html.dark-mode .bento-shine {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
     position: relative;
     z-index: 2;
+    transition: transform 0.4s ease;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.bento-card:hover .bento-icon-glow {
+    transform: scale(1.1) rotate(-5deg);
 }
 
 html.dark-mode .bento-icon-glow {
     background: rgba(0, 0, 0, 0.5);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1), 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Command Palette Input (Planner) */
+/* Command Palette Input (Mac Spotlight Style) */
 .bento-cmd-input {
     width: 100%;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.8);
     color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     border-radius: 99px;
-    padding: 1.25rem 4rem 1.25rem 3rem;
-    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 1.25rem 4rem 1.25rem 3.5rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     box-shadow:
-        inset 0 2px 4px rgba(0, 0, 0, 0.02),
-        0 4px 12px rgba(0, 0, 0, 0.04);
+        inset 0 2px 4px rgba(255, 255, 255, 0.5),
+        0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 html.dark-mode .bento-cmd-input {
-    background: rgba(0, 0, 0, 0.4);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.3);
+    background: rgba(15, 23, 42, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: #f8fafc;
 }
 
 .bento-cmd-input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 1);
+    background: rgba(255, 255, 255, 0.9);
     border-color: #8b5cf6;
     box-shadow:
-        0 0 0 4px rgba(139, 92, 246, 0.15),
-        0 15px 30px rgba(139, 92, 246, 0.1);
-    transform: translateY(-2px);
+        0 0 0 4px rgba(139, 92, 246, 0.2),
+        0 20px 40px rgba(139, 92, 246, 0.15);
+    transform: translateY(-2px) scale(1.01);
 }
 
 html.dark-mode .bento-cmd-input:focus {
-    background: rgba(0, 0, 0, 0.7);
-    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.25);
+    background: rgba(30, 41, 59, 0.9);
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.3), 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
 .bento-cmd-btn {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
-    background: #8b5cf6;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 20px rgba(124, 58, 237, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .bento-cmd-btn:hover {
-    background: #7c3aed;
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(90deg);
+    box-shadow: 0 12px 25px rgba(124, 58, 237, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.5);
 }
 
 /* Gradient Text */
@@ -1486,27 +1594,40 @@ html.dark-mode .bento-cmd-input:focus {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.3));
 }
 
-/* Horizontal Progress Bars */
+/* Horizontal Progress Bars (Neon Tube Style) */
 .bento-prog-bar-container {
-    height: 12px;
-    background: rgba(0, 0, 0, 0.05);
+    height: 14px;
+    background: rgba(15, 23, 42, 0.05);
     border-radius: 99px;
-    overflow: hidden;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    overflow: visible; /* Allow glow to spill out */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 1px rgba(255, 255, 255, 0.8);
     position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.02);
 }
 
 html.dark-mode .bento-prog-bar-container {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.05);
 }
 
 .bento-prog-bar-fill {
     height: 100%;
     border-radius: 99px;
     position: relative;
-    overflow: hidden;
+    box-shadow: 0 0 15px currentColor; /* Neon glow */
+}
+
+.bento-prog-bar-fill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 99px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%);
+    pointer-events: none;
 }
 
 .bento-prog-bar-fill::after {
@@ -1516,65 +1637,72 @@ html.dark-mode .bento-prog-bar-container {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: barShine 2s infinite linear;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    animation: barShine 2.5s infinite ease-in-out;
 }
 
 @keyframes barShine {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
 }
 
-/* Task Item */
+/* Task Item (Floating Glass Pill) */
 .bento-task-item {
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.7);
-    border-radius: 1rem;
-    transition: background 0.3s ease, transform 0.3s ease;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 1.25rem;
+    padding: 1rem 1.25rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02), inset 0 1px 2px rgba(255, 255, 255, 1);
 }
 
 html.dark-mode .bento-task-item {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.05);
+    background: rgba(30, 41, 59, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 2px rgba(255, 255, 255, 0.05);
 }
 
 .bento-task-item:hover {
-    background: rgba(255, 255, 255, 0.9);
-    border-color: rgba(255, 255, 255, 1);
-    transform: translateX(4px);
+    background: rgba(255, 255, 255, 1);
+    transform: translateX(8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(139, 92, 246, 0.1), inset 0 1px 2px rgba(255, 255, 255, 1);
+    border-color: rgba(139, 92, 246, 0.3);
 }
 
 html.dark-mode .bento-task-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* Recommended Item */
 .bento-rec-item {
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
     border-radius: 1.5rem;
-    transition: background 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.03), inset 0 1px 2px rgba(255, 255, 255, 1);
 }
 
 html.dark-mode .bento-rec-item {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(30, 41, 59, 0.5);
     border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.05);
 }
 
 .bento-rec-item:hover {
-    transform: translateX(8px);
-    background: rgba(255, 255, 255, 0.8);
+    transform: translateY(-4px) scale(1.02);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 20px 40px rgba(14, 165, 233, 0.1), inset 0 1px 2px rgba(255, 255, 255, 1);
+    border-color: rgba(14, 165, 233, 0.3);
 }
 
 html.dark-mode .bento-rec-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(30, 41, 59, 0.9);
+    border-color: rgba(14, 165, 233, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* =====================================================
@@ -1609,13 +1737,11 @@ html.dark-mode .bento-rec-item:hover {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(14, 165, 233, 0.18) 0px,
-        rgba(14, 165, 233, 0.18) 2px,
-        transparent 2px,
-        transparent 5px
-    );
+    background: repeating-linear-gradient(0deg,
+            rgba(14, 165, 233, 0.18) 0px,
+            rgba(14, 165, 233, 0.18) 2px,
+            transparent 2px,
+            transparent 5px);
     z-index: 12;
     pointer-events: none;
     opacity: 0.6;

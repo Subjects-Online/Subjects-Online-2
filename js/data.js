@@ -179,7 +179,8 @@ function getSubjectProgress(item) {
     }
     if (allLecIds.length === 0) return 0;
 
-    // Check across all completion stores
+    // Check across all completion stores using subjectId-scoped keys
+    const sid = item.id;
     const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
     const completedSections = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
     const completedQuizzes  = JSON.parse(localStorage.getItem('soCompletedQuizzes')  || '{}');
@@ -188,8 +189,9 @@ function getSubjectProgress(item) {
 
     let doneCount = 0;
     allLecIds.forEach(id => {
-        if (completedLectures[id] || completedSections[id] || completedQuizzes[id] ||
-            completedSummaries[id] || completedQA[id]) {
+        const key = sid + '_' + id;
+        if (completedLectures[key] || completedSections[key] || completedQuizzes[key] ||
+            completedSummaries[key] || completedQA[key]) {
             doneCount++;
         }
     });
@@ -226,28 +228,32 @@ function materialCardHTML(item, isFav, isPinned = false) {
         <div style="position: absolute; top: -20%; right: -20%; width: 250px; height: 250px; background: radial-gradient(circle, ${item.accent}40 0%, transparent 70%); z-index: -1; transition: all 0.6s ease; opacity: 0.6; filter: blur(20px);" class="glow-orb"></div>
         <div style="position: absolute; bottom: -10%; left: -10%; width: 150px; height: 150px; background: radial-gradient(circle, ${item.color} 0%, transparent 70%); z-index: -1; filter: blur(20px);"></div>
 
-        <!-- Header Row -->
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-            
-            <!-- Icon Container -->
-            <div style="width: 56px; height: 56px; border-radius: 18px; background: linear-gradient(135deg, ${item.color}cc, ${item.color}40); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; box-shadow: inset 0 2px 10px rgba(255,255,255,0.8), 0 8px 16px ${item.accent}15; border: 1px solid ${item.accent}20; transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);" class="card-icon">
-                <span style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">${item.icon}</span>
-            </div>
 
-            <!-- Action Buttons -->
-            <div style="display: flex; gap: 8px;">
-                <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
-                    style="width: 32px; height: 32px; border-radius: 10px; background: ${isPinned ? item.color : '#f8fafc'}; border: 1px solid ${isPinned ? item.accent + '30' : '#f1f5f9'}; color: ${isPinned ? item.accent : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                    <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                    </svg>
-                </button>
-                <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
-                    style="width: 32px; height: 32px; border-radius: 10px; background: ${isFav ? 'rgba(251,191,36,0.1)' : '#f8fafc'}; border: 1px solid ${isFav ? 'rgba(251,191,36,0.3)' : '#f1f5f9'}; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
-                    <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
-                    </svg>
-                </button>
+        <!-- Action Buttons (floating top-right) -->
+        <div style="position: absolute; top: 20px; right: 20px; display: flex; gap: 8px; z-index: 10;">
+            <button class="action-btn pin-btn ${isPinned ? 'active' : ''}" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}"
+                style="width: 34px; height: 34px; border-radius: 12px; background: ${isPinned ? item.color : 'rgba(255,255,255,0.7)'}; backdrop-filter: blur(8px); border: 1px solid ${isPinned ? item.accent + '30' : 'rgba(255,255,255,0.9)'}; color: ${isPinned ? item.accent : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                </svg>
+            </button>
+            <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
+                style="position: relative; width: 34px; height: 34px; border-radius: 12px; background: ${isFav ? 'rgba(251,191,36,0.12)' : 'rgba(255,255,255,0.7)'}; backdrop-filter: blur(8px); border: 1px solid ${isFav ? 'rgba(251,191,36,0.3)' : 'rgba(255,255,255,0.9)'}; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Premium Icon -->
+        <div class="card-icon-container" style="position: relative; width: 64px; height: 64px; margin-bottom: 24px; align-self: center;">
+            <!-- Ambient glow aura -->
+            <div class="icon-glow" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90px; height: 90px; background: radial-gradient(circle, ${item.accent}35 0%, ${item.accent}10 50%, transparent 70%); filter: blur(10px); pointer-events: none; transition: all 0.5s ease;"></div>
+            <!-- Gradient border ring -->
+            <div style="position: absolute; inset: -2px; border-radius: 22px; background: linear-gradient(135deg, ${item.accent}70, ${item.color}, ${item.accent}35); transition: all 0.4s;"></div>
+            <!-- Glossy inner face -->
+            <div class="card-icon" style="position: relative; width: 100%; height: 100%; border-radius: 20px; background: linear-gradient(145deg, rgba(255,255,255,0.97), ${item.color}bb); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; box-shadow: inset 0 2px 6px rgba(255,255,255,1), inset 0 -1px 3px ${item.accent}08, 0 4px 16px rgba(0,0,0,0.05); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);">
+                <span style="filter: drop-shadow(0 3px 6px ${item.accent}40); transition: filter 0.3s;">${item.icon}</span>
             </div>
         </div>
 

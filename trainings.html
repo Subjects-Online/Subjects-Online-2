@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -87,22 +87,93 @@
             }
         }
 
-        .hero-title {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 800;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            margin-bottom: 1.5rem;
+        /* ── PREMIUM HERO TITLE SYSTEM ── */
+        .hero-title-wrapper {
             position: relative;
             z-index: 10;
+            margin-bottom: 1.5rem;
+            perspective: 1200px;
         }
 
-        .hero-title .gradient-text {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+        .hero-title-canvas {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .hero-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            text-align: center;
+        }
+
+        .hero-title .letter {
+            display: inline-block;
+            opacity: 0;
+            will-change: transform, opacity, filter;
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 40%, #ec4899 70%, #6366f1 100%);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            position: relative;
+            cursor: default;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-title .letter:hover {
+            transform: translateY(-8px) scale(1.15) !important;
+            filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.6));
+        }
+
+        /* Scanning light beam */
+        .hero-title::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -10%;
+            width: 40px;
+            height: 140%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(99, 102, 241, 0.08),
+                rgba(168, 85, 247, 0.15),
+                rgba(236, 72, 153, 0.08),
+                transparent);
+            transform: skewX(-15deg);
+            opacity: 0;
+            z-index: 20;
+            pointer-events: none;
+            animation: scanBeam 4s ease-in-out 2s infinite;
+        }
+
+        @keyframes scanBeam {
+            0% { left: -15%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: 115%; opacity: 0; }
+        }
+
+        /* Underline reveal */
+        .hero-title-underline {
+            display: block;
+            width: 0;
+            height: 3px;
+            margin: 12px auto 0;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
         }
 
         .hero-subtitle {
@@ -113,6 +184,7 @@
             position: relative;
             z-index: 10;
             line-height: 1.7;
+            opacity: 0;
         }
 
         /* â”€â”€ ELEGANT FILTERS â”€â”€ */
@@ -454,10 +526,14 @@
         <!-- Hero Section -->
         <section class="hub-hero">
             <div class="hub-bg-mesh"></div>
-            <h1 class="hero-title">
-                Resource <span class="gradient-text">Hub</span>
-            </h1>
-            <p class="hero-subtitle">
+            <div class="hero-title-wrapper">
+                <canvas class="hero-title-canvas" id="heroParticles"></canvas>
+                <h1 class="hero-title" id="heroTitle">
+                    <span class="letter">T</span><span class="letter">r</span><span class="letter">a</span><span class="letter">i</span><span class="letter">n</span><span class="letter">i</span><span class="letter">n</span><span class="letter">g</span><span class="letter">s</span>
+                </h1>
+                <span class="hero-title-underline" id="heroUnderline"></span>
+            </div>
+            <p class="hero-subtitle" id="heroSubtitle">
                 Your ultimate directory for academic pathways, global learning platforms, and cutting-edge tech
                 bootcamps. Elevate your skills.
             </p>
@@ -3459,6 +3535,297 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <!-- Vanilla Tilt for 3D card effect -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <!-- ═══ PREMIUM HERO ANIMATION ENGINE ═══ -->
+    <script>
+    (function() {
+        'use strict';
+
+        // ── Particle System ──
+        class ParticleSystem {
+            constructor(canvas) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.particles = [];
+                this.running = false;
+                this.colors = [
+                    '#6366f1', '#818cf8', '#a855f7', '#c084fc',
+                    '#ec4899', '#f472b6', '#f9a8d4', '#a78bfa'
+                ];
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+            }
+
+            resize() {
+                const wrapper = this.canvas.parentElement;
+                const rect = wrapper.getBoundingClientRect();
+                this.canvas.width = rect.width + 120;
+                this.canvas.height = rect.height + 120;
+            }
+
+            // Burst particles from a position (used when each letter reveals)
+            burst(x, y, count = 12) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+                    const speed = 1.5 + Math.random() * 3;
+                    const size = 2 + Math.random() * 4;
+                    this.particles.push({
+                        x: x + 60, // offset for canvas positioning
+                        y: y + 60,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed - 1,
+                        size,
+                        maxSize: size,
+                        color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                        life: 1,
+                        decay: 0.008 + Math.random() * 0.015,
+                        type: Math.random() > 0.5 ? 'sparkle' : 'glow',
+                        rotation: Math.random() * Math.PI * 2,
+                        rotationSpeed: (Math.random() - 0.5) * 0.15
+                    });
+                }
+            }
+
+            // Ambient floating particles
+            addAmbient() {
+                if (this.particles.length > 80) return;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+                this.particles.push({
+                    x: Math.random() * w,
+                    y: h + 10,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: -0.3 - Math.random() * 0.8,
+                    size: 1 + Math.random() * 2.5,
+                    maxSize: 1 + Math.random() * 2.5,
+                    color: this.colors[Math.floor(Math.random() * this.colors.length)],
+                    life: 1,
+                    decay: 0.003 + Math.random() * 0.005,
+                    type: 'ambient',
+                    rotation: 0,
+                    rotationSpeed: 0,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            start() {
+                if (this.running) return;
+                this.running = true;
+                this._animate();
+            }
+
+            _animate() {
+                if (!this.running) return;
+                const ctx = this.ctx;
+                ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+                // Add ambient particles occasionally
+                if (Math.random() > 0.85) this.addAmbient();
+
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const p = this.particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.life -= p.decay;
+                    p.rotation += p.rotationSpeed;
+
+                    if (p.type === 'ambient') {
+                        p.pulse = (p.pulse || 0) + 0.03;
+                        p.size = p.maxSize * (0.5 + 0.5 * Math.sin(p.pulse));
+                    }
+
+                    if (p.life <= 0 || p.y < -20) {
+                        this.particles.splice(i, 1);
+                        continue;
+                    }
+
+                    ctx.save();
+                    ctx.globalAlpha = p.life * 0.8;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rotation);
+
+                    if (p.type === 'sparkle') {
+                        // 4-point star sparkle
+                        const s = p.size * p.life;
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        for (let j = 0; j < 4; j++) {
+                            const a = (Math.PI / 2) * j;
+                            ctx.lineTo(Math.cos(a) * s * 2, Math.sin(a) * s * 2);
+                            ctx.lineTo(Math.cos(a + Math.PI / 4) * s * 0.5, Math.sin(a + Math.PI / 4) * s * 0.5);
+                        }
+                        ctx.closePath();
+                        ctx.fill();
+                    } else if (p.type === 'glow') {
+                        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size * 2);
+                        grad.addColorStop(0, p.color);
+                        grad.addColorStop(0.4, p.color + '80');
+                        grad.addColorStop(1, 'transparent');
+                        ctx.fillStyle = grad;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.size * 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        // Ambient — soft dot
+                        const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, p.size * 1.5);
+                        grad.addColorStop(0, p.color + 'cc');
+                        grad.addColorStop(1, 'transparent');
+                        ctx.fillStyle = grad;
+                        ctx.beginPath();
+                        ctx.arc(0, 0, p.size * 1.5, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+
+                    ctx.restore();
+                }
+
+                requestAnimationFrame(() => this._animate());
+            }
+        }
+
+        // ── Main Animation Timeline ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const letters = document.querySelectorAll('.hero-title .letter');
+            const underline = document.getElementById('heroUnderline');
+            const subtitle = document.getElementById('heroSubtitle');
+            const canvas = document.getElementById('heroParticles');
+            const titleEl = document.getElementById('heroTitle');
+
+            if (!letters.length || !canvas) return;
+
+            const ps = new ParticleSystem(canvas);
+            ps.start();
+
+            // Master GSAP Timeline
+            const tl = gsap.timeline({ delay: 0.3 });
+
+            // Step 1: Set initial state for all letters
+            gsap.set(letters, {
+                opacity: 0,
+                y: 100,
+                rotateX: -90,
+                rotateY: 15,
+                scale: 0.3,
+                filter: 'blur(20px)',
+                transformOrigin: '50% 100%'
+            });
+
+            // Step 2: Staggered letter reveal with 3D flip
+            tl.to(letters, {
+                opacity: 1,
+                y: 0,
+                rotateX: 0,
+                rotateY: 0,
+                scale: 1,
+                filter: 'blur(0px)',
+                duration: 1,
+                stagger: {
+                    each: 0.08,
+                    onStart: function() {
+                        // Burst particles from each letter as it appears
+                        const letter = this.targets()[0];
+                        const rect = letter.getBoundingClientRect();
+                        const wrapperRect = canvas.parentElement.getBoundingClientRect();
+                        const cx = rect.left - wrapperRect.left + rect.width / 2;
+                        const cy = rect.top - wrapperRect.top + rect.height / 2;
+                        ps.burst(cx, cy, 15);
+                    }
+                },
+                ease: 'back.out(1.7)'
+            });
+
+            // Step 3: Elastic bounce settle
+            tl.to(letters, {
+                y: -8,
+                duration: 0.25,
+                stagger: 0.03,
+                ease: 'power2.out'
+            }, '-=0.3');
+
+            tl.to(letters, {
+                y: 0,
+                duration: 0.4,
+                stagger: 0.03,
+                ease: 'bounce.out'
+            });
+
+            // Step 4: Gradient shimmer loop on each letter
+            tl.to(letters, {
+                backgroundPosition: '200% 50%',
+                duration: 2,
+                stagger: 0.1,
+                ease: 'none',
+                repeat: -1,
+                repeatDelay: 1
+            }, '-=0.2');
+
+            // Step 5: Underline reveal
+            tl.to(underline, {
+                width: '60%',
+                duration: 0.8,
+                ease: 'power4.out'
+            }, 1.2);
+
+            // Step 6: Subtitle fade in
+            tl.to(subtitle, {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            }, 1.4);
+
+            gsap.set(subtitle, { y: 30 });
+
+            // ── Magnetic Hover Effect ──
+            const wrapper = document.querySelector('.hero-title-wrapper');
+            wrapper.addEventListener('mousemove', (e) => {
+                const rect = titleEl.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                letters.forEach((letter, i) => {
+                    const lRect = letter.getBoundingClientRect();
+                    const lCenterX = lRect.left + lRect.width / 2;
+                    const lCenterY = lRect.top + lRect.height / 2;
+                    const distX = e.clientX - lCenterX;
+                    const distY = e.clientY - lCenterY;
+                    const dist = Math.sqrt(distX * distX + distY * distY);
+                    const maxDist = 150;
+
+                    if (dist < maxDist) {
+                        const strength = 1 - dist / maxDist;
+                        gsap.to(letter, {
+                            x: distX * strength * 0.15,
+                            y: distY * strength * 0.1,
+                            scale: 1 + strength * 0.12,
+                            duration: 0.3,
+                            ease: 'power2.out',
+                            overwrite: 'auto'
+                        });
+                    } else {
+                        gsap.to(letter, {
+                            x: 0, y: 0, scale: 1,
+                            duration: 0.6,
+                            ease: 'elastic.out(1, 0.5)',
+                            overwrite: 'auto'
+                        });
+                    }
+                });
+            });
+
+            wrapper.addEventListener('mouseleave', () => {
+                letters.forEach(letter => {
+                    gsap.to(letter, {
+                        x: 0, y: 0, scale: 1,
+                        duration: 0.8,
+                        ease: 'elastic.out(1, 0.4)',
+                        overwrite: 'auto'
+                    });
+                });
+            });
+        });
+    })();
+    </script>
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>

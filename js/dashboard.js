@@ -111,8 +111,9 @@ function loadStats(deptText) {
                 if (!ch.lectures) return;
                 ch.lectures.forEach(lec => {
                     totalLectures++;
-                    const isDone = !!(completedLectures[lec.id] || completedSections[lec.id] ||
-                        completedQuizzes[lec.id] || completedSummaries[lec.id] || completedQA[lec.id]);
+                    const key = subj.id + '_' + lec.id;
+                    const isDone = !!(completedLectures[key] || completedSections[key] ||
+                        completedQuizzes[key] || completedSummaries[key] || completedQA[key]);
                     if (lec.type === 'video') {
                         totalVideos++;
                         if (isDone) doneVideos++;
