@@ -19,33 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Force Emerald Theme Colors for this page
-    document.documentElement.style.setProperty('--subject-accent', '#10b981'); // Sky Blue 500
-    document.documentElement.style.setProperty('--subject-glow', '#6ee7b7');   // Sky Blue 300
+    document.documentElement.style.setProperty('--subject-accent', '#10b981');
+    document.documentElement.style.setProperty('--subject-glow', '#6ee7b7');
 
     // Setup Hero
     document.getElementById('chap-subj-title').textContent = subject.title;
 
-    // Apply full-page beautiful background instead of just hero
-    const globalBg = document.createElement('div');
-    globalBg.style.position = 'fixed';
-    globalBg.style.inset = '0';
-    globalBg.style.zIndex = '-1';
-    globalBg.style.pointerEvents = 'none';
-    globalBg.style.background = `radial-gradient(circle at 80% 10%, rgba(52, 211, 153, 0.15) 0%, transparent 50%), radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%), linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%)`;
-    
-    // Add subtle grid texture over the whole page
-    const gridTexture = document.createElement('div');
-    gridTexture.style.position = 'absolute';
-    gridTexture.style.inset = '0';
-    gridTexture.style.backgroundImage = 'linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px)';
-    gridTexture.style.backgroundSize = '40px 40px';
-    globalBg.appendChild(gridTexture);
-    
-    document.body.appendChild(globalBg);
-    
-    // Remove the old hero bg element if it exists to avoid overlapping
-    const oldHeroBg = document.getElementById('chap-hero-bg');
-    if(oldHeroBg) oldHeroBg.style.display = 'none';
+    // The background is now purely handled in summaries.html with the app-bg-container class.
 
     const defaultChapters = [
         {
@@ -210,17 +190,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }).join('');
 
         return `
-        <div class="chap-card group" onclick="toggleChapter(this)">
-            <span class="chap-num">${String(ch.num).padStart(2, '0')}</span>
+        <div class="chap-card group relative" onclick="toggleChapter(this)">
+            <span class="chap-num font-heading font-black italic absolute -top-4 right-2 text-emerald-100 opacity-40 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 pointer-events-none select-none text-[5rem] leading-none" style="text-shadow: 0 10px 30px rgba(16,185,129,0.1);">${String(ch.num).padStart(2, '0')}</span>
             
-            <div class="chap-main-content">
-                <div class="chap-header">
-                    <div class="chap-header-left">
-                        <span class="chap-ch-label">Part ${ch.num}</span>
-                        <h2 class="chap-title-text group-hover:text-emerald-700 transition-colors">${ch.title}</h2>
+            <div class="chap-main-content relative z-10">
+                <div class="chap-header flex items-start justify-between">
+                    <div class="chap-header-left flex flex-col gap-1.5">
+                        <span class="chap-ch-label text-[0.65rem] font-black uppercase tracking-[0.2em] text-emerald-500 bg-emerald-50/50 w-fit px-2.5 py-1 rounded-md border border-emerald-100/50">Part ${ch.num}</span>
+                        <h2 class="chap-title-text font-heading text-[1.75rem] font-bold text-slate-800 leading-[1.15] tracking-tight group-hover:text-emerald-700 transition-colors">${ch.title}</h2>
                     </div>
-                    <div class="chap-toggle-icon group-hover:bg-emerald-100 group-hover:text-emerald-700 transition-colors shadow-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <div class="chap-toggle-icon w-10 h-10 rounded-full bg-white/60 border border-white/80 shadow-[0_4px_10px_rgba(0,0,0,0.03)] flex items-center justify-center text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white group-hover:shadow-[0_8px_20px_rgba(16,185,129,0.3)] transition-all duration-300 transform group-hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </div>
@@ -258,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Optional: GSAP Animation for staggered entrance
     if (typeof gsap !== 'undefined') {
-        gsap.from('.chap-node', {
+        gsap.from('.chap-card', {
             y: 40,
             opacity: 0,
             duration: 0.8,
