@@ -1,8 +1,14 @@
-﻿/* =====================================================
+/* =====================================================
    SUBJECTS ONLINE — Mobile Performance Optimization
    Only kills the truly expensive GPU effects.
    All animations, transitions & fade-ins are kept.
    ===================================================== */
+/* ── Global Viewport Horizontal Scroll Prevention ── */
+html,
+body {
+    overflow-x: hidden !important;
+    max-width: 100vw;
+}
 
 @media (max-width: 768px) {
 

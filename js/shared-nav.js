@@ -195,6 +195,13 @@
            Applied site-wide via shared-nav.js
            ===================================================== */
 
+        /* Viewport Horizontal Overflow Protection */
+        html, body {
+            overflow-x: hidden !important;
+            max-width: 100vw !important;
+            position: relative;
+        }
+
         /* Scrollbar */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #F0F9FF; }
