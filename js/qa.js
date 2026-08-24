@@ -87,7 +87,38 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => btn.classList.remove('burst'), 600);
         }
         localStorage.setItem('soCompletedQA', JSON.stringify(completed));
+        updateSidebarProgress();
     };
+
+    // ── Sidebar Progress Update ───────────────────────────
+    function updateSidebarProgress() {
+        const completed = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
+
+        let total = 0;
+        let done  = 0;
+        chapters.forEach(ch => {
+            ch.lectures.forEach(lec => {
+                total++;
+                if (completed[subjectId + '_' + lec.id]) done++;
+            });
+        });
+
+        const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
+        // Update text
+        const progressText = document.getElementById('progress-text-circle');
+        const progressCount = document.getElementById('progress-count');
+        const progressBar  = document.getElementById('circular-progress-bar');
+
+        if (progressText)  progressText.textContent  = `${pct}%`;
+        if (progressCount) progressCount.textContent = `${done} of ${total} lectures completed`;
+        if (progressBar) {
+            const circumference = 264; // 2 * π * 42
+            const offset = circumference - (pct / 100) * circumference;
+            progressBar.style.strokeDashoffset = offset;
+        }
+    }
+
     const completedLectures = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
 
     const html = chapters.map((ch, chIndex) => {
@@ -152,40 +183,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const clickHandler = isPdf ? `onclick="markLectureDone(event, this, ${lec.id})"` : '';
 
             return `
-            <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
+            <div class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
                 <div class="lec-info">
                     <div class="lec-icon" ${accentStyle}>
                         ${isPdf
                     ? `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`
                     : `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" /></svg>`}
                     </div>
-                    <div>
+                    <div class="lec-text-col">
                         <h4 class="lec-title">${lec.title}</h4>
                         <span class="lec-duration" id="dur-${lec.id}">
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
+                        <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
+                            Open
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
                     </div>
                 </div>
-                
-                <div class="lec-play-btn-wrapper">
-                    <div class="lec-play-btn">
-                        <!-- Front Face (Play/Open) -->
-                        <div class="btn-face btn-front">
-                            <span id="action-text-${lec.id}">${actionText}</span>
-                            ${actionIcon}
-                        </div>
-                        <!-- Back Face (Done) -->
-                        <div class="btn-face btn-back" id="done-btn-${lec.id}">
-                            <span>Done</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="lec-undone-btn" onclick="removeLectureDone(event, this, ${lec.id})" title="Undo">✕</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+
+                <button class="lec-circle-btn ${isDone ? 'is-done' : ''}" onclick="toggleCircleDone(event, this, ${lec.id})" title="Mark as done">
+                    <svg class="circle-check-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
             `;
         }).join('');
 
@@ -235,6 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }).join('');
 
     timelineContainer.innerHTML = html;
+
+    // Show correct progress on initial load
+    updateSidebarProgress();
 
     // Optional: GSAP Animation for staggered entrance
     if (typeof gsap !== 'undefined') {
