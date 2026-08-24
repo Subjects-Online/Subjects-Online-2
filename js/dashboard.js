@@ -185,15 +185,6 @@ function loadStats(deptText) {
         }, 500);
     }
 
-    // Feature 10: Level Badge
-    const levelBadge = document.getElementById('hero-level-badge');
-    if (levelBadge) {
-        let level = "Beginner";
-        if (progressPct >= 20 && progressPct < 50) level = "Learner";
-        else if (progressPct >= 50 && progressPct < 80) level = "Scholar 🌟";
-        else if (progressPct >= 80) level = "Expert 🏆";
-        levelBadge.textContent = level;
-    }
 
 
 
