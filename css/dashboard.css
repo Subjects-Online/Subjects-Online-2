@@ -685,7 +685,7 @@ html.dark-mode .dash-stat-divider {
     top: -40%;
     left: -10%;
     border-radius: 999px;
-    background: radial-gradient(ellipse at center, rgba(14, 165, 233, 0.28) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.12) 45%, transparent 70%);
     filter: blur(25px);
     pointer-events: none;
     z-index: 0;
@@ -715,7 +715,7 @@ html.dark-mode .dash-stat-divider {
 }
 
 html.dark-mode .name-ambient-aura {
-    background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.35) 0%, rgba(129, 140, 248, 0.2) 50%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(192, 132, 252, 0.3) 0%, rgba(244, 114, 182, 0.18) 50%, transparent 70%);
 }
 
 /* ── Laser Underline Beam ─────────────────────────── */
@@ -734,8 +734,8 @@ html.dark-mode .name-ambient-aura {
     position: relative;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, transparent 0%, #38BDF8 25%, #6366F1 50%, #38BDF8 75%, transparent 100%);
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.6), 0 0 20px rgba(99, 102, 241, 0.4);
+    background: linear-gradient(90deg, transparent 0%, #a855f7 20%, #ec4899 50%, #f97316 80%, transparent 100%);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5), 0 0 20px rgba(236, 72, 153, 0.3);
     border-radius: 999px;
     transform: scaleX(0);
     transform-origin: center;
@@ -754,8 +754,8 @@ html.dark-mode .name-ambient-aura {
     width: 30%;
     height: 6px;
     border-radius: 999px;
-    background: linear-gradient(90deg, transparent, #38BDF8, #FFFFFF, #38BDF8, transparent);
-    box-shadow: 0 0 12px #38BDF8, 0 0 24px #0EA5E9;
+    background: linear-gradient(90deg, transparent, #c084fc, #FFFFFF, #f472b6, transparent);
+    box-shadow: 0 0 12px #c084fc, 0 0 24px #a855f7;
     opacity: 0.9;
     animation: laserSweep 3.5s ease-in-out infinite alternate;
 }
@@ -782,8 +782,8 @@ html.dark-mode .name-ambient-aura {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #38BDF8;
-    box-shadow: 0 0 12px #38BDF8, 0 0 20px #0EA5E9;
+    background: #c084fc;
+    box-shadow: 0 0 12px #c084fc, 0 0 20px #a855f7;
     opacity: 0.8;
 }
 
@@ -1907,9 +1907,37 @@ html.dark-mode .hero-beams {
     min-height: 1.2em;
 }
 
+html.dark-mode .hero-name-typed {
+    /* No special background clip, GSAP SVG handles colors */
+}
+
+/* ── Avatar Bubble Pop Animation ─────────────────────────────────── */
+@keyframes bubblePop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+        filter: blur(10px);
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+        filter: blur(0px);
+    }
+    70% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.animate-bubble-pop {
+    animation: bubblePop 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
 .hero-cursor {
     display: inline-block;
-    color: #0EA5E9;
+    color: #a855f7;
     font-weight: 100;
     margin-left: 2px;
     animation: heroCursorBlink 0.9s step-end infinite;

@@ -402,14 +402,14 @@ function gsapDrawName(el, text) {
     const defs = document.createElementNS(svgNS, "defs");
     defs.innerHTML = `
         <linearGradient id="nameFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop id="nStop1" offset="0%" stop-color="#38BDF8" />
-            <stop id="nStop2" offset="50%" stop-color="#0284C7" />
-            <stop id="nStop3" offset="100%" stop-color="#6366F1" />
+            <stop id="nStop1" offset="0%" stop-color="#8B5CF6" />
+            <stop id="nStop2" offset="50%" stop-color="#EC4899" />
+            <stop id="nStop3" offset="100%" stop-color="#F59E0B" />
         </linearGradient>
         <linearGradient id="nameStrokeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#38BDF8" />
-            <stop offset="50%" stop-color="#60A5FA" />
-            <stop offset="100%" stop-color="#A78BFA" />
+            <stop offset="0%" stop-color="#A78BFA" />
+            <stop offset="50%" stop-color="#F472B6" />
+            <stop offset="100%" stop-color="#FCD34D" />
         </linearGradient>
     `;
     svg.appendChild(defs);
@@ -477,7 +477,7 @@ function gsapDrawName(el, text) {
         // Step 2: Smoothly fill text with glowing cyan/indigo luxury gradient
         tl.to(tspanElements, {
             fill: "url(#nameFillGrad)",
-            stroke: "rgba(56, 189, 248, 0.4)",
+            stroke: "rgba(168, 85, 247, 0.4)",
             strokeWidth: 0.8,
             duration: 1.3,
             ease: "power2.out",
@@ -502,11 +502,11 @@ function startContinuousColorShift() {
     if (typeof gsap === 'undefined') return;
 
     const colorPairs = [
-        { s1: "#38BDF8", s2: "#0284C7", s3: "#6366F1" }, // Sky -> Deep Blue -> Indigo
-        { s1: "#0EA5E9", s2: "#2563EB", s3: "#4F46E5" }, // Electric Blue -> Royal Blue -> Deep Indigo
-        { s1: "#06B6D4", s2: "#0284C7", s3: "#8B5CF6" }, // Cyan -> Ocean Blue -> Purple Accent
-        { s1: "#60A5FA", s2: "#0369A1", s3: "#A855F7" }, // Ice Blue -> Dark Sky -> Violet
-        { s1: "#38BDF8", s2: "#0284C7", s3: "#6366F1" }  // Loop back
+        { s1: "#8B5CF6", s2: "#EC4899", s3: "#F59E0B" }, // Violet -> Pink -> Amber
+        { s1: "#A855F7", s2: "#D946EF", s3: "#F43F5E" }, // Purple -> Fuchsia -> Rose
+        { s1: "#7C3AED", s2: "#DB2777", s3: "#EA580C" }, // Deep Violet -> Deep Pink -> Orange
+        { s1: "#C026D3", s2: "#E11D48", s3: "#D97706" }, // Fuchsia -> Rose -> Amber
+        { s1: "#8B5CF6", s2: "#EC4899", s3: "#F59E0B" }  // Loop back
     ];
 
     let step = 0;

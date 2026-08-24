@@ -85,6 +85,17 @@
         <div
             class="flex flex-col items-center justify-center text-center min-h-[95vh] relative hero-container px-6 overflow-hidden">
 
+            <!-- Premium Desktop Background (Large Screens Only) -->
+            <div class="hidden md:block absolute inset-0 z-0 pointer-events-none">
+                <!-- Modern Tech Grid -->
+                <div class="absolute inset-0 opacity-60 dark:opacity-30"
+                    style="background-image: linear-gradient(to right, rgba(168, 85, 247, 0.2) 1px, transparent 1px), linear-gradient(to bottom, rgba(168, 85, 247, 0.2) 1px, transparent 1px); background-size: 50px 50px; mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 40%, transparent 80%); -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 40%, transparent 80%);">
+                </div>
+                <!-- Ambient Glowing Orbs -->
+                <div class="absolute top-[10%] right-[10%] w-[400px] h-[400px] bg-violet-500/20 rounded-full blur-[120px]"></div>
+                <div class="absolute bottom-[10%] left-[10%] w-[500px] h-[500px] bg-pink-500/20 rounded-full blur-[120px]"></div>
+            </div>
+
             <!-- Background Glow (Soft and high contrast) -->
             <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-40 pointer-events-none z-0 mix-blend-screen"
                 style="background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 60%);"></div>
@@ -98,111 +109,79 @@
                 </h1>
             </div>
 
-            <!-- Avatar & Breathing Ring -->
-            <a href="profile.html"
-                class="relative group mb-12 cursor-pointer flex flex-col items-center justify-center z-10 hero-avatar"
-                style="text-decoration:none;">
+            <!-- Hero Content: Column on mobile, Row on desktop -->
+            <div class="flex flex-col lg:flex-row items-center lg:items-center justify-center lg:justify-start gap-8 lg:gap-24 z-10 w-full max-w-6xl mx-auto lg:pl-10">
 
-                <!-- Radial Light Beams -->
-                <div class="hero-beams" id="hero-beams" aria-hidden="true">
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                    <div class="hero-beam"></div>
-                </div>
+                <!-- Avatar & Premium Frame -->
+                <a href="profile.html"
+                    class="relative group cursor-pointer flex flex-col items-center justify-center hero-avatar shrink-0 animate-bubble-pop"
+                    style="text-decoration:none;">
 
-                <!-- Floating Particles Container -->
-                <div class="hero-particles" id="hero-particles" aria-hidden="true"></div>
+                    <!-- Soft Ambient Glow -->
+                    <div class="absolute w-56 h-56 rounded-[2.5rem] bg-gradient-to-br from-violet-400/20 via-pink-400/15 to-amber-400/10 blur-[50px] animate-[pulse_5s_ease-in-out_infinite] pointer-events-none"></div>
 
-                <!-- Breathing Aura (Indigo) -->
-                <div
-                    class="absolute w-56 h-56 bg-brand-accent rounded-full blur-[70px] opacity-15 animate-[pulse_4s_ease-in-out_infinite] pointer-events-none">
-                </div>
-                <!-- Expanding Sonar Ring -->
-                <div
-                    class="absolute w-44 h-44 border border-brand-accent/30 rounded-full animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20 pointer-events-none">
-                </div>
+                    <!-- Gradient Border Frame -->
+                    <div class="relative p-[4px] rounded-[2.5rem] bg-gradient-to-br from-violet-500 via-pink-500 to-amber-400 shadow-[0_20px_50px_-12px_rgba(168,85,247,0.35)] group-hover:shadow-[0_25px_60px_-10px_rgba(168,85,247,0.5)] transition-all duration-700 group-hover:scale-[1.03] hero-avatar-frame">
+                        
+                        <!-- Inner Container -->
+                        <div class="relative w-48 h-48 rounded-[2.2rem] bg-brand-bg overflow-hidden" id="hero-avatar-wrap">
+                            <div id="hero-avatar"
+                                class="w-full h-full flex items-center justify-center text-violet-500 font-heading font-light text-6xl bg-cover bg-center">
+                                S
+                            </div>
 
-                <!-- Laser Split SVG Ring -->
-                <svg class="hero-avatar-svg-ring" id="hero-avatar-svg-ring" viewBox="0 0 200 200" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="ringGradLeft" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#38BDF8" />
-                            <stop offset="50%" stop-color="#0EA5E9" />
-                            <stop offset="100%" stop-color="#6366F1" />
-                        </linearGradient>
-                        <linearGradient id="ringGradRight" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#38BDF8" />
-                            <stop offset="50%" stop-color="#0EA5E9" />
-                            <stop offset="100%" stop-color="#6366F1" />
-                        </linearGradient>
-                        <filter id="ringGlowFilter">
-                            <feGaussianBlur stdDeviation="3" result="blur" />
-                            <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                    </defs>
-
-                    <!-- Left Arc (opens from top dot down to bottom) -->
-                    <path id="ring-arc-left" class="ring-arc-path" d="M 100 6 A 94 94 0 0 0 100 194" fill="none"
-                        stroke="url(#ringGradLeft)" stroke-width="4" stroke-linecap="round"
-                        filter="url(#ringGlowFilter)" />
-                    <!-- Right Arc (opens from top dot down to bottom) -->
-                    <path id="ring-arc-right" class="ring-arc-path" d="M 100 6 A 94 94 0 0 1 100 194" fill="none"
-                        stroke="url(#ringGradRight)" stroke-width="4" stroke-linecap="round"
-                        filter="url(#ringGlowFilter)" />
-
-                    <!-- Top Origin Dot -->
-                    <circle id="ring-origin-dot" cx="100" cy="6" r="5" fill="#38BDF8" filter="url(#ringGlowFilter)" />
-                    <!-- Bottom Snap Dot -->
-                    <circle id="ring-snap-dot" cx="100" cy="194" r="7" fill="#38BDF8" opacity="0"
-                        filter="url(#ringGlowFilter)" />
-                </svg>
-
-                <!-- Avatar Inner -->
-                <div class="relative w-44 h-44 rounded-full bg-brand-cardBg flex items-center justify-center overflow-hidden z-10 transition-transform duration-1000 group-hover:scale-105 hero-avatar-img-wrap"
-                    id="hero-avatar-wrap">
-                    <div id="hero-avatar"
-                        class="w-full h-full flex items-center justify-center text-brand-accent font-heading font-light text-6xl bg-cover bg-center">
-                        S
-                    </div>
-                </div>
-            </a>
-
-            <!-- Typography (Smooth Fade) -->
-            <div class="relative z-10 flex flex-col items-center hero-title">
-                <p id="greeting-text"
-                    class="text-brand-textSecondary text-[9px] tracking-[0.5em] uppercase font-light mb-6 opacity-60">
-                    Initializing</p>
-
-                <div class="relative flex flex-col items-center justify-center w-full">
-                    <!-- Name Ambient Glow Backdrop -->
-                    <div class="name-ambient-aura" id="name-ambient-aura" aria-hidden="true"></div>
-
-                    <h1 id="display-name"
-                        class="font-heading text-4xl sm:text-5xl lg:text-6xl text-brand-textPrimary font-medium tracking-wider mb-3 leading-tight hero-name-typed relative z-10">
-                        <span id="display-name-text"></span><span class="hero-cursor" aria-hidden="true">|</span>
-                    </h1>
-
-                    <!-- Laser Underline Beam -->
-                    <div class="hero-laser-wrap mb-8" id="hero-laser-wrap" aria-hidden="true">
-                        <div class="hero-laser-line" id="hero-laser-line">
-                            <div class="hero-laser-sweep"></div>
-                            <div class="hero-laser-dot laser-dot-left"></div>
-                            <div class="hero-laser-dot laser-dot-right"></div>
+                            <!-- Subtle shine overlay -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent pointer-events-none rounded-[1.85rem]">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="flex items-center gap-6 opacity-70">
-                    <span id="display-dept"
-                        class="text-brand-textSecondary text-[10px] font-heading font-medium tracking-[0.3em] uppercase">Loading...</span>
+                    <!-- Online Status Dot -->
+                    <div
+                        class="absolute bottom-1 right-1 z-20 w-4 h-4 rounded-full bg-emerald-400 border-[3px] border-brand-bg shadow-[0_0_10px_rgba(52,211,153,0.6)] animate-[pulse_2s_ease-in-out_infinite]">
+                    </div>
+                </a>
+
+                <!-- Typography (Smooth Fade) -->
+                <div class="relative z-10 flex flex-col items-center lg:items-start hero-title">
+
+
+
+                    <p id="greeting-text"
+                        class="text-brand-textSecondary text-[9px] tracking-[0.5em] uppercase font-light mb-4 opacity-60">
+                        Initializing</p>
+
+                    <div class="relative flex flex-col items-center lg:items-start justify-center w-full">
+                        <!-- Name Ambient Glow Backdrop -->
+                        <div class="name-ambient-aura" id="name-ambient-aura" aria-hidden="true"></div>
+
+                        <h1 id="display-name"
+                            class="font-heading text-4xl sm:text-5xl lg:text-7xl text-brand-textPrimary font-medium tracking-wider mb-2 leading-tight hero-name-typed relative z-10 text-center lg:text-left">
+                            <span id="display-name-text"></span><span class="hero-cursor" aria-hidden="true">|</span>
+                        </h1>
+
+                        <!-- Laser Underline Beam -->
+                        <div class="hero-laser-wrap mb-6" id="hero-laser-wrap" aria-hidden="true">
+                            <div class="hero-laser-line" id="hero-laser-line">
+                                <div class="hero-laser-sweep"></div>
+                                <div class="hero-laser-dot laser-dot-left"></div>
+                                <div class="hero-laser-dot laser-dot-right"></div>
+                            </div>
+                        </div>
+
+                        <!-- Department Badge Under Name -->
+                        <div class="mt-2 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gradient-to-r from-violet-500/10 to-pink-500/10 border border-violet-500/30 text-violet-700 dark:text-violet-300 shadow-[0_8px_20px_rgba(168,85,247,0.15)] backdrop-blur-md transition-all hover:scale-105 cursor-default relative overflow-hidden group/badge">
+                            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent -translate-x-[100%] group-hover/badge:translate-x-[100%] transition-transform duration-700"></div>
+                            <svg class="w-4 h-4 opacity-80" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span id="display-dept"
+                                class="text-[11px] font-heading font-bold tracking-[0.25em] uppercase">Loading...</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -248,18 +227,22 @@
                         <div class="browse-orb orb-2"></div>
                         <div class="browse-orb orb-3"></div>
                     </div>
-                    
+
                     <!-- Giant Floating Graphic -->
-                    <div class="absolute top-1/2 right-10 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-0 transform group-hover:-rotate-12">
+                    <div
+                        class="absolute top-1/2 right-10 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-0 transform group-hover:-rotate-12">
                         <span class="text-[12rem] md:text-[16rem] leading-none drop-shadow-2xl">🌍</span>
                     </div>
 
                     <div class="relative z-10 flex justify-between items-start w-full">
-                        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
+                        <div
+                            class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
                             <span class="text-[10px] uppercase tracking-[0.2em] font-bold">Explore All Materials</span>
                         </div>
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white group-hover:bg-white/30 transition-colors shadow-lg">
-                            <svg class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white group-hover:bg-white/30 transition-colors shadow-lg">
+                            <svg class="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-500"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         </div>
@@ -267,9 +250,12 @@
 
                     <div class="relative z-10 mt-auto flex items-end justify-between w-full">
                         <div>
-                            <h2 class="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 origin-bottom-left transition-transform duration-500">Browse</h2>
+                            <h2
+                                class="font-heading text-6xl md:text-7xl lg:text-8xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 origin-bottom-left transition-transform duration-500">
+                                Browse</h2>
                         </div>
-                        <div class="text-white text-right bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-lg group-hover:bg-white/20 transition-colors">
+                        <div
+                            class="text-white text-right bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-lg group-hover:bg-white/20 transition-colors">
                             <span class="block font-heading text-3xl font-black" id="card-lib-count">6</span>
                             <span class="text-[9px] uppercase tracking-widest font-bold opacity-80">Subjects</span>
                         </div>
@@ -282,15 +268,18 @@
                     <div class="absolute inset-0 pointer-events-none overflow-hidden">
                         <div class="card-orb"></div>
                     </div>
-                    
-                    <div class="absolute bottom-10 right-0 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0 translate-x-1/4">
+
+                    <div
+                        class="absolute bottom-10 right-0 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[2px] group-hover:blur-0 translate-x-1/4">
                         <span class="text-[14rem] leading-none drop-shadow-2xl">📚</span>
                     </div>
 
                     <div class="relative z-10 flex justify-between items-start w-full">
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg">
                             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
                         </div>
                         <div class="text-white text-right">
@@ -300,8 +289,11 @@
                     </div>
 
                     <div class="relative z-10 mt-auto w-full">
-                        <p class="text-white/80 uppercase tracking-[0.2em] text-[10px] font-bold mb-2">Your Collection</p>
-                        <h2 class="font-heading text-5xl md:text-6xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 origin-bottom-left transition-transform duration-500">Library</h2>
+                        <p class="text-white/80 uppercase tracking-[0.2em] text-[10px] font-bold mb-2">Your Collection
+                        </p>
+                        <h2
+                            class="font-heading text-5xl md:text-6xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 origin-bottom-left transition-transform duration-500">
+                            Library</h2>
                     </div>
                 </a>
 
@@ -311,25 +303,31 @@
                     <div class="absolute inset-0 pointer-events-none overflow-hidden">
                         <div class="card-orb"></div>
                     </div>
-                    
-                    <span class="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-amber-900/40 backdrop-blur-md text-amber-200 border border-amber-500/30 text-[9px] uppercase tracking-widest font-bold shadow-lg z-20">Premium</span>
 
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
+                    <span
+                        class="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-amber-900/40 backdrop-blur-md text-amber-200 border border-amber-500/30 text-[9px] uppercase tracking-widest font-bold shadow-lg z-20">Premium</span>
+
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
                         <span class="text-[12rem] leading-none drop-shadow-2xl">✍️</span>
                     </div>
 
                     <div class="relative z-10 w-full">
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
                         </div>
                     </div>
 
                     <div class="relative z-10 mt-auto flex items-end justify-between w-full">
                         <div>
-                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Academic Insights</p>
-                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">Essays</h2>
+                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Academic
+                                Insights</p>
+                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">
+                                Essays</h2>
                         </div>
                         <div class="text-white text-right">
                             <span class="block font-heading text-2xl font-black" id="card-essays-count">4</span>
@@ -344,22 +342,27 @@
                         <div class="card-orb"></div>
                     </div>
 
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
                         <span class="text-[12rem] leading-none drop-shadow-2xl">❤️</span>
                     </div>
 
                     <div class="relative z-10 w-full">
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                             </svg>
                         </div>
                     </div>
 
                     <div class="relative z-10 mt-auto flex items-end justify-between w-full">
                         <div>
-                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Curated Collection</p>
-                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">Favorites</h2>
+                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Curated
+                                Collection</p>
+                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">
+                                Favorites</h2>
                         </div>
                         <div class="text-white text-right">
                             <span class="block font-heading text-2xl font-black" id="card-fav-count">0</span>
@@ -373,25 +376,31 @@
                     <div class="absolute inset-0 pointer-events-none overflow-hidden">
                         <div class="card-orb"></div>
                     </div>
-                    
-                    <span class="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-emerald-900/40 backdrop-blur-md text-emerald-200 border border-emerald-500/30 text-[9px] uppercase tracking-widest font-bold shadow-lg z-20">New</span>
 
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
+                    <span
+                        class="absolute top-6 right-6 px-4 py-1.5 rounded-full bg-emerald-900/40 backdrop-blur-md text-emerald-200 border border-emerald-500/30 text-[9px] uppercase tracking-widest font-bold shadow-lg z-20">New</span>
+
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-30 group-hover:opacity-80 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px]">
                         <span class="text-[12rem] leading-none drop-shadow-2xl">💬</span>
                     </div>
 
                     <div class="relative z-10 w-full">
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg mb-4">
                             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                    d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
                             </svg>
                         </div>
                     </div>
 
                     <div class="relative z-10 mt-auto flex items-end justify-between w-full">
                         <div>
-                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Connect & Share</p>
-                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">Community</h2>
+                            <p class="text-white/80 uppercase tracking-[0.2em] text-[9px] font-bold mb-1">Connect &
+                                Share</p>
+                            <h2 class="font-heading text-4xl text-white font-black tracking-tighter drop-shadow-xl">
+                                Community</h2>
                         </div>
                         <div class="text-white text-right">
                             <span class="block font-heading text-2xl font-black" id="card-comm-count">∞</span>
@@ -406,24 +415,30 @@
                         <div class="card-orb"></div>
                     </div>
 
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px] flex gap-12">
+                    <div
+                        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none opacity-40 group-hover:opacity-90 group-hover:scale-110 transition-all duration-700 blur-[4px] group-hover:blur-[1px] flex gap-12">
                         <span class="text-[14rem] leading-none drop-shadow-2xl -rotate-12">🚀</span>
                         <span class="text-[14rem] leading-none drop-shadow-2xl rotate-12 hidden md:block">🎯</span>
                     </div>
 
                     <div class="relative z-10 flex justify-between items-start w-full">
-                        <div class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white shadow-lg">
                             <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                             </svg>
                         </div>
-                        <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
+                        <div
+                            class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg">
                             <span class="text-[10px] uppercase tracking-[0.2em] font-bold">Master Your Skills</span>
                         </div>
                     </div>
 
                     <div class="relative z-10 mt-auto text-center w-full">
-                        <h2 class="font-heading text-6xl md:text-7xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">Trainings</h2>
+                        <h2
+                            class="font-heading text-6xl md:text-7xl text-white font-black tracking-tighter drop-shadow-2xl group-hover:scale-105 transition-transform duration-500">
+                            Trainings</h2>
                     </div>
                 </a>
             </div>
