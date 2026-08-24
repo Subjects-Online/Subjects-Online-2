@@ -5,15 +5,15 @@
 const MATERIALS = {
     accounting: [
         {
-            id: 'a1', title: 'Financial Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Basics of financial statements, ledgers and balance sheets.',
+            id: 'a1', title: 'Corporate Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Accounting for corporations, partnerships and companies.',
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Introduction to Financial Accounting", time: "2h 30m",
+                        num: 1, title: "Introduction to Corporate Accounting", time: "2h 30m",
                         lectures: [
-                            { id: 101, title: "Lec 1: Accounting Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
-                            { id: 102, title: "Lec 2: The Accounting Equation", type: "pdf", url: "materials/dummy.pdf" },
-                            { id: 103, title: "Lec 3: Accounting Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
+                            { id: 101, title: "Lec 1: Corporate Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
+                            { id: 102, title: "Lec 2: Partnership Accounting", type: "pdf", url: "materials/dummy.pdf" },
+                            { id: 103, title: "Lec 3: Company Accounts", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
 
                         ]
                     },
@@ -29,7 +29,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "1h 30m",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: Accounting Equation", type: "pdf", url: "materials/dummy.pdf" },
+                            { id: 1001, title: "Quiz 1: Corporate Equation", type: "pdf", url: "materials/dummy.pdf" },
                             { id: 1002, title: "Quiz 2: Journal Entries", type: "pdf", url: "materials/dummy.pdf" }
                         ]
                     }
@@ -64,43 +64,57 @@ const MATERIALS = {
                 ]
             }
         },
-        { id: 'a2', title: 'Cost Accounting', icon: '🧮', color: '#ede9fe', accent: '#7c3aed', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 'a3', title: 'Auditing', icon: '🔍', color: '#dcfce7', accent: '#16a34a', desc: 'Internal & external auditing standards and procedures.' },
-        { id: 'a4', title: 'Tax Accounting', icon: '📋', color: '#fef9c3', accent: '#ca8a04', desc: 'Egyptian tax law, VAT, income tax returns & filings.' },
-        { id: 'a5', title: 'Accounting Information Systems', icon: '💻', color: '#fee2e2', accent: '#dc2626', desc: 'ERP systems, data entry workflows, and digital reporting.' },
-        { id: 'a6', title: 'Management Accounting', icon: '📈', color: '#cffafe', accent: '#0891b2', desc: 'Budgeting, forecasting and managerial decision making.' },
+        { id: 'a2', title: 'Principles of Cost Accounting', icon: '🧮', color: '#ede9fe', accent: '#7c3aed', desc: 'Cost classification, marginal costing and variance analysis.' },
+        { id: 'a3', title: 'Specialized Accounting Systems', icon: '🔍', color: '#dcfce7', accent: '#16a34a', desc: 'Accounting systems tailored for specific industries and entities.' },
+        { id: 'a4', title: 'Quantitative Analysis for Business', icon: '📈', color: '#fef9c3', accent: '#ca8a04', desc: 'Mathematical and statistical modeling for business decision making.' },
+        { id: 'a5', title: 'Principles of Financial Management', icon: '💰', color: '#fee2e2', accent: '#dc2626', desc: 'Capital budgeting, financial planning, and risk management.' },
+        { id: 'a6', title: 'Money and Banking Economics', icon: '🏦', color: '#cffafe', accent: '#0891b2', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 'a7', title: 'Tax Systems', icon: '📋', color: '#fce7f3', accent: '#db2777', desc: 'Tax laws, corporate taxation, and revenue systems.' },
     ],
     business: [
-        { id: 'b1', title: 'Principles of Management', icon: '🏢', color: '#dbeafe', accent: '#2563eb', desc: 'Planning, organizing, leading and controlling organizations.' },
-        { id: 'b2', title: 'Marketing Management', icon: '📣', color: '#fce7f3', accent: '#db2777', desc: 'Market segmentation, targeting and the 4Ps of marketing.' },
-        { id: 'b3', title: 'Business Law', icon: '⚖️', color: '#ede9fe', accent: '#7c3aed', desc: 'Commercial contracts, company law and dispute resolution.' },
-        { id: 'b4', title: 'Human Resources', icon: '👥', color: '#dcfce7', accent: '#16a34a', desc: 'Recruitment, performance management and labor relations.' },
-        { id: 'b5', title: 'Operations Management', icon: '⚙️', color: '#fef9c3', accent: '#ca8a04', desc: 'Supply chain, quality control and lean production methods.' },
-        { id: 'b6', title: 'Entrepreneurship', icon: '🚀', color: '#fee2e2', accent: '#dc2626', desc: 'Business planning, startups and innovation frameworks.' },
+        { id: 'b1', title: 'Quantitative Analysis for Business', icon: '📈', color: '#dbeafe', accent: '#2563eb', desc: 'Quantitative techniques and operations research for business.' },
+        { id: 'b2', title: 'Principles of Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777', desc: 'Corporate finance, budgeting, and financial decision making.' },
+        { id: 'b3', title: 'Public Institutions Management', icon: '🏛️', color: '#ede9fe', accent: '#7c3aed', desc: 'Administration and management of public sector organizations.' },
+        { id: 'b4', title: 'Corporate Accounting', icon: '📊', color: '#dcfce7', accent: '#16a34a', desc: 'Accounting for corporations, partnerships and companies.' },
+        { id: 'b5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fef9c3', accent: '#ca8a04', desc: 'Cost classification, marginal costing and variance analysis.' },
+        { id: 'b6', title: 'Money and Banking Economics', icon: '🏦', color: '#fee2e2', accent: '#dc2626', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 'b7', title: 'Principles of Insurance', icon: '🛡️', color: '#cffafe', accent: '#0891b2', desc: 'Risk management, life and non-life insurance principles.' },
     ],
     economics: [
-        { id: 'e1', title: 'Microeconomics', icon: '🏪', color: '#dbeafe', accent: '#2563eb', desc: 'Supply & demand, market equilibrium and consumer theory.' },
-        { id: 'e2', title: 'Macroeconomics', icon: '🌍', color: '#dcfce7', accent: '#16a34a', desc: 'GDP, inflation, monetary and fiscal policy analysis.' },
-        { id: 'e3', title: 'Development Economics', icon: '📊', color: '#fef9c3', accent: '#ca8a04', desc: 'Economic growth models and development policy tools.' },
-        { id: 'e4', title: 'International Trade', icon: '🌐', color: '#ede9fe', accent: '#7c3aed', desc: 'Trade theories, WTO, tariffs and comparative advantage.' },
-        { id: 'e5', title: 'Econometrics', icon: '📉', color: '#fee2e2', accent: '#dc2626', desc: 'Regression analysis, statistical modeling and forecasting.' },
-        { id: 'e6', title: 'Public Finance', icon: '🏦', color: '#cffafe', accent: '#0891b2', desc: 'Government budget, public expenditure and taxation theory.' },
+        { id: 'e1', title: 'Money and Banking Economics', icon: '🏦', color: '#dbeafe', accent: '#2563eb', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 'e2', title: 'History of Economic Thought', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Evolution of economic ideas and major economic thinkers.' },
+        { id: 'e3', title: 'Comparative Economic Systems', icon: '🌍', color: '#fef9c3', accent: '#ca8a04', desc: 'Analysis of different economic systems and structures.' },
+        { id: 'e4', title: 'Industrial Economics', icon: '🏭', color: '#ede9fe', accent: '#7c3aed', desc: 'Market structure, firm behavior, and industrial organization.' },
+        { id: 'e5', title: 'Statistics for Economists', icon: '📉', color: '#fee2e2', accent: '#dc2626', desc: 'Statistical methods and their application in economics.' },
+        { id: 'e6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2', desc: 'Cost classification, marginal costing and variance analysis.' },
+        { id: 'e7', title: 'Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777', desc: 'Corporate finance, budgeting, and financial decision making.' },
     ],
     statistics: [
-        { id: 's1', title: 'Descriptive Statistics', icon: '📐', color: '#dbeafe', accent: '#2563eb', desc: 'Mean, median, mode, variance and data visualization.' },
-        { id: 's2', title: 'Probability Theory', icon: '🎲', color: '#ede9fe', accent: '#7c3aed', desc: 'Random variables, distributions and probability rules.' },
-        { id: 's3', title: 'Inferential Statistics', icon: '🔬', color: '#dcfce7', accent: '#16a34a', desc: 'Hypothesis testing, confidence intervals and p-values.' },
-        { id: 's4', title: 'Sampling Methods', icon: '📦', color: '#fef9c3', accent: '#ca8a04', desc: 'Random, stratified and cluster sampling techniques.' },
-        { id: 's5', title: 'Time Series Analysis', icon: '📈', color: '#fee2e2', accent: '#dc2626', desc: 'Trend analysis, seasonal decomposition and forecasting.' },
-        { id: 's6', title: 'Statistical Software', icon: '💻', color: '#cffafe', accent: '#0891b2', desc: 'SPSS, R and Python for statistical computing.' },
+        { id: 's1', title: 'Applied Statistics (1)', icon: '📉', color: '#dbeafe', accent: '#2563eb', desc: 'Practical application of statistical methods and data analysis.' },
+        { id: 's2', title: 'Statistics and Computer Lab', icon: '💻', color: '#ede9fe', accent: '#7c3aed', desc: 'Hands-on practice with statistical software and computational tools.' },
+        { id: 's3', title: 'Quantitative Analysis Techniques', icon: '📐', color: '#dcfce7', accent: '#16a34a', desc: 'Mathematical modeling and quantitative problem solving.' },
+        { id: 's4', title: 'Principles of Insurance', icon: '🛡️', color: '#fef9c3', accent: '#ca8a04', desc: 'Risk management, life and non-life insurance principles.' },
+        { id: 's5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fee2e2', accent: '#dc2626', desc: 'Cost classification, marginal costing and variance analysis.' },
+        { id: 's6', title: 'Finance and Investment', icon: '💰', color: '#cffafe', accent: '#0891b2', desc: 'Financial markets, investment strategies and portfolio management.' },
+        { id: 's7', title: 'Money and Banking Economics', icon: '🏦', color: '#fce7f3', accent: '#db2777', desc: 'Financial markets, monetary policy, and banking institutions.' },
     ],
     political: [
-        { id: 'p1', title: 'Intro to Political Science', icon: '🏛️', color: '#dbeafe', accent: '#2563eb', desc: 'Fundamentals of political theory, government systems and ideologies.' },
-        { id: 'p2', title: 'International Relations', icon: '🌍', color: '#ede9fe', accent: '#7c3aed', desc: 'Global politics, diplomacy, international organizations and conflicts.' },
-        { id: 'p3', title: 'Public Administration', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Public policy, bureaucracy and administrative law.' },
-        { id: 'p4', title: 'Comparative Politics', icon: '⚖️', color: '#fef9c3', accent: '#ca8a04', desc: 'Comparative analysis of political systems and institutions.' },
-        { id: 'p5', title: 'Political Economy', icon: '💰', color: '#fee2e2', accent: '#dc2626', desc: 'Interaction of politics and economics in shaping public policy.' },
-        { id: 'p6', title: 'Political Sociology', icon: '👥', color: '#cffafe', accent: '#0891b2', desc: 'Social foundations of politics, power and political behavior.' },
+        { id: 'p1', title: 'Political Systems and Political Life', icon: '🏛️', color: '#dbeafe', accent: '#2563eb', desc: 'Analysis of political structures, regimes, and political behavior.' },
+        { id: 'p2', title: 'Public International Law', icon: '⚖️', color: '#ede9fe', accent: '#7c3aed', desc: 'Legal framework governing relations between sovereign states.' },
+        { id: 'p3', title: 'Diplomatic History', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Historical study of international relations and diplomacy.' },
+        { id: 'p4', title: 'Money and Banking Economics', icon: '🏦', color: '#fef9c3', accent: '#ca8a04', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 'p5', title: 'Applied Statistics', icon: '📉', color: '#fee2e2', accent: '#dc2626', desc: 'Practical application of statistical methods to real-world data.' },
+        { id: 'p6', title: 'Management of Governmental Organizations', icon: '🏢', color: '#cffafe', accent: '#0891b2', desc: 'Administration and management within the public sector.' },
+        { id: 'p7', title: 'Comparative Economic Systems', icon: '🌍', color: '#fce7f3', accent: '#db2777', desc: 'Analysis of different economic systems and structures.' },
+    ],
+    customs: [
+        { id: 'c1', title: 'Tax Systems', icon: '📋', color: '#dbeafe', accent: '#2563eb', desc: 'Tax laws, corporate taxation, and revenue systems.' },
+        { id: 'c2', title: 'Ports and Customs Management', icon: '🚢', color: '#ede9fe', accent: '#7c3aed', desc: 'Administration of ports, customs procedures, and trade logistics.' },
+        { id: 'c3', title: 'Money and Banking Economics', icon: '🏦', color: '#dcfce7', accent: '#16a34a', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 'c4', title: 'Finance and Investment', icon: '💰', color: '#fef9c3', accent: '#ca8a04', desc: 'Financial markets, investment strategies and portfolio management.' },
+        { id: 'c5', title: 'Principles of Insurance', icon: '🛡️', color: '#fee2e2', accent: '#dc2626', desc: 'Risk management, life and non-life insurance principles.' },
+        { id: 'c6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2', desc: 'Cost classification, marginal costing and variance analysis.' },
+        { id: 'c7', title: 'Management of Governmental Organizations', icon: '🏢', color: '#fce7f3', accent: '#db2777', desc: 'Administration and management within the public sector.' },
     ],
 };
 
@@ -119,6 +133,7 @@ function getDeptKey(deptText) {
     if (lower.includes('econom')) return 'economics';
     if (lower.includes('statistic')) return 'statistics';
     if (lower.includes('political') || lower.includes('science')) return 'political';
+    if (lower.includes('customs') || lower.includes('financial')) return 'customs';
     return 'accounting';
 }
 
