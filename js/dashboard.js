@@ -18,10 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const greetingText = document.getElementById('greeting-text');
     if (greetingText) {
         const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) greetingText.textContent = "Good Morning,";
-        else if (hour >= 12 && hour < 17) greetingText.textContent = "Good Afternoon,";
-        else if (hour >= 17 && hour < 22) greetingText.textContent = "Good Evening,";
-        else greetingText.textContent = "Burning the midnight oil,";
+        if (hour >= 5 && hour < 12) greetingText.textContent = "Good Morning";
+        else if (hour >= 12 && hour < 17) greetingText.textContent = "Good Afternoon";
+        else if (hour >= 17 && hour < 22) greetingText.textContent = "Good Evening";
+        else greetingText.textContent = "Late Night Study";
     }
 
     if (displayDept) displayDept.textContent = userDept;

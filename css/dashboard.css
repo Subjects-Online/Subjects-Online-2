@@ -721,7 +721,7 @@ html.dark-mode .name-ambient-aura {
 /* ── Laser Underline Beam ─────────────────────────── */
 .hero-laser-wrap {
     position: relative;
-    width: 280px;
+    width: 260px;
     max-width: 85vw;
     height: 6px;
     display: flex;
@@ -750,7 +750,7 @@ html.dark-mode .name-ambient-aura {
 .hero-laser-sweep {
     position: absolute;
     top: -2px;
-    left: -20%;
+    left: 0;
     width: 30%;
     height: 6px;
     border-radius: 999px;
@@ -762,8 +762,8 @@ html.dark-mode .name-ambient-aura {
 
 @keyframes laserSweep {
     0% {
-        left: -10%;
-        opacity: 0.3;
+        left: 5%;
+        opacity: 0.4;
     }
 
     50% {
@@ -771,8 +771,8 @@ html.dark-mode .name-ambient-aura {
     }
 
     100% {
-        left: 80%;
-        opacity: 0.3;
+        left: 65%;
+        opacity: 0.4;
     }
 }
 
