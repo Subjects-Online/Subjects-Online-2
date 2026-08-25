@@ -1,818 +1,1101 @@
 /* =========================================================
-   library.js — Logic for the Offline Library & Folders
+   SUBJECTS ONLINE — Library Controller (Ultra Luxury Vault)
    ========================================================= */
 
-document.addEventListener('DOMContentLoaded', () => {
-    const libraryGrid = document.getElementById('library-grid');
-    const emptyState = document.getElementById('library-empty');
-    
+(function () {
     let currentFolderId = null;
-    let itemToMoveId = null;
-    
-    // Pro Features State
+    let currentTab = 'all';
+    let searchQuery = '';
+    let sortMethod = 'newest';
+    let viewMode = 'grid'; // 'grid' | 'list'
     let isSelectMode = false;
     let selectedItems = new Set();
-    let searchQuery = "";
-    let sortMethod = "newest";
-    let editingFolderId = null; // For color picker
+    let editingFolderId = null;
+    let itemToMoveId = null;
+    let isBulkMove = false;
+    let pendingImportFile = null;
+    let lastDeletedSnapshot = null;
+    let toastTimeout = null;
 
     const colorMap = {
-        'blue': { glow: 'bg-blue-500/5 group-hover:bg-blue-500/10', icon: 'bg-blue-100 text-blue-600' },
-        'red': { glow: 'bg-red-500/5 group-hover:bg-red-500/10', icon: 'bg-red-100 text-red-600' },
-        'emerald': { glow: 'bg-emerald-500/5 group-hover:bg-emerald-500/10', icon: 'bg-emerald-100 text-emerald-600' },
-        'purple': { glow: 'bg-purple-500/5 group-hover:bg-purple-500/10', icon: 'bg-purple-100 text-purple-600' },
-        'amber': { glow: 'bg-amber-500/5 group-hover:bg-amber-500/10', icon: 'bg-amber-100 text-amber-600' }
+        'blue': { class: 'folder-color-blue', hex: '#0284c7' },
+        'emerald': { class: 'folder-color-emerald', hex: '#10b981' },
+        'purple': { class: 'folder-color-purple', hex: '#8b5cf6' },
+        'amber': { class: 'folder-color-amber', hex: '#f59e0b' },
+        'rose': { class: 'folder-color-rose', hex: '#f43f5e' },
+        'cyan': { class: 'folder-color-cyan', hex: '#06b6d4' }
     };
 
-    // DOM Elements
-    const libraryTitle = document.getElementById('library-title');
-    const btnNewFolder = document.getElementById('btn-new-folder');
-    const btnBackFolder = document.getElementById('btn-back-folder');
-    const btnSelectMode = document.getElementById('btn-select-mode');
-    
-    const searchInput = document.getElementById('search-input');
-    const sortSelect = document.getElementById('sort-select');
-    
-    // Modals
-    const moveModal = document.getElementById('move-modal');
-    const moveModalContent = document.getElementById('move-modal-content');
-    const closeMoveModalBtn = document.getElementById('close-move-modal');
-    const cancelMoveBtn = document.getElementById('cancel-move-btn');
-    const confirmMoveBtn = document.getElementById('confirm-move-btn');
-    const moveFolderSelect = document.getElementById('move-folder-select');
-
-    const colorModal = document.getElementById('color-modal');
-    const colorModalContent = document.getElementById('color-modal-content');
-    const closeColorModalBtn = document.getElementById('close-color-modal');
-    
-    const storageModal = document.getElementById('storage-modal');
-    const storageModalContent = document.getElementById('storage-modal-content');
-    const closeStorageModalBtn = document.getElementById('close-storage-modal');
-
-    // Folder Name Modal
-    const folderNameModal = document.getElementById('folder-name-modal');
-    const folderNameModalContent = document.getElementById('folder-name-modal-content');
-    const folderNameModalTitle = document.getElementById('folder-name-modal-title');
-    const folderNameInput = document.getElementById('folder-name-input');
-    const confirmFolderNameBtn = document.getElementById('confirm-folder-name-btn');
-    const cancelFolderNameBtn = document.getElementById('cancel-folder-name-btn');
-    const closeFolderNameModalBtn = document.getElementById('close-folder-name-modal');
-    let _folderNameCallback = null;
-
-    function showFolderNameModal({ title = 'New Folder', confirmLabel = 'Create', defaultValue = '', callback }) {
-        _folderNameCallback = callback;
-        folderNameModalTitle.textContent = title;
-        folderNameInput.value = defaultValue;
-        confirmFolderNameBtn.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-            ${confirmLabel}
-        `;
-        folderNameModal.classList.remove('hidden');
-        folderNameModal.classList.add('flex');
-        setTimeout(() => {
-            folderNameModalContent.classList.remove('scale-95', 'opacity-0');
-            folderNameModalContent.classList.add('scale-100', 'opacity-100');
-            folderNameInput.focus();
-            folderNameInput.select();
-        }, 10);
-    }
-
-    function closeFolderNameModal() {
-        folderNameModalContent.classList.remove('scale-100', 'opacity-100');
-        folderNameModalContent.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            folderNameModal.classList.add('hidden');
-            folderNameModal.classList.remove('flex');
-            _folderNameCallback = null;
-        }, 300);
-    }
-
-    function submitFolderName() {
-        const val = folderNameInput.value.trim();
-        if (!val) {
-            folderNameInput.classList.add('border-red-400', 'ring-2', 'ring-red-200');
-            folderNameInput.focus();
-            setTimeout(() => folderNameInput.classList.remove('border-red-400', 'ring-2', 'ring-red-200'), 1200);
-            return;
-        }
-        const cb = _folderNameCallback;
-        closeFolderNameModal();
-        if (cb) cb(val);
-    }
-
-    closeFolderNameModalBtn.addEventListener('click', closeFolderNameModal);
-    cancelFolderNameBtn.addEventListener('click', closeFolderNameModal);
-    confirmFolderNameBtn.addEventListener('click', submitFolderName);
-    folderNameInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); submitFolderName(); }
-        if (e.key === 'Escape') closeFolderNameModal();
+    document.addEventListener('DOMContentLoaded', () => {
+        initLibrary();
     });
-    folderNameModal.addEventListener('click', (e) => { if (e.target === folderNameModal) closeFolderNameModal(); });
-    
-    const bulkActionBar = document.getElementById('bulk-action-bar');
-    const selectedCountText = document.getElementById('selected-count');
-    const btnCancelSelect = document.getElementById('btn-cancel-select');
-    const btnBulkMove = document.getElementById('btn-bulk-move');
-    const btnBulkDelete = document.getElementById('btn-bulk-delete');
 
-    renderLibrary();
-    checkStorage();
-
-    // ── Search & Sort ──
-    searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase();
+    function initLibrary() {
+        bindCoreDOM();
+        bindModals();
         renderLibrary();
-    });
-
-    sortSelect.addEventListener('change', (e) => {
-        sortMethod = e.target.value;
-        renderLibrary();
-    });
-
-    // ── Select Mode & Bulk Actions ──
-    btnSelectMode.addEventListener('click', () => {
-        isSelectMode = true;
-        selectedItems.clear();
-        btnSelectMode.classList.add('active');
-        renderLibrary();
-        showBulkActionBar();
-    });
-
-    btnCancelSelect.addEventListener('click', () => {
-        isSelectMode = false;
-        selectedItems.clear();
-        renderLibrary();
-        hideBulkActionBar();
-    });
-
-    btnBulkDelete.addEventListener('click', async () => {
-        if(selectedItems.size === 0) return;
-        if(confirm(`Delete ${selectedItems.size} selected items? Folders will be deleted and their contents moved to root.`)) {
-            // Process deletes
-            let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-            let folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-            const cache = await caches.open('offline-materials');
-
-            for (let id of selectedItems) {
-                // Is it a folder?
-                const folderIdx = folders.findIndex(f => f.id === id);
-                if (folderIdx !== -1) {
-                    folders.splice(folderIdx, 1);
-                    library.forEach(item => { if (item.folderId === id) item.folderId = null; });
-                    continue;
-                }
-                
-                // Is it a PDF?
-                const itemIdx = library.findIndex(i => i.id === id);
-                if (itemIdx !== -1) {
-                    try { await cache.delete(library[itemIdx].url); } catch (e) {}
-                    library.splice(itemIdx, 1);
-                }
-            }
-            
-            localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-            localStorage.setItem('so_offline_library', JSON.stringify(library));
-            
-            isSelectMode = false;
-            selectedItems.clear();
-            hideBulkActionBar();
-            renderLibrary();
-            checkStorage();
-        }
-    });
-
-    btnBulkMove.addEventListener('click', () => {
-        if(selectedItems.size === 0) return;
-        // Only allow moving PDFs (folders can't be moved inside folders right now)
-        const hasFolderSelected = Array.from(selectedItems).some(id => id.startsWith('folder_'));
-        if (hasFolderSelected) {
-            alert('Cannot move folders. Please select only PDFs to move.');
-            return;
-        }
-        openMoveModal(null, true); // true = bulk mode
-    });
-
-    function showBulkActionBar() {
-        btnSelectMode.classList.add('hidden');
-        btnSelectMode.classList.remove('active');
-        bulkActionBar.classList.add('show');
-        updateBulkCount();
-    }
-    
-    function hideBulkActionBar() {
-        btnSelectMode.classList.remove('hidden');
-        bulkActionBar.classList.remove('show');
+        checkStorage();
     }
 
-    function updateBulkCount() {
-        selectedCountText.textContent = `${selectedItems.size} Selected`;
+    // ── Helper: Data Access ──
+    function getLibraryData() {
+        return JSON.parse(localStorage.getItem('so_offline_library') || '[]');
     }
 
-    // ── Folder Navigation & Creation ──
-    btnBackFolder.addEventListener('click', () => {
-        currentFolderId = null;
-        isSelectMode = false;
-        hideBulkActionBar();
-        renderLibrary();
-    });
-
-    btnNewFolder.addEventListener('click', () => {
-        showFolderNameModal({
-            title: 'New Folder',
-            confirmLabel: 'Create',
-            defaultValue: '',
-            callback: (folderName) => {
-                const newId = 'folder_' + Date.now();
-                const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-                folders.push({
-                    id: newId,
-                    title: folderName,
-                    dateAdded: new Date().toISOString(),
-                    color: 'blue',
-                    isPinned: false
-                });
-                localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-                renderLibrary();
-                openColorModal(newId);
-            }
-        });
-    });
-
-    // ── Color Modal ──
-    function openColorModal(folderId) {
-        editingFolderId = folderId;
-        colorModal.classList.remove('hidden');
-        colorModal.classList.add('flex');
-        setTimeout(() => {
-            colorModalContent.classList.remove('scale-95', 'opacity-0');
-            colorModalContent.classList.add('scale-100', 'opacity-100');
-        }, 10);
-    }
-    
-    function closeColorModal() {
-        colorModalContent.classList.remove('scale-100', 'opacity-100');
-        colorModalContent.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            colorModal.classList.add('hidden');
-            colorModal.classList.remove('flex');
-            editingFolderId = null;
-        }, 300);
-    }
-    
-    closeColorModalBtn.addEventListener('click', closeColorModal);
-    document.querySelectorAll('.color-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const color = e.target.dataset.color;
-            if (editingFolderId) {
-                const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-                const f = folders.find(f => f.id === editingFolderId);
-                if (f) {
-                    f.color = color;
-                    localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-                    renderLibrary();
-                }
-            }
-            closeColorModal();
-        });
-    });
-
-    // ── Storage Modal ──
-    document.getElementById('storage-info').addEventListener('click', () => {
-        storageModal.classList.remove('hidden');
-        storageModal.classList.add('flex');
-        setTimeout(() => {
-            storageModalContent.classList.remove('scale-95', 'opacity-0');
-            storageModalContent.classList.add('scale-100', 'opacity-100');
-        }, 10);
-        populateStorageModal();
-    });
-    
-    function closeStorageModal() {
-        storageModalContent.classList.remove('scale-100', 'opacity-100');
-        storageModalContent.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            storageModal.classList.add('hidden');
-            storageModal.classList.remove('flex');
-        }, 300);
-    }
-    closeStorageModalBtn.addEventListener('click', closeStorageModal);
-
-    async function populateStorageModal() {
-        const list = document.getElementById('storage-file-list');
-        list.innerHTML = '<div class="text-center text-gray-500 py-4"><svg class="animate-spin h-5 w-5 mx-auto mb-2 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Analyzing files...</div>';
-        
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        if (library.length === 0) {
-            list.innerHTML = '<p class="text-gray-500 text-sm text-center">No offline files found.</p>';
-            return;
-        }
-
-        // Sort by oldest first
-        library.sort((a, b) => new Date(a.dateAdded) - new Date(b.dateAdded));
-        
-        list.innerHTML = '';
-        for (const item of library) {
-            const dateStr = new Date(item.dateAdded).toLocaleDateString();
-            const div = document.createElement('div');
-            div.className = "flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-100";
-            div.innerHTML = `
-                <div class="flex flex-col truncate pr-4">
-                    <span class="text-sm font-bold text-gray-800 truncate">${item.title}</span>
-                    <span class="text-xs text-gray-500">Saved: ${dateStr} ${item.isRead ? '<span class="text-emerald-500 ml-1 font-bold">✓ Read</span>' : ''}</span>
-                </div>
-                <button class="shrink-0 text-red-500 hover:bg-red-50 p-2 rounded-lg text-xs font-bold transition-colors" onclick="window.deleteSingleFile('${item.url}', '${item.id}')">Delete</button>
-            `;
-            list.appendChild(div);
-        }
+    function saveLibraryData(lib) {
+        localStorage.setItem('so_offline_library', JSON.stringify(lib));
     }
 
-    window.deleteSingleFile = async (url, id) => {
-        if(confirm("Delete this file to free up space?")) {
-            await removeFromLibrary(url, id);
-            populateStorageModal(); // Refresh list
-        }
-    };
-
-    // ── Move Modal Logic ──
-    let isBulkMove = false;
-    function openMoveModal(itemId, bulk = false) {
-        itemToMoveId = itemId;
-        isBulkMove = bulk;
-        const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-        
-        moveFolderSelect.innerHTML = '<option value="root">Root (My Library)</option>';
-        folders.forEach(f => {
-            moveFolderSelect.innerHTML += `<option value="${f.id}">${f.title}</option>`;
-        });
-        
-        if (!bulk) {
-            const library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-            const item = library.find(i => i.id === itemId);
-            if (item) moveFolderSelect.value = item.folderId || 'root';
-        }
-
-        moveModal.classList.remove('hidden');
-        moveModal.classList.add('flex');
-        setTimeout(() => {
-            moveModalContent.classList.remove('scale-95', 'opacity-0');
-            moveModalContent.classList.add('scale-100', 'opacity-100');
-        }, 10);
+    function getFoldersData() {
+        return JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
     }
 
-    function closeMoveModal() {
-        moveModalContent.classList.remove('scale-100', 'opacity-100');
-        moveModalContent.classList.add('scale-95', 'opacity-0');
-        setTimeout(() => {
-            moveModal.classList.add('hidden');
-            moveModal.classList.remove('flex');
-            itemToMoveId = null;
-        }, 300);
+    function saveFoldersData(folders) {
+        localStorage.setItem('so_offline_folders', JSON.stringify(folders));
     }
 
-    closeMoveModalBtn.addEventListener('click', closeMoveModal);
-    cancelMoveBtn.addEventListener('click', closeMoveModal);
-    
-    confirmMoveBtn.addEventListener('click', () => {
-        const targetFolderId = moveFolderSelect.value === 'root' ? null : moveFolderSelect.value;
-        if (isBulkMove) {
-            let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-            selectedItems.forEach(id => {
-                const item = library.find(i => i.id === id);
-                if (item) item.folderId = targetFolderId;
-            });
-            localStorage.setItem('so_offline_library', JSON.stringify(library));
-            isSelectMode = false;
-            selectedItems.clear();
-            hideBulkActionBar();
-            renderLibrary();
-        } else if (itemToMoveId) {
-            moveLibraryItem(itemToMoveId, targetFolderId);
-        }
-        closeMoveModal();
-    });
-
-    // ── Main Render Function ──
+    // ── Main Render Controller ──
     function renderLibrary() {
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        let folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
+        const library = getLibraryData();
+        const folders = getFoldersData();
 
-        // Filter by Folder
-        let currentItems = library.filter(item => (item.folderId || null) === currentFolderId);
-        let currentFolders = currentFolderId === null ? folders : [];
+        updateStatsDeck(library, folders);
+        updateTabBadges(library, folders);
 
-        // Apply Search
-        if (searchQuery) {
-            currentItems = currentItems.filter(i => i.title.toLowerCase().includes(searchQuery));
-            currentFolders = currentFolders.filter(f => f.title.toLowerCase().includes(searchQuery));
-        }
+        const grid = document.getElementById('library-grid');
+        const emptyState = document.getElementById('library-empty');
+        const noResults = document.getElementById('lib-no-results');
+        const toolbar = document.getElementById('lib-main-toolbar');
+        const breadcrumbWrap = document.getElementById('lib-breadcrumb-wrap');
+        const btnBack = document.getElementById('btn-back-folder');
+        const currentFolderBadge = document.getElementById('current-folder-title-badge');
+        const currentFolderName = document.getElementById('current-folder-name');
 
-        // Apply Sort & Pinned
-        const sortFn = (a, b) => {
-            if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
-            if (sortMethod === 'newest') return new Date(b.dateAdded) - new Date(a.dateAdded);
-            if (sortMethod === 'oldest') return new Date(a.dateAdded) - new Date(b.dateAdded);
-            if (sortMethod === 'az') return a.title.localeCompare(b.title);
-            if (sortMethod === 'za') return b.title.localeCompare(a.title);
-            return 0;
-        };
-
-        currentItems.sort(sortFn);
-        currentFolders.sort(sortFn);
-
-        // Update Title
+        // Breadcrumbs & Folder Title
         if (currentFolderId === null) {
-            libraryTitle.textContent = 'My Library';
-            btnBackFolder.classList.add('hidden');
-            btnBackFolder.classList.remove('inline-flex');
-            btnNewFolder.classList.remove('hidden');
-            btnNewFolder.classList.add('inline-flex');
+            btnBack.classList.add('hidden');
+            currentFolderBadge.classList.add('hidden');
+            currentFolderBadge.classList.remove('flex');
         } else {
-            const currentFolder = folders.find(f => f.id === currentFolderId);
-            libraryTitle.textContent = currentFolder ? currentFolder.title : 'My Library';
-            btnBackFolder.classList.remove('hidden');
-            btnBackFolder.classList.add('inline-flex');
-            btnNewFolder.classList.add('hidden');
-            btnNewFolder.classList.remove('inline-flex');
+            const curFolder = folders.find(f => f.id === currentFolderId);
+            btnBack.classList.remove('hidden');
+            currentFolderBadge.classList.remove('hidden');
+            currentFolderBadge.classList.add('flex');
+            if (currentFolderName) currentFolderName.textContent = curFolder ? curFolder.title : 'Folder';
         }
 
-        const isRootEmpty = (currentFolderId === null && currentFolders.length === 0 && currentItems.length === 0);
-        const isFolderEmpty = (currentFolderId !== null && currentItems.length === 0);
+        // Scope items by active folder
+        let activeItems = library.filter(i => (i.folderId || null) === currentFolderId);
+        let activeFolders = currentFolderId === null ? folders : [];
 
-        if ((isRootEmpty || isFolderEmpty) && !searchQuery) {
-            libraryGrid.innerHTML = '';
-            libraryGrid.classList.add('hidden');
+        // Check if library is truly empty (root & no items at all)
+        const isCompletelyEmpty = (currentFolderId === null && folders.length === 0 && library.length === 0);
+        const isFolderEmpty = (currentFolderId !== null && activeItems.length === 0);
+
+        if ((isCompletelyEmpty || isFolderEmpty) && !searchQuery) {
+            grid.innerHTML = '';
+            grid.classList.add('hidden');
+            toolbar.classList.toggle('hidden', isCompletelyEmpty);
+            noResults.classList.add('hidden');
+            noResults.classList.remove('flex');
             emptyState.classList.remove('hidden');
-            
-            if(isFolderEmpty) {
-                emptyState.querySelector('h2').textContent = 'This folder is empty';
-                emptyState.querySelector('p').textContent = 'Move PDFs here from your main library.';
-                emptyState.querySelector('a').classList.add('hidden');
+
+            const emptyTitle = emptyState.querySelector('.lib-empty-title');
+            const emptyDesc = emptyState.querySelector('.lib-empty-desc');
+            const emptyCta = emptyState.querySelector('.lib-cta');
+
+            if (isFolderEmpty) {
+                if (emptyTitle) emptyTitle.textContent = 'This Folder is Empty';
+                if (emptyDesc) emptyDesc.textContent = 'Move PDF documents here from your main library or import new ones.';
+                if (emptyCta) emptyCta.classList.add('hidden');
             } else {
-                emptyState.querySelector('h2').textContent = 'Your library is empty';
-                emptyState.querySelector('p').textContent = 'Open any PDF material and click "Save Offline" to add it here.';
-                emptyState.querySelector('a').classList.remove('hidden');
+                if (emptyTitle) emptyTitle.textContent = 'Your Library is Empty';
+                if (emptyDesc) emptyDesc.textContent = 'Open any study material and tap "Save Offline", or import your own local PDF files to access them anywhere without internet.';
+                if (emptyCta) emptyCta.classList.remove('hidden');
             }
             return;
         }
 
         emptyState.classList.add('hidden');
-        libraryGrid.classList.remove('hidden');
-        libraryGrid.innerHTML = '';
+        toolbar.classList.remove('hidden');
+        grid.classList.remove('hidden');
 
-        let delayIndex = 0;
+        // Apply Tab Filter
+        if (currentTab === 'folders') {
+            activeItems = [];
+        } else if (currentTab === 'pdfs') {
+            activeFolders = [];
+        } else if (currentTab === 'pinned') {
+            activeItems = activeItems.filter(i => i.isPinned);
+            activeFolders = activeFolders.filter(f => f.isPinned);
+        } else if (currentTab === 'read') {
+            activeItems = activeItems.filter(i => i.isRead);
+            activeFolders = [];
+        }
 
-        // Render Folders
-        currentFolders.forEach((folder) => {
-            const card = document.createElement('div');
-            const isSelected = selectedItems.has(folder.id);
-            const ringClass = isSelected ? 'ring-4 ring-blue-500 border-transparent' : 'border border-blue-50';
-            card.className = `bg-white rounded-3xl p-5 ${ringClass} relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(37,99,235,0.12)] transition-all duration-300 transform hover:-translate-y-1 material-card cursor-pointer`;
-            card.dataset.id = folder.id;
-            card.dataset.type = 'folder';
-            
-            const itemCount = library.filter(i => i.folderId === folder.id).length;
-            const colors = colorMap[folder.color || 'blue'];
-            const pinIconColor = folder.isPinned ? 'text-amber-500 fill-amber-500' : 'text-gray-300 group-hover:text-amber-400';
+        // Apply Search
+        if (searchQuery.trim()) {
+            const q = searchQuery.toLowerCase().trim();
+            activeItems = activeItems.filter(i => (i.title || '').toLowerCase().includes(q));
+            activeFolders = activeFolders.filter(f => (f.title || '').toLowerCase().includes(q));
+        }
 
-            let actionIcons = '';
-            if (isSelectMode) {
-                actionIcons = `
-                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'}">
-                        ${isSelected ? '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>' : ''}
-                    </div>
-                `;
-            } else {
-                actionIcons = `
-                    <button class="pin-folder-btn ${pinIconColor} transition-colors p-2 rounded-full hover:bg-gray-50" data-id="${folder.id}" title="Pin/Unpin">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
-                    </button>
-                    <button class="rename-folder-btn text-gray-400 hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50" data-id="${folder.id}" title="Edit Folder">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                    </button>
-                    <button class="remove-folder-btn text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50" data-id="${folder.id}" title="Delete Folder">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    </button>
-                `;
-            }
+        // Apply Sorting
+        activeFolders.sort(getSortComparator(sortMethod));
+        activeItems.sort(getSortComparator(sortMethod));
 
-            card.innerHTML = `
-                <div class="absolute -right-10 -top-10 w-32 h-32 rounded-full blur-2xl transition-colors ${colors.glow}"></div>
-                <div class="flex items-start justify-between mb-4 relative z-10">
-                    <div class="w-12 h-12 rounded-2xl flex items-center justify-center shadow-inner ${colors.icon}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
-                    </div>
-                    <div class="flex items-center gap-1" onclick="event.stopPropagation()">
-                        ${actionIcons}
-                    </div>
-                </div>
-                <h3 class="font-heading text-lg font-bold text-blue-950 mb-1 leading-tight relative z-10 pr-2 line-clamp-2">${folder.title}</h3>
-                <p class="text-xs text-gray-500 font-medium relative z-10">${itemCount} Items</p>
-            `;
+        if (activeFolders.length === 0 && activeItems.length === 0) {
+            grid.innerHTML = '';
+            noResults.classList.remove('hidden');
+            noResults.classList.add('flex');
+            return;
+        }
 
-            card.addEventListener('click', () => {
-                if (isSelectMode) {
-                    toggleSelection(folder.id);
-                } else {
-                    currentFolderId = folder.id;
-                    renderLibrary();
-                }
-            });
+        noResults.classList.add('hidden');
+        noResults.classList.remove('flex');
 
-            libraryGrid.appendChild(card);
-            animateCard(card, delayIndex++);
-        });
+        // Adjust Grid vs List classes
+        if (viewMode === 'list') {
+            grid.className = 'lib-list-container';
+            grid.innerHTML = [
+                ...activeFolders.map(f => renderFolderListRow(f, library)),
+                ...activeItems.map(i => renderPDFListRow(i))
+            ].join('');
+        } else {
+            grid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6';
+            grid.innerHTML = [
+                ...activeFolders.map(f => renderFolderCardHTML(f, library)),
+                ...activeItems.map(i => renderPDFCardHTML(i))
+            ].join('');
+        }
 
-        // Render PDFs
-        currentItems.forEach((item) => {
-            const card = document.createElement('div');
-            const isSelected = selectedItems.has(item.id);
-            const ringClass = isSelected ? 'ring-4 ring-blue-500 border-transparent' : 'border border-blue-50';
-            card.className = `bg-white rounded-3xl p-5 ${ringClass} relative overflow-hidden group hover:shadow-[0_20px_40px_rgba(37,99,235,0.12)] transition-all duration-300 transform hover:-translate-y-1 material-card cursor-pointer`;
-            card.dataset.id = item.id;
-            card.dataset.type = 'pdf';
-            
-            const dateStr = new Date(item.dateAdded).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            const pinIconColor = item.isPinned ? 'text-amber-500 fill-amber-500' : 'text-gray-300 group-hover:text-amber-400';
-            
-            let badgeHtml = item.isRead 
-                ? `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-600 flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>Read</span>`
-                : `<span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-blue-50 text-blue-600">Offline PDF</span>`;
+        bindCardEvents(grid);
 
-            let actionIcons = '';
-            if (isSelectMode) {
-                actionIcons = `
-                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-blue-500 border-blue-500' : 'border-gray-300'}">
-                        ${isSelected ? '<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>' : ''}
-                    </div>
-                `;
-            } else {
-                actionIcons = `
-                    <button class="pin-btn ${pinIconColor} transition-colors p-2 rounded-full hover:bg-gray-50" data-id="${item.id}" title="Pin/Unpin">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
-                    </button>
-                    <button class="move-btn text-gray-400 hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50" data-id="${item.id}" title="Move to Folder">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
-                    </button>
-                    <button class="rename-btn text-gray-400 hover:text-blue-500 transition-colors p-2 rounded-full hover:bg-blue-50" data-id="${item.id}" title="Rename">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
-                    </button>
-                    <button class="remove-btn text-gray-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50" data-url="${item.url}" data-id="${item.id}" title="Remove from Library">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    </button>
-                `;
-            }
-
-            let readAction = isSelectMode ? '' : `
-                <a href="player.html?type=${item.type}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" 
-                   class="read-now-link lib-btn-primary text-sm px-4 py-2"
-                   data-id="${item.id}">Read Now</a>
-            `;
-
-            card.innerHTML = `
-                <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
-                <div class="flex items-start justify-between mb-4 relative z-10">
-                    <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-inner">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>
-                    </div>
-                    <div class="flex items-center gap-1" onclick="event.stopPropagation()">
-                        ${actionIcons}
-                    </div>
-                </div>
-                
-                <div class="title-display relative z-10" data-id="${item.id}">
-                    <h3 class="font-heading text-lg font-bold text-blue-950 mb-1 leading-tight pr-2 line-clamp-2">${item.title}</h3>
-                </div>
-                <div class="title-edit relative z-10 hidden" data-id="${item.id}" onclick="event.stopPropagation()">
-                    <input type="text" value="${item.title.replace(/"/g, '&quot;')}" class="w-full bg-blue-50/80 border-2 border-blue-300 text-blue-950 font-heading font-bold text-base rounded-xl px-3 py-2 mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" maxlength="120" />
-                    <div class="flex items-center gap-2 mb-1">
-                        <button class="save-rename-btn bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors" data-id="${item.id}">Save</button>
-                        <button class="cancel-rename-btn text-gray-500 hover:text-gray-700 text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors" data-id="${item.id}">Cancel</button>
-                    </div>
-                </div>
-
-                <p class="text-xs text-gray-500 mb-5 font-medium relative z-10">Saved on ${dateStr}</p>
-                
-                <div class="relative z-10 pt-4 border-t border-gray-100 flex items-center justify-between mt-auto">
-                    ${badgeHtml}
-                    ${readAction}
-                </div>
-            `;
-
-            card.addEventListener('click', (e) => {
-                if (isSelectMode) {
-                    toggleSelection(item.id);
-                } else {
-                    // Navigate if they clicked the card and not a button
-                    if (!e.target.closest('button') && !e.target.closest('a') && !e.target.closest('.title-edit')) {
-                        window.location.href = `player.html?type=${item.type}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}`;
-                    }
-                }
-            });
-
-            libraryGrid.appendChild(card);
-            animateCard(card, delayIndex++);
-        });
-
-        attachEventListeners();
-    }
-
-    function toggleSelection(id) {
-        if (selectedItems.has(id)) selectedItems.delete(id);
-        else selectedItems.add(id);
-        renderLibrary();
-        updateBulkCount();
-    }
-
-    function animateCard(card, index) {
+        // GSAP entrance
         if (typeof gsap !== 'undefined') {
-            gsap.fromTo(card, 
-                { opacity: 0, y: 30 }, 
-                { opacity: 1, y: 0, duration: 0.6, delay: index * 0.05, ease: "back.out(1.2)" }
+            gsap.fromTo(grid.children,
+                { y: 20, opacity: 0, scale: 0.98 },
+                { y: 0, opacity: 1, scale: 1, duration: 0.45, stagger: 0.04, ease: 'power3.out' }
             );
         }
     }
 
-    // ── Event Listeners Attachment ──
-    function attachEventListeners() {
-        if (isSelectMode) return; // Disable standard actions in select mode
-        
-        // Pinning
-        document.querySelectorAll('.pin-btn, .pin-folder-btn').forEach(btn => {
+    // ── Sorting Logic ──
+    function getSortComparator(method) {
+        return (a, b) => {
+            // Pinned items always on top
+            if (a.isPinned !== b.isPinned) return a.isPinned ? -1 : 1;
+            if (method === 'newest') return new Date(b.dateAdded || 0) - new Date(a.dateAdded || 0);
+            if (method === 'oldest') return new Date(a.dateAdded || 0) - new Date(b.dateAdded || 0);
+            if (method === 'az') return (a.title || '').localeCompare(b.title || '');
+            if (method === 'za') return (b.title || '').localeCompare(a.title || '');
+            if (method === 'size') return (b.fileSizeBytes || 0) - (a.fileSizeBytes || 0);
+            return 0;
+        };
+    }
+
+    // ── Render Helpers: Folder Card (Grid) ──
+    function renderFolderCardHTML(f, library) {
+        const isSelected = selectedItems.has(f.id);
+        const folderItems = library.filter(i => i.folderId === f.id);
+        const color = colorMap[f.color || 'blue'] || colorMap['blue'];
+        const isPinned = !!f.isPinned;
+
+        // Calculate total size inside folder
+        let totalBytes = 0;
+        folderItems.forEach(item => { totalBytes += (item.fileSizeBytes || 1024 * 1024 * 1.5); });
+        const sizeStr = (totalBytes / (1024 * 1024)).toFixed(1) + ' MB';
+
+        return `
+        <div class="lib-card ${color.class} ${isSelected ? 'selected' : ''}" data-id="${f.id}" data-type="folder">
+            <div class="flex items-start justify-between mb-4 relative z-10">
+                <div class="lib-card-icon-halo shadow-md">
+                    📁
+                </div>
+                <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+                    ${isSelectMode ? `
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-sky-500 border-sky-500 text-white' : 'border-gray-300 dark:border-gray-600'}">
+                            ${isSelected ? '✓' : ''}
+                        </div>
+                    ` : `
+                        <button class="lib-micro-btn ${isPinned ? 'pinned' : ''} pin-folder-btn" data-id="${f.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}">
+                            <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                        </button>
+                        <button class="lib-micro-btn edit-folder-btn" data-id="${f.id}" title="Edit Folder">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        </button>
+                        <button class="lib-micro-btn color-folder-btn" data-id="${f.id}" title="Color Accent">
+                            <span class="w-3.5 h-3.5 rounded-full border border-black/20" style="background: ${color.hex};"></span>
+                        </button>
+                        <button class="lib-micro-btn danger delete-folder-btn" data-id="${f.id}" title="Delete Folder">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    `}
+                </div>
+            </div>
+
+            <h3 class="font-heading text-lg font-extrabold mb-1 truncate" style="color: var(--lib-navy);">${f.title}</h3>
+            <p class="text-xs font-medium mb-4 opacity-75" style="color: var(--lib-navy-soft);">
+                ${folderItems.length} Document${folderItems.length !== 1 ? 's' : ''} • ${sizeStr}
+            </p>
+
+            <div class="mt-auto pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between text-xs font-bold" style="color: var(--lib-navy);">
+                <span>Open Folder</span>
+                <span class="text-sky-500">→</span>
+            </div>
+        </div>`;
+    }
+
+    // ── Render Helpers: PDF Card (Grid) ──
+    function renderPDFCardHTML(item) {
+        const isSelected = selectedItems.has(item.id);
+        const isPinned = !!item.isPinned;
+        const isRead = !!item.isRead;
+        const dateStr = new Date(item.dateAdded || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const sizeStr = item.fileSizeBytes ? (item.fileSizeBytes / (1024 * 1024)).toFixed(1) + ' MB' : '1.8 MB';
+
+        return `
+        <div class="lib-card ${isSelected ? 'selected' : ''}" data-id="${item.id}" data-type="pdf">
+            <div class="flex items-start justify-between mb-4 relative z-10">
+                <div class="lib-card-icon-halo bg-gradient-to-br from-sky-100 to-sky-200 dark:from-sky-950/60 dark:to-sky-900/40 text-sky-600 dark:text-sky-400">
+                    📄
+                </div>
+                <div class="flex items-center gap-1.5" onclick="event.stopPropagation()">
+                    ${isSelectMode ? `
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors ${isSelected ? 'bg-sky-500 border-sky-500 text-white' : 'border-gray-300 dark:border-gray-600'}">
+                            ${isSelected ? '✓' : ''}
+                        </div>
+                    ` : `
+                        <button class="lib-micro-btn ${isPinned ? 'pinned' : ''} pin-pdf-btn" data-id="${item.id}" title="${isPinned ? 'Unpin' : 'Pin to Top'}">
+                            <svg class="w-4 h-4" fill="${isPinned ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/></svg>
+                        </button>
+                        <button class="lib-micro-btn ${isRead ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40' : ''} toggle-read-btn" data-id="${item.id}" title="${isRead ? 'Mark as Unread' : 'Mark as Read'}">
+                            ${isRead ? '✅' : '○'}
+                        </button>
+                        <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}" title="Move to Folder">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                        </button>
+                        <button class="lib-micro-btn danger delete-pdf-btn" data-id="${item.id}" data-url="${item.url}" title="Remove PDF">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    `}
+                </div>
+            </div>
+
+            <h3 class="font-heading text-base font-bold mb-1.5 line-clamp-2" style="color: var(--lib-navy);">${item.title}</h3>
+            <div class="flex items-center gap-2 mb-4 text-xs font-semibold" style="color: var(--lib-navy-soft);">
+                <span>${sizeStr}</span>
+                <span>•</span>
+                <span>${dateStr}</span>
+                ${item.isCustom ? `<span class="px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-600 text-[10px] font-bold">Custom</span>` : ''}
+            </div>
+
+            <div class="mt-auto pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
+                <span class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md ${isRead ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-sky-500/10 text-sky-600 dark:text-sky-400'}">
+                    ${isRead ? '✓ Completed' : 'Offline Ready'}
+                </span>
+                <a href="player.html?type=${item.type || 'pdf'}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" class="lib-action-btn-primary text-xs py-1.5 px-3.5" onclick="event.stopPropagation()">
+                    Read Now
+                </a>
+            </div>
+        </div>`;
+    }
+
+    // ── Render Helpers: List Rows ──
+    function renderFolderListRow(f, library) {
+        const isSelected = selectedItems.has(f.id);
+        const folderItems = library.filter(i => i.folderId === f.id);
+        const isPinned = !!f.isPinned;
+
+        return `
+        <div class="lib-list-row ${isSelected ? 'selected' : ''}" data-id="${f.id}" data-type="folder">
+            <div class="flex items-center gap-3.5 min-w-0">
+                <span class="text-2xl">📁</span>
+                <div class="truncate">
+                    <h4 class="font-heading text-sm font-bold truncate" style="color: var(--lib-navy);">${f.title}</h4>
+                    <p class="text-xs" style="color: var(--lib-navy-soft);">${folderItems.length} items</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                <button class="lib-micro-btn ${isPinned ? 'pinned' : ''} pin-folder-btn" data-id="${f.id}">★</button>
+                <button class="lib-micro-btn edit-folder-btn" data-id="${f.id}">✏️</button>
+                <button class="lib-micro-btn danger delete-folder-btn" data-id="${f.id}">🗑️</button>
+            </div>
+        </div>`;
+    }
+
+    function renderPDFListRow(item) {
+        const isSelected = selectedItems.has(item.id);
+        const isPinned = !!item.isPinned;
+        const isRead = !!item.isRead;
+        const sizeStr = item.fileSizeBytes ? (item.fileSizeBytes / (1024 * 1024)).toFixed(1) + ' MB' : '1.8 MB';
+
+        return `
+        <div class="lib-list-row ${isSelected ? 'selected' : ''}" data-id="${item.id}" data-type="pdf">
+            <div class="flex items-center gap-3.5 min-w-0">
+                <span class="text-2xl">📄</span>
+                <div class="truncate">
+                    <h4 class="font-heading text-sm font-bold truncate" style="color: var(--lib-navy);">${item.title}</h4>
+                    <p class="text-xs" style="color: var(--lib-navy-soft);">${sizeStr} • ${isRead ? 'Completed' : 'Offline'}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                <button class="lib-micro-btn ${isRead ? 'text-emerald-500' : ''} toggle-read-btn" data-id="${item.id}">${isRead ? '✅' : '○'}</button>
+                <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}">📂</button>
+                <a href="player.html?type=${item.type || 'pdf'}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" class="lib-action-btn-primary text-xs py-1 px-3">Read</a>
+                <button class="lib-micro-btn danger delete-pdf-btn" data-id="${item.id}" data-url="${item.url}">🗑️</button>
+            </div>
+        </div>`;
+    }
+
+    // ── Metric Counters ──
+    function updateStatsDeck(library, folders) {
+        const readCount = library.filter(i => i.isRead).length;
+        const readPct = library.length > 0 ? Math.round((readCount / library.length) * 100) : 0;
+
+        animateValue('stat-folders-count', folders.length);
+        animateValue('stat-docs-count', library.length);
+        animateValue('stat-read-count', readCount);
+
+        const readLabel = document.getElementById('stat-read-label');
+        if (readLabel) readLabel.textContent = `${readPct}% Read`;
+    }
+
+    function animateValue(elementId, targetValue) {
+        const el = document.getElementById(elementId);
+        if (!el) return;
+        const start = parseInt(el.textContent, 10) || 0;
+        if (typeof gsap !== 'undefined') {
+            const obj = { val: start };
+            gsap.to(obj, {
+                val: targetValue,
+                duration: 0.45,
+                ease: 'power2.out',
+                onUpdate: () => { el.textContent = Math.round(obj.val); }
+            });
+        } else {
+            el.textContent = targetValue;
+        }
+    }
+
+    function updateTabBadges(library, folders) {
+        const pinnedCount = library.filter(i => i.isPinned).length + folders.filter(f => f.isPinned).length;
+        const readCount = library.filter(i => i.isRead).length;
+
+        const bAll = document.getElementById('tab-count-all');
+        const bFolders = document.getElementById('tab-count-folders');
+        const bPdfs = document.getElementById('tab-count-pdfs');
+        const bPinned = document.getElementById('tab-count-pinned');
+        const bRead = document.getElementById('tab-count-read');
+
+        if (bAll) bAll.textContent = library.length + folders.length;
+        if (bFolders) bFolders.textContent = folders.length;
+        if (bPdfs) bPdfs.textContent = library.length;
+        if (bPinned) bPinned.textContent = pinnedCount;
+        if (bRead) bRead.textContent = readCount;
+    }
+
+    // ── Event Binders ──
+    function bindCoreDOM() {
+        // Tab buttons
+        document.querySelectorAll('.lib-tab-pill').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTab = btn.dataset.tab;
+                renderLibrary();
+            });
+        });
+
+        // Search
+        const searchInput = document.getElementById('search-input');
+        const searchClear = document.getElementById('search-clear-btn');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                if (searchClear) searchClear.style.display = searchQuery ? 'block' : 'none';
+                renderLibrary();
+            });
+        }
+        if (searchClear) {
+            searchClear.addEventListener('click', () => {
+                if (searchInput) searchInput.value = '';
+                searchQuery = '';
+                searchClear.style.display = 'none';
+                renderLibrary();
+            });
+        }
+
+        // Sort
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', (e) => {
+                sortMethod = e.target.value;
+                renderLibrary();
+            });
+        }
+
+        // View Mode Switcher
+        const viewGridBtn = document.getElementById('view-grid-btn');
+        const viewListBtn = document.getElementById('view-list-btn');
+        if (viewGridBtn && viewListBtn) {
+            viewGridBtn.addEventListener('click', () => {
+                viewMode = 'grid';
+                viewGridBtn.classList.add('active');
+                viewListBtn.classList.remove('active');
+                renderLibrary();
+            });
+            viewListBtn.addEventListener('click', () => {
+                viewMode = 'list';
+                viewListBtn.classList.add('active');
+                viewGridBtn.classList.remove('active');
+                renderLibrary();
+            });
+        }
+
+        // Reset Filter button
+        const resetBtn = document.getElementById('lib-reset-filter-btn');
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                searchQuery = '';
+                currentTab = 'all';
+                if (searchInput) searchInput.value = '';
+                if (searchClear) searchClear.style.display = 'none';
+                document.querySelectorAll('.lib-tab-pill').forEach(b => {
+                    b.classList.toggle('active', b.dataset.tab === 'all');
+                });
+                renderLibrary();
+            });
+        }
+
+        // Stat Card Clicks (filter triggers)
+        document.getElementById('stat-card-folders')?.addEventListener('click', () => {
+            currentTab = 'folders';
+            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'folders'));
+            renderLibrary();
+        });
+        document.getElementById('stat-card-docs')?.addEventListener('click', () => {
+            currentTab = 'pdfs';
+            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'pdfs'));
+            renderLibrary();
+        });
+        document.getElementById('stat-card-read')?.addEventListener('click', () => {
+            currentTab = 'read';
+            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'read'));
+            renderLibrary();
+        });
+        document.getElementById('stat-card-storage')?.addEventListener('click', () => {
+            openStorageModal();
+        });
+
+        // Folder Breadcrumb Back
+        document.getElementById('btn-back-folder')?.addEventListener('click', () => {
+            currentFolderId = null;
+            isSelectMode = false;
+            hideBulkBar();
+            renderLibrary();
+        });
+
+        // Select Mode Toggle
+        const selectBtn = document.getElementById('btn-select-mode');
+        if (selectBtn) {
+            selectBtn.addEventListener('click', () => {
+                isSelectMode = !isSelectMode;
+                selectBtn.classList.toggle('active', isSelectMode);
+                selectedItems.clear();
+                if (isSelectMode) showBulkBar();
+                else hideBulkBar();
+                renderLibrary();
+            });
+        }
+
+        // Bulk Dock actions
+        document.getElementById('btn-cancel-select')?.addEventListener('click', () => {
+            isSelectMode = false;
+            selectBtn?.classList.remove('active');
+            selectedItems.clear();
+            hideBulkBar();
+            renderLibrary();
+        });
+
+        document.getElementById('btn-select-all')?.addEventListener('click', () => {
+            const library = getLibraryData().filter(i => (i.folderId || null) === currentFolderId);
+            const folders = currentFolderId === null ? getFoldersData() : [];
+            const allIds = [...folders.map(f => f.id), ...library.map(i => i.id)];
+
+            if (selectedItems.size === allIds.length) {
+                selectedItems.clear();
+            } else {
+                allIds.forEach(id => selectedItems.add(id));
+            }
+            updateBulkCount();
+            renderLibrary();
+        });
+
+        document.getElementById('btn-bulk-read')?.addEventListener('click', () => {
+            if (selectedItems.size === 0) return;
+            let lib = getLibraryData();
+            lib.forEach(item => {
+                if (selectedItems.has(item.id)) item.isRead = true;
+            });
+            saveLibraryData(lib);
+            isSelectMode = false;
+            selectBtn?.classList.remove('active');
+            selectedItems.clear();
+            hideBulkBar();
+            triggerConfetti();
+            showToast('Selected items marked as read');
+            renderLibrary();
+        });
+
+        document.getElementById('btn-bulk-move')?.addEventListener('click', () => {
+            if (selectedItems.size === 0) return;
+            openMoveModal(null, true);
+        });
+
+        document.getElementById('btn-bulk-delete')?.addEventListener('click', async () => {
+            if (selectedItems.size === 0) return;
+            if (confirm(`Remove ${selectedItems.size} selected items?`)) {
+                let lib = getLibraryData();
+                let folders = getFoldersData();
+
+                lastDeletedSnapshot = {
+                    library: [...lib],
+                    folders: [...folders]
+                };
+
+                const cache = await caches.open('offline-materials');
+                for (const id of selectedItems) {
+                    const fIdx = folders.findIndex(f => f.id === id);
+                    if (fIdx !== -1) {
+                        folders.splice(fIdx, 1);
+                        lib.forEach(i => { if (i.folderId === id) i.folderId = null; });
+                        continue;
+                    }
+                    const iIdx = lib.findIndex(i => i.id === id);
+                    if (iIdx !== -1) {
+                        try { await cache.delete(lib[iIdx].url); } catch (e) {}
+                        lib.splice(iIdx, 1);
+                    }
+                }
+
+                saveLibraryData(lib);
+                saveFoldersData(folders);
+
+                isSelectMode = false;
+                selectBtn?.classList.remove('active');
+                selectedItems.clear();
+                hideBulkBar();
+                showToast('Selected items deleted');
+                renderLibrary();
+                checkStorage();
+            }
+        });
+
+        // Toast Undo
+        document.getElementById('lib-toast-undo')?.addEventListener('click', () => {
+            if (lastDeletedSnapshot) {
+                saveLibraryData(lastDeletedSnapshot.library);
+                saveFoldersData(lastDeletedSnapshot.folders);
+                lastDeletedSnapshot = null;
+                hideToast();
+                showToast('Restored successfully');
+                renderLibrary();
+                checkStorage();
+            }
+        });
+    }
+
+    function showBulkBar() {
+        const bar = document.getElementById('bulk-action-bar');
+        if (bar) bar.classList.add('show');
+        updateBulkCount();
+    }
+
+    function hideBulkBar() {
+        const bar = document.getElementById('bulk-action-bar');
+        if (bar) bar.classList.remove('show');
+    }
+
+    function updateBulkCount() {
+        const el = document.getElementById('selected-count');
+        if (el) el.textContent = `${selectedItems.size} Selected`;
+    }
+
+    // ── Card Action Events ──
+    function bindCardEvents(container) {
+        // Card Click (Navigate or Select)
+        container.querySelectorAll('.lib-card, .lib-list-row').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.dataset.id;
+                const type = card.dataset.type;
+
+                if (isSelectMode) {
+                    if (selectedItems.has(id)) selectedItems.delete(id);
+                    else selectedItems.add(id);
+                    updateBulkCount();
+                    renderLibrary();
+                } else {
+                    if (type === 'folder') {
+                        currentFolderId = id;
+                        renderLibrary();
+                    }
+                }
+            });
+        });
+
+        // Pin Folder
+        container.querySelectorAll('.pin-folder-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                const isFolder = e.currentTarget.classList.contains('pin-folder-btn');
-                const key = isFolder ? 'so_offline_folders' : 'so_offline_library';
-                let items = JSON.parse(localStorage.getItem(key) || '[]');
-                const item = items.find(i => i.id === id);
-                if (item) {
-                    item.isPinned = !item.isPinned;
-                    localStorage.setItem(key, JSON.stringify(items));
+                const id = btn.dataset.id;
+                let folders = getFoldersData();
+                const f = folders.find(item => item.id === id);
+                if (f) {
+                    f.isPinned = !f.isPinned;
+                    saveFoldersData(folders);
                     renderLibrary();
                 }
             });
         });
 
-        // PDF Remove
-        document.querySelectorAll('.remove-btn').forEach(btn => {
-            btn.addEventListener('click', async (e) => {
+        // Pin PDF
+        container.querySelectorAll('.pin-pdf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if(confirm('Remove this PDF from your offline library?')) {
-                    await removeFromLibrary(e.currentTarget.dataset.url, e.currentTarget.dataset.id);
+                const id = btn.dataset.id;
+                let lib = getLibraryData();
+                const i = lib.find(item => item.id === id);
+                if (i) {
+                    i.isPinned = !i.isPinned;
+                    saveLibraryData(lib);
+                    renderLibrary();
                 }
             });
         });
 
-        // Folder Remove
-        document.querySelectorAll('.remove-folder-btn').forEach(btn => {
+        // Mark as Read Toggle
+        container.querySelectorAll('.toggle-read-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                if(confirm('Delete this folder? PDFs inside will be moved back to the main library.')) {
-                    deleteFolder(e.currentTarget.dataset.id);
+                const id = btn.dataset.id;
+                let lib = getLibraryData();
+                const i = lib.find(item => item.id === id);
+                if (i) {
+                    i.isRead = !i.isRead;
+                    saveLibraryData(lib);
+                    if (i.isRead) triggerConfetti();
+                    renderLibrary();
                 }
             });
         });
 
-        // Folder Edit / Rename / Color
-        document.querySelectorAll('.rename-folder-btn').forEach(btn => {
+        // Edit Folder Name
+        container.querySelectorAll('.edit-folder-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                const folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-                const folder = folders.find(f => f.id === id);
-                if (folder) {
-                    showFolderNameModal({
+                const id = btn.dataset.id;
+                const folders = getFoldersData();
+                const f = folders.find(item => item.id === id);
+                if (f) {
+                    openFolderNameModal({
                         title: 'Rename Folder',
-                        confirmLabel: 'Save',
-                        defaultValue: folder.title,
+                        defaultValue: f.title,
                         callback: (newName) => {
-                            const folders2 = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-                            const f2 = folders2.find(f => f.id === id);
-                            if (f2) {
-                                f2.title = newName;
-                                localStorage.setItem('so_offline_folders', JSON.stringify(folders2));
-                                renderLibrary();
-                            }
-                            // Offer to change color too
-                            openColorModal(id);
+                            f.title = newName;
+                            saveFoldersData(folders);
+                            renderLibrary();
                         }
                     });
                 }
             });
         });
 
-        // PDF Move
-        document.querySelectorAll('.move-btn').forEach(btn => {
+        // Color Folder
+        container.querySelectorAll('.color-folder-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                openMoveModal(e.currentTarget.dataset.id, false);
+                openColorModal(btn.dataset.id);
             });
         });
 
-        // PDF Rename
-        document.querySelectorAll('.rename-btn').forEach(btn => {
+        // Delete Folder
+        container.querySelectorAll('.delete-folder-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                const card = e.currentTarget.closest('.material-card');
-                card.querySelector(`.title-display[data-id="${id}"]`).classList.add('hidden');
-                card.querySelector(`.title-edit[data-id="${id}"]`).classList.remove('hidden');
-                const input = card.querySelector(`.title-edit[data-id="${id}"] input`);
-                input.focus();
-                input.select();
-            });
-        });
+                const id = btn.dataset.id;
+                if (confirm('Delete this folder? PDFs inside will be moved back to the main library.')) {
+                    let folders = getFoldersData();
+                    let lib = getLibraryData();
 
-        // PDF Save Rename
-        document.querySelectorAll('.save-rename-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                const input = e.currentTarget.closest('.title-edit').querySelector('input');
-                if (input.value.trim()) renameLibraryItem(id, input.value.trim());
-            });
-        });
+                    lastDeletedSnapshot = { library: [...lib], folders: [...folders] };
 
-        // PDF Cancel Rename
-        document.querySelectorAll('.cancel-rename-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const id = e.currentTarget.dataset.id;
-                const card = e.currentTarget.closest('.material-card');
-                card.querySelector(`.title-edit[data-id="${id}"]`).classList.add('hidden');
-                card.querySelector(`.title-display[data-id="${id}"]`).classList.remove('hidden');
-            });
-        });
+                    folders = folders.filter(f => f.id !== id);
+                    lib.forEach(item => { if (item.folderId === id) item.folderId = null; });
 
-        document.querySelectorAll('.title-edit input').forEach(input => {
-            input.addEventListener('keydown', (e) => {
-                const id = input.closest('.title-edit').dataset.id;
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (input.value.trim()) renameLibraryItem(id, input.value.trim());
-                } else if (e.key === 'Escape') {
-                    const card = input.closest('.material-card');
-                    card.querySelector(`.title-edit[data-id="${id}"]`).classList.add('hidden');
-                    card.querySelector(`.title-display[data-id="${id}"]`).classList.remove('hidden');
+                    saveFoldersData(folders);
+                    saveLibraryData(lib);
+
+                    showToast('Folder deleted');
+                    renderLibrary();
                 }
             });
-            input.addEventListener('click', e => e.stopPropagation());
+        });
+
+        // Move PDF
+        container.querySelectorAll('.move-pdf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openMoveModal(btn.dataset.id, false);
+            });
+        });
+
+        // Delete PDF
+        container.querySelectorAll('.delete-pdf-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const id = btn.dataset.id;
+                const url = btn.dataset.url;
+                if (confirm('Remove this document from offline library?')) {
+                    let lib = getLibraryData();
+                    let folders = getFoldersData();
+
+                    lastDeletedSnapshot = { library: [...lib], folders: [...folders] };
+
+                    lib = lib.filter(i => i.id !== id);
+                    saveLibraryData(lib);
+
+                    try {
+                        const cache = await caches.open('offline-materials');
+                        await cache.delete(url);
+                    } catch (err) {}
+
+                    showToast('Document removed');
+                    renderLibrary();
+                    checkStorage();
+                }
+            });
         });
     }
 
-    // ── Data Management Functions ──
-    async function removeFromLibrary(url, id) {
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        library = library.filter(item => item.id !== id);
-        localStorage.setItem('so_offline_library', JSON.stringify(library));
+    // ── Modals & Dialogs ──
+    function bindModals() {
+        // 1. Folder Name Modal
+        const folderModal = document.getElementById('folder-name-modal');
+        const folderInput = document.getElementById('folder-name-input');
+        const btnNewFolder = document.getElementById('btn-new-folder');
+
+        btnNewFolder?.addEventListener('click', () => {
+            openFolderNameModal({
+                title: 'Create New Folder',
+                defaultValue: '',
+                callback: (name) => {
+                    const folders = getFoldersData();
+                    const newF = {
+                        id: 'folder_' + Date.now(),
+                        title: name,
+                        color: 'blue',
+                        dateAdded: new Date().toISOString(),
+                        isPinned: false
+                    };
+                    folders.push(newF);
+                    saveFoldersData(folders);
+                    triggerConfetti();
+                    renderLibrary();
+                }
+            });
+        });
+
+        document.getElementById('close-folder-name-modal')?.addEventListener('click', closeFolderNameModal);
+        document.getElementById('cancel-folder-name-btn')?.addEventListener('click', closeFolderNameModal);
+        document.getElementById('confirm-folder-name-btn')?.addEventListener('click', submitFolderNameModal);
+        folderInput?.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') submitFolderNameModal();
+            if (e.key === 'Escape') closeFolderNameModal();
+        });
+
+        // 2. Color Modal
+        document.getElementById('close-color-modal')?.addEventListener('click', closeColorModal);
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const color = btn.dataset.color;
+                if (editingFolderId) {
+                    const folders = getFoldersData();
+                    const f = folders.find(item => item.id === editingFolderId);
+                    if (f) {
+                        f.color = color;
+                        saveFoldersData(folders);
+                        renderLibrary();
+                    }
+                }
+                closeColorModal();
+            });
+        });
+
+        // 3. Move Modal
+        document.getElementById('close-move-modal')?.addEventListener('click', closeMoveModal);
+        document.getElementById('cancel-move-btn')?.addEventListener('click', closeMoveModal);
+        document.getElementById('confirm-move-btn')?.addEventListener('click', () => {
+            const select = document.getElementById('move-folder-select');
+            const targetId = select.value === 'root' ? null : select.value;
+            let lib = getLibraryData();
+
+            if (isBulkMove) {
+                selectedItems.forEach(id => {
+                    const item = lib.find(i => i.id === id);
+                    if (item) item.folderId = targetId;
+                });
+                isSelectMode = false;
+                document.getElementById('btn-select-mode')?.classList.remove('active');
+                selectedItems.clear();
+                hideBulkBar();
+            } else if (itemToMoveId) {
+                const item = lib.find(i => i.id === itemToMoveId);
+                if (item) item.folderId = targetId;
+            }
+
+            saveLibraryData(lib);
+            closeMoveModal();
+            showToast('Moved successfully');
+            renderLibrary();
+        });
+
+        // 4. Import PDF Modal
+        const importModal = document.getElementById('import-modal');
+        const btnImport = document.getElementById('btn-import-pdf');
+        const btnEmptyImport = document.getElementById('btn-empty-import');
+        const fileInput = document.getElementById('pdf-file-input');
+        const dropzone = document.getElementById('pdf-dropzone');
+        const browseBtn = document.getElementById('btn-browse-file');
+        const importTitle = document.getElementById('import-title-input');
+        const confirmImportBtn = document.getElementById('confirm-import-btn');
+
+        const openImport = () => {
+            pendingImportFile = null;
+            if (importTitle) importTitle.value = '';
+            if (confirmImportBtn) confirmImportBtn.disabled = true;
+            importModal?.classList.add('open');
+        };
+
+        btnImport?.addEventListener('click', openImport);
+        btnEmptyImport?.addEventListener('click', openImport);
+        document.getElementById('close-import-modal')?.addEventListener('click', () => importModal?.classList.remove('open'));
+        document.getElementById('cancel-import-btn')?.addEventListener('click', () => importModal?.classList.remove('open'));
+
+        browseBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fileInput?.click();
+        });
+        dropzone?.addEventListener('click', () => fileInput?.click());
+
+        fileInput?.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        // Drag & Drop
+        dropzone?.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+        dropzone?.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone?.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+                alert('Please select a valid PDF file.');
+                return;
+            }
+            pendingImportFile = file;
+            if (importTitle && !importTitle.value) {
+                importTitle.value = file.name.replace(/\.pdf$/i, '');
+            }
+            if (confirmImportBtn) confirmImportBtn.disabled = false;
+        }
+
+        confirmImportBtn?.addEventListener('click', async () => {
+            if (!pendingImportFile) return;
+            const title = (importTitle?.value || pendingImportFile.name).trim();
+            const fakeUrl = 'custom_pdf_' + Date.now() + '.pdf';
+
+            // Cache file in CacheStorage
+            try {
+                const cache = await caches.open('offline-materials');
+                const response = new Response(pendingImportFile, {
+                    headers: { 'Content-Type': 'application/pdf' }
+                });
+                await cache.put(fakeUrl, response);
+            } catch (err) {
+                console.warn('Cache write fallback:', err);
+            }
+
+            let lib = getLibraryData();
+            lib.push({
+                id: 'custom_' + Date.now(),
+                title: title,
+                url: fakeUrl,
+                type: 'pdf',
+                folderId: currentFolderId,
+                dateAdded: new Date().toISOString(),
+                isPinned: false,
+                isRead: false,
+                isCustom: true,
+                fileSizeBytes: pendingImportFile.size
+            });
+
+            saveLibraryData(lib);
+            importModal?.classList.remove('open');
+            triggerConfetti();
+            showToast(`Imported "${title}"`);
+            renderLibrary();
+            checkStorage();
+        });
+
+        // 5. Storage Modal
+        document.getElementById('close-storage-modal')?.addEventListener('click', () => {
+            document.getElementById('storage-modal')?.classList.remove('open');
+        });
+
+        document.getElementById('btn-clear-read-cache')?.addEventListener('click', async () => {
+            let lib = getLibraryData();
+            const readItems = lib.filter(i => i.isRead);
+            if (readItems.length === 0) {
+                alert('No completed files found to clear.');
+                return;
+            }
+            if (confirm(`Remove ${readItems.length} read files to free space?`)) {
+                const cache = await caches.open('offline-materials');
+                for (const item of readItems) {
+                    try { await cache.delete(item.url); } catch (e) {}
+                }
+                lib = lib.filter(i => !i.isRead);
+                saveLibraryData(lib);
+                showToast('Cleared read items');
+                populateStorageModal();
+                renderLibrary();
+                checkStorage();
+            }
+        });
+    }
+
+    // Modal Helpers
+    let _folderCallback = null;
+    function openFolderNameModal({ title = 'New Folder', defaultValue = '', callback }) {
+        _folderCallback = callback;
+        const modal = document.getElementById('folder-name-modal');
+        const titleEl = document.getElementById('folder-name-modal-title');
+        const input = document.getElementById('folder-name-input');
+
+        if (titleEl) titleEl.textContent = title;
+        if (input) input.value = defaultValue;
+        modal?.classList.add('open');
+        setTimeout(() => input?.focus(), 50);
+    }
+
+    function closeFolderNameModal() {
+        document.getElementById('folder-name-modal')?.classList.remove('open');
+        _folderCallback = null;
+    }
+
+    function submitFolderNameModal() {
+        const input = document.getElementById('folder-name-input');
+        const val = input ? input.value.trim() : '';
+        if (!val) return;
+        const cb = _folderCallback;
+        closeFolderNameModal();
+        if (cb) cb(val);
+    }
+
+    function openColorModal(folderId) {
+        editingFolderId = folderId;
+        document.getElementById('color-modal')?.classList.add('open');
+    }
+
+    function closeColorModal() {
+        document.getElementById('color-modal')?.classList.remove('open');
+        editingFolderId = null;
+    }
+
+    function openMoveModal(itemId, bulk = false) {
+        itemToMoveId = itemId;
+        isBulkMove = bulk;
+        const select = document.getElementById('move-folder-select');
+        const folders = getFoldersData();
+
+        if (select) {
+            select.innerHTML = '<option value="root">📁 Root (Main Library)</option>';
+            folders.forEach(f => {
+                select.innerHTML += `<option value="${f.id}">📁 ${f.title}</option>`;
+            });
+        }
+        document.getElementById('move-modal')?.classList.add('open');
+    }
+
+    function closeMoveModal() {
+        document.getElementById('move-modal')?.classList.remove('open');
+        itemToMoveId = null;
+    }
+
+    function openStorageModal() {
+        document.getElementById('storage-modal')?.classList.add('open');
+        populateStorageModal();
+    }
+
+    async function populateStorageModal() {
+        const list = document.getElementById('storage-file-list');
+        if (!list) return;
+
+        const lib = getLibraryData();
+        if (lib.length === 0) {
+            list.innerHTML = '<p class="text-center py-6 text-sm text-gray-400">No offline files saved.</p>';
+            return;
+        }
+
+        list.innerHTML = lib.map(item => {
+            const dateStr = new Date(item.dateAdded || Date.now()).toLocaleDateString();
+            const sizeMB = item.fileSizeBytes ? (item.fileSizeBytes / (1024 * 1024)).toFixed(1) : '1.8';
+            return `
+            <div class="flex items-center justify-between p-3 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10">
+                <div class="truncate pr-4">
+                    <p class="font-bold text-sm truncate" style="color: var(--lib-navy);">${item.title}</p>
+                    <p class="text-xs opacity-70">${sizeMB} MB • Saved ${dateStr} ${item.isRead ? '• <span class="text-emerald-500 font-bold">✓ Read</span>' : ''}</p>
+                </div>
+                <button class="text-red-500 hover:bg-red-500/10 p-2 rounded-lg text-xs font-bold transition-colors shrink-0" onclick="window._libDeleteStorageItem('${item.id}', '${item.url}')">
+                    Delete
+                </button>
+            </div>`;
+        }).join('');
+    }
+
+    window._libDeleteStorageItem = async (id, url) => {
+        let lib = getLibraryData();
+        lib = lib.filter(i => i.id !== id);
+        saveLibraryData(lib);
 
         try {
             const cache = await caches.open('offline-materials');
             await cache.delete(url);
-        } catch (err) {}
+        } catch (e) {}
 
+        populateStorageModal();
         renderLibrary();
         checkStorage();
-    }
+    };
 
-    function renameLibraryItem(id, newTitle) {
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        const item = library.find(item => item.id === id);
-        if (item) {
-            item.title = newTitle;
-            localStorage.setItem('so_offline_library', JSON.stringify(library));
-            renderLibrary();
-        }
-    }
-
-    function moveLibraryItem(id, folderId) {
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        const item = library.find(item => item.id === id);
-        if (item) {
-            item.folderId = folderId;
-            localStorage.setItem('so_offline_library', JSON.stringify(library));
-            renderLibrary();
-        }
-    }
-
-    function deleteFolder(folderId) {
-        let folders = JSON.parse(localStorage.getItem('so_offline_folders') || '[]');
-        folders = folders.filter(f => f.id !== folderId);
-        localStorage.setItem('so_offline_folders', JSON.stringify(folders));
-
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        library.forEach(item => { if (item.folderId === folderId) item.folderId = null; });
-        localStorage.setItem('so_offline_library', JSON.stringify(library));
-
-        renderLibrary();
-    }
-
+    // ── Storage Calculator ──
     async function checkStorage() {
         try {
             let usedBytes = 0;
             const cache = await caches.open('offline-materials');
             const requests = await cache.keys();
-            
+
             for (const req of requests) {
                 const res = await cache.match(req);
                 if (res) {
@@ -820,7 +1103,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     usedBytes += blob.size;
                 }
             }
-            
+
             const usageMB = (usedBytes / (1024 * 1024)).toFixed(2);
             let quotaMB = '1000';
             if ('storage' in navigator && 'estimate' in navigator.storage) {
@@ -829,16 +1112,48 @@ document.addEventListener('DOMContentLoaded', () => {
                     quotaMB = (estimate.quota / (1024 * 1024)).toFixed(0);
                 }
             }
-            
-            document.getElementById('storage-info').classList.remove('hidden');
-            document.getElementById('storage-details').textContent = `${usageMB} MB / ${quotaMB} MB`;
-            document.getElementById('storage-modal-used').textContent = `${usageMB} MB`;
-            
-            const percent = Math.min(100, (usedBytes / (quotaMB * 1024 * 1024)) * 100);
-            document.getElementById('storage-progress-bar').style.width = `${percent}%`;
-            
-        } catch (err) {
-            document.getElementById('storage-info').classList.add('hidden');
+
+            const statUsage = document.getElementById('stat-storage-used');
+            const modalUsage = document.getElementById('storage-modal-used');
+            const fill = document.getElementById('stat-storage-fill');
+            const progress = document.getElementById('storage-progress-bar');
+
+            if (statUsage) statUsage.textContent = `${usageMB} MB`;
+            if (modalUsage) modalUsage.textContent = `${usageMB} MB / ${quotaMB} MB`;
+
+            const percent = Math.min(100, Math.max(2, (usedBytes / (quotaMB * 1024 * 1024)) * 100));
+            if (fill) fill.style.width = `${percent}%`;
+            if (progress) progress.style.width = `${percent}%`;
+
+        } catch (err) {}
+    }
+
+    // ── Toast & Confetti ──
+    function showToast(message) {
+        const toast = document.getElementById('lib-toast');
+        const msgEl = document.getElementById('lib-toast-msg');
+        if (!toast || !msgEl) return;
+
+        msgEl.textContent = message;
+        toast.classList.add('show');
+
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => hideToast(), 4500);
+    }
+
+    function hideToast() {
+        document.getElementById('lib-toast')?.classList.remove('show');
+    }
+
+    function triggerConfetti() {
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.8 },
+                colors: ['#0ea5e9', '#f59e0b', '#10b981', '#6366f1']
+            });
         }
     }
-});
+
+})();
