@@ -380,6 +380,129 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ── 9.5. Expandable Preferred Instructor Accordion ───────────────────────────
+    const prefInstructorExpandBtn = document.getElementById('pref-instructor-expand-btn');
+    const prefInstructorChevron = document.getElementById('pref-instructor-chevron');
+    const instructorAccordion = document.getElementById('instructor-preferences-accordion');
+    const instructorDeptTag = document.getElementById('instructor-dept-tag');
+    const instructorSubjectsList = document.getElementById('instructor-subjects-list');
+
+    const defaultDoctorsMap = {
+        'Corporate Accounting': ['Dr. Mohamed Hassan', 'Dr. Ahmed Nour', 'Dr. Sara Khalil'],
+        'Principles of Cost Accounting': ['Dr. Tarek Mahmoud', 'Dr. Mohamed Hassan', 'Dr. Laila Mansour'],
+        'Specialized Accounting Systems': ['Dr. Ahmed Nour', 'Dr. Khaled Ibrahim', 'Dr. Mona Reda'],
+        'Quantitative Analysis for Business': ['Dr. Laila Mansour', 'Dr. Tarek Mahmoud', 'Dr. Sara Khalil'],
+        'Principles of Financial Management': ['Dr. Khaled Ibrahim', 'Dr. Mohamed Hassan', 'Dr. Ahmed Nour'],
+        'Money and Banking Economics': ['Dr. Sara Khalil', 'Dr. Laila Mansour', 'Dr. Tarek Mahmoud'],
+        'Tax Systems': ['Dr. Mona Reda', 'Dr. Ahmed Nour', 'Dr. Mohamed Hassan'],
+
+        'Strategic Management': ['Dr. Hassan El-Sayed', 'Dr. Rania Mahmoud', 'Dr. Mohamed Hassan'],
+        'Marketing Analytics': ['Dr. Sara Khalil', 'Dr. Rania Mahmoud', 'Dr. Ahmed Nour'],
+        'Operations Research': ['Dr. Laila Mansour', 'Dr. Tarek Mahmoud', 'Dr. Khaled Ibrahim'],
+        'Public Institutions Management': ['Dr. Hassan El-Sayed', 'Dr. Mona Reda', 'Dr. Sara Khalil'],
+        'Principles of Insurance': ['Dr. Khaled Ibrahim', 'Dr. Tarek Mahmoud', 'Dr. Mohamed Hassan'],
+
+        'History of Economic Thought': ['Dr. Sara Khalil', 'Dr. Mohamed Hassan', 'Dr. Rania Mahmoud'],
+        'Comparative Economic Systems': ['Dr. Hassan El-Sayed', 'Dr. Laila Mansour', 'Dr. Ahmed Nour'],
+        'Industrial Economics': ['Dr. Tarek Mahmoud', 'Dr. Khaled Ibrahim', 'Dr. Mona Reda'],
+        'Statistics for Economists': ['Dr. Laila Mansour', 'Dr. Sara Khalil', 'Dr. Ahmed Nour'],
+
+        'Applied Statistics (1)': ['Dr. Laila Mansour', 'Dr. Tarek Mahmoud', 'Dr. Sara Khalil'],
+        'Statistics and Computer Lab': ['Dr. Laila Mansour', 'Dr. Ahmed Nour', 'Dr. Khaled Ibrahim'],
+        'Quantitative Analysis Techniques': ['Dr. Tarek Mahmoud', 'Dr. Laila Mansour', 'Dr. Mohamed Hassan'],
+
+        'Political Systems and Political Life': ['Dr. Hassan El-Sayed', 'Dr. Sara Khalil', 'Dr. Mona Reda'],
+        'Public International Law': ['Dr. Ahmed Nour', 'Dr. Khaled Ibrahim', 'Dr. Rania Mahmoud'],
+        'Diplomatic History': ['Dr. Sara Khalil', 'Dr. Hassan El-Sayed', 'Dr. Mohamed Hassan'],
+        'Management of Governmental Organizations': ['Dr. Mona Reda', 'Dr. Hassan El-Sayed', 'Dr. Tarek Mahmoud'],
+
+        'Ports and Customs Management': ['Dr. Khaled Ibrahim', 'Dr. Tarek Mahmoud', 'Dr. Mohamed Hassan']
+    };
+
+    function renderInstructorAccordion() {
+        if (!instructorSubjectsList) return;
+        const dept = deptInput ? deptInput.value : currentDept;
+        if (instructorDeptTag) instructorDeptTag.textContent = dept;
+
+        const deptKey = getDeptKey(dept);
+        let materials = [];
+        if (typeof MATERIALS !== 'undefined' && MATERIALS[deptKey]) {
+            materials = MATERIALS[deptKey];
+        } else {
+            const names = sampleSubjectsByDept[dept] || sampleSubjectsByDept['Accounting'] || [];
+            materials = names.map((name, idx) => ({ id: `sub_${idx}`, title: name, icon: '📘' }));
+        }
+
+        let savedPrefs = {};
+        try {
+            savedPrefs = JSON.parse(localStorage.getItem('soPreferredInstructors') || '{}');
+        } catch {
+            savedPrefs = {};
+        }
+
+        instructorSubjectsList.innerHTML = '';
+
+        materials.forEach(subj => {
+            const doctors = defaultDoctorsMap[subj.title] || ['Dr. Mohamed Hassan', 'Dr. Ahmed Nour', 'Dr. Sara Khalil'];
+            const currentSelected = savedPrefs[subj.id] || savedPrefs[subj.title] || doctors[0];
+
+            const item = document.createElement('div');
+            item.className = 'p-3 rounded-2xl bg-white/60 dark:bg-slate-800/60 border border-slate-200/60 dark:border-slate-700/60 space-y-2';
+
+            const optionsHtml = doctors.map(doc => `<option value="${doc}" ${doc === currentSelected ? 'selected' : ''}>👨‍🏫 ${doc}</option>`).join('');
+
+            item.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="text-base">${subj.icon || '📘'}</span>
+                    <span class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate" title="${subj.title}">${subj.title}</span>
+                </div>
+                <select data-subjid="${subj.id}" data-subjtitle="${subj.title}" class="instructor-doc-select settings-input w-full p-2 rounded-xl text-xs font-semibold appearance-none cursor-pointer">
+                    ${optionsHtml}
+                </select>
+            `;
+
+            instructorSubjectsList.appendChild(item);
+        });
+
+        // Add event listeners to doctor selectors
+        instructorSubjectsList.querySelectorAll('.instructor-doc-select').forEach(selectEl => {
+            selectEl.addEventListener('change', (e) => {
+                const id = e.target.dataset.subjid;
+                const title = e.target.dataset.subjtitle;
+                const selectedDoc = e.target.value;
+
+                savedPrefs[id] = selectedDoc;
+                savedPrefs[title] = selectedDoc;
+                localStorage.setItem('soPreferredInstructors', JSON.stringify(savedPrefs));
+                showToast('Instructor Preferred', `Set ${selectedDoc} as favorite for ${title}.`, 'success');
+                if (typeof debouncedSyncToFirebase === 'function') debouncedSyncToFirebase();
+            });
+        });
+    }
+
+    if (prefInstructorExpandBtn && instructorAccordion) {
+        prefInstructorExpandBtn.addEventListener('click', () => {
+            const isHidden = instructorAccordion.classList.contains('hidden');
+            if (isHidden) {
+                instructorAccordion.classList.remove('hidden');
+                if (prefInstructorChevron) prefInstructorChevron.classList.add('rotate-180');
+                renderInstructorAccordion();
+            } else {
+                instructorAccordion.classList.add('hidden');
+                if (prefInstructorChevron) prefInstructorChevron.classList.remove('rotate-180');
+            }
+        });
+    }
+
+    // Re-render accordion if department changes
+    if (deptInput) {
+        deptInput.addEventListener('change', () => {
+            if (instructorAccordion && !instructorAccordion.classList.contains('hidden')) {
+                renderInstructorAccordion();
+            }
+        });
+    }
+
     // ── 10. Image Upload & Removal ───────────────────────────────────────────────
     if (uploadInput) {
         uploadInput.addEventListener('change', (e) => {
@@ -576,7 +699,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (customBookmarks.length === 0) {
         customBookmarks = [
             { id: 1, title: 'Faculty Drive & Lecture Files', url: 'https://drive.google.com' },
-            { id: 2, title: 'Department Telegram Group', url: 'https://t.me/' }
+            { id: 2, title: 'Department WhatsApp Group', url: 'https://chat.whatsapp.com/BmUhhJti1rWFKQHWGpQSL1?s=cl&p=a&mlu=4' }
         ];
     }
 
@@ -643,9 +766,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderBookmarks();
 
-    // ── 16. TOOL: Weekly Study Schedule Generator ────────────────────────────────
+    // ── 16. TOOL: Custom Weekly Schedule Builder ────────────────────────────────
     const scheduleBtn = document.getElementById('schedule-generate-btn');
     const scheduleOut = document.getElementById('schedule-output');
+    const scheduleBuilderContainer = document.getElementById('schedule-builder-container');
 
     const sampleSubjectsByDept = {
         'Accounting': ['Financial Accounting III', 'Cost & Management Accounting', 'Auditing & Control', 'Tax Accounting', 'Business Law'],
@@ -656,20 +780,203 @@ document.addEventListener('DOMContentLoaded', () => {
         'Financial & Customs Studies': ['Customs Valuation', 'International Logistics', 'Financial Markets', 'Tariff Systems', 'Trade Finance']
     };
 
-    function generateWeeklySchedule() {
-        if (!scheduleOut) return;
-        const dept = deptInput ? deptInput.value : currentDept;
-        const subjects = sampleSubjectsByDept[dept] || sampleSubjectsByDept['Accounting'];
-
-        const days = [
-            { day: 'Saturday (السبت)',   sub: subjects[0] || 'Core Subject 1', task: '2 Lectures & Sheet' },
-            { day: 'Sunday (الأحد)',     sub: subjects[1] || 'Core Subject 2', task: '1 Lecture & Summary' },
-            { day: 'Monday (الإثنين)',   sub: subjects[2] || 'Core Subject 3', task: '2 Sections & Practice' },
-            { day: 'Tuesday (الثلاثاء)', sub: subjects[3] || 'Core Subject 4', task: 'Case Study & Review' },
-            { day: 'Wednesday (الأربعاء)', sub: subjects[4] || 'Core Subject 5', task: 'Weekly Quiz Prep' },
-            { day: 'Thursday (الخميس)',  sub: 'Revision & Planner Catchup', task: 'Review Incomplete Tasks' },
-            { day: 'Friday (الجمعة)',    sub: 'Rest & Weekly Recap (راحة)', task: 'Light Flashcards Review' }
+    function getDefaultScheduleConfig() {
+        return [
+            { dayKey: 'sat', dayTitle: 'Saturday',  tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'sun', dayTitle: 'Sunday',    tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'mon', dayTitle: 'Monday',    tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'tue', dayTitle: 'Tuesday',   tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'wed', dayTitle: 'Wednesday', tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'thu', dayTitle: 'Thursday',  tasks: [{ subject: 'Nothing', objective: 'Nothing' }] },
+            { dayKey: 'fri', dayTitle: 'Friday',    tasks: [{ subject: 'Nothing', objective: 'Nothing' }] }
         ];
+    }
+
+    let scheduleConfig = [];
+    try {
+        scheduleConfig = JSON.parse(localStorage.getItem('soWeeklyScheduleConfig') || '[]');
+    } catch {
+        scheduleConfig = [];
+    }
+
+    if (!Array.isArray(scheduleConfig) || scheduleConfig.length === 0) {
+        scheduleConfig = getDefaultScheduleConfig();
+    }
+
+    const commonGeneralOptions = [
+        'Nothing',
+        'Revision & Catchup',
+        'Question Bank Practice',
+        'Mock Quiz & Test Prep',
+        'Rest & Weekly Recap'
+    ];
+
+    const presetObjectives = [
+        'Nothing',
+        '2 Lectures & Sheet',
+        '1 Lecture & Summary',
+        '2 Sections & Practice',
+        'Case Study & Review',
+        'Weekly Quiz Prep',
+        'Review Incomplete Tasks',
+        'Light Flashcards Review'
+    ];
+
+    function renderScheduleBuilder() {
+        if (!scheduleBuilderContainer) return;
+        const dept = deptInput ? deptInput.value : currentDept;
+        const deptSubjects = sampleSubjectsByDept[dept] || sampleSubjectsByDept['Accounting'];
+        const allSelectableSubjects = [...deptSubjects, ...commonGeneralOptions];
+
+        scheduleBuilderContainer.innerHTML = '';
+
+        scheduleConfig.forEach((dayObj, dayIdx) => {
+            const card = document.createElement('div');
+            card.className = 'p-4 rounded-2xl bg-white/50 dark:bg-slate-800/50 border border-slate-200/60 dark:border-slate-700/60 space-y-3';
+
+            let tasksHtml = '';
+            dayObj.tasks.forEach((task, taskIdx) => {
+                const isCustomSubj = !allSelectableSubjects.includes(task.subject);
+                const isCustomObj = !presetObjectives.includes(task.objective);
+
+                // Build Subject Options
+                let subjOptionsHtml = deptSubjects.map(s => `<option value="${s}" ${task.subject === s ? 'selected' : ''}>📘 ${s}</option>`).join('');
+                subjOptionsHtml += `<optgroup label="General Tasks">`;
+                subjOptionsHtml += commonGeneralOptions.map(s => `<option value="${s}" ${task.subject === s ? 'selected' : ''}>⚡ ${s}</option>`).join('');
+                subjOptionsHtml += `</optgroup>`;
+                subjOptionsHtml += `<option value="__CUSTOM__" ${isCustomSubj ? 'selected' : ''}>✍️ Custom Subject...</option>`;
+
+                // Build Objective Options
+                let objOptionsHtml = presetObjectives.map(o => `<option value="${o}" ${task.objective === o ? 'selected' : ''}>🎯 ${o}</option>`).join('');
+                objOptionsHtml += `<option value="__CUSTOM__" ${isCustomObj ? 'selected' : ''}>✍️ Custom Objective...</option>`;
+
+                tasksHtml += `
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 task-row" data-day="${dayIdx}" data-task="${taskIdx}">
+                        <!-- Subject Selector -->
+                        <div class="flex-1 space-y-1">
+                            <select class="task-subject-select settings-input w-full p-2.5 rounded-xl text-xs font-bold appearance-none cursor-pointer">
+                                ${subjOptionsHtml}
+                            </select>
+                            <input type="text" value="${isCustomSubj ? task.subject : ''}" placeholder="Enter Custom Subject (in English)" class="task-subject-custom settings-input w-full p-2 rounded-xl text-xs font-semibold ${isCustomSubj ? '' : 'hidden'}">
+                        </div>
+
+                        <!-- Objective Selector -->
+                        <div class="flex-1 space-y-1">
+                            <select class="task-objective-select settings-input w-full p-2.5 rounded-xl text-xs font-semibold appearance-none cursor-pointer">
+                                ${objOptionsHtml}
+                            </select>
+                            <input type="text" value="${isCustomObj ? task.objective : ''}" placeholder="Enter Custom Objective" class="task-objective-custom settings-input w-full p-2 rounded-xl text-xs font-medium ${isCustomObj ? '' : 'hidden'}">
+                        </div>
+
+                        ${dayObj.tasks.length > 1 ? `
+                            <button type="button" class="remove-task-btn p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-500 hover:bg-rose-100 transition-colors flex items-center justify-center flex-shrink-0" data-day="${dayIdx}" data-task="${taskIdx}" title="Remove Task">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            card.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="font-heading font-bold text-xs text-slate-800 dark:text-slate-200">${dayObj.dayTitle}</span>
+                    <button type="button" class="add-task-btn text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1" data-day="${dayIdx}">
+                        <span>+ Add Subject to this Day</span>
+                    </button>
+                </div>
+                <div class="space-y-2.5">
+                    ${tasksHtml}
+                </div>
+            `;
+
+            scheduleBuilderContainer.appendChild(card);
+        });
+
+        // Add event listeners to toggle custom inputs on dropdown change
+        scheduleBuilderContainer.querySelectorAll('.task-subject-select').forEach(sel => {
+            sel.addEventListener('change', (e) => {
+                const customInput = e.target.parentElement.querySelector('.task-subject-custom');
+                if (customInput) {
+                    if (e.target.value === '__CUSTOM__') customInput.classList.remove('hidden');
+                    else customInput.classList.add('hidden');
+                }
+            });
+        });
+
+        scheduleBuilderContainer.querySelectorAll('.task-objective-select').forEach(sel => {
+            sel.addEventListener('change', (e) => {
+                const customInput = e.target.parentElement.querySelector('.task-objective-custom');
+                if (customInput) {
+                    if (e.target.value === '__CUSTOM__') customInput.classList.remove('hidden');
+                    else customInput.classList.add('hidden');
+                }
+            });
+        });
+
+        // Event listener for + Add Task button
+        scheduleBuilderContainer.querySelectorAll('.add-task-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const dayIdx = parseInt(btn.dataset.day);
+                const dept = deptInput ? deptInput.value : currentDept;
+                const subs = sampleSubjectsByDept[dept] || sampleSubjectsByDept['Accounting'];
+                const nextSubj = subs[scheduleConfig[dayIdx].tasks.length % subs.length] || 'Revision & Catchup';
+                scheduleConfig[dayIdx].tasks.push({ subject: nextSubj, objective: '1 Lecture & Summary' });
+                renderScheduleBuilder();
+            });
+        });
+
+        // Event listener for Remove Task button
+        scheduleBuilderContainer.querySelectorAll('.remove-task-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const dayIdx = parseInt(btn.dataset.day);
+                const taskIdx = parseInt(btn.dataset.task);
+                scheduleConfig[dayIdx].tasks.splice(taskIdx, 1);
+                renderScheduleBuilder();
+            });
+        });
+    }
+
+    function syncScheduleConfigFromInputs() {
+        if (!scheduleBuilderContainer) return;
+        scheduleBuilderContainer.querySelectorAll('.task-row').forEach(row => {
+            const dayIdx = parseInt(row.dataset.day);
+            const taskIdx = parseInt(row.dataset.task);
+            const subjSelect = row.querySelector('.task-subject-select');
+            const subjCustom = row.querySelector('.task-subject-custom');
+            const objSelect = row.querySelector('.task-objective-select');
+            const objCustom = row.querySelector('.task-objective-custom');
+
+            if (scheduleConfig[dayIdx] && scheduleConfig[dayIdx].tasks[taskIdx]) {
+                if (subjSelect) {
+                    if (subjSelect.value === '__CUSTOM__') {
+                        scheduleConfig[dayIdx].tasks[taskIdx].subject = (subjCustom && subjCustom.value.trim()) ? subjCustom.value.trim() : 'Custom Task';
+                    } else {
+                        scheduleConfig[dayIdx].tasks[taskIdx].subject = subjSelect.value;
+                    }
+                }
+
+                if (objSelect) {
+                    if (objSelect.value === '__CUSTOM__') {
+                        scheduleConfig[dayIdx].tasks[taskIdx].objective = (objCustom && objCustom.value.trim()) ? objCustom.value.trim() : 'Study Objective';
+                    } else {
+                        scheduleConfig[dayIdx].tasks[taskIdx].objective = objSelect.value;
+                    }
+                }
+            }
+        });
+    }
+
+    function renderOutputTimetableTable() {
+        if (!scheduleOut) return;
+        syncScheduleConfigFromInputs();
+        localStorage.setItem('soWeeklyScheduleConfig', JSON.stringify(scheduleConfig));
+
+        let completedMap = {};
+        try {
+            completedMap = JSON.parse(localStorage.getItem('soWeeklyScheduleStatus') || '{}');
+        } catch {
+            completedMap = {};
+        }
 
         let html = `
             <div class="rounded-2xl border border-slate-200/80 dark:border-slate-700/80 overflow-hidden text-xs">
@@ -677,22 +984,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     <thead class="bg-slate-100 dark:bg-slate-800 text-slate-500 uppercase tracking-wider font-bold">
                         <tr>
                             <th class="p-3">Day</th>
-                            <th class="p-3">Assigned Subject</th>
-                            <th class="p-3">Target Objective</th>
+                            <th class="p-3">Assigned Subjects</th>
+                            <th class="p-3">Target Objectives</th>
                             <th class="p-3 text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200/60 dark:divide-slate-700/60">
         `;
 
-        days.forEach((d, i) => {
+        scheduleConfig.forEach((dayObj, dIdx) => {
+            const subjectsList = dayObj.tasks.map(t => `<span class="px-2 py-1 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 font-bold block mb-1 hover:scale-105 transition-transform inline-block mr-1">${t.subject}</span>`).join('');
+            const objectivesList = dayObj.tasks.map(t => `<span class="block mb-1 text-slate-600 dark:text-slate-400">• ${t.objective}</span>`).join('');
+
+            const isDone = !!completedMap[`day_${dIdx}`];
+
             html += `
                 <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
-                    <td class="p-3 font-bold text-slate-800 dark:text-slate-200">${d.day}</td>
-                    <td class="p-3 text-sky-600 dark:text-sky-400 font-semibold">${d.sub}</td>
-                    <td class="p-3 text-slate-500 dark:text-slate-400">${d.task}</td>
-                    <td class="p-3 text-center">
-                        <input type="checkbox" id="sched-check-${i}" class="rounded text-sky-500 focus:ring-sky-400 cursor-pointer">
+                    <td class="p-3 font-bold text-slate-800 dark:text-slate-200 align-top">${dayObj.dayTitle}</td>
+                    <td class="p-3 align-top">${subjectsList}</td>
+                    <td class="p-3 align-top">${objectivesList}</td>
+                    <td class="p-3 text-center align-top">
+                        <input type="checkbox" data-daykey="day_${dIdx}" class="sched-task-checkbox rounded text-indigo-500 focus:ring-indigo-400 cursor-pointer w-4 h-4" ${isDone ? 'checked' : ''}>
                     </td>
                 </tr>
             `;
@@ -705,15 +1017,55 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         scheduleOut.innerHTML = html;
+
+        // Add checkbox persistence
+        scheduleOut.querySelectorAll('.sched-task-checkbox').forEach(chk => {
+            chk.addEventListener('change', (e) => {
+                const key = e.target.dataset.daykey;
+                completedMap[key] = e.target.checked;
+                localStorage.setItem('soWeeklyScheduleStatus', JSON.stringify(completedMap));
+                if (typeof debouncedSyncToFirebase === 'function') debouncedSyncToFirebase();
+            });
+        });
     }
+
+    renderScheduleBuilder();
+    renderOutputTimetableTable();
 
     if (scheduleBtn) {
         scheduleBtn.addEventListener('click', () => {
-            generateWeeklySchedule();
-            showToast('Schedule Generated', 'Weekly study timetable refreshed based on your department.', 'success');
+            renderOutputTimetableTable();
+            showToast('Schedule Saved', 'Custom weekly study timetable generated & saved.', 'success');
+            if (typeof debouncedSyncToFirebase === 'function') debouncedSyncToFirebase();
         });
     }
-    generateWeeklySchedule();
+
+    const scheduleClearChecksBtn = document.getElementById('schedule-clear-checks-btn');
+    if (scheduleClearChecksBtn) {
+        scheduleClearChecksBtn.addEventListener('click', () => {
+            localStorage.removeItem('soWeeklyScheduleStatus');
+            renderOutputTimetableTable();
+            showToast('Checkmarks Reset', 'All weekly task checkmarks cleared for a new week.', 'success');
+            if (typeof debouncedSyncToFirebase === 'function') debouncedSyncToFirebase();
+        });
+    }
+
+    const scheduleResetAllBtn = document.getElementById('schedule-reset-all-btn');
+    if (scheduleResetAllBtn) {
+        scheduleResetAllBtn.addEventListener('click', () => {
+            if (confirm('Reset full schedule back to default empty state?')) {
+                localStorage.removeItem('soWeeklyScheduleConfig');
+                localStorage.removeItem('soWeeklyScheduleStatus');
+
+                scheduleConfig = getDefaultScheduleConfig();
+
+                renderScheduleBuilder();
+                renderOutputTimetableTable();
+                showToast('Schedule Reset', 'Entire timetable reset back to initial state.', 'success');
+                if (typeof debouncedSyncToFirebase === 'function') debouncedSyncToFirebase();
+            }
+        });
+    }
 
     // ── 17. TOOL: Quiz & Pack Launchers ──────────────────────────────────────────
     const quizLaunchBtn = document.getElementById('quiz-launch-btn');

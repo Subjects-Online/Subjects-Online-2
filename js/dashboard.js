@@ -85,10 +85,7 @@ function loadStats(deptText) {
     const materials = MATERIALS[deptKey] || MATERIALS['accounting'];
 
     // Zero out stats for new student
-    const totalSubjects = materials.length;
     let openedSubjects = 0;
-    const openedPDFs = 0;
-    const openedVideos = 0;
     const favs = getFavorites();
     const favoritesCount = favs.length;
 
@@ -101,37 +98,52 @@ function loadStats(deptText) {
 
     let totalVideos = 0, totalPDFs = 0, doneVideos = 0, donePDFs = 0;
     let totalLectures = 0, doneLectures = 0;
+    let subjectPctsSum = 0;
+    let openedSubjectsCount = 0;
+
+    const lastOpened = JSON.parse(localStorage.getItem('soLastOpened') || '{}');
 
     materials.forEach(subj => {
-        if (!subj.content) return;
-        const contentSections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
-        contentSections.forEach(sec => {
-            if (!subj.content[sec]) return;
-            subj.content[sec].forEach(ch => {
-                if (!ch.lectures) return;
-                ch.lectures.forEach(lec => {
-                    totalLectures++;
-                    const key = subj.id + '_' + lec.id;
-                    const isDone = !!(completedLectures[key] || completedSections[key] ||
-                        completedQuizzes[key] || completedSummaries[key] || completedQA[key]);
-                    if (lec.type === 'video') {
-                        totalVideos++;
-                        if (isDone) doneVideos++;
-                    } else {
-                        totalPDFs++;
-                        if (isDone) donePDFs++;
-                    }
-                    if (isDone) doneLectures++;
+        let subjTotalLectures = 0;
+        let subjDoneLectures = 0;
+
+        if (subj.content) {
+            const contentSections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
+            contentSections.forEach(sec => {
+                if (!subj.content[sec]) return;
+                subj.content[sec].forEach(ch => {
+                    if (!ch.lectures) return;
+                    ch.lectures.forEach(lec => {
+                        totalLectures++;
+                        subjTotalLectures++;
+                        const key = subj.id + '_' + lec.id;
+                        const isDone = !!(completedLectures[key] || completedSections[key] ||
+                            completedQuizzes[key] || completedSummaries[key] || completedQA[key]);
+                        if (lec.type === 'video') {
+                            totalVideos++;
+                            if (isDone) doneVideos++;
+                        } else {
+                            totalPDFs++;
+                            if (isDone) donePDFs++;
+                        }
+                        if (isDone) {
+                            doneLectures++;
+                            subjDoneLectures++;
+                        }
+                    });
                 });
             });
-        });
+        }
+
+        const subjPct = subjTotalLectures > 0 ? (subjDoneLectures / subjTotalLectures) * 100 : 0;
+        subjectPctsSum += subjPct;
+        if (subjDoneLectures > 0 || lastOpened[subj.id]) openedSubjectsCount++;
     });
 
-    // Determine opened subjects from localStorage
-    const lastOpened = JSON.parse(localStorage.getItem('soLastOpened') || '{}');
-    materials.forEach(m => {
-        if (lastOpened[m.id]) openedSubjects++;
-    });
+    const totalSubjects = materials.length;
+    const avgSubjectsPct = totalSubjects > 0 ? Math.min(100, Math.round(subjectPctsSum / totalSubjects)) : 0;
+    const openedPDFsPct = totalPDFs > 0 ? Math.min(100, Math.round((donePDFs / totalPDFs) * 100)) : 0;
+    const openedVideosPct = totalVideos > 0 ? Math.min(100, Math.round((doneVideos / totalVideos) * 100)) : 0;
 
     // Feature 13: Background Orbs Coloring by Department
     const orb1 = document.getElementById('bg-orb-1');
@@ -185,31 +197,29 @@ function loadStats(deptText) {
         }, 500);
     }
 
-
-
-
-    const openedSubjectsPct = totalSubjects ? Math.round((openedSubjects / totalSubjects) * 100) : 0;
-    const openedPDFsPct = totalPDFs > 0 ? Math.round((donePDFs / totalPDFs) * 100) : 0;
-    const openedVideosPct = totalVideos > 0 ? Math.round((doneVideos / totalVideos) * 100) : 0;
-    const favoritesPct = Math.min(100, favoritesCount * 10);
-
     const statsHTML = `
         <div class="flex flex-col gap-5">
             <!-- Subjects -->
             <div>
                 <div class="flex justify-between items-end mb-2">
                     <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Subjects</span>
-                    <span class="text-sm font-black text-brand-textPrimary">${openedSubjectsPct}%</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400"><span class="text-blue-500 font-extrabold">${openedSubjectsCount}</span>/${totalSubjects}</span>
+                        <span class="text-sm font-black text-brand-textPrimary">${avgSubjectsPct}%</span>
+                    </div>
                 </div>
                 <div class="bento-prog-bar-container">
-                    <div class="bento-prog-bar-fill" style="width: ${openedSubjectsPct}%; background: linear-gradient(90deg, #3b82f6, #60a5fa); box-shadow: 0 0 10px rgba(59,130,246,0.5);"></div>
+                    <div class="bento-prog-bar-fill" style="width: ${avgSubjectsPct}%; background: linear-gradient(90deg, #3b82f6, #60a5fa); box-shadow: 0 0 10px rgba(59,130,246,0.5);"></div>
                 </div>
             </div>
             <!-- PDFs -->
             <div>
                 <div class="flex justify-between items-end mb-2">
                     <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span>PDFs</span>
-                    <span class="text-sm font-black text-brand-textPrimary">${openedPDFsPct}%</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400"><span class="text-purple-500 font-extrabold">${donePDFs}</span>/${totalPDFs}</span>
+                        <span class="text-sm font-black text-brand-textPrimary">${openedPDFsPct}%</span>
+                    </div>
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${openedPDFsPct}%; background: linear-gradient(90deg, #8b5cf6, #a78bfa); box-shadow: 0 0 10px rgba(139,92,246,0.5);"></div>
@@ -219,20 +229,13 @@ function loadStats(deptText) {
             <div>
                 <div class="flex justify-between items-end mb-2">
                     <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Videos</span>
-                    <span class="text-sm font-black text-brand-textPrimary">${openedVideosPct}%</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-bold text-slate-400"><span class="text-rose-500 font-extrabold">${doneVideos}</span>/${totalVideos}</span>
+                        <span class="text-sm font-black text-brand-textPrimary">${openedVideosPct}%</span>
+                    </div>
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${openedVideosPct}%; background: linear-gradient(90deg, #f43f5e, #fb7185); box-shadow: 0 0 10px rgba(244,63,94,0.5);"></div>
-                </div>
-            </div>
-            <!-- Favorites -->
-            <div>
-                <div class="flex justify-between items-end mb-2">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Favorites</span>
-                    <span class="text-sm font-black text-brand-textPrimary">${favoritesPct}%</span>
-                </div>
-                <div class="bento-prog-bar-container">
-                    <div class="bento-prog-bar-fill" style="width: ${favoritesPct}%; background: linear-gradient(90deg, #f59e0b, #fbbf24); box-shadow: 0 0 10px rgba(245,158,11,0.5);"></div>
                 </div>
             </div>
         </div>
@@ -242,35 +245,7 @@ function loadStats(deptText) {
     if (analyticsBars) analyticsBars.innerHTML = statsHTML;
 
     const totalScore = document.getElementById('bento-total-score');
-    const progressStyle = localStorage.getItem('soProgressStyle') || 'ring';
-
-    if (totalScore) {
-        if (progressStyle === 'ring') {
-            const circumference = 2 * Math.PI * 22; // r=22
-            const strokeOffset = circumference - (progressPct / 100) * circumference;
-            totalScore.innerHTML = `
-                <div class="relative w-16 h-16 flex items-center justify-center">
-                    <svg class="w-full h-full -rotate-90" viewBox="0 0 52 52">
-                        <circle cx="26" cy="26" r="22" stroke="currentColor" stroke-width="4" fill="transparent" class="text-slate-200 dark:text-slate-800"></circle>
-                        <circle cx="26" cy="26" r="22" stroke="#3b82f6" stroke-width="4" stroke-dasharray="${circumference}" stroke-dashoffset="${strokeOffset}" stroke-linecap="round" fill="transparent" class="transition-all duration-1000"></circle>
-                    </svg>
-                    <span class="absolute font-black text-base bento-gradient-text" style="background-image: linear-gradient(to right, #3b82f6, #0ea5e9);">${progressPct}%</span>
-                </div>
-            `;
-        } else if (progressStyle === 'bar') {
-            totalScore.innerHTML = `
-                <div class="flex flex-col items-end gap-1">
-                    <div class="text-2xl font-black bento-gradient-text" style="background-image: linear-gradient(to right, #3b82f6, #0ea5e9);">${progressPct}%</div>
-                    <div class="w-24 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
-                        <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-700" style="width: ${progressPct}%;"></div>
-                    </div>
-                </div>
-            `;
-        } else {
-            // Minimal
-            totalScore.innerHTML = `<span class="px-3 py-1 rounded-xl bg-blue-500/10 text-blue-500 font-extrabold text-lg">${progressPct}%</span>`;
-        }
-    }
+    if (totalScore) totalScore.innerHTML = `${progressPct}<span class="text-xl opacity-50">%</span>`;
 }
 
 function initAnimations() {
@@ -573,8 +548,8 @@ function initHologramAvatarSequence() {
     const ringTl = gsap.timeline({ delay: 0.3 });
 
     // Step 1: Origin top dot pulse
-    ringTl.fromTo(originDot, 
-        { scale: 0, opacity: 0 }, 
+    ringTl.fromTo(originDot,
+        { scale: 0, opacity: 0 },
         { scale: 1.5, opacity: 1, duration: 0.4, ease: "back.out(2)" }
     );
 
@@ -595,7 +570,7 @@ function initHologramAvatarSequence() {
             gsap.to(snapDot, { scale: 1, opacity: 0.8, duration: 0.4 });
             // Clean & Elegant Avatar Reveal
             if (avatarWrap) {
-                gsap.fromTo(avatarWrap, 
+                gsap.fromTo(avatarWrap,
                     { opacity: 0, scale: 0.85 },
                     {
                         opacity: 1,
@@ -634,7 +609,7 @@ function loadPlanner() {
                 <span class="flex-1 text-sm ${task.completed ? 'line-through text-brand-textSecondary' : 'text-brand-textPrimary font-semibold'} transition-all duration-300 cursor-pointer select-none truncate" onclick="toggleTask(${index})">
                     ${task.text}
                 </span>
-                
+
                 <button onclick="deleteTask(${index})" class="w-8 h-8 rounded-full flex items-center justify-center text-red-400/50 hover:bg-red-500 hover:text-white opacity-0 group-hover:opacity-100 transition-all duration-300 shrink-0">
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 </button>

@@ -36,7 +36,10 @@ const SYNC_KEYS = [
     'soInstructorPriority',
     'soScratchpadNotes',
     'soCustomBookmarks',
-    'soWeeklySchedule'
+    'soWeeklySchedule',
+    'soWeeklyScheduleConfig',
+    'soWeeklyScheduleStatus',
+    'soPreferredInstructors'
 ];
 
 let syncTimeout = null;
