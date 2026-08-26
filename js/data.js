@@ -13,7 +13,7 @@ const MATERIALS = {
                         lectures: [
                             { id: 101, title: "Lec 1: Corporate Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
                             { id: 102, title: "Lec 2: Partnership Accounting", type: "pdf", url: "materials/dummy.pdf" },
-                            { id: 103, title: "Lec 3: Company Accounts", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
+                            { id: 103, title: "Lec 3: Company Accounts", type: "pdf", url: "materials/dummy.pdf" },
 
                         ]
                     },
@@ -47,7 +47,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Summaries - Midterm", time: "45m",
                         lectures: [
-                            { id: 101, title: "Summary: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 3001, title: "Summary: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" }
                         ]
                     }
                 ],
@@ -55,7 +55,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Test Bank - Part 1", time: "1h 20m",
                         lectures: [
-                            { id: 101, title: "Q&A: Basics", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 4001, title: "Q&A: Basics", type: "pdf", url: "materials/dummy.pdf" }
                         ]
                     }
                 ],
@@ -159,76 +159,155 @@ function toggleFav(id, btnEl) {
     saveFavorites(favs);
 }
 
-// Default lectures shown by chapters.js when a subject has no custom content
-const DEFAULT_CHAPTERS = [
-    { num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
-      lectures: [
-        { id: 101, title: "Lec 1: Overview",         type: "pdf",   url: "materials/dummy.pdf" },
-        { id: 102, title: "Lec 2: First Principles",  type: "pdf",   url: "materials/dummy.pdf" }
-      ]
-    },
-    { num: 2, title: "The Core Framework", time: "3h 40m",
-      lectures: [
-        { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-        { id: 202, title: "Lec 4: Review Questions",    type: "pdf",   url: "materials/dummy.pdf" }
-      ]
+// Map each study section to its respective completion store
+const SECTION_STORE_MAP = {
+    chapters: 'soCompletedLectures',
+    quizzes: 'soCompletedQuizzes',
+    sections: 'soCompletedSections',
+    summaries: 'soCompletedSummaries',
+    qa: 'soCompletedQA',
+    finalReview: 'soCompletedFinalReview'
+};
+
+// Default section data shown when a subject has no custom content for that section
+const DEFAULT_SECTION_DATA = {
+    chapters: [
+        {
+            num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
+            lectures: [
+                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        },
+        {
+            num: 2, title: "The Core Framework", time: "3h 40m",
+            lectures: [
+                { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        }
+    ],
+    quizzes: [
+        {
+            num: 1, title: "Quiz Set 1", time: "2h 15m",
+            lectures: [
+                { id: 1001, title: "Quiz 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 1002, title: "Quiz 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        },
+        {
+            num: 2, title: "Quiz Set 2", time: "3h 40m",
+            lectures: [
+                { id: 1003, title: "Quiz 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+                { id: 1004, title: "Quiz 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        }
+    ],
+    sections: [
+        {
+            num: 1, title: "Section Set 1", time: "2h 15m",
+            lectures: [
+                { id: 2001, title: "Section 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 2002, title: "Section 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        },
+        {
+            num: 2, title: "Section Set 2", time: "3h 40m",
+            lectures: [
+                { id: 2003, title: "Section 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+                { id: 2004, title: "Section 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        }
+    ],
+    summaries: [
+        {
+            num: 1, title: "Summaries - Part One", time: "30m",
+            lectures: [
+                { id: 3001, title: "Summary 1: Basics", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 3002, title: "Summary 2: Core Concepts", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        }
+    ],
+    qa: [
+        {
+            num: 1, title: "Q&A - Part One", time: "45m",
+            lectures: [
+                { id: 4001, title: "Q&A 1: Basics", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 4002, title: "Q&A 2: Core Concepts", type: "pdf", url: "materials/dummy.pdf" }
+            ]
+        }
+    ],
+    finalReview: []
+};
+
+// Fallback alias for backward compatibility
+const DEFAULT_CHAPTERS = DEFAULT_SECTION_DATA.chapters;
+
+// Helper to get section chapters for any subject
+function getSubjectSectionData(subject, sectionKey) {
+    if (subject && subject.content && subject.content[sectionKey] && subject.content[sectionKey].length > 0) {
+        return subject.content[sectionKey];
     }
-];
+    return DEFAULT_SECTION_DATA[sectionKey] || [];
+}
 
 function getSubjectProgress(item) {
-    // Collect all lecture IDs across all content types for this subject
-    const allLecIds = [];
+    if (!item) return 0;
+
+    let totalLectures = 0;
+    let doneLectures = 0;
+    const sid = item.id;
+
     if (item.content) {
         const sections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
         sections.forEach(sec => {
-            if (item.content[sec]) {
-                item.content[sec].forEach(ch => {
-                    if (ch.lectures) ch.lectures.forEach(lec => allLecIds.push(lec.id));
+            if (!item.content[sec]) return;
+            const storeKey = SECTION_STORE_MAP[sec] || 'soCompletedLectures';
+            const completedStore = JSON.parse(localStorage.getItem(storeKey) || '{}');
+
+            item.content[sec].forEach(ch => {
+                if (!ch.lectures) return;
+                ch.lectures.forEach(lec => {
+                    totalLectures++;
+                    const key = sid + '_' + lec.id;
+                    if (completedStore[key]) {
+                        doneLectures++;
+                    } else if (sec === 'summaries' && completedStore[sid + '_101'] && lec.id === 3001) {
+                        doneLectures++;
+                    } else if (sec === 'qa' && completedStore[sid + '_101'] && lec.id === 4001) {
+                        doneLectures++;
+                    }
                 });
-            }
+            });
+        });
+    } else {
+        const completedStore = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
+        DEFAULT_CHAPTERS.forEach(ch => {
+            if (!ch.lectures) return;
+            ch.lectures.forEach(lec => {
+                totalLectures++;
+                if (completedStore[sid + '_' + lec.id]) {
+                    doneLectures++;
+                }
+            });
         });
     }
-    // Fallback to default chapters if no custom content is defined
-    if (allLecIds.length === 0) {
-        DEFAULT_CHAPTERS.forEach(ch => ch.lectures.forEach(lec => allLecIds.push(lec.id)));
-    }
-    if (allLecIds.length === 0) return 0;
 
-    // Check across all completion stores using subjectId-scoped keys
-    const sid = item.id;
-    const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-    const completedSections = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
-    const completedQuizzes  = JSON.parse(localStorage.getItem('soCompletedQuizzes')  || '{}');
-    const completedSummaries = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
-    const completedQA       = JSON.parse(localStorage.getItem('soCompletedQA')        || '{}');
-
-    let doneCount = 0;
-    allLecIds.forEach(id => {
-        const key = sid + '_' + id;
-        if (completedLectures[key] || completedSections[key] || completedQuizzes[key] ||
-            completedSummaries[key] || completedQA[key]) {
-            doneCount++;
-        }
-    });
-    return Math.round((doneCount / allLecIds.length) * 100);
+    if (totalLectures === 0) return 0;
+    return Math.round((doneLectures / totalLectures) * 100);
 }
 
 function getSubjectModulesCount(item) {
-    // Count total modules (chapters, sections, etc) instead of individual lectures
-    let total = 0;
+    if (!item) return 0;
     if (item.content) {
         const sections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
+        let total = 0;
         sections.forEach(sec => {
-            if (item.content[sec]) {
-                total += item.content[sec].length;
-            }
+            if (item.content[sec]) total += item.content[sec].length;
         });
+        return total > 0 ? total : DEFAULT_CHAPTERS.length;
     }
-    // Fallback to default chapters if no custom content is defined
-    if (total === 0) {
-        total = DEFAULT_CHAPTERS.length;
-    }
-    return total;
+    return DEFAULT_CHAPTERS.length;
 }
 
 function materialCardHTML(item, isFav, isPinned = false) {
@@ -278,7 +357,7 @@ function materialCardHTML(item, isFav, isPinned = false) {
 
         <!-- Bottom Footer (Stats & Progress) -->
         <div style="margin-top: auto;">
-            
+
             <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 12px;">
                 <span style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #94a3b8;">Progress</span>
                 <span style="font-size: 1rem; font-weight: 800; color: ${item.accent}; line-height: 1;">${progress}%</span>
@@ -381,3 +460,95 @@ function togglePin(id, btnEl) {
     // Dispatch event so browse.js can re-sort immediately
     window.dispatchEvent(new CustomEvent('so-pin-changed'));
 }
+
+// ── Global Helper: Toggle PDF in Offline Library ─────────────
+window.togglePdfLibrary = async function (event, btn, rawTitle, rawUrl, subjectId, lecId) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    const title = decodeURIComponent(rawTitle || 'Document');
+    const url = decodeURIComponent(rawUrl || '');
+    const sid = subjectId || '';
+    const lid = lecId ? String(lecId) : '';
+
+    try {
+        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+
+        // Find existing by subject+lec ID OR by unique title/url match
+        const existingIndex = library.findIndex(item => 
+            (sid && lid && item.subjectId === sid && String(item.lecId) === lid) ||
+            (item.title === title && item.url === url) ||
+            (item.id === `${sid}_${lid}`)
+        );
+
+        const isCurrentlyInLib = existingIndex !== -1;
+
+        if (!isCurrentlyInLib) {
+            // ── ADD TO LIBRARY ─────────────────────────────
+            library.push({
+                id: `${sid}_${lid}_${Date.now()}`,
+                subjectId: sid,
+                lecId: lid,
+                title: title,
+                type: 'pdf',
+                url: url,
+                dateAdded: new Date().toISOString(),
+                isRead: false
+            });
+            localStorage.setItem('so_offline_library', JSON.stringify(library));
+
+            // Cache offline if supported
+            if ('caches' in window && url) {
+                try {
+                    const cache = await caches.open('offline-materials');
+                    await cache.add(url);
+                } catch (e) {
+                    console.log('Offline cache skipped:', e);
+                }
+            }
+
+            // 1. Show Green Checkmark for exactly 1 second (1000ms)
+            if (btn) {
+                btn.classList.remove('in-library');
+                btn.classList.add('saved-success');
+                btn.title = "Added to Library";
+
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(btn, { scale: 0.9 }, { scale: 1.15, duration: 0.25, ease: 'back.out(2)' });
+                }
+
+                setTimeout(() => {
+                    // 2. Transform into Minus (-) state
+                    btn.classList.remove('saved-success');
+                    btn.classList.add('in-library');
+                    btn.title = "Remove from Library";
+                    if (typeof gsap !== 'undefined') {
+                        gsap.fromTo(btn, { scale: 1.1 }, { scale: 1, duration: 0.25, ease: 'power2.out' });
+                    }
+                }, 1000);
+            }
+
+        } else {
+            // ── REMOVE FROM LIBRARY ────────────────────────
+            library.splice(existingIndex, 1);
+            localStorage.setItem('so_offline_library', JSON.stringify(library));
+
+            // Transform back to Plus (+) state
+            if (btn) {
+                btn.classList.remove('saved-success', 'in-library');
+                btn.title = "Add to Library";
+
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(btn, { scale: 0.9 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+                }
+            }
+        }
+
+    } catch (err) {
+        console.error('Error toggling library:', err);
+    }
+};
+
+window.addPdfToLibrary = window.togglePdfLibrary;

@@ -31,21 +31,23 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             num: 1, title: "Section Set 1", time: "2h 15m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 2001, title: "Section 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
+                { id: 2002, title: "Section 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
             ]
         },
         {
             num: 2, title: "Section Set 2", time: "3h 40m",
             lectures: [
-                { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 2003, title: "Section 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
+                { id: 2004, title: "Section 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
             ]
         }
     ];
 
     // Load chapters for the specific subject, or fallback to default
-    const chapters = (subject.content && subject.content.sections) ? subject.content.sections : defaultChapters;
+    const chapters = (typeof getSubjectSectionData === 'function')
+        ? getSubjectSectionData(subject, 'sections')
+        : ((subject.content && subject.content.sections) ? subject.content.sections : defaultChapters);
 
     const timelineContainer = document.getElementById('timeline-container');
 
@@ -189,6 +191,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Only PDFs mark as done on click directly. Videos mark as done when finished playing.
             const clickHandler = isPdf ? `onclick="markLectureDone(event, this, ${lec.id})"` : '';
 
+            const offlineLib = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+            const inLib = isPdf && offlineLib.some(item => 
+                (item.subjectId === subjectId && String(item.lecId) === String(lec.id)) ||
+                (item.title === lec.title && item.url === lec.url) ||
+                (item.id === `${subjectId}_${lec.id}`)
+            );
+
             return `
             <div class="lecture-item ${isPdf ? 'is-pdf' : 'is-video'} ${isDone ? 'done' : ''}" ${clickHandler}>
                 <div class="lec-info">
@@ -203,10 +212,37 @@ document.addEventListener('DOMContentLoaded', () => {
                             <svg class="animate-spin h-3 w-3 inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                             Loading...
                         </span>
-                        <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
+                        ${isPdf ? `
+                        <div class="lec-actions-row">
+                            <a href="${lec.url}" download target="_blank" class="lec-open-btn lec-download-btn" onclick="event.stopPropagation()">
+                                Download
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                            </a>
+                            <button type="button" class="lec-open-btn lec-lib-btn ${inLib ? 'in-library' : ''}" onclick="togglePdfLibrary(event, this, '${encodeURIComponent(lec.title)}', '${encodeURIComponent(lec.url)}', '${subjectId}', '${lec.id}')" title="${inLib ? 'Remove from Library' : 'Add to Library'}">
+                                <span class="lib-btn-content">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5 lib-icon-plus" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-2.5 h-2.5 lib-icon-minus" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4" />
+                                    </svg>
+                                </span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 lib-icon-check" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                </svg>
+                            </button>
+                        </div>
+                        ` : `
+                        <a href="player.html?id=${lec.id}&subjectId=${subjectId}&type=${lec.type}&url=${encodeURIComponent(lec.url)}&title=${encodeURIComponent(lec.title)}&sec=sections${nextParams}" class="lec-open-btn" onclick="event.stopPropagation()">
                             Open
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                         </a>
+                        `}
                     </div>
                 </div>
 

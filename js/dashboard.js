@@ -90,35 +90,35 @@ function loadStats(deptText) {
     const favoritesCount = favs.length;
 
     // Collect all lectures across all subjects in this dept
-    const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-    const completedSections = JSON.parse(localStorage.getItem('soCompletedSections') || '{}');
-    const completedQuizzes = JSON.parse(localStorage.getItem('soCompletedQuizzes') || '{}');
-    const completedSummaries = JSON.parse(localStorage.getItem('soCompletedSummaries') || '{}');
-    const completedQA = JSON.parse(localStorage.getItem('soCompletedQA') || '{}');
-
     let totalVideos = 0, totalPDFs = 0, doneVideos = 0, donePDFs = 0;
     let totalLectures = 0, doneLectures = 0;
     let subjectPctsSum = 0;
     let openedSubjectsCount = 0;
 
     const lastOpened = JSON.parse(localStorage.getItem('soLastOpened') || '{}');
+    const contentSections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
 
     materials.forEach(subj => {
         let subjTotalLectures = 0;
         let subjDoneLectures = 0;
 
         if (subj.content) {
-            const contentSections = ['chapters', 'quizzes', 'sections', 'summaries', 'qa', 'finalReview'];
             contentSections.forEach(sec => {
                 if (!subj.content[sec]) return;
+                const storeKey = (typeof SECTION_STORE_MAP !== 'undefined' && SECTION_STORE_MAP[sec])
+                    ? SECTION_STORE_MAP[sec]
+                    : 'soCompletedLectures';
+                const store = JSON.parse(localStorage.getItem(storeKey) || '{}');
+
                 subj.content[sec].forEach(ch => {
                     if (!ch.lectures) return;
                     ch.lectures.forEach(lec => {
                         totalLectures++;
                         subjTotalLectures++;
                         const key = subj.id + '_' + lec.id;
-                        const isDone = !!(completedLectures[key] || completedSections[key] ||
-                            completedQuizzes[key] || completedSummaries[key] || completedQA[key]);
+                        const isDone = !!(store[key] ||
+                            (sec === 'summaries' && store[subj.id + '_101'] && lec.id === 3001) ||
+                            (sec === 'qa' && store[subj.id + '_101'] && lec.id === 4001));
                         if (lec.type === 'video') {
                             totalVideos++;
                             if (isDone) doneVideos++;

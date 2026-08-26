@@ -161,6 +161,18 @@
     flex: 1;
 }
 
+.lec-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+}
+
+.lec-actions-row .lec-open-btn {
+    margin-top: 0;
+}
+
 .lec-open-btn {
     display: inline-flex;
     align-items: center;
@@ -177,12 +189,13 @@
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     width: fit-content;
+    cursor: pointer;
 }
 
 .lec-open-btn:hover {
     background: #0ea5e9;
     color: white;
-    transform: translateX(4px);
+    transform: translateY(-1px);
     box-shadow: 0 8px 20px -5px rgba(14, 165, 233, 0.4);
 }
 
@@ -191,7 +204,98 @@
 }
 
 .lec-open-btn:hover svg {
-    transform: translateX(3px);
+    transform: translateX(2px);
+}
+
+.lec-download-btn:hover svg {
+    transform: translateY(2px);
+}
+
+/* ── LIBRARY ADD / REMOVE BUTTON ──────────────────────── */
+.lec-lib-btn {
+    padding: 6px 12px;
+    position: relative;
+    cursor: pointer;
+    background: rgba(14, 165, 233, 0.08);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    color: #0ea5e9;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    user-select: none;
+}
+
+.lec-lib-btn:hover {
+    background: #0ea5e9;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px -4px rgba(14, 165, 233, 0.4);
+}
+
+.lec-lib-btn .lib-btn-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.2s ease;
+}
+
+.lec-lib-btn .lib-icon-plus {
+    display: inline-block;
+}
+
+.lec-lib-btn .lib-icon-minus {
+    display: none;
+}
+
+/* In-Library State (Minus icon, subtle red/rose theme) */
+.lec-lib-btn.in-library {
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+}
+
+.lec-lib-btn.in-library:hover {
+    background: #ef4444;
+    color: white;
+    box-shadow: 0 6px 16px -4px rgba(239, 68, 68, 0.4);
+}
+
+.lec-lib-btn.in-library .lib-icon-plus {
+    display: none;
+}
+
+.lec-lib-btn.in-library .lib-icon-minus {
+    display: inline-block;
+}
+
+.lec-lib-btn .lib-icon-check {
+    display: none;
+}
+
+/* Success Animation State (Green checkmark for 1s) */
+.lec-lib-btn.saved-success {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+    color: white !important;
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px -3px rgba(16, 185, 129, 0.5) !important;
+}
+
+.lec-lib-btn.saved-success .lib-btn-content {
+    display: none !important;
+}
+
+.lec-lib-btn.saved-success .lib-icon-check {
+    display: block !important;
+    animation: checkPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes checkPop {
+    0% { transform: scale(0.4) rotate(-15deg); opacity: 0; }
+    50% { transform: scale(1.25) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* ── CIRCLE COMPLETION BUTTON ───────────────────────── */

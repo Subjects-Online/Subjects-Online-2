@@ -13,6 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextType = params.get('nextType');
     const lecId = params.get('id');
     const subjectId = params.get('subjectId');
+    const sec = params.get('sec') || 'chapters';
+    const storeMap = {
+        chapters: 'soCompletedLectures',
+        quizzes: 'soCompletedQuizzes',
+        sections: 'soCompletedSections',
+        summaries: 'soCompletedSummaries',
+        qa: 'soCompletedQA',
+        finalReview: 'soCompletedFinalReview'
+    };
+    const targetStoreKey = storeMap[sec] || 'soCompletedLectures';
 
     // UI Elements
     const titleEl = document.getElementById('player-title');
@@ -146,9 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Mark lecture as fully completed
             if (lecId && subjectId) {
                 const key = subjectId + '_' + lecId;
-                const completedLectures = JSON.parse(localStorage.getItem('soCompletedLectures') || '{}');
-                completedLectures[key] = true;
-                localStorage.setItem('soCompletedLectures', JSON.stringify(completedLectures));
+                const completedStore = JSON.parse(localStorage.getItem(targetStoreKey) || '{}');
+                completedStore[key] = true;
+                localStorage.setItem(targetStoreKey, JSON.stringify(completedStore));
             }
 
             if (nextUrl) {
@@ -177,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     if (countdown <= 0) {
                         clearInterval(autoNextTimer);
-                        window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}`;
+                        window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}&sec=${sec}&subjectId=${subjectId || ''}`;
                     }
                 }, 1000);
 
@@ -188,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 document.getElementById('play-next-btn').onclick = () => {
                     clearInterval(autoNextTimer);
-                    window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}`;
+                    window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}&sec=${sec}&subjectId=${subjectId || ''}`;
                 };
             }
         });
