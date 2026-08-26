@@ -59,6 +59,116 @@ html.dark-mode {
     background: var(--app-glow-tl);
 }
 
+/* ════════════════════════════════════════════════
+   USER PREFERENCES & THEME OVERRIDES
+   ════════════════════════════════════════════════ */
+
+/* 1. View Density: Compact Mode */
+.density-compact .bento-card,
+.density-compact .dash-premium-card,
+.density-compact .settings-card,
+.density-compact .section-cards > a,
+.density-compact .card-browse {
+    padding: 1.25rem !important;
+    border-radius: 1.25rem !important;
+    min-height: auto !important;
+}
+
+.density-compact .hero-container {
+    min-height: 75vh !important;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.density-compact .hero-name-typed {
+    font-size: 2.75rem !important;
+}
+
+.density-compact .bento-grid {
+    gap: 1rem !important;
+}
+
+/* 2. Reduced Motion Mode */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+}
+
+/* 3. Reading Font Size */
+[data-font-size="large"] .summary-content,
+[data-font-size="large"] .note-content,
+[data-font-size="large"] .reading-pane {
+    font-size: 1.15rem !important;
+    line-height: 1.85 !important;
+}
+
+[data-font-size="xl"] .summary-content,
+[data-font-size="xl"] .note-content,
+[data-font-size="xl"] .reading-pane {
+    font-size: 1.35rem !important;
+    line-height: 2 !important;
+}
+
+/* 4. Progress Tracker Styles across all subject pages */
+[data-progress-style="bar"] #progress-ring-wrapper {
+    width: 100% !important;
+    max-width: 240px !important;
+    height: auto !important;
+    min-height: 5.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0.85rem 1.25rem !important;
+    border-radius: 1.5rem !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(14, 165, 233, 0.25) !important;
+    box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.1) !important;
+}
+
+html.dark-mode[data-progress-style="bar"] #progress-ring-wrapper {
+    background: rgba(15, 23, 42, 0.7) !important;
+    border-color: rgba(56, 189, 248, 0.25) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-progress-style="bar"] #progress-ring-wrapper svg {
+    display: none !important;
+}
+
+[data-progress-style="bar"] #progress-ring-wrapper > div:not(#progress-tooltip) {
+    position: static !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+[data-progress-style="minimal"] #progress-ring-wrapper {
+    width: auto !important;
+    height: auto !important;
+    padding: 0.6rem 1.4rem !important;
+    border-radius: 1.25rem !important;
+    background: rgba(14, 165, 233, 0.1) !important;
+    border: 1px solid rgba(14, 165, 233, 0.25) !important;
+}
+
+[data-progress-style="minimal"] #progress-ring-wrapper svg {
+    display: none !important;
+}
+
+[data-progress-style="minimal"] #progress-ring-wrapper > div:not(#progress-tooltip) {
+    position: static !important;
+}
+
+[data-progress-style="minimal"] #progress-ring-wrapper #progress-text-circle {
+    font-size: 1.5rem !important;
+}
+
 /* Removed old light-mode class to prevent conflicts */
 
 /* GLOBAL MAIN PADDING FIX FOR SCROLLING */

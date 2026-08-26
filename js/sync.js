@@ -16,7 +16,27 @@ const SYNC_KEYS = [
     'soCompletedChapters',
     'soCompletedMaterials',
     'soFavorites',
-    'soDarkMode'
+    'soDarkMode',
+    'soSemester',
+    'soDailyTarget',
+    'soPlaybackSpeed',
+    'soReadingFontSize',
+    'soPdfOpenMode',
+    'soVideoQuality',
+    'soSeekDuration',
+    'soAutoplayNext',
+    'soSoundEffects',
+    'soAutoSaveNotes',
+    'soShortcutsEnabled',
+    'soReduceMotion',
+    'soHideCompleted',
+    'soLandingPage',
+    'soViewDensity',
+    'soProgressStyle',
+    'soInstructorPriority',
+    'soScratchpadNotes',
+    'soCustomBookmarks',
+    'soWeeklySchedule'
 ];
 
 let syncTimeout = null;

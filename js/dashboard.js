@@ -242,7 +242,35 @@ function loadStats(deptText) {
     if (analyticsBars) analyticsBars.innerHTML = statsHTML;
 
     const totalScore = document.getElementById('bento-total-score');
-    if (totalScore) totalScore.innerHTML = `${progressPct}<span class="text-xl opacity-50">%</span>`;
+    const progressStyle = localStorage.getItem('soProgressStyle') || 'ring';
+
+    if (totalScore) {
+        if (progressStyle === 'ring') {
+            const circumference = 2 * Math.PI * 22; // r=22
+            const strokeOffset = circumference - (progressPct / 100) * circumference;
+            totalScore.innerHTML = `
+                <div class="relative w-16 h-16 flex items-center justify-center">
+                    <svg class="w-full h-full -rotate-90" viewBox="0 0 52 52">
+                        <circle cx="26" cy="26" r="22" stroke="currentColor" stroke-width="4" fill="transparent" class="text-slate-200 dark:text-slate-800"></circle>
+                        <circle cx="26" cy="26" r="22" stroke="#3b82f6" stroke-width="4" stroke-dasharray="${circumference}" stroke-dashoffset="${strokeOffset}" stroke-linecap="round" fill="transparent" class="transition-all duration-1000"></circle>
+                    </svg>
+                    <span class="absolute font-black text-base bento-gradient-text" style="background-image: linear-gradient(to right, #3b82f6, #0ea5e9);">${progressPct}%</span>
+                </div>
+            `;
+        } else if (progressStyle === 'bar') {
+            totalScore.innerHTML = `
+                <div class="flex flex-col items-end gap-1">
+                    <div class="text-2xl font-black bento-gradient-text" style="background-image: linear-gradient(to right, #3b82f6, #0ea5e9);">${progressPct}%</div>
+                    <div class="w-24 h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full transition-all duration-700" style="width: ${progressPct}%;"></div>
+                    </div>
+                </div>
+            `;
+        } else {
+            // Minimal
+            totalScore.innerHTML = `<span class="px-3 py-1 rounded-xl bg-blue-500/10 text-blue-500 font-extrabold text-lg">${progressPct}%</span>`;
+        }
+    }
 }
 
 function initAnimations() {

@@ -15,14 +15,85 @@
     const avatarTheme = localStorage.getItem('subjectsOnlineAvatarTheme') || 'blue';
     const avatarImage = localStorage.getItem('subjectsOnlineAvatarImage') || null;
 
+    // Apply global preferences
+    const viewDensity = localStorage.getItem('soViewDensity') || 'comfortable';
+    if (viewDensity === 'compact') {
+        document.documentElement.classList.add('density-compact');
+        document.body?.classList.add('density-compact');
+    } else {
+        document.documentElement.classList.remove('density-compact');
+        document.body?.classList.remove('density-compact');
+    }
+
+    const reduceMotion = localStorage.getItem('soReduceMotion') === 'true';
+    if (reduceMotion) {
+        document.documentElement.classList.add('reduce-motion');
+        document.body?.classList.add('reduce-motion');
+        if (window.gsap) {
+            try {
+                gsap.globalTimeline.timeScale(100);
+            } catch(e) {}
+        }
+    } else {
+        document.documentElement.classList.remove('reduce-motion');
+        document.body?.classList.remove('reduce-motion');
+    }
+
+    const readingFont = localStorage.getItem('soReadingFontSize') || 'normal';
+    document.documentElement.setAttribute('data-font-size', readingFont);
+
+    const progressStyle = localStorage.getItem('soProgressStyle') || 'ring';
+    document.documentElement.setAttribute('data-progress-style', progressStyle);
+
+    // Global observer for progress-ring-wrapper on content pages
+    function syncPageProgressStyle() {
+        const style = localStorage.getItem('soProgressStyle') || 'ring';
+        const wrapper = document.getElementById('progress-ring-wrapper');
+        if (!wrapper) return;
+
+        const textCircle = document.getElementById('progress-text-circle');
+        const pct = textCircle ? parseInt(textCircle.textContent) || 0 : 0;
+
+        let linearTrack = wrapper.querySelector('.linear-progress-track');
+        if (style === 'bar') {
+            if (!linearTrack) {
+                linearTrack = document.createElement('div');
+                linearTrack.className = 'linear-progress-track w-full h-3 bg-slate-200 dark:bg-slate-700/80 rounded-full overflow-hidden mt-3';
+                linearTrack.innerHTML = `<div class="linear-progress-fill h-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 rounded-full transition-all duration-700" style="width: ${pct}%;"></div>`;
+                const centerContent = wrapper.querySelector('div:not(#progress-tooltip)');
+                if (centerContent) centerContent.appendChild(linearTrack);
+            } else {
+                const fill = linearTrack.querySelector('.linear-progress-fill');
+                if (fill) fill.style.width = `${pct}%`;
+            }
+        } else if (linearTrack) {
+            linearTrack.remove();
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            syncPageProgressStyle();
+            setTimeout(syncPageProgressStyle, 300);
+            setTimeout(syncPageProgressStyle, 1000);
+        });
+    } else {
+        syncPageProgressStyle();
+        setTimeout(syncPageProgressStyle, 300);
+        setTimeout(syncPageProgressStyle, 1000);
+    }
+
     const themeGradients = {
         'blue': 'linear-gradient(135deg,#bfdbfe,#dbeafe)',
         'emerald': 'linear-gradient(135deg,#6ee7b7,#d1fae5)',
         'rose': 'linear-gradient(135deg,#fda4af,#ffe4e6)',
-        'violet': 'linear-gradient(135deg,#c4b5fd,#ede9fe)'
+        'violet': 'linear-gradient(135deg,#c4b5fd,#ede9fe)',
+        'amber': 'linear-gradient(135deg,#fcd34d,#fed7aa)',
+        'indigo': 'linear-gradient(135deg,#a5b4fc,#c7d2fe)'
     };
     const themeTextColors = {
-        'blue': '#1d4ed8', 'emerald': '#047857', 'rose': '#be123c', 'violet': '#6d28d9'
+        'blue': '#1d4ed8', 'emerald': '#047857', 'rose': '#be123c', 'violet': '#6d28d9',
+        'amber': '#b45309', 'indigo': '#3730a3'
     };
 
     const bgGradient = avatarImage ? 'transparent' : (themeGradients[avatarTheme] || themeGradients['blue']);
