@@ -1528,6 +1528,12 @@ html.dark-mode .card-trainings {
     perspective: 1000px;
 }
 
+@media (max-width: 640px) {
+    .bento-card {
+        border-radius: 1.75rem;
+    }
+}
+
 html.dark-mode .bento-card {
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.3) 100%);
     border: 1px solid rgba(255, 255, 255, 0.15);

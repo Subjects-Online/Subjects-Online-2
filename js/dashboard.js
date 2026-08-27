@@ -207,7 +207,8 @@ function loadStats(deptText) {
     }
 
     const statsHTML = `
-        <div class="flex flex-col gap-5">
+        <!-- DESKTOP: Horizontal Progress Bars -->
+        <div class="hidden sm:flex flex-col gap-5">
             <!-- Subjects -->
             <div>
                 <div class="flex justify-between items-end mb-2">
@@ -245,6 +246,51 @@ function loadStats(deptText) {
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${openedVideosPct}%; background: linear-gradient(90deg, #f43f5e, #fb7185); box-shadow: 0 0 10px rgba(244,63,94,0.5);"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MOBILE: 3 Vertical Side-by-Side Pillars (No Card Background) -->
+        <div class="grid grid-cols-3 gap-2 sm:hidden mt-2">
+            <!-- Subjects Column -->
+            <div class="flex flex-col items-center text-center py-1">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider text-blue-500 flex items-center gap-1 mb-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Subjects
+                </span>
+                <div class="flex items-baseline gap-1 mb-0.5">
+                    <span class="text-xs font-bold text-slate-400"><span class="text-blue-500 font-extrabold text-sm">${openedSubjectsCount}</span>/${totalSubjects}</span>
+                </div>
+                <span class="text-base font-black text-brand-textPrimary mb-3">${avgSubjectsPct}%</span>
+                <div class="w-3 h-24 bg-slate-200/60 dark:bg-slate-900/70 rounded-full overflow-hidden flex flex-col justify-end p-0.5 shadow-inner">
+                    <div class="w-full rounded-full transition-all duration-700" style="height: ${Math.max(6, avgSubjectsPct)}%; background: linear-gradient(180deg, #60a5fa, #3b82f6); box-shadow: 0 0 10px rgba(59,130,246,0.7);"></div>
+                </div>
+            </div>
+
+            <!-- PDFs Column -->
+            <div class="flex flex-col items-center text-center py-1">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider text-purple-500 flex items-center gap-1 mb-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>PDFs
+                </span>
+                <div class="flex items-baseline gap-1 mb-0.5">
+                    <span class="text-xs font-bold text-slate-400"><span class="text-purple-500 font-extrabold text-sm">${donePDFs}</span>/${totalPDFs}</span>
+                </div>
+                <span class="text-base font-black text-brand-textPrimary mb-3">${openedPDFsPct}%</span>
+                <div class="w-3 h-24 bg-slate-200/60 dark:bg-slate-900/70 rounded-full overflow-hidden flex flex-col justify-end p-0.5 shadow-inner">
+                    <div class="w-full rounded-full transition-all duration-700" style="height: ${Math.max(6, openedPDFsPct)}%; background: linear-gradient(180deg, #a78bfa, #8b5cf6); box-shadow: 0 0 10px rgba(139,92,246,0.7);"></div>
+                </div>
+            </div>
+
+            <!-- Videos Column -->
+            <div class="flex flex-col items-center text-center py-1">
+                <span class="text-[9px] font-extrabold uppercase tracking-wider text-rose-500 flex items-center gap-1 mb-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Videos
+                </span>
+                <div class="flex items-baseline gap-1 mb-0.5">
+                    <span class="text-xs font-bold text-slate-400"><span class="text-rose-500 font-extrabold text-sm">${doneVideos}</span>/${totalVideos}</span>
+                </div>
+                <span class="text-base font-black text-brand-textPrimary mb-3">${openedVideosPct}%</span>
+                <div class="w-3 h-24 bg-slate-200/60 dark:bg-slate-900/70 rounded-full overflow-hidden flex flex-col justify-end p-0.5 shadow-inner">
+                    <div class="w-full rounded-full transition-all duration-700" style="height: ${Math.max(6, openedVideosPct)}%; background: linear-gradient(180deg, #fb7185, #f43f5e); box-shadow: 0 0 10px rgba(244,63,94,0.7);"></div>
                 </div>
             </div>
         </div>
