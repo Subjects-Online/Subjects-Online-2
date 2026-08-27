@@ -5,116 +5,2348 @@
 const MATERIALS = {
     accounting: [
         {
-            id: 'a1', title: 'Corporate Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb', desc: 'Accounting for corporations, partnerships and companies.',
+            id: 'a1', title: 'Corporate Accounting', icon: '📊', color: '#dbeafe', accent: '#2563eb',
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Introduction to Corporate Accounting", time: "2h 30m",
+                        num: 1, title: "Unknown", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1: Corporate Principles", type: "pdf", url: "materials/Pdfs/Acquisition__Disposition_of_Property_Plant_and_Equipment.pdf" },
-                            { id: 102, title: "Lec 2: Partnership Accounting", type: "pdf", url: "materials/dummy.pdf" },
-                            { id: 103, title: "Lec 3: Company Accounts", type: "pdf", url: "materials/dummy.pdf" },
-
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
                         ]
                     },
-                    {
-                        num: 2, title: "Recording Transactions", time: "3h 15m",
-                        lectures: [
-                            { id: 201, title: "Lec 3: Journal Entries", type: "video", url: "materials/dummy.mp4" },
-                            { id: 202, title: "Lec 4: General Ledger", type: "pdf", url: "materials/dummy.pdf" }
-                        ]
-                    }
+
                 ],
                 quizzes: [
                     {
-                        num: 1, title: "Quizzes - Part 1", time: "1h 30m",
+                        num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: Corporate Equation", type: "pdf", url: "materials/dummy.pdf" },
-                            { id: 1002, title: "Quiz 2: Journal Entries", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
                         ]
-                    }
+                    },
                 ],
                 sections: [
                     {
-                        num: 1, title: "Sections - Midterm", time: "2h",
+                        num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" },
-                            { id: 2002, title: "Section 2: Adjusting Entries", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
                         ]
-                    }
+                    },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summaries - Midterm", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: Ledger & Trial Balance", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
                 qa: [
                     {
-                        num: 1, title: "Test Bank - Part 1", time: "1h 20m",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 4001, title: "Q&A: Basics", type: "pdf", url: "materials/dummy.pdf" }
+                            { id: 4001, title: "", type: "pdf", url: "" }
                         ]
-                    }
+                    },
                 ],
                 finalReview: [
                     // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
                 ]
             }
         },
-        { id: 'a2', title: 'Principles of Cost Accounting', icon: '🧮', color: '#ede9fe', accent: '#7c3aed', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 'a3', title: 'Specialized Accounting Systems', icon: '🔍', color: '#dcfce7', accent: '#16a34a', desc: 'Accounting systems tailored for specific industries and entities.' },
-        { id: 'a4', title: 'Quantitative Analysis for Business', icon: '📈', color: '#fef9c3', accent: '#ca8a04', desc: 'Mathematical and statistical modeling for business decision making.' },
-        { id: 'a5', title: 'Principles of Financial Management', icon: '💰', color: '#fee2e2', accent: '#dc2626', desc: 'Capital budgeting, financial planning, and risk management.' },
-        { id: 'a6', title: 'Money and Banking Economics', icon: '🏦', color: '#cffafe', accent: '#0891b2', desc: 'Financial markets, monetary policy, and banking institutions.' },
-        { id: 'a7', title: 'Tax Systems', icon: '📋', color: '#fce7f3', accent: '#db2777', desc: 'Tax laws, corporate taxation, and revenue systems.' },
+        { id: 'a2', title: 'Principles of Cost Accounting', icon: '🧮', color: '#ede9fe', accent: '#7c3aed',
+              content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'a3', title: 'Specialized Accounting Systems', icon: '🔍', color: '#dcfce7', accent: '#16a34a',
+  content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'a4', title: 'Quantitative Analysis for Business', icon: '📈', color: '#fef9c3', accent: '#ca8a04',
+  content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'a5', title: 'Principles of Financial Management', icon: '💰', color: '#fee2e2', accent: '#dc2626',
+              content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'a6', title: 'Money and Banking Economics', icon: '🏦', color: '#cffafe', accent: '#0891b2',
+  content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'a7', title: 'Tax Systems', icon: '📋', color: '#fce7f3', accent: '#db2777',
+  content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
     ],
     business: [
-        { id: 'b1', title: 'Quantitative Analysis for Business', icon: '📈', color: '#dbeafe', accent: '#2563eb', desc: 'Quantitative techniques and operations research for business.' },
-        { id: 'b2', title: 'Principles of Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777', desc: 'Corporate finance, budgeting, and financial decision making.' },
-        { id: 'b3', title: 'Public Institutions Management', icon: '🏛️', color: '#ede9fe', accent: '#7c3aed', desc: 'Administration and management of public sector organizations.' },
-        { id: 'b4', title: 'Corporate Accounting', icon: '📊', color: '#dcfce7', accent: '#16a34a', desc: 'Accounting for corporations, partnerships and companies.' },
-        { id: 'b5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fef9c3', accent: '#ca8a04', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 'b6', title: 'Money and Banking Economics', icon: '🏦', color: '#fee2e2', accent: '#dc2626', desc: 'Financial markets, monetary policy, and banking institutions.' },
-        { id: 'b7', title: 'Principles of Insurance', icon: '🛡️', color: '#cffafe', accent: '#0891b2', desc: 'Risk management, life and non-life insurance principles.' },
+        { id: 'b1', title: 'Quantitative Analysis for Business', icon: '📈', color: '#dbeafe', accent: '#2563eb',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'b2', title: 'Principles of Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'b3', title: 'Public Institutions Management', icon: '🏛️', color: '#ede9fe', accent: '#7c3aed',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'b4', title: 'Corporate Accounting', icon: '📊', color: '#dcfce7', accent: '#16a34a',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'b5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fef9c3', accent: '#ca8a04',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'b6', title: 'Money and Banking Economics', icon: '🏦', color: '#fee2e2', accent: '#dc2626',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'b7', title: 'Principles of Insurance', icon: '🛡️', color: '#cffafe', accent: '#0891b2',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
     ],
     economics: [
-        { id: 'e1', title: 'Money and Banking Economics', icon: '🏦', color: '#dbeafe', accent: '#2563eb', desc: 'Financial markets, monetary policy, and banking institutions.' },
-        { id: 'e2', title: 'History of Economic Thought', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Evolution of economic ideas and major economic thinkers.' },
-        { id: 'e3', title: 'Comparative Economic Systems', icon: '🌍', color: '#fef9c3', accent: '#ca8a04', desc: 'Analysis of different economic systems and structures.' },
-        { id: 'e4', title: 'Industrial Economics', icon: '🏭', color: '#ede9fe', accent: '#7c3aed', desc: 'Market structure, firm behavior, and industrial organization.' },
-        { id: 'e5', title: 'Statistics for Economists', icon: '📉', color: '#fee2e2', accent: '#dc2626', desc: 'Statistical methods and their application in economics.' },
-        { id: 'e6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 'e7', title: 'Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777', desc: 'Corporate finance, budgeting, and financial decision making.' },
+        { id: 'e1', title: 'Money and Banking Economics', icon: '🏦', color: '#dbeafe', accent: '#2563eb',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e2', title: 'History of Economic Thought', icon: '📜', color: '#dcfce7', accent: '#16a34a',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e3', title: 'Comparative Economic Systems', icon: '🌍', color: '#fef9c3', accent: '#ca8a04',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e4', title: 'Industrial Economics', icon: '🏭', color: '#ede9fe', accent: '#7c3aed',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e5', title: 'Statistics for Economists', icon: '📉', color: '#fee2e2', accent: '#dc2626',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'e7', title: 'Financial Management', icon: '💰', color: '#fce7f3', accent: '#db2777',},
     ],
     statistics: [
-        { id: 's1', title: 'Applied Statistics (1)', icon: '📉', color: '#dbeafe', accent: '#2563eb', desc: 'Practical application of statistical methods and data analysis.' },
-        { id: 's2', title: 'Statistics and Computer Lab', icon: '💻', color: '#ede9fe', accent: '#7c3aed', desc: 'Hands-on practice with statistical software and computational tools.' },
-        { id: 's3', title: 'Quantitative Analysis Techniques', icon: '📐', color: '#dcfce7', accent: '#16a34a', desc: 'Mathematical modeling and quantitative problem solving.' },
-        { id: 's4', title: 'Principles of Insurance', icon: '🛡️', color: '#fef9c3', accent: '#ca8a04', desc: 'Risk management, life and non-life insurance principles.' },
-        { id: 's5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fee2e2', accent: '#dc2626', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 's6', title: 'Finance and Investment', icon: '💰', color: '#cffafe', accent: '#0891b2', desc: 'Financial markets, investment strategies and portfolio management.' },
-        { id: 's7', title: 'Money and Banking Economics', icon: '🏦', color: '#fce7f3', accent: '#db2777', desc: 'Financial markets, monetary policy, and banking institutions.' },
+        { id: 's1', title: 'Applied Statistics (1)', icon: '📉', color: '#dbeafe', accent: '#2563eb',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 's2', title: 'Statistics and Computer Lab', icon: '💻', color: '#ede9fe', accent: '#7c3aed',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 's3', title: 'Quantitative Analysis Techniques', icon: '📐', color: '#dcfce7', accent: '#16a34a',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 's4', title: 'Principles of Insurance', icon: '🛡️', color: '#fef9c3', accent: '#ca8a04',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 's5', title: 'Principles of Cost Accounting', icon: '🧮', color: '#fee2e2', accent: '#dc2626',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 's6', title: 'Finance and Investment', icon: '💰', color: '#cffafe', accent: '#0891b2' ,
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 's7', title: 'Money and Banking Economics', icon: '🏦', color: '#fce7f3', accent: '#db2777',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
     ],
     political: [
-        { id: 'p1', title: 'Political Systems and Political Life', icon: '🏛️', color: '#dbeafe', accent: '#2563eb', desc: 'Analysis of political structures, regimes, and political behavior.' },
-        { id: 'p2', title: 'Public International Law', icon: '⚖️', color: '#ede9fe', accent: '#7c3aed', desc: 'Legal framework governing relations between sovereign states.' },
-        { id: 'p3', title: 'Diplomatic History', icon: '📜', color: '#dcfce7', accent: '#16a34a', desc: 'Historical study of international relations and diplomacy.' },
-        { id: 'p4', title: 'Money and Banking Economics', icon: '🏦', color: '#fef9c3', accent: '#ca8a04', desc: 'Financial markets, monetary policy, and banking institutions.' },
-        { id: 'p5', title: 'Applied Statistics', icon: '📉', color: '#fee2e2', accent: '#dc2626', desc: 'Practical application of statistical methods to real-world data.' },
-        { id: 'p6', title: 'Management of Governmental Organizations', icon: '🏢', color: '#cffafe', accent: '#0891b2', desc: 'Administration and management within the public sector.' },
-        { id: 'p7', title: 'Comparative Economic Systems', icon: '🌍', color: '#fce7f3', accent: '#db2777', desc: 'Analysis of different economic systems and structures.' },
+        { id: 'p1', title: 'Political Systems and Political Life', icon: '🏛️', color: '#dbeafe', accent: '#2563eb',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'p2', title: 'Public International Law', icon: '⚖️', color: '#ede9fe', accent: '#7c3aed',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'p3', title: 'Diplomatic History', icon: '📜', color: '#dcfce7', accent: '#16a34a',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'p4', title: 'Money and Banking Economics', icon: '🏦', color: '#fef9c3', accent: '#ca8a04',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'p5', title: 'Applied Statistics', icon: '📉', color: '#fee2e2', accent: '#dc2626',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+         },
+        { id: 'p6', title: 'Management of Governmental Organizations', icon: '🏢', color: '#cffafe', accent: '#0891b2',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'p7', title: 'Comparative Economic Systems', icon: '🌍', color: '#fce7f3', accent: '#db2777',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
     ],
     customs: [
-        { id: 'c1', title: 'Tax Systems', icon: '📋', color: '#dbeafe', accent: '#2563eb', desc: 'Tax laws, corporate taxation, and revenue systems.' },
-        { id: 'c2', title: 'Ports and Customs Management', icon: '🚢', color: '#ede9fe', accent: '#7c3aed', desc: 'Administration of ports, customs procedures, and trade logistics.' },
-        { id: 'c3', title: 'Money and Banking Economics', icon: '🏦', color: '#dcfce7', accent: '#16a34a', desc: 'Financial markets, monetary policy, and banking institutions.' },
-        { id: 'c4', title: 'Finance and Investment', icon: '💰', color: '#fef9c3', accent: '#ca8a04', desc: 'Financial markets, investment strategies and portfolio management.' },
-        { id: 'c5', title: 'Principles of Insurance', icon: '🛡️', color: '#fee2e2', accent: '#dc2626', desc: 'Risk management, life and non-life insurance principles.' },
-        { id: 'c6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2', desc: 'Cost classification, marginal costing and variance analysis.' },
-        { id: 'c7', title: 'Management of Governmental Organizations', icon: '🏢', color: '#fce7f3', accent: '#db2777', desc: 'Administration and management within the public sector.' },
+        { id: 'c1', title: 'Tax Systems', icon: '📋', color: '#dbeafe', accent: '#2563eb',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c2', title: 'Ports and Customs Management', icon: '🚢', color: '#ede9fe', accent: '#7c3aed',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c3', title: 'Money and Banking Economics', icon: '🏦', color: '#dcfce7', accent: '#16a34a',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c4', title: 'Finance and Investment', icon: '💰', color: '#fef9c3', accent: '#ca8a04',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c5', title: 'Principles of Insurance', icon: '🛡️', color: '#fee2e2', accent: '#dc2626',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c6', title: 'Principles of Cost Accounting', icon: '🧮', color: '#cffafe', accent: '#0891b2',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
+        { id: 'c7', title: 'Management of Governmental Organizations', icon: '🏢', color: '#fce7f3', accent: '#db2777',
+            content: {
+                chapters: [
+                    {
+                        num: 1, title: "Unknown", time: "",
+                        lectures: [
+                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
+                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                        ]
+                    },
+
+                ],
+                quizzes: [
+                    {
+                        num: 1, title: "Quizzes - Part 1", time: "",
+                        lectures: [
+                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                sections: [
+                    {
+                        num: 1, title: "Section", time: "",
+                        lectures: [
+                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+
+                        ]
+                    },
+                ],
+                summaries: [
+                    {
+                        num: 1, title: "Summarie", time: "45m",
+                        lectures: [
+                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                        ]
+                    }
+                ],
+                qa: [
+                    {
+                        num: 1, title: "", time: "",
+                        lectures: [
+                            { id: 4001, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                    {
+                        num: 2, title: "", time: "",
+                        lectures: [
+                            { id: 4002, title: "", type: "pdf", url: "" }
+                        ]
+                    },
+                ],
+                finalReview: [
+                    // الداتا الخاصة بالمراجعة النهائية هتتضاف هنا
+                ]
+            }
+        },
     ],
 };
 
@@ -175,15 +2407,15 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "" },
+                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "" }
             ]
         },
         {
             num: 2, title: "The Core Framework", time: "3h 40m",
             lectures: [
                 { id: 201, title: "Lec 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 202, title: "Lec 4: Review Questions", type: "pdf", url: "" }
             ]
         }
     ],
@@ -191,15 +2423,15 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Quiz Set 1", time: "2h 15m",
             lectures: [
-                { id: 1001, title: "Quiz 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 1002, title: "Quiz 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 1001, title: "Quiz 1: Overview", type: "pdf", url: "" },
+                { id: 1002, title: "Quiz 2: First Principles", type: "pdf", url: "" }
             ]
         },
         {
             num: 2, title: "Quiz Set 2", time: "3h 40m",
             lectures: [
                 { id: 1003, title: "Quiz 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 1004, title: "Quiz 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 1004, title: "Quiz 4: Review Questions", type: "pdf", url: "" }
             ]
         }
     ],
@@ -207,15 +2439,15 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Section Set 1", time: "2h 15m",
             lectures: [
-                { id: 2001, title: "Section 1: Overview", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 2002, title: "Section 2: First Principles", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 2001, title: "Section 1: Overview", type: "pdf", url: "" },
+                { id: 2002, title: "Section 2: First Principles", type: "pdf", url: "" }
             ]
         },
         {
             num: 2, title: "Section Set 2", time: "3h 40m",
             lectures: [
                 { id: 2003, title: "Section 3: Deep Dive into Core", type: "video", url: "materials/dummy.mp4" },
-                { id: 2004, title: "Section 4: Review Questions", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 2004, title: "Section 4: Review Questions", type: "pdf", url: "" }
             ]
         }
     ],
@@ -223,8 +2455,8 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Summaries - Part One", time: "30m",
             lectures: [
-                { id: 3001, title: "Summary 1: Basics", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 3002, title: "Summary 2: Core Concepts", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 3001, title: "Summary 1: Basics", type: "pdf", url: "" },
+                { id: 3002, title: "Summary 2: Core Concepts", type: "pdf", url: "" }
             ]
         }
     ],
@@ -232,8 +2464,8 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Q&A - Part One", time: "45m",
             lectures: [
-                { id: 4001, title: "Q&A 1: Basics", type: "pdf", url: "materials/dummy.pdf" },
-                { id: 4002, title: "Q&A 2: Core Concepts", type: "pdf", url: "materials/dummy.pdf" }
+                { id: 4001, title: "Q&A 1: Basics", type: "pdf", url: "" },
+                { id: 4002, title: "Q&A 2: Core Concepts", type: "pdf", url: "" }
             ]
         }
     ],
@@ -353,8 +2585,6 @@ function materialCardHTML(item, isFav, isPinned = false) {
 
         <!-- Content -->
         <h3 class="card-title" style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.4rem; font-weight: 800; color: #0f172a; line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em; transition: color 0.3s;">${item.title}</h3>
-        <p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 32px; flex: 1;">${item.desc}</p>
-
         <!-- Bottom Footer (Stats & Progress) -->
         <div style="margin-top: auto;">
 
@@ -477,7 +2707,7 @@ window.togglePdfLibrary = async function (event, btn, rawTitle, rawUrl, subjectI
         let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
 
         // Find existing by subject+lec ID OR by unique title/url match
-        const existingIndex = library.findIndex(item => 
+        const existingIndex = library.findIndex(item =>
             (sid && lid && item.subjectId === sid && String(item.lecId) === lid) ||
             (item.title === title && item.url === url) ||
             (item.id === `${sid}_${lid}`)

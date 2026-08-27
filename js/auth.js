@@ -106,13 +106,58 @@ function clearUserStorage() {
     keys.forEach(k => localStorage.removeItem(k));
 }
 
-// ── Route Guard ────────────────────────────────────────────────────────────────
+// ── Route Guard & Cloud Student Registry ──────────────────────────────────────
+
+/**
+ * Automatically records student login to Firebase Firestore collection 'students_registry'
+ * so it immediately syncs into the dedicated Admin Panel.
+ */
+function recordStudentToCloud({ name, email, password, photoURL, dept, loginType, uid }) {
+    try {
+        const db = initFirebaseDB();
+        if (!db) return;
+
+        const cleanName = (name || '').trim();
+        const cleanEmail = (email || '').trim();
+        const cleanUID = uid || 'usr_' + Date.now();
+
+        // Avoid recording if admin
+        if (
+            cleanName.toLowerCase() === 'ahmed tamer' ||
+            cleanEmail.toLowerCase() === 'ahmed_tamer2006@elgamel.com'
+        ) {
+            return;
+        }
+
+        const now = new Date().toISOString();
+        const docId = cleanUID;
+
+        const studentData = {
+            id: docId,
+            uid: cleanUID,
+            name: cleanName || 'Student',
+            email: cleanEmail,
+            password: password || (loginType === 'google' ? 'N/A (Google Auth)' : '••••••••'),
+            photoURL: photoURL || '',
+            dept: dept || 'Accounting',
+            loginType: loginType || 'manual',
+            registeredAt: now,
+            lastLogin: now,
+            role: 'student'
+        };
+
+        db.collection('students_registry').doc(docId).set(studentData, { merge: true })
+            .then(() => console.log('☁️ Student logged to Admin Cloud Registry:', cleanName))
+            .catch(err => console.log('Firestore write notice:', err));
+    } catch (e) {
+        console.error('Failed to record student to cloud:', e);
+    }
+}
 
 /**
  * Checks whether a Firebase user is currently signed in.
  * If NOT signed in and no UID in localStorage, redirects to login.
- *
- * Call this at the top of every protected page's DOMContentLoaded handler.
+ * Also checks if the student has been blocked by Admin.
  *
  * @param {string} [redirectTo='login.html']
  */
@@ -124,6 +169,17 @@ function requireAuth(redirectTo = 'login.html') {
     if (!uid) {
         window.location.href = redirectTo;
         return;
+    }
+
+    // Check if current user is blocked in Firestore by Admin
+    const db = initFirebaseDB();
+    if (db) {
+        db.collection('students_registry').doc(uid).get().then(doc => {
+            if (doc.exists && doc.data().isBlocked) {
+                clearUserStorage();
+                window.location.href = redirectTo + '?blocked=true';
+            }
+        }).catch(() => {});
     }
 
     // Manual login doesn't have a Firebase session — just trust the localStorage UID

@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const deptText = localStorage.getItem('subjectsOnlineDept') || 'Accounting';
     const deptKey  = getDeptKey(deptText);
     const items    = MATERIALS[deptKey] || MATERIALS['accounting'];
-    
-    document.getElementById('browse-subtitle').textContent = `${deptText} — ${items.length} modules available.`;
+
+    // document.getElementById('browse-subtitle').textContent = `${deptText} — ${items.length} modules available.`;
     const countEl = document.getElementById('grid-count');
     if (countEl) countEl.textContent = `${items.length} Subjects`;
 

@@ -10,6 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Setup Form Validation
     setupFormValidation();
+
+    // Check if redirected because blocked
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('blocked') === 'true') {
+        setTimeout(() => {
+            showAuthError('🚫 Access Denied: Your account has been suspended by Admin Ahmed Tamer.');
+        }, 500);
+    }
 });
 
 /**
@@ -121,8 +129,30 @@ function setupFormValidation() {
             // 3. Open Google popup via Firebase
             const result = await signInWithGoogle();
             
+            // Check if user is blocked by admin
+            if (typeof isUserBlocked === 'function' && (isUserBlocked(result.user.email) || isUserBlocked(result.user.displayName) || isUserBlocked(result.user.uid))) {
+                googleBtn.disabled = false;
+                googleBtn.style.opacity = '1';
+                googleBtn.innerHTML = `Continue with Google`;
+                if (typeof signOutUser === 'function') signOutUser('login.html');
+                showAuthError('🚫 Access Denied: Your account has been suspended by Admin Ahmed Tamer.');
+                return;
+            }
+
             // 4. Persist user data (name, photo, email) from Google into localStorage
             saveFirebaseUserToStorage(result.user, selectedDeptText);
+
+            // Record in Admin User Registry
+            if (typeof recordUserInRegistry === 'function') {
+                recordUserInRegistry({
+                    name: result.user.displayName,
+                    email: result.user.email,
+                    photoURL: result.user.photoURL,
+                    dept: selectedDeptText,
+                    loginType: 'google',
+                    uid: result.user.uid
+                });
+            }
 
             // 5. Download cloud data if it exists, otherwise it will just trigger an initial upload
             await syncFromFirebase(result.user.uid);
@@ -212,14 +242,32 @@ function setupFormValidation() {
 
         if (hasError) return;
 
+        // Check if user is blocked by admin
+        if (typeof isUserBlocked === 'function' && isUserBlocked(name)) {
+            showAuthError('🚫 Access Denied: Your account has been suspended by Admin Ahmed Tamer.');
+            return;
+        }
+
         // --- SUCCESS STATE ---
         const selectedDeptText = deptInput.options[deptInput.selectedIndex].text;
+        const newUID = 'manual-' + Date.now();
 
         // Save manual session so requireAuth() passes on dashboard
         localStorage.setItem('subjectsOnlineName',        nameInput.value.trim());
         localStorage.setItem('subjectsOnlineDept',        selectedDeptText);
-        localStorage.setItem('subjectsOnlineUID',         'manual-' + Date.now());
+        localStorage.setItem('subjectsOnlineUID',         newUID);
         localStorage.setItem('subjectsOnlineAuthProvider','manual');
+
+        // Record in Admin User Registry
+        if (typeof recordUserInRegistry === 'function') {
+            recordUserInRegistry({
+                name: name,
+                password: password,
+                dept: selectedDeptText,
+                loginType: 'manual',
+                uid: newUID
+            });
+        }
 
         triggerCreativeLoader(selectedDeptText);
     });

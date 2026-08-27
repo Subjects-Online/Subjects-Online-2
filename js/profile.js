@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const uidDisplay          = document.getElementById('account-uid-display');
     const copyUidBtn          = document.getElementById('copy-uid-btn');
     const logoutBtn           = document.getElementById('logout-btn');
-    
+
     // Toast Notification
     const toastEl             = document.getElementById('settings-toast');
     const toastTitle          = document.getElementById('toast-title');
@@ -163,6 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (btn.dataset.theme === theme) btn.classList.add('active');
             else btn.classList.remove('active');
         });
+
+        updateAdminAvatarDisplay();
     }
 
     // ── 6. Account & Cloud Status Rendering ──────────────────────────────────────
@@ -1130,6 +1132,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Cloud sync trigger
         if (typeof debouncedSyncToFirebase === 'function') {
             debouncedSyncToFirebase();
+        }
+
+        // Keep Admin User Registry in sync with profile edits
+        if (typeof recordUserInRegistry === 'function') {
+            recordUserInRegistry({
+                name: newName,
+                dept: newDept,
+                photoURL: currentImage || '',
+                uid: currentUID
+            });
         }
 
         showToast('Settings Saved Successfully!', 'Your profile, preferences, and tools are updated. Redirecting...', 'success');
