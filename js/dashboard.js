@@ -179,6 +179,13 @@ function loadStats(deptText) {
     const favCount = document.getElementById('card-fav-count');
     const libProgress = document.getElementById('card-lib-progress');
 
+    // Library (offline saved items) count
+    const myLibCount = document.getElementById('card-my-lib-count');
+    if (myLibCount) {
+        const offlineLib = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+        myLibCount.textContent = offlineLib.length;
+    }
+
     if (libCount) libCount.textContent = `${totalSubjects} Subjects`;
     if (essaysCount) essaysCount.textContent = `${typeof ESSAYS !== 'undefined' ? ESSAYS.length : 0} Essays`;
     if (favCount) favCount.textContent = `${favoritesCount} Saved`;
