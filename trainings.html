@@ -190,11 +190,12 @@
         /* â”€â”€ ELEGANT FILTERS â”€â”€ */
         .filter-container {
             display: flex;
-            gap: 1rem;
+            flex-wrap: wrap;
+            gap: 0.65rem;
             overflow-x: auto;
-            padding: 0.5rem 2rem 2.5rem;
+            padding: 0.5rem 1.5rem 2rem;
             margin: 0 auto;
-            max-width: 1000px;
+            max-width: 1100px;
             justify-content: center;
             scrollbar-width: none;
             position: relative;
@@ -228,9 +229,9 @@
 
         .filter-tab {
             white-space: nowrap;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.15rem;
             border-radius: 999px;
-            font-size: 0.85rem;
+            font-size: 0.78rem;
             font-weight: 600;
             letter-spacing: 0.05em;
             text-transform: uppercase;
@@ -266,6 +267,127 @@
             inset: 0;
             background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
             z-index: -1;
+        }
+
+        /* ── SEARCH BAR ── */
+        .hub-search-wrap {
+            position: relative;
+            z-index: 10;
+            max-width: 560px;
+            margin: 0 auto 1.5rem;
+            padding: 0 2rem;
+        }
+
+        .hub-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .hub-search-icon {
+            position: absolute;
+            left: 1.125rem;
+            width: 1.125rem;
+            height: 1.125rem;
+            color: var(--brand-textSecondary);
+            pointer-events: none;
+        }
+
+        .hub-search-input {
+            width: 100%;
+            padding: 0.875rem 2.75rem 0.875rem 2.75rem;
+            border-radius: 999px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            color: var(--brand-textPrimary);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.4));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        html.dark-mode .hub-search-input {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.35));
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .hub-search-input::placeholder {
+            color: var(--brand-textSecondary);
+            opacity: 0.7;
+        }
+
+        .hub-search-input:focus {
+            border-color: rgba(99, 102, 241, 0.5);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 8px 24px -8px rgba(99, 102, 241, 0.25);
+        }
+
+        .hub-search-clear {
+            position: absolute;
+            right: 0.875rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            color: var(--brand-textSecondary);
+            background: rgba(99, 102, 241, 0.1);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hub-search-clear.visible {
+            display: flex;
+        }
+
+        .hub-search-clear:hover {
+            color: var(--brand-textPrimary);
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .hub-empty-state {
+            display: none;
+            text-align: center;
+            padding: 3rem 2rem 6rem;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hub-empty-state.visible {
+            display: block;
+        }
+
+        .hub-empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.6;
+        }
+
+        .hub-empty-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--brand-textPrimary);
+            margin-bottom: 0.5rem;
+        }
+
+        .hub-empty-desc {
+            font-size: 0.9375rem;
+            color: var(--brand-textSecondary);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hub-search-wrap {
+                padding: 0 1rem;
+                margin-bottom: 1rem;
+            }
         }
 
         /* â”€â”€ LUXURY CARDS â”€â”€ */
@@ -550,37 +672,72 @@
                 <span class="hero-title-underline" id="heroUnderline"></span>
             </div>
             <p class="hero-subtitle" id="heroSubtitle">
-                Your ultimate directory for academic pathways, global learning platforms, and cutting-edge tech
-                bootcamps. Elevate your skills.
+                Browse by topic — Egypt programs, coding, AI, cloud, cybersecurity, marketing, design, and more.
             </p>
         </section>
 
         <!-- Filter Tabs -->
         <div class="filter-container" id="filter-container">
             <button class="filter-tab active" data-filter="all">All</button>
-            <button class="filter-tab" data-filter="uni">
-                <span class="hidden md:inline">University Tracks</span>
-                <span class="md:hidden">U.T</span>
+            <button class="filter-tab" data-filter="egypt">
+                <span class="hidden md:inline">Egypt &amp; Arabic</span>
+                <span class="md:hidden">EG</span>
             </button>
-            <button class="filter-tab" data-filter="global">
-                <span class="hidden md:inline">Global Platforms</span>
-                <span class="md:hidden">G.B</span>
+            <button class="filter-tab" data-filter="academic">
+                <span class="hidden md:inline">Academic</span>
+                <span class="md:hidden">Uni</span>
             </button>
-            <button class="filter-tab" data-filter="tech">
-                <span class="hidden md:inline">Tech Bootcamps</span>
-                <span class="md:hidden">T.B</span>
+            <button class="filter-tab" data-filter="courses">
+                <span class="hidden md:inline">MOOCs</span>
+                <span class="md:hidden">MOOC</span>
             </button>
-            <button class="filter-tab" data-filter="skills">
-                <span class="hidden md:inline">Soft Skills</span>
-                <span class="md:hidden">S.S</span>
+            <button class="filter-tab" data-filter="coding">
+                <span class="hidden md:inline">Coding</span>
+                <span class="md:hidden">Code</span>
             </button>
+            <button class="filter-tab" data-filter="ai">
+                <span class="hidden md:inline">AI &amp; Data</span>
+                <span class="md:hidden">AI</span>
+            </button>
+            <button class="filter-tab" data-filter="cloud">
+                <span class="hidden md:inline">Cloud &amp; IT</span>
+                <span class="md:hidden">Cloud</span>
+            </button>
+            <button class="filter-tab" data-filter="cyber">
+                <span class="hidden md:inline">Cybersecurity</span>
+                <span class="md:hidden">Cyber</span>
+            </button>
+            <button class="filter-tab" data-filter="marketing">
+                <span class="hidden md:inline">Marketing</span>
+                <span class="md:hidden">Mkt</span>
+            </button>
+            <button class="filter-tab" data-filter="design">
+                <span class="hidden md:inline">Design</span>
+                <span class="md:hidden">UI</span>
+            </button>
+            <button class="filter-tab" data-filter="languages">
+                <span class="hidden md:inline">Languages</span>
+                <span class="md:hidden">Lang</span>
+            </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="hub-search-wrap">
+            <div class="hub-search-box">
+                <svg class="hub-search-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="hub-search-input" class="hub-search-input"
+                    placeholder="Search platforms by name…" autocomplete="off">
+                <button type="button" id="hub-search-clear" class="hub-search-clear" title="Clear search">✕</button>
+            </div>
         </div>
 
         <!-- Cards Grid -->
         <div class="hub-grid" id="hub-grid">
 
             <!-- Item: University Summer Training -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #3b82f6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -614,7 +771,7 @@
             </div>
 
             <!-- Item: Coursera -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #0056D2;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -640,7 +797,7 @@
             </div>
 
             <!-- Item: ITI -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #dc2626;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -666,7 +823,7 @@
             </div>
 
             <!-- Item: ALX -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #0f172a;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -692,7 +849,7 @@
             </div>
 
             <!-- Item: Edraak -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #10b981;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -718,7 +875,7 @@
             </div>
 
             <!-- Item: edX -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #02262B;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -743,7 +900,7 @@
             </div>
 
             <!-- Item: Udemy -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #a435f0;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -768,7 +925,7 @@
             </div>
 
             <!-- Item: Khan Academy -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #14bf96;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -793,7 +950,7 @@
             </div>
 
             <!-- Item: Udacity -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #02b3e4;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -818,7 +975,7 @@
             </div>
 
             <!-- Item: MIT OpenCourseWare -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #a31f34;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -843,7 +1000,7 @@
             </div>
 
             <!-- Item: Harvard Online -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #a51c30;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -868,7 +1025,7 @@
             </div>
 
             <!-- Item: FutureLearn -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #de00a5;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -893,7 +1050,7 @@
             </div>
 
             <!-- Item: Rwaq -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #00bcd4;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -918,7 +1075,7 @@
             </div>
 
             <!-- Item: LinkedIn Learning -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #0a66c2;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -943,7 +1100,7 @@
             </div>
 
             <!-- Item: FreeCodeCamp -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #0a0a23;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -968,7 +1125,7 @@
             </div>
 
             <!-- Item: Codecademy -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #6400e4;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -993,7 +1150,7 @@
             </div>
 
             <!-- Item: DataCamp -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="ai">
                 <div class="card-ambient" style="background: #05192d;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1018,7 +1175,7 @@
             </div>
 
             <!-- Item: Skillshare -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="design">
                 <div class="card-ambient" style="background: #00ff84;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1043,7 +1200,7 @@
             </div>
 
             <!-- Item: Pluralsight -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #e80a89;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1068,7 +1225,7 @@
             </div>
 
             <!-- Item: The Odin Project -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #a78b5a;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1093,7 +1250,7 @@
             </div>
 
             <!-- Item: Scrimba -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #2b283a;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1118,7 +1275,7 @@
             </div>
 
             <!-- Item: Mahara-Tech -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #1e40af;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1143,7 +1300,7 @@
             </div>
 
             <!-- Item: EGYFWD -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #f97316;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1168,7 +1325,7 @@
             </div>
 
             <!-- Item: NTI -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #1d4ed8;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1193,7 +1350,7 @@
             </div>
 
             <!-- Item: DEPI -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="egypt">
                 <div class="card-ambient" style="background: #059669;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1218,7 +1375,7 @@
             </div>
 
             <!-- Item: Simplilearn -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #0070c0;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1243,7 +1400,7 @@
             </div>
 
             <!-- Item: Google Digital Garage -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="marketing">
                 <div class="card-ambient" style="background: #4285f4;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1268,7 +1425,7 @@
             </div>
 
             <!-- Item: IBM SkillsBuild -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #0f62fe;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1292,8 +1449,33 @@
                 </div>
             </div>
 
+            <!-- Item: Anthropic Academy -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #d97757;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #d97757, #c96442);">An</div>
+                    </div>
+                    <h3 class="card-title">Anthropic Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">AI</span>
+                    </div>
+                    <p class="card-desc">Official Anthropic learning platform. Master Claude products, AI fluency, prompt engineering, and building with the Claude API.</p>
+                    <div class="mt-auto">
+                        <a href="https://academy.claude.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Item: Microsoft Learn -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #00a4ef;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1318,7 +1500,7 @@
             </div>
 
             <!-- Item: AWS Skill Builder -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #ff9900;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1343,7 +1525,7 @@
             </div>
 
             <!-- Item: HackerRank -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #2ec866;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1368,7 +1550,7 @@
             </div>
 
             <!-- Item: LeetCode -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #ffa116;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1393,7 +1575,7 @@
             </div>
 
             <!-- Item: Duolingo -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #58cc02;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1418,7 +1600,7 @@
             </div>
 
             <!-- Item: ZAmericanEnglish -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #c62828;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1443,7 +1625,7 @@
             </div>
 
             <!-- Item: Treehouse -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #58c665;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1467,7 +1649,7 @@
             </div>
 
             <!-- Item: SoloLearn -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #1e293b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1491,7 +1673,7 @@
             </div>
 
             <!-- Item: Codewars -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #b1361e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1515,7 +1697,7 @@
             </div>
 
             <!-- Item: Codeforces -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #1890ff;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1539,7 +1721,7 @@
             </div>
 
             <!-- Item: GeeksforGeeks -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #2f8d46;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1563,7 +1745,7 @@
             </div>
 
             <!-- Item: Kaggle -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="ai">
                 <div class="card-ambient" style="background: #20beff;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1587,7 +1769,7 @@
             </div>
 
             <!-- Item: Educative -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #4a5568;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1611,7 +1793,7 @@
             </div>
 
             <!-- Item: Frontend Mentor -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #3f54a5;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1635,7 +1817,7 @@
             </div>
 
             <!-- Item: Exercism -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #604fcd;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1659,7 +1841,7 @@
             </div>
 
             <!-- Item: W3Schools -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #04aa6d;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1683,7 +1865,7 @@
             </div>
 
             <!-- Item: CodeSignal -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #111827;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1707,7 +1889,7 @@
             </div>
 
             <!-- Item: Stanford Online -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #8c1515;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1731,7 +1913,7 @@
             </div>
 
             <!-- Item: Yale Open Courses -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #00356b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1755,7 +1937,7 @@
             </div>
 
             <!-- Item: OpenLearn -->
-            <div class="lux-card" data-category="uni">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #1c529b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1779,7 +1961,7 @@
             </div>
 
             <!-- Item: SWAYAM -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #f4811f;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1803,7 +1985,7 @@
             </div>
 
             <!-- Item: Class Central -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #364358;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1827,7 +2009,7 @@
             </div>
 
             <!-- Item: Alison -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #85c226;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1851,7 +2033,7 @@
             </div>
 
             <!-- Item: Saylor Academy -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #1f3a5e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1875,7 +2057,7 @@
             </div>
 
             <!-- Item: O'Reilly Learning -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #e3000f;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1899,7 +2081,7 @@
             </div>
 
             <!-- Item: Cisco Networking Academy -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #049fd9;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1923,7 +2105,7 @@
             </div>
 
             <!-- Item: Oracle University -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #c74634;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1947,7 +2129,7 @@
             </div>
 
             <!-- Item: Google Skillshop -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="marketing">
                 <div class="card-ambient" style="background: #4285f4;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1971,7 +2153,7 @@
             </div>
 
             <!-- Item: Brilliant -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #000000;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -1995,7 +2177,7 @@
             </div>
 
             <!-- Item: MasterClass -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #ff0000;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2019,7 +2201,7 @@
             </div>
 
             <!-- Item: Domestika -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="design">
                 <div class="card-ambient" style="background: #1f1f1f;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2043,7 +2225,7 @@
             </div>
 
             <!-- Item: Memrise -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #ffd200;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2067,7 +2249,7 @@
             </div>
 
             <!-- Item: Busuu -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #e55749;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2091,7 +2273,7 @@
             </div>
 
             <!-- Item: Babbel -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #ff8700;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2115,7 +2297,7 @@
             </div>
 
             <!-- Item: Rosetta Stone -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #263238;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2139,7 +2321,7 @@
             </div>
 
             <!-- Item: GitHub Skills -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #24292e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2163,7 +2345,7 @@
             </div>
 
             <!-- Item: CodeChef -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #5b4638;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2187,7 +2369,7 @@
             </div>
 
             <!-- Item: AtCoder -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #000000;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2211,7 +2393,7 @@
             </div>
 
             <!-- Item: Topcoder -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #2b3990;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2235,7 +2417,7 @@
             </div>
 
             <!-- Item: Project Euler -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #800000;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2259,7 +2441,7 @@
             </div>
 
             <!-- Item: TalentLMS -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #3e82f7;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2283,7 +2465,7 @@
             </div>
 
             <!-- Item: openSAP -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #f0ab00;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2307,7 +2489,7 @@
             </div>
 
             <!-- Item: OpenWHO -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #008dc9;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2331,7 +2513,7 @@
             </div>
 
             <!-- Item: Daily.dev -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #ed4035;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2355,7 +2537,7 @@
             </div>
 
             <!-- Item: Vue Mastery -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #42b883;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2379,7 +2561,7 @@
             </div>
 
             <!-- Item: Laracasts -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f4645f;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2403,7 +2585,7 @@
             </div>
 
             <!-- Item: Egghead.io -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #112338;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2427,7 +2609,7 @@
             </div>
 
             <!-- Item: Designlab -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="design">
                 <div class="card-ambient" style="background: #2a7aff;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2451,7 +2633,7 @@
             </div>
 
             <!-- Item: IxDF -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="design">
                 <div class="card-ambient" style="background: #e23e57;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2475,7 +2657,7 @@
             </div>
 
             <!-- Item: Dataquest -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="ai">
                 <div class="card-ambient" style="background: #23527c;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2499,7 +2681,7 @@
             </div>
 
             <!-- Item: Maven -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #5b21b6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2523,7 +2705,7 @@
             </div>
 
             <!-- Item: Thinkific -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #007bff;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2547,7 +2729,7 @@
             </div>
 
             <!-- Item: Teachable -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #11a683;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2571,7 +2753,7 @@
             </div>
 
             <!-- Item: LeetCode -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f89f1b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2595,7 +2777,7 @@
             </div>
 
             <!-- Item: HackerRank -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #00ea64;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2619,7 +2801,7 @@
             </div>
 
             <!-- Item: AlgoExpert -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #02203c;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2643,7 +2825,7 @@
             </div>
 
             <!-- Item: Codecademy -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #1f2937;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2667,7 +2849,7 @@
             </div>
 
             <!-- Item: Pluralsight -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f05a28;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2691,7 +2873,7 @@
             </div>
 
             <!-- Item: DataCamp -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="ai">
                 <div class="card-ambient" style="background: #03ef62;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2715,7 +2897,7 @@
             </div>
 
             <!-- Item: Educative -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #5e7ce2;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2739,7 +2921,7 @@
             </div>
 
             <!-- Item: Frontend Mentor -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #ed2c49;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2763,7 +2945,7 @@
             </div>
 
             <!-- Item: Exercism -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #db2777;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2787,7 +2969,7 @@
             </div>
 
             <!-- Item: Codewars -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #b1361e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2811,7 +2993,7 @@
             </div>
 
             <!-- Item: HackerEarth -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #3b5998;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2835,7 +3017,7 @@
             </div>
 
             <!-- Item: CodeSignal -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #0f2027;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2859,7 +3041,7 @@
             </div>
 
             <!-- Item: Kaggle -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="ai">
                 <div class="card-ambient" style="background: #20beff;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2883,7 +3065,7 @@
             </div>
 
             <!-- Item: Treehouse -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #5fc27e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2907,7 +3089,7 @@
             </div>
 
             <!-- Item: SoloLearn -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #48c4d3;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2931,7 +3113,7 @@
             </div>
 
             <!-- Item: W3Schools -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #04aa6d;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2955,7 +3137,7 @@
             </div>
 
             <!-- Item: InterviewBit -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #46b7e8;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -2979,7 +3161,7 @@
             </div>
 
             <!-- Item: Coderbyte -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #df5b5b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3003,7 +3185,7 @@
             </div>
 
             <!-- Item: Pramp -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #222222;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3027,7 +3209,7 @@
             </div>
 
             <!-- Item: Replit -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f26207;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3051,7 +3233,7 @@
             </div>
 
             <!-- Item: Languages -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="languages">
                 <div class="card-ambient" style="background: #eab308;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3082,7 +3264,7 @@
 
 
             <!-- Item: HackTheBox -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #10b981;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3101,7 +3283,7 @@
             </div>
 
             <!-- Item: TryHackMe -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #ef4444;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3120,7 +3302,7 @@
             </div>
 
             <!-- Item: Cybrary -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #3b82f6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3139,7 +3321,7 @@
             </div>
 
             <!-- Item: OffSec -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #dc2626;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3158,7 +3340,7 @@
             </div>
 
             <!-- Item: INE -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #6366f1;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3177,7 +3359,7 @@
             </div>
 
             <!-- Item: Springboard -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #10b981;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3196,7 +3378,7 @@
             </div>
 
             <!-- Item: Thinkful -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #8b5cf6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3215,7 +3397,7 @@
             </div>
 
             <!-- Item: General Assembly -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #ef4444;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3234,7 +3416,7 @@
             </div>
 
             <!-- Item: App Academy -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f97316;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3253,7 +3435,7 @@
             </div>
 
             <!-- Item: Ironhack -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #38bdf8;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3272,7 +3454,7 @@
             </div>
 
             <!-- Item: BrainStation -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #14b8a6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3291,7 +3473,7 @@
             </div>
 
             <!-- Item: SheCodes -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f472b6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3310,7 +3492,7 @@
             </div>
 
             <!-- Item: MasterClass -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #a8a29e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3329,7 +3511,7 @@
             </div>
 
             <!-- Item: Skillshare -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="design">
                 <div class="card-ambient" style="background: #3b82f6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3348,7 +3530,7 @@
             </div>
 
             <!-- Item: Mindvalley -->
-            <div class="lux-card" data-category="skills">
+            <div class="lux-card" data-category="courses">
                 <div class="card-ambient" style="background: #d946ef;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3367,7 +3549,7 @@
             </div>
 
             <!-- Item: Outlier -->
-            <div class="lux-card" data-category="global">
+            <div class="lux-card" data-category="academic">
                 <div class="card-ambient" style="background: #10b981;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3386,7 +3568,7 @@
             </div>
 
             <!-- Item: CodeCombat -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #22c55e;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3405,7 +3587,7 @@
             </div>
 
             <!-- Item: Scratch -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #f59e0b;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3424,7 +3606,7 @@
             </div>
 
             <!-- Item: Tynker -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="coding">
                 <div class="card-ambient" style="background: #3b82f6;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3443,7 +3625,7 @@
             </div>
 
             <!-- Item: AWS Skill Builder -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #f97316;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3462,7 +3644,7 @@
             </div>
 
             <!-- Item: Cisco NetAcad -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #0ea5e9;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3481,7 +3663,7 @@
             </div>
 
             <!-- Item: Fortinet Training -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #ef4444;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3500,7 +3682,7 @@
             </div>
 
             <!-- Item: Juniper Open Learning -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #10b981;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3519,7 +3701,7 @@
             </div>
 
             <!-- Item: Linux Academy -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cloud">
                 <div class="card-ambient" style="background: #fbbf24;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3538,7 +3720,7 @@
             </div>
 
             <!-- Item: RangeForce -->
-            <div class="lux-card" data-category="tech">
+            <div class="lux-card" data-category="cyber">
                 <div class="card-ambient" style="background: #60a5fa;"></div>
                 <div class="lux-card-inner">
                     <div class="card-header">
@@ -3556,6 +3738,970 @@
                 </div>
             </div>
 
+            <!-- Item: OpenAI Academy -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #10a37f;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #10a37f, #0d8a6a);">OA</div>
+                    </div>
+                    <h3 class="card-title">OpenAI Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">AI</span>
+                    </div>
+                    <p class="card-desc">Official OpenAI learning hub for ChatGPT, API development, prompt engineering, and building AI-powered applications.</p>
+                    <div class="mt-auto">
+                        <a href="https://academy.openai.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: DeepLearning.AI -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #ff6f00;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff6f00, #e65100);">DL</div>
+                    </div>
+                    <h3 class="card-title">DeepLearning.AI</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">AI</span>
+                    </div>
+                    <p class="card-desc">World-class AI courses by Andrew Ng. Specializations in machine learning, deep learning, NLP, and generative AI.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.deeplearning.ai/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Hugging Face Learn -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #ffd21e;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ffd21e, #f5a623);">HF</div>
+                    </div>
+                    <h3 class="card-title">Hugging Face Learn</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">AI</span>
+                    </div>
+                    <p class="card-desc">Free courses on NLP, transformers, diffusion models, and open-source AI. Build and deploy ML models with Hugging Face.</p>
+                    <div class="mt-auto">
+                        <a href="https://huggingface.co/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: NVIDIA Deep Learning Institute -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #76b900;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #76b900, #5a8f00);">NV</div>
+                    </div>
+                    <h3 class="card-title">NVIDIA Deep Learning Institute</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">AI &amp; GPU</span>
+                    </div>
+                    <p class="card-desc">Hands-on training in AI, accelerated computing, and data science. Learn CUDA, deep learning, and generative AI on NVIDIA GPUs.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.nvidia.com/en-us/training/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Google Cloud Skills Boost -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #4285f4;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #4285f4, #34a853);">GC</div>
+                    </div>
+                    <h3 class="card-title">Google Cloud Skills Boost</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free Tier</span>
+                        <span class="badge badge-cert">Cloud</span>
+                    </div>
+                    <p class="card-desc">Official Google Cloud training with hands-on labs, quests, and certifications in cloud engineering, data, and AI.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.cloudskillsboost.google/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: CS50 Harvard -->
+            <div class="lux-card" data-category="academic">
+                <div class="card-ambient" style="background: #a51c30;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #a51c30, #8b1528);">CS</div>
+                    </div>
+                    <h3 class="card-title">CS50 Harvard</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">University</span>
+                    </div>
+                    <p class="card-desc">Harvard's legendary intro to computer science. Learn C, Python, SQL, web development, and CS fundamentals completely free.</p>
+                    <div class="mt-auto">
+                        <a href="https://cs50.harvard.edu/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: fast.ai -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #7c3aed;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #7c3aed, #5b21b6);">fA</div>
+                    </div>
+                    <h3 class="card-title">fast.ai</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Deep Learning</span>
+                    </div>
+                    <p class="card-desc">Practical deep learning for coders. Free courses teaching you to build state-of-the-art AI models from Jeremy Howard and team.</p>
+                    <div class="mt-auto">
+                        <a href="https://course.fast.ai/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: PortSwigger Web Security Academy -->
+            <div class="lux-card" data-category="cyber">
+                <div class="card-ambient" style="background: #ff6633;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff6633, #cc4400);">PS</div>
+                    </div>
+                    <h3 class="card-title">PortSwigger Web Security Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Cybersecurity</span>
+                    </div>
+                    <p class="card-desc">Free, comprehensive web security training from the creators of Burp Suite. Covers OWASP Top 10 with hands-on labs.</p>
+                    <div class="mt-auto">
+                        <a href="https://portswigger.net/web-security" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: MongoDB University -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #00ed64;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #00684a, #00ed64);">MG</div>
+                    </div>
+                    <h3 class="card-title">MongoDB University</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Database</span>
+                    </div>
+                    <p class="card-desc">Free courses on MongoDB, Atlas, aggregation, and application development. Earn official MongoDB certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://learn.mongodb.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: HashiCorp Learn -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #000000;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #000000, #333333);">HC</div>
+                    </div>
+                    <h3 class="card-title">HashiCorp Learn</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">DevOps</span>
+                    </div>
+                    <p class="card-desc">Free tutorials for Terraform, Vault, Consul, and Nomad. Master infrastructure as code and cloud automation.</p>
+                    <div class="mt-auto">
+                        <a href="https://developer.hashicorp.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: MDN Learn Web Development -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #0069c2;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #0069c2, #004488);">MD</div>
+                    </div>
+                    <h3 class="card-title">MDN Learn Web Development</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Web Dev</span>
+                    </div>
+                    <p class="card-desc">Mozilla's structured web development curriculum. HTML, CSS, JavaScript, accessibility, and modern frontend from the source.</p>
+                    <div class="mt-auto">
+                        <a href="https://developer.mozilla.org/en-US/docs/Learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Next.js Learn -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #000000;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #111111, #333333);">NX</div>
+                    </div>
+                    <h3 class="card-title">Next.js Learn</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">React</span>
+                    </div>
+                    <p class="card-desc">Official interactive Next.js course by Vercel. Build a full-stack app with React Server Components, routing, and deployment.</p>
+                    <div class="mt-auto">
+                        <a href="https://nextjs.org/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Salesforce Trailhead -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #00a1e0;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #00a1e0, #0070d2);">SF</div>
+                    </div>
+                    <h3 class="card-title">Salesforce Trailhead</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">CRM</span>
+                    </div>
+                    <p class="card-desc">Gamified learning for Salesforce, Apex, Lightning, and CRM administration. Earn badges and official Salesforce certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://trailhead.salesforce.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Databricks Academy -->
+            <div class="lux-card" data-category="ai">
+                <div class="card-ambient" style="background: #ff3621;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff3621, #cc2200);">DB</div>
+                    </div>
+                    <h3 class="card-title">Databricks Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">Data &amp; AI</span>
+                    </div>
+                    <p class="card-desc">Learn Apache Spark, lakehouse architecture, and machine learning on the Databricks platform with hands-on labs.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.databricks.com/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Snowflake University -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #29b5e8;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #29b5e8, #11567f);">SN</div>
+                    </div>
+                    <h3 class="card-title">Snowflake University</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Data Cloud</span>
+                    </div>
+                    <p class="card-desc">Free training on Snowflake data cloud, SQL, data engineering, and analytics. Prepare for SnowPro certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://learn.snowflake.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Meta Blueprint -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #0081fb;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #0081fb, #0064e0);">MB</div>
+                    </div>
+                    <h3 class="card-title">Meta Blueprint</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Marketing</span>
+                    </div>
+                    <p class="card-desc">Free courses on Facebook, Instagram, and WhatsApp marketing. Digital advertising, social media strategy, and Meta certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.facebook.com/business/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: OpenClassrooms -->
+            <div class="lux-card" data-category="academic">
+                <div class="card-ambient" style="background: #745ff4;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #745ff4, #5a3fd4);">OC</div>
+                    </div>
+                    <h3 class="card-title">OpenClassrooms</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">Diploma</span>
+                    </div>
+                    <p class="card-desc">European online education platform with degree-recognized paths in web development, data, and digital marketing.</p>
+                    <div class="mt-auto">
+                        <a href="https://openclassrooms.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: NPTEL -->
+            <div class="lux-card" data-category="academic">
+                <div class="card-ambient" style="background: #1e3a8a;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #1e3a8a, #3b82f6);">NP</div>
+                    </div>
+                    <h3 class="card-title">NPTEL</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">IIT India</span>
+                    </div>
+                    <p class="card-desc">National Programme on Technology Enhanced Learning. Free courses from IITs and IISc in engineering, CS, and sciences.</p>
+                    <div class="mt-auto">
+                        <a href="https://nptel.ac.in/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Nafham -->
+            <div class="lux-card" data-category="egypt">
+                <div class="card-ambient" style="background: #f59e0b;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #f59e0b, #d97706);">NF</div>
+                    </div>
+                    <h3 class="card-title">Nafham</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Arabic</span>
+                    </div>
+                    <p class="card-desc">Arabic educational platform with free video lessons aligned with school curricula across the Middle East and North Africa.</p>
+                    <div class="mt-auto">
+                        <a href="https://nafham.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Redis University -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #dc382d;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #dc382d, #a82820);">RD</div>
+                    </div>
+                    <h3 class="card-title">Redis University</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Database</span>
+                    </div>
+                    <p class="card-desc">Free courses on Redis data structures, caching, streams, and real-time applications. Hands-on labs and certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://university.redis.io/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: GitLab Learn -->
+            <div class="lux-card" data-category="cloud">
+                <div class="card-ambient" style="background: #fc6d26;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #fc6d26, #e24329);">GL</div>
+                    </div>
+                    <h3 class="card-title">GitLab Learn</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">DevOps</span>
+                    </div>
+                    <p class="card-desc">Free learning paths for Git, CI/CD, DevSecOps, and GitLab administration. Build modern software delivery pipelines.</p>
+                    <div class="mt-auto">
+                        <a href="https://about.gitlab.com/learn/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Elzero Web School -->
+            <div class="lux-card" data-category="egypt">
+                <div class="card-ambient" style="background: #0075ff;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #0075ff, #0056cc);">EZ</div>
+                    </div>
+                    <h3 class="card-title">Elzero Web School</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Arabic</span>
+                    </div>
+                    <p class="card-desc">Arabic web development academy by Osama Elzero. HTML, CSS, JavaScript, PHP, and Python tutorials on elzero.org and YouTube.</p>
+                    <div class="mt-auto" style="display:flex;flex-direction:column;gap:0.5rem;">
+                        <a href="https://elzero.org/" target="_blank" class="action-link">
+                            Visit elzero.org
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                        <a href="https://www.youtube.com/@ElzeroWebSchool" target="_blank" class="action-link">
+                            YouTube Channel
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: HubSpot Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #ff7a59;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff7a59, #ff5c35);">HS</div>
+                    </div>
+                    <h3 class="card-title">HubSpot Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Marketing</span>
+                    </div>
+                    <p class="card-desc">Industry-standard free certifications in inbound marketing, content, SEO, social media, sales, and CRM from HubSpot.</p>
+                    <div class="mt-auto">
+                        <a href="https://academy.hubspot.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Google Analytics Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #e37400;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #e37400, #f9ab00);">GA</div>
+                    </div>
+                    <h3 class="card-title">Google Analytics Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Analytics</span>
+                    </div>
+                    <p class="card-desc">Official Google courses on GA4, Google Tag Manager, and data-driven marketing. Measure campaigns and user behavior.</p>
+                    <div class="mt-auto">
+                        <a href="https://analytics.google.com/analytics/academy/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Semrush Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #ff642d;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff642d, #421983);">SM</div>
+                    </div>
+                    <h3 class="card-title">Semrush Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">SEO</span>
+                    </div>
+                    <p class="card-desc">Free SEO, content marketing, PPC, and competitive research courses with Semrush certifications for digital marketers.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.semrush.com/academy/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Ahrefs Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #ff8c4b;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #ff8c4b, #ff6b2b);">AH</div>
+                    </div>
+                    <h3 class="card-title">Ahrefs Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">SEO</span>
+                    </div>
+                    <p class="card-desc">Practical SEO, link building, keyword research, and content strategy courses from one of the top SEO tool companies.</p>
+                    <div class="mt-auto">
+                        <a href="https://ahrefs.com/academy" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Hootsuite Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #143059;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #143059, #1d9bf0);">HT</div>
+                    </div>
+                    <h3 class="card-title">Hootsuite Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">Social Media</span>
+                    </div>
+                    <p class="card-desc">Social media marketing certifications covering strategy, advertising, analytics, and community management across platforms.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.hootsuite.com/pages/academy" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Mailchimp Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #ffe01b;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #241c15, #ffe01b);">MC</div>
+                    </div>
+                    <h3 class="card-title">Mailchimp Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Email Marketing</span>
+                    </div>
+                    <p class="card-desc">Learn email marketing, automation, audience building, and campaign design with official Mailchimp courses and certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://mailchimp.com/academy/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: CXL Institute -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #111111;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #111111, #444444);">CX</div>
+                    </div>
+                    <h3 class="card-title">CXL Institute</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-prem">Premium</span>
+                        <span class="badge badge-cert">Growth</span>
+                    </div>
+                    <p class="card-desc">Advanced conversion rate optimization, digital analytics, and growth marketing courses taught by industry practitioners.</p>
+                    <div class="mt-auto">
+                        <a href="https://cxl.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: TikTok Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #fe2c55;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #25f4ee, #fe2c55);">TT</div>
+                    </div>
+                    <h3 class="card-title">TikTok Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Social Ads</span>
+                    </div>
+                    <p class="card-desc">Official TikTok for Business training on creative ads, targeting, measurement, and short-form video marketing strategy.</p>
+                    <div class="mt-auto">
+                        <a href="https://ads.tiktok.com/business/en-US/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Canva Design School -->
+            <div class="lux-card" data-category="design">
+                <div class="card-ambient" style="background: #00c4cc;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #00c4cc, #7d2ae8);">CV</div>
+                    </div>
+                    <h3 class="card-title">Canva Design School</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Design</span>
+                    </div>
+                    <p class="card-desc">Free design and marketing visual courses. Branding, social creatives, presentations, and Canva certifications for marketers.</p>
+                    <div class="mt-auto">
+                        <a href="https://www.canva.com/designschool/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Moz Academy -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #2aaae2;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #2aaae2, #1a7aa8);">MZ</div>
+                    </div>
+                    <h3 class="card-title">Moz Academy</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free &amp; Paid</span>
+                        <span class="badge badge-cert">SEO</span>
+                    </div>
+                    <p class="card-desc">SEO fundamentals, local search, and content marketing training from Moz. Beginner-friendly paths and certifications.</p>
+                    <div class="mt-auto">
+                        <a href="https://moz.com/learn" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Copyblogger -->
+            <div class="lux-card" data-category="marketing">
+                <div class="card-ambient" style="background: #c0392b;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #c0392b, #922b21);">CB</div>
+                    </div>
+                    <h3 class="card-title">Copyblogger</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Copywriting</span>
+                    </div>
+                    <p class="card-desc">Classic resource for content marketing and copywriting. Learn persuasion, headlines, and converting blog content into sales.</p>
+                    <div class="mt-auto">
+                        <a href="https://copyblogger.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: JavaScript.info -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #f7df1e;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #323330, #f7df1e);">JS</div>
+                    </div>
+                    <h3 class="card-title">JavaScript.info</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">JavaScript</span>
+                    </div>
+                    <p class="card-desc">The Modern JavaScript Tutorial. Deep, structured lessons from basics to advanced topics, with tasks and real-world examples.</p>
+                    <div class="mt-auto">
+                        <a href="https://javascript.info/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Full Stack Open -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #257eba;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #257eba, #1a527a);">FS</div>
+                    </div>
+                    <h3 class="card-title">Full Stack Open</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">University</span>
+                    </div>
+                    <p class="card-desc">University of Helsinki's free full-stack course. React, Node.js, MongoDB, GraphQL, TypeScript, and testing in production style.</p>
+                    <div class="mt-auto">
+                        <a href="https://fullstackopen.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: roadmap.sh -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #101010;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #101010, #6466e9);">RM</div>
+                    </div>
+                    <h3 class="card-title">roadmap.sh</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">Career Paths</span>
+                    </div>
+                    <p class="card-desc">Community-driven developer roadmaps. Frontend, backend, DevOps, AI, and more — with guides, projects, and skill checklists.</p>
+                    <div class="mt-auto">
+                        <a href="https://roadmap.sh/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Frontend Masters -->
+            <div class="lux-card" data-category="coding">
+                <div class="card-ambient" style="background: #c02d28;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #c02d28, #8b1e1a);">FM</div>
+                    </div>
+                    <h3 class="card-title">Frontend Masters</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-prem">Subscription</span>
+                        <span class="badge badge-cert">Frontend</span>
+                    </div>
+                    <p class="card-desc">In-depth courses from industry experts on JavaScript, React, CSS, TypeScript, and full-stack engineering for serious developers.</p>
+                    <div class="mt-auto">
+                        <a href="https://frontendmasters.com/" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item: Figma Academy -->
+            <div class="lux-card" data-category="design">
+                <div class="card-ambient" style="background: #f24e1e;"></div>
+                <div class="lux-card-inner">
+                    <div class="card-header">
+                        <div class="brand-logo-box" style="background: linear-gradient(135deg, #f24e1e, #a259ff);">FG</div>
+                    </div>
+                    <h3 class="card-title">Figma Learn</h3>
+                    <div class="tag-row">
+                        <span class="badge badge-free">Free</span>
+                        <span class="badge badge-cert">UI/UX</span>
+                    </div>
+                    <p class="card-desc">Official Figma tutorials for UI design, prototyping, FigJam, and design systems. Essential for product and marketing designers.</p>
+                    <div class="mt-auto">
+                        <a href="https://help.figma.com/hc/en-us/categories/360002042553" target="_blank" class="action-link">
+                            Visit Platform
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Empty State -->
+        <div class="hub-empty-state" id="hub-empty-state">
+            <div class="hub-empty-icon">🔍</div>
+            <h3 class="hub-empty-title">No platforms found</h3>
+            <p class="hub-empty-desc">Try a different name or clear your search to browse all platforms.</p>
         </div>
     </main>
 
@@ -3866,7 +5012,6 @@
     <!-- Luxury Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Initialize 3D Tilt
             VanillaTilt.init(document.querySelectorAll(".lux-card"), {
                 max: 5,
                 speed: 400,
@@ -3877,43 +5022,91 @@
 
             const filterBtns = document.querySelectorAll('.filter-tab');
             const cards = document.querySelectorAll('.lux-card');
+            const searchInput = document.getElementById('hub-search-input');
+            const searchClear = document.getElementById('hub-search-clear');
+            const emptyState = document.getElementById('hub-empty-state');
+            const hubGrid = document.getElementById('hub-grid');
+
+            let activeFilter = 'all';
+            let searchQuery = '';
+
+            function getCardName(card) {
+                return (card.querySelector('.card-title')?.textContent || '').trim().toLowerCase();
+            }
+
+            function cardMatches(card) {
+                const categoryMatch = activeFilter === 'all' || card.getAttribute('data-category') === activeFilter;
+                const searchMatch = !searchQuery || getCardName(card).includes(searchQuery);
+                return categoryMatch && searchMatch;
+            }
+
+            function initTilt(card) {
+                if (card.vanillaTilt) card.vanillaTilt.destroy();
+                VanillaTilt.init(card, { max: 5, speed: 400, glare: true, "max-glare": 0.1 });
+            }
+
+            function updateEmptyState(visibleCount) {
+                emptyState?.classList.toggle('visible', visibleCount === 0);
+                if (hubGrid) hubGrid.style.display = visibleCount === 0 ? 'none' : '';
+            }
+
+            function applyFilters(animate) {
+                let visibleCount = 0;
+
+                cards.forEach((card, index) => {
+                    const show = cardMatches(card);
+                    if (show) visibleCount++;
+
+                    if (animate) {
+                        if (card.vanillaTilt) card.vanillaTilt.destroy();
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+
+                        setTimeout(() => {
+                            if (show) {
+                                card.style.display = 'flex';
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'scale(1)';
+                                    initTilt(card);
+                                }, index * 30);
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        }, 250);
+                    } else {
+                        if (!show && card.vanillaTilt) card.vanillaTilt.destroy();
+                        card.style.display = show ? 'flex' : 'none';
+                        card.style.opacity = show ? '1' : '0';
+                        card.style.transform = show ? 'scale(1)' : 'scale(0.95)';
+                        if (show && !card.vanillaTilt) initTilt(card);
+                    }
+                });
+
+                updateEmptyState(visibleCount);
+            }
 
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     filterBtns.forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-
-                    const filter = btn.getAttribute('data-filter');
-
-                    cards.forEach((card, index) => {
-                        // Reset tilt to prevent visual bugs when displaying none
-                        if (card.vanillaTilt) {
-                            card.vanillaTilt.destroy();
-                        }
-
-                        // Fade out / Hide
-                        card.style.opacity = '0';
-                        card.style.transform = 'scale(0.95)';
-
-                        setTimeout(() => {
-                            if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                                card.style.display = 'flex';
-                                // Slight delay for staggered fade in
-                                setTimeout(() => {
-                                    card.style.opacity = '1';
-                                    card.style.transform = 'scale(1)';
-
-                                    // Re-init tilt
-                                    VanillaTilt.init(card, {
-                                        max: 5, speed: 400, glare: true, "max-glare": 0.1
-                                    });
-                                }, index * 30);
-                            } else {
-                                card.style.display = 'none';
-                            }
-                        }, 250); // wait for fade out
-                    });
+                    activeFilter = btn.getAttribute('data-filter');
+                    applyFilters(true);
                 });
+            });
+
+            searchInput?.addEventListener('input', () => {
+                searchQuery = searchInput.value.trim().toLowerCase();
+                searchClear?.classList.toggle('visible', searchQuery.length > 0);
+                applyFilters(false);
+            });
+
+            searchClear?.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                searchClear.classList.remove('visible');
+                searchInput.focus();
+                applyFilters(false);
             });
         });
     </script>
