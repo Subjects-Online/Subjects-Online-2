@@ -193,13 +193,48 @@ html.dark-mode .subj-album-cover:hover {
 }
 
 @media (max-width: 768px) {
+    .subj-hero-inner {
+        padding: 100px 1.5rem 2.5rem;
+    }
+
+    .subj-album-row {
+        gap: 1.75rem;
+    }
+
     .subj-album-cover {
-        width: 180px;
-        height: 180px;
+        width: 140px;
+        height: 140px;
+        border-radius: 1.75rem;
     }
 
     .subj-album-emoji {
-        font-size: 5rem;
+        font-size: 4rem;
+    }
+
+    .subj-title {
+        font-size: 1.85rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .subj-desc {
+        font-size: 0.9rem;
+        margin-bottom: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .subj-album-cover {
+        width: 110px;
+        height: 110px;
+        border-radius: 1.25rem;
+    }
+
+    .subj-album-emoji {
+        font-size: 3rem;
+    }
+
+    .subj-title {
+        font-size: 1.5rem;
     }
 }
 

@@ -133,46 +133,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Tab Switching ─────────────────────────────────────
     let currentTab = STUDY[0].id;
-    let isAnimating = false;
-
     const tabPills = tabNav.querySelectorAll('.tab-pill');
+
     tabPills.forEach(btn => {
         btn.addEventListener('click', e => {
-            if (isAnimating) return;
+            e.preventDefault();
             const tabId = btn.dataset.tab;
             if (tabId === currentTab) return;
 
-            isAnimating = true;
+            // Update tab button active states
+            tabPills.forEach(b => {
+                b.classList.remove('active');
+                b.removeAttribute('style');
+            });
+            btn.classList.add('active');
 
-        // Update buttons
-        tabNav.querySelectorAll('.tab-pill').forEach(b => {
-            b.classList.remove('active');
-            b.removeAttribute('style');
-        });
-        btn.classList.add('active');
+            // Set section accent color
+            const sec = STUDY.find(s => s.id === tabId);
+            if (sec) {
+                document.documentElement.style.setProperty('--subject-accent', sec.accent);
+            }
 
-        // Get section for active color
-        const sec = STUDY.find(s => s.id === tabId);
-        document.documentElement.style.setProperty('--subject-accent', sec.accent);
+            // Hide all spotlight panels and show selected one
+            document.querySelectorAll('.spotlight-panel').forEach(p => {
+                p.classList.remove('sp-active');
+                p.style.opacity = '';
+                p.style.transform = '';
+            });
 
-        // Animate out current panel then switch
-        const prev = document.getElementById(`sp-${currentTab}`);
-        gsap.to(prev, { opacity: 0, x: -16, duration: 0.18, ease: 'power2.in', onComplete: () => {
-            prev.classList.remove('sp-active');
-            prev.style.opacity = '';
-            prev.style.transform = '';
-
-            // Show new panel and animate in
             const next = document.getElementById(`sp-${tabId}`);
-            next.classList.add('sp-active');
-            gsap.fromTo(next, 
-                { opacity: 0, x: 16 },
-                { opacity: 1, x: 0, duration: 0.28, ease: 'power2.out', onComplete: () => { isAnimating = false; } }
-            );
-
+            if (next) {
+                next.classList.add('sp-active');
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(next,
+                        { opacity: 0, y: 10 },
+                        { opacity: 1, y: 0, duration: 0.25, ease: 'power2.out' }
+                    );
+                }
+            }
             currentTab = tabId;
-        }});
-    });
+        });
     });
 
     // ── Entrance Animations ───────────────────────────────

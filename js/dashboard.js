@@ -102,38 +102,40 @@ function loadStats(deptText) {
         let subjTotalLectures = 0;
         let subjDoneLectures = 0;
 
-        if (subj.content) {
-            contentSections.forEach(sec => {
-                if (!subj.content[sec]) return;
-                const storeKey = (typeof SECTION_STORE_MAP !== 'undefined' && SECTION_STORE_MAP[sec])
-                    ? SECTION_STORE_MAP[sec]
-                    : 'soCompletedLectures';
-                const store = JSON.parse(localStorage.getItem(storeKey) || '{}');
+        contentSections.forEach(sec => {
+            const secData = (typeof getSubjectSectionData !== 'undefined')
+                ? getSubjectSectionData(subj, sec)
+                : (subj.content ? subj.content[sec] : null);
+            if (!secData || secData.length === 0) return;
 
-                subj.content[sec].forEach(ch => {
-                    if (!ch.lectures) return;
-                    ch.lectures.forEach(lec => {
-                        totalLectures++;
-                        subjTotalLectures++;
-                        const key = subj.id + '_' + lec.id;
-                        const isDone = !!(store[key] ||
-                            (sec === 'summaries' && store[subj.id + '_101'] && lec.id === 3001) ||
-                            (sec === 'qa' && store[subj.id + '_101'] && lec.id === 4001));
-                        if (lec.type === 'video') {
-                            totalVideos++;
-                            if (isDone) doneVideos++;
-                        } else {
-                            totalPDFs++;
-                            if (isDone) donePDFs++;
-                        }
-                        if (isDone) {
-                            doneLectures++;
-                            subjDoneLectures++;
-                        }
-                    });
+            const storeKey = (typeof SECTION_STORE_MAP !== 'undefined' && SECTION_STORE_MAP[sec])
+                ? SECTION_STORE_MAP[sec]
+                : 'soCompletedLectures';
+            const store = JSON.parse(localStorage.getItem(storeKey) || '{}');
+
+            secData.forEach(ch => {
+                if (!ch.lectures) return;
+                ch.lectures.forEach(lec => {
+                    totalLectures++;
+                    subjTotalLectures++;
+                    const key = subj.id + '_' + lec.id;
+                    const isDone = !!(store[key] ||
+                        (sec === 'summaries' && store[subj.id + '_101'] && lec.id === 3001) ||
+                        (sec === 'qa' && store[subj.id + '_101'] && lec.id === 4001));
+                    if (lec.type === 'video') {
+                        totalVideos++;
+                        if (isDone) doneVideos++;
+                    } else {
+                        totalPDFs++;
+                        if (isDone) donePDFs++;
+                    }
+                    if (isDone) {
+                        doneLectures++;
+                        subjDoneLectures++;
+                    }
                 });
             });
-        }
+        });
 
         const subjPct = subjTotalLectures > 0 ? (subjDoneLectures / subjTotalLectures) * 100 : 0;
         subjectPctsSum += subjPct;
@@ -404,6 +406,22 @@ function initAnimations() {
 function gsapDrawName(el, text) {
     if (!el) return;
     el.innerHTML = ''; // Clear container
+
+    // Mobile fallback: render direct gradient text to avoid SVG bounding-box truncation/invisibility on phones
+    if (window.innerWidth <= 640) {
+        const textSpan = document.createElement('span');
+        textSpan.textContent = text;
+        textSpan.style.background = 'linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #f59e0b 100%)';
+        textSpan.style.webkitBackgroundClip = 'text';
+        textSpan.style.webkitTextFillColor = 'transparent';
+        textSpan.style.fontWeight = '800';
+        textSpan.style.display = 'inline-block';
+        el.appendChild(textSpan);
+
+        const laserLine = document.getElementById('hero-laser-line');
+        if (laserLine) laserLine.classList.add('laser-active');
+        return;
+    }
 
     const svgNS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNS, "svg");
