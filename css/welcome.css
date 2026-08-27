@@ -154,18 +154,6 @@ body::before {
     letter-spacing: -0.01em;
 }
 
-.nav-badge {
-    padding: 2px 8px;
-    border-radius: 999px;
-    background: rgba(59,130,246,0.12);
-    border: 1px solid rgba(59,130,246,0.25);
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--accent);
-}
-
 .nav-right {
     display: flex;
     align-items: center;
