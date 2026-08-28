@@ -153,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const letter = nameInput.value.trim() ? nameInput.value.trim()[0].toUpperCase() : (currentName ? currentName[0].toUpperCase() : 'S');
             avatarDisplay.textContent = letter;
             
+            avatarDisplay.classList.add('bg-gradient-to-br');
             const gradientCls = themeGradients[theme] || themeGradients['blue'];
             gradientCls.split(' ').forEach(c => avatarDisplay.classList.add(c));
 
@@ -164,7 +165,9 @@ document.addEventListener('DOMContentLoaded', () => {
             else btn.classList.remove('active');
         });
 
-        updateAdminAvatarDisplay();
+        if (typeof updateAdminAvatarDisplay === 'function') {
+            updateAdminAvatarDisplay();
+        }
     }
 
     // ── 6. Account & Cloud Status Rendering ──────────────────────────────────────
@@ -276,7 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const selected = e.target.value;
         if (displayDept) displayDept.textContent = selected;
         if (deptHubTitle) deptHubTitle.textContent = `Official channels for ${selected}`;
-        generateWeeklySchedule(); // update schedule for new dept
+        renderScheduleBuilder();
+        renderOutputTimetableTable();
     });
 
     // Button Selectors Listeners
@@ -1117,7 +1121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('soReadingFontSize', readingFont);
         localStorage.setItem('soPdfOpenMode', pdfMode);
 
-        if (landingPageSelect) localStorage.setItem('soLandingPage', landingPageSelect.value);
+        const selectedLanding = (landingPageSelect && landingPageSelect.value) ? landingPageSelect.value : (localStorage.getItem('soLandingPage') || 'dashboard.html');
+        localStorage.setItem('soLandingPage', selectedLanding);
         if (viewDensitySelect) localStorage.setItem('soViewDensity', viewDensitySelect.value);
         if (progressStyleSelect) localStorage.setItem('soProgressStyle', progressStyleSelect.value);
 
@@ -1144,11 +1149,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        showToast('Settings Saved Successfully!', 'Your profile, preferences, and tools are updated. Redirecting...', 'success');
+        showToast('Settings Saved Successfully!', `Redirecting to ${selectedLanding.replace('.html', '')}...`, 'success');
 
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
-        }, 1200);
+            window.location.href = selectedLanding;
+        }, 1000);
     }
 
     if (saveProfileBtn) saveProfileBtn.addEventListener('click', saveProfileChanges);

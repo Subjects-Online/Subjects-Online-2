@@ -34,7 +34,8 @@
     if (uid) {
       // Already logged in → skip welcome/login, go straight to dashboard
       if (authPages.includes(page)) {
-        window.location.replace(base + 'dashboard.html');
+        const landingTarget = localStorage.getItem('soLandingPage') || 'dashboard.html';
+        window.location.replace(base + landingTarget);
       }
     } else {
       // Not logged in → don't allow protected pages

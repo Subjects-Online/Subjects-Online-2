@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.animationName === 'splashFadeOut') {
                 const isLoggedIn = localStorage.getItem('subjectsOnlineName') && localStorage.getItem('subjectsOnlineDept');
                 if (isLoggedIn) {
-                    window.location.href = 'dashboard.html';
+                    const landingTarget = localStorage.getItem('soLandingPage') || 'dashboard.html';
+                    window.location.href = landingTarget;
                 } else {
                     window.location.href = 'welcome.html';
                 }

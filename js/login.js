@@ -326,7 +326,8 @@ function triggerCreativeLoader(departmentName) {
             }
 
             // Redirect
-            window.location.href = 'dashboard.html';
+            const landingTarget = localStorage.getItem('soLandingPage') || 'dashboard.html';
+            window.location.href = landingTarget;
         }});
     });
 }
