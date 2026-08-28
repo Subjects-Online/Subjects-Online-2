@@ -115,7 +115,7 @@
         overflow: visible;
     ">
         <!-- CENTER: Logo -->
-        <a href="dashboard.html" style="
+        <a id="shared-nav-logo" href="dashboard.html" style="
             position: absolute;
             top: -20px;
             left: 50%;
@@ -123,7 +123,7 @@
             display: block;
             text-decoration: none;
             z-index: 51;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, opacity 0.4s ease;
         " onmouseover="this.style.transform='translateX(-50%) scale(1.05)'" onmouseout="this.style.transform='translateX(-50%) scale(1)'">
             <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
         </a>
@@ -153,8 +153,110 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
             </svg>
         </a>
+
+        <!-- EXPANDING MORPH PILL NAVBAR (Home, Library, Essays, Favorites) -->
+        <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 60;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(14, 165, 233, 0.25);
+            box-shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9);
+            opacity: 0;
+            transform: scale(0.6);
+            pointer-events: auto;
+        ">
+            <a href="dashboard.html" title="Home Dashboard" class="pill-nav-item ${currentPage === 'dashboard.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                </svg>
+                <span>Home</span>
+            </a>
+            <a href="library.html" title="Library — الملخصات والكتب" class="pill-nav-item ${currentPage === 'library.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span>Library</span>
+            </a>
+            <a href="essays.html" title="Doctor Essays — مقالات الدكاترة" class="pill-nav-item ${currentPage === 'essays.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6m-6 4h6"></path>
+                </svg>
+                <span>Essays</span>
+            </a>
+            <a href="favorites.html" title="Favorites — المفضلة" class="pill-nav-item ${currentPage === 'favorites.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                </svg>
+                <span>Favorites</span>
+            </a>
+        </div>
     </nav>
     <style>
+        /* Custom Morphing Landing Navbar */
+        .pill-nav-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
+            text-decoration: none;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pill-nav-item:hover {
+            color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.12);
+            transform: translateY(-1px);
+        }
+        .pill-nav-item.active {
+            background: #0ea5e9 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+        }
+        html.dark-mode .custom-landing-pill-nav {
+            background: rgba(15, 23, 42, 0.88) !important;
+            border-color: rgba(56, 189, 248, 0.25) !important;
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+        }
+        html.dark-mode .pill-nav-item {
+            color: #94a3b8;
+        }
+        html.dark-mode .pill-nav-item:hover {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+        }
+        html.dark-mode .pill-nav-item.active {
+            background: #38bdf8 !important;
+            color: #0f172a !important;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+        }
+
+        /* Mobile Icon-Only Layout for Morphing Navbar */
+        @media (max-width: 640px) {
+            .pill-nav-item span {
+                display: none !important;
+            }
+            .pill-nav-item {
+                padding: 8px 10px !important;
+                border-radius: 9999px !important;
+            }
+            .custom-landing-pill-nav {
+                padding: 5px 8px !important;
+                gap: 4px !important;
+            }
+        }
+
         /* Hidden elements in this new minimal layout */
         @media (max-width: 640px) {
             #snav-username { display: block !important; }
@@ -561,6 +663,84 @@
             }
         });
     }
+
+    // ── 10. CUSTOM LANDING PAGE ENTRANCE ANIMATION ────────────────────────────
+    function initCustomLandingHeaderAnimation() {
+        const landingPage = localStorage.getItem('soLandingPage') || 'dashboard.html';
+        const isCustomLanding = landingPage !== 'dashboard.html';
+        const isTriggered = sessionStorage.getItem('soCustomLandingTriggered') === 'true';
+        const isCurrentPageLanding = (currentPage === landingPage);
+
+        // Run animation only when user has selected custom landing page and is not on dashboard
+        if (!isCustomLanding || currentPage === 'dashboard.html') return;
+
+        const logoEl = document.getElementById('shared-nav-logo');
+        const libBtn = document.getElementById('library-nav-btn');
+        const pillNav = document.getElementById('custom-landing-pill');
+
+        if (!pillNav) return;
+
+        // If landing intro animation should play
+        if (isTriggered || isCurrentPageLanding) {
+            sessionStorage.removeItem('soCustomLandingTriggered');
+
+            const runAnimation = () => {
+                if (typeof gsap === 'undefined') return;
+
+                // Strict sequential timeline
+                const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+                // STEP 1: First, fly-up center logo completely out of view
+                if (logoEl) {
+                    tl.to(logoEl, { 
+                        y: -160, 
+                        opacity: 0, 
+                        duration: 0.7, 
+                        ease: 'power3.inOut' 
+                    });
+                }
+
+                // STEP 2: THEN, circular button morphs & expands into the 4-item pill navbar
+                tl.call(() => {
+                    if (libBtn) libBtn.style.opacity = '0';
+                });
+
+                tl.fromTo(pillNav, 
+                    { opacity: 0, scale: 0.3 },
+                    { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.4)' },
+                    '+=0.1' // waits for logo fly-up to finish first
+                );
+
+                // STEP 3: THEN, the expanded pill navbar glides smoothly to top-center
+                tl.to(pillNav, {
+                    left: '50%',
+                    right: 'auto',
+                    xPercent: -50,
+                    top: 24,
+                    duration: 0.85,
+                    ease: 'back.out(1.25)'
+                }, '+=0.15'); // waits for expansion to finish first
+            };
+
+            // Run 350ms after page load so user sees page content first
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => setTimeout(runAnimation, 350));
+            } else {
+                setTimeout(runAnimation, 350);
+            }
+        } else {
+            // Static top-center placement for non-dashboard navigation
+            if (logoEl) logoEl.style.display = 'none';
+            if (libBtn) libBtn.style.display = 'none';
+            pillNav.style.opacity = '1';
+            pillNav.style.transform = 'translateX(-50%)';
+            pillNav.style.left = '50%';
+            pillNav.style.right = 'auto';
+            pillNav.style.top = '24px';
+        }
+    }
+
+    initCustomLandingHeaderAnimation();
 
     // Ensure clean light mode across entire site
     document.documentElement.classList.remove('dark-mode');

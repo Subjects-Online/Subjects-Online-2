@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const isLoggedIn = localStorage.getItem('subjectsOnlineName') && localStorage.getItem('subjectsOnlineDept');
                 if (isLoggedIn) {
                     const landingTarget = localStorage.getItem('soLandingPage') || 'dashboard.html';
+                    if (landingTarget !== 'dashboard.html') {
+                        sessionStorage.setItem('soCustomLandingTriggered', 'true');
+                    }
                     window.location.href = landingTarget;
                 } else {
                     window.location.href = 'welcome.html';

@@ -35,6 +35,9 @@
       // Already logged in → skip welcome/login, go straight to dashboard
       if (authPages.includes(page)) {
         const landingTarget = localStorage.getItem('soLandingPage') || 'dashboard.html';
+        if (landingTarget !== 'dashboard.html') {
+          sessionStorage.setItem('soCustomLandingTriggered', 'true');
+        }
         window.location.replace(base + landingTarget);
       }
     } else {

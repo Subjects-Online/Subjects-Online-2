@@ -1123,6 +1123,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const selectedLanding = (landingPageSelect && landingPageSelect.value) ? landingPageSelect.value : (localStorage.getItem('soLandingPage') || 'dashboard.html');
         localStorage.setItem('soLandingPage', selectedLanding);
+        if (selectedLanding !== 'dashboard.html') {
+            sessionStorage.setItem('soCustomLandingTriggered', 'true');
+        }
         if (viewDensitySelect) localStorage.setItem('soViewDensity', viewDensitySelect.value);
         if (progressStyleSelect) localStorage.setItem('soProgressStyle', progressStyleSelect.value);
 
