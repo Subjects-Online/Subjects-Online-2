@@ -2,8 +2,8 @@
 // Subjects Online — Service Worker (PWA)
 // =============================================
 
-const CACHE_NAME = 'subjects-online-v1';
-const DYNAMIC_CACHE = 'subjects-online-dynamic-v1';
+const CACHE_NAME = 'subjects-online-v2';
+const DYNAMIC_CACHE = 'subjects-online-dynamic-v2';
 
 // الملفات اللي هتتحفظ في الـ cache من أول مرة
 const STATIC_ASSETS = [

@@ -39,7 +39,16 @@
 
     // ── Helper: Data Access ──
     function getLibraryData() {
-        return JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+        const library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+        let changed = false;
+        library.forEach(item => {
+            if (typeof item.url === 'string' && item.url.startsWith('../materials/')) {
+                item.url = item.url.slice(3);
+                changed = true;
+            }
+        });
+        if (changed) saveLibraryData(library);
+        return library;
     }
 
     function saveLibraryData(lib) {
@@ -71,17 +80,8 @@
         return /\.pdf$/i.test(clean) ? clean : clean + '.pdf';
     }
 
-    function namesMatch(a, b) {
-        return stripPdfExt(a).toLowerCase() === stripPdfExt(b).toLowerCase();
-    }
-
     function getItemDownloadName(item) {
-        const titleName = item.title || 'Document';
-        const original = item.originalFileName;
-        if (original && namesMatch(titleName, original)) {
-            return ensurePdfExt(original);
-        }
-        return ensurePdfExt(titleName);
+        return ensurePdfExt(item.title || 'Document');
     }
 
     function uniquifyFilenames(names) {
@@ -1063,6 +1063,7 @@
         container.querySelectorAll('.download-pdf-btn').forEach(btn => {
             btn.addEventListener('click', async (e) => {
                 e.stopPropagation();
+                e.preventDefault();
                 const lib = getLibraryData();
                 const item = lib.find(i => i.id === btn.dataset.id);
                 if (!item) return;
