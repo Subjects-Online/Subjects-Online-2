@@ -54,6 +54,195 @@
         localStorage.setItem('so_offline_folders', JSON.stringify(folders));
     }
 
+    function sanitizeFilename(name) {
+        return String(name || 'Document')
+            .replace(/[<>:"/\\|?*\u0000-\u001f]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim()
+            .replace(/[. ]+$/g, '') || 'Document';
+    }
+
+    function stripPdfExt(name) {
+        return String(name || '').replace(/\.pdf$/i, '').trim();
+    }
+
+    function ensurePdfExt(name) {
+        const clean = sanitizeFilename(name);
+        return /\.pdf$/i.test(clean) ? clean : clean + '.pdf';
+    }
+
+    function namesMatch(a, b) {
+        return stripPdfExt(a).toLowerCase() === stripPdfExt(b).toLowerCase();
+    }
+
+    function getItemDownloadName(item) {
+        const titleName = item.title || 'Document';
+        const original = item.originalFileName;
+        if (original && namesMatch(titleName, original)) {
+            return ensurePdfExt(original);
+        }
+        return ensurePdfExt(titleName);
+    }
+
+    function uniquifyFilenames(names) {
+        const used = new Set();
+        return names.map((name) => {
+            const match = name.match(/^(.*)(\.pdf)$/i);
+            const base = match ? match[1] : name;
+            const ext = match ? match[2] : '';
+            let candidate = name;
+            let i = 2;
+            while (used.has(candidate.toLowerCase())) {
+                candidate = `${base} (${i})${ext}`;
+                i++;
+            }
+            used.add(candidate.toLowerCase());
+            return candidate;
+        });
+    }
+
+    function triggerBlobDownload(blob, filename) {
+        const a = document.createElement('a');
+        const href = URL.createObjectURL(blob);
+        a.href = href;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(href), 2500);
+    }
+
+    async function getPdfBlob(item) {
+        if (!item || !item.url) throw new Error('Missing file');
+        try {
+            const cache = await caches.open('offline-materials');
+            const cached = await cache.match(item.url);
+            if (cached) return await cached.blob();
+        } catch (e) {}
+        const res = await fetch(item.url);
+        if (!res.ok) throw new Error('Could not fetch PDF');
+        return await res.blob();
+    }
+
+    const CRC_TABLE = (() => {
+        const table = new Uint32Array(256);
+        for (let n = 0; n < 256; n++) {
+            let c = n;
+            for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+            table[n] = c >>> 0;
+        }
+        return table;
+    })();
+
+    function crc32(data) {
+        let crc = 0 ^ (-1);
+        for (let i = 0; i < data.length; i++) crc = (crc >>> 8) ^ CRC_TABLE[(crc ^ data[i]) & 0xFF];
+        return (crc ^ (-1)) >>> 0;
+    }
+
+    function zipU16(n) {
+        const b = new Uint8Array(2);
+        new DataView(b.buffer).setUint16(0, n, true);
+        return b;
+    }
+
+    function zipU32(n) {
+        const b = new Uint8Array(4);
+        new DataView(b.buffer).setUint32(0, n >>> 0, true);
+        return b;
+    }
+
+    function concatBytes(parts) {
+        const len = parts.reduce((sum, p) => sum + p.length, 0);
+        const out = new Uint8Array(len);
+        let offset = 0;
+        for (const p of parts) {
+            out.set(p, offset);
+            offset += p.length;
+        }
+        return out;
+    }
+
+    function buildZipArchive(entries) {
+        const now = new Date();
+        const dosTime = ((now.getHours() & 0x1f) << 11) | ((now.getMinutes() & 0x3f) << 5) | ((Math.floor(now.getSeconds() / 2) & 0x1f));
+        const dosDate = (((now.getFullYear() - 1980) & 0x7f) << 9) | (((now.getMonth() + 1) & 0xf) << 5) | (now.getDate() & 0x1f);
+        const encoder = new TextEncoder();
+        const localParts = [];
+        const centralParts = [];
+        let offset = 0;
+        const flags = 0x0800;
+
+        for (const entry of entries) {
+            const nameBytes = encoder.encode(String(entry.path).replace(/\\/g, '/'));
+            const data = entry.data;
+            const crc = crc32(data);
+            const local = concatBytes([
+                zipU32(0x04034b50), zipU16(20), zipU16(flags), zipU16(0),
+                zipU16(dosTime), zipU16(dosDate), zipU32(crc), zipU32(data.length), zipU32(data.length),
+                zipU16(nameBytes.length), zipU16(0), nameBytes, data
+            ]);
+            localParts.push(local);
+            centralParts.push(concatBytes([
+                zipU32(0x02014b50), zipU16(20), zipU16(20), zipU16(flags), zipU16(0),
+                zipU16(dosTime), zipU16(dosDate), zipU32(crc), zipU32(data.length), zipU32(data.length),
+                zipU16(nameBytes.length), zipU16(0), zipU16(0), zipU16(0), zipU16(0), zipU32(0),
+                zipU32(offset), nameBytes
+            ]));
+            offset += local.length;
+        }
+
+        const centralDir = concatBytes(centralParts);
+        return concatBytes([
+            ...localParts,
+            centralDir,
+            zipU32(0x06054b50), zipU16(0), zipU16(0),
+            zipU16(entries.length), zipU16(entries.length),
+            zipU32(centralDir.length), zipU32(offset), zipU16(0)
+        ]);
+    }
+
+    async function downloadPdfItem(item) {
+        showToast('Preparing download…');
+        const blob = await getPdfBlob(item);
+        triggerBlobDownload(blob, getItemDownloadName(item));
+        showToast(`Downloaded "${getItemDownloadName(item)}"`);
+    }
+
+    async function downloadItemsAsZip(items, zipName, folderPrefix) {
+        if (!items.length) {
+            showToast('No PDFs to download');
+            return;
+        }
+        showToast('Preparing ZIP…');
+        const names = uniquifyFilenames(items.map(getItemDownloadName));
+        const prefix = folderPrefix ? sanitizeFilename(folderPrefix).replace(/\/+$/g, '') + '/' : '';
+        const entries = [];
+        for (let i = 0; i < items.length; i++) {
+            const blob = await getPdfBlob(items[i]);
+            entries.push({
+                path: prefix + names[i],
+                data: new Uint8Array(await blob.arrayBuffer())
+            });
+        }
+        const zipBytes = buildZipArchive(entries);
+        triggerBlobDownload(new Blob([zipBytes], { type: 'application/zip' }), ensureZipExt(zipName));
+        showToast(`Downloaded "${ensureZipExt(zipName)}"`);
+    }
+
+    function ensureZipExt(name) {
+        const clean = sanitizeFilename(name);
+        return /\.zip$/i.test(clean) ? clean : clean + '.zip';
+    }
+
+    async function downloadFolderById(folderId) {
+        const folders = getFoldersData();
+        const folder = folders.find(f => f.id === folderId);
+        if (!folder) return;
+        const items = getLibraryData().filter(i => i.folderId === folderId);
+        await downloadItemsAsZip(items, folder.title, folder.title);
+    }
+
     // ── Main Render Controller ──
     function renderLibrary() {
         const library = getLibraryData();
@@ -82,6 +271,11 @@
             currentFolderBadge.classList.remove('hidden');
             currentFolderBadge.classList.add('flex');
             if (currentFolderName) currentFolderName.textContent = curFolder ? curFolder.title : 'Folder';
+        }
+
+        const btnDownloadFolder = document.getElementById('btn-download-current-folder');
+        if (btnDownloadFolder) {
+            btnDownloadFolder.classList.toggle('hidden', currentFolderId === null);
         }
 
         // Scope items by active folder
@@ -227,6 +421,9 @@
                         <button class="lib-micro-btn color-folder-btn" data-id="${f.id}" title="Color Accent">
                             <span class="w-3.5 h-3.5 rounded-full border border-black/20" style="background: ${color.hex};"></span>
                         </button>
+                        <button class="lib-micro-btn download-folder-btn" data-id="${f.id}" title="Download folder as ZIP">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                        </button>
                         <button class="lib-micro-btn danger delete-folder-btn" data-id="${f.id}" title="Delete Folder">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                         </button>
@@ -271,6 +468,12 @@
                         </button>
                         <button class="lib-micro-btn ${isRead ? 'text-emerald-500 bg-emerald-50 dark:bg-emerald-950/40' : ''} toggle-read-btn" data-id="${item.id}" title="${isRead ? 'Mark as Unread' : 'Mark as Read'}">
                             ${isRead ? '✅' : '○'}
+                        </button>
+                        <button class="lib-micro-btn rename-pdf-btn" data-id="${item.id}" title="Rename PDF">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        </button>
+                        <button class="lib-micro-btn download-pdf-btn" data-id="${item.id}" title="Download PDF">
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                         </button>
                         <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}" title="Move to Folder">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
@@ -319,6 +522,7 @@
             <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                 <button class="lib-micro-btn ${isPinned ? 'pinned' : ''} pin-folder-btn" data-id="${f.id}">★</button>
                 <button class="lib-micro-btn edit-folder-btn" data-id="${f.id}">✏️</button>
+                <button class="lib-micro-btn download-folder-btn" data-id="${f.id}" title="Download folder as ZIP">⬇️</button>
                 <button class="lib-micro-btn danger delete-folder-btn" data-id="${f.id}">🗑️</button>
             </div>
         </div>`;
@@ -341,6 +545,8 @@
             </div>
             <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                 <button class="lib-micro-btn ${isRead ? 'text-emerald-500' : ''} toggle-read-btn" data-id="${item.id}">${isRead ? '✅' : '○'}</button>
+                <button class="lib-micro-btn rename-pdf-btn" data-id="${item.id}" title="Rename PDF">✏️</button>
+                <button class="lib-micro-btn download-pdf-btn" data-id="${item.id}" title="Download PDF">⬇️</button>
                 <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}">📂</button>
                 <a href="player.html?type=${item.type || 'pdf'}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" class="lib-action-btn-primary text-xs py-1 px-3">Read</a>
                 <button class="lib-micro-btn danger delete-pdf-btn" data-id="${item.id}" data-url="${item.url}">🗑️</button>
@@ -496,6 +702,16 @@
             renderLibrary();
         });
 
+        document.getElementById('btn-download-current-folder')?.addEventListener('click', async () => {
+            if (!currentFolderId) return;
+            try {
+                await downloadFolderById(currentFolderId);
+            } catch (err) {
+                console.error(err);
+                showToast('Could not download folder');
+            }
+        });
+
         // Select Mode Toggle
         const selectBtn = document.getElementById('btn-select-mode');
         if (selectBtn) {
@@ -551,6 +767,69 @@
         document.getElementById('btn-bulk-move')?.addEventListener('click', () => {
             if (selectedItems.size === 0) return;
             openMoveModal(null, true);
+        });
+
+        document.getElementById('btn-bulk-download')?.addEventListener('click', async () => {
+            if (selectedItems.size === 0) return;
+            const lib = getLibraryData();
+            const folders = getFoldersData();
+            const zipEntries = [];
+            const usedPaths = new Set();
+
+            const takePath = (path) => {
+                const match = path.match(/^(.*)(\.pdf)$/i);
+                const base = match ? match[1] : path;
+                const ext = match ? match[2] : '';
+                let candidate = path;
+                let i = 2;
+                while (usedPaths.has(candidate.toLowerCase())) {
+                    candidate = `${base} (${i})${ext}`;
+                    i++;
+                }
+                usedPaths.add(candidate.toLowerCase());
+                return candidate;
+            };
+
+            try {
+                showToast('Preparing ZIP…');
+                const selectedFolders = folders.filter(f => selectedItems.has(f.id));
+                const selectedPdfs = lib.filter(i => selectedItems.has(i.id));
+
+                for (const folder of selectedFolders) {
+                    const folderItems = lib.filter(i => i.folderId === folder.id);
+                    const prefix = sanitizeFilename(folder.title);
+                    for (const item of folderItems) {
+                        const blob = await getPdfBlob(item);
+                        zipEntries.push({
+                            path: takePath(`${prefix}/${getItemDownloadName(item)}`),
+                            data: new Uint8Array(await blob.arrayBuffer())
+                        });
+                    }
+                }
+
+                for (const item of selectedPdfs) {
+                    const blob = await getPdfBlob(item);
+                    zipEntries.push({
+                        path: takePath(getItemDownloadName(item)),
+                        data: new Uint8Array(await blob.arrayBuffer())
+                    });
+                }
+
+                if (!zipEntries.length) {
+                    showToast('No PDFs to download');
+                    return;
+                }
+
+                const zipName = (selectedFolders.length === 1 && selectedPdfs.length === 0)
+                    ? selectedFolders[0].title
+                    : 'Library Selection';
+                const zipBytes = buildZipArchive(zipEntries);
+                triggerBlobDownload(new Blob([zipBytes], { type: 'application/zip' }), ensureZipExt(zipName));
+                showToast(`Downloaded "${ensureZipExt(zipName)}"`);
+            } catch (err) {
+                console.error(err);
+                showToast('Could not download selection');
+            }
         });
 
         document.getElementById('btn-bulk-delete')?.addEventListener('click', async () => {
@@ -719,6 +998,18 @@
             });
         });
 
+        container.querySelectorAll('.download-folder-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                try {
+                    await downloadFolderById(btn.dataset.id);
+                } catch (err) {
+                    console.error(err);
+                    showToast('Could not download folder');
+                }
+            });
+        });
+
         // Delete Folder
         container.querySelectorAll('.delete-folder-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -747,6 +1038,40 @@
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 openMoveModal(btn.dataset.id, false);
+            });
+        });
+
+        container.querySelectorAll('.rename-pdf-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.dataset.id;
+                const lib = getLibraryData();
+                const item = lib.find(i => i.id === id);
+                if (!item) return;
+                openFolderNameModal({
+                    title: 'Rename PDF',
+                    defaultValue: stripPdfExt(item.title) || item.title,
+                    callback: (newName) => {
+                        item.title = stripPdfExt(newName) || newName;
+                        saveLibraryData(lib);
+                        renderLibrary();
+                    }
+                });
+            });
+        });
+
+        container.querySelectorAll('.download-pdf-btn').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                const lib = getLibraryData();
+                const item = lib.find(i => i.id === btn.dataset.id);
+                if (!item) return;
+                try {
+                    await downloadPdfItem(item);
+                } catch (err) {
+                    console.error(err);
+                    showToast('Could not download PDF');
+                }
             });
         });
 
@@ -947,6 +1272,7 @@
                 isPinned: false,
                 isRead: false,
                 isCustom: true,
+                originalFileName: pendingImportFile.name,
                 fileSizeBytes: pendingImportFile.size
             });
 

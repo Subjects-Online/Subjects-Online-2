@@ -270,13 +270,55 @@ document.addEventListener('DOMContentLoaded', () => {
         // Download Logic
         const downloadBtn = document.getElementById('download-btn');
         if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = title || 'Document.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
+            downloadBtn.addEventListener('click', async () => {
+                let fileName = title || 'Document.pdf';
+                try {
+                    const lib = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+                    const item = lib.find(i => i.url === url);
+                    const strip = (n) => String(n || '').replace(/\.pdf$/i, '').trim();
+                    const ensure = (n) => {
+                        const c = String(n || 'Document').replace(/[<>:"/\\|?*\u0000-\u001f]/g, ' ').trim() || 'Document';
+                        return /\.pdf$/i.test(c) ? c : c + '.pdf';
+                    };
+                    if (item) {
+                        if (item.originalFileName && strip(item.title).toLowerCase() === strip(item.originalFileName).toLowerCase()) {
+                            fileName = ensure(item.originalFileName);
+                        } else {
+                            fileName = ensure(item.title || fileName);
+                        }
+                    } else if (!/\.pdf$/i.test(fileName)) {
+                        fileName += '.pdf';
+                    }
+                } catch (e) {}
+
+                try {
+                    let blob = null;
+                    try {
+                        const cache = await caches.open('offline-materials');
+                        const cached = await cache.match(url);
+                        if (cached) blob = await cached.blob();
+                    } catch (e) {}
+                    if (!blob) {
+                        const res = await fetch(url);
+                        if (!res.ok) throw new Error('fetch failed');
+                        blob = await res.blob();
+                    }
+                    const a = document.createElement('a');
+                    const href = URL.createObjectURL(blob);
+                    a.href = href;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    setTimeout(() => URL.revokeObjectURL(href), 2500);
+                } catch (err) {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
             });
         }
 
@@ -315,11 +357,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     await cache.add(url);
 
                     library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
+                    let originalFileName = (title || 'Document') + '.pdf';
+                    try {
+                        const urlName = decodeURIComponent((url.split('?')[0].split('#')[0].split('/').pop() || ''));
+                        if (/\.pdf$/i.test(urlName) && !urlName.startsWith('custom_pdf_')) originalFileName = urlName;
+                    } catch (e) {}
                     library.push({
                         id: Date.now().toString(),
                         title: title || 'Document',
                         type: 'pdf',
                         url: url,
+                        originalFileName,
                         dateAdded: new Date().toISOString(),
                         isRead: false
                     });
