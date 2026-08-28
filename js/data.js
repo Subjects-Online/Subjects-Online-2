@@ -11,7 +11,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Unknown", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:تانى محاضرة", type: "pdf", url:"/materials/Pdfs/Accounting/First_Term/Chapter_1/Sum. Lect 5 (Eco) (S.O).pdf" },
+                            { id: 101, title: "Lec 1:تانى محاضرة", type: "pdf", url:"../materials/Pdfs/Accounting/First_Term/Chapter_1/Sum. Lect 5 (Eco) (S.O).pdf" },
                             { id: 102, title: "Lec 2:", type: "video", url: "" },
                         ]
                     },
