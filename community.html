@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -62,7 +62,7 @@
     <link rel="apple-touch-icon" href="images/icon-512.png">
 </head>
 
-<body class="comm-body">
+<body class="comm-body overflow-x-hidden min-h-screen flex flex-col justify-center items-center relative selection:bg-red-500/30 selection:text-white">
 
     <!-- Shared Nav injected by JS -->
 
@@ -74,527 +74,176 @@
         <div class="comm-grid-overlay"></div>
     </div>
 
-    <!-- ===== HERO HEADER ===== -->
-    <header class="comm-hero">
-        <div class="comm-hero-inner">
-            <div class="comm-hero-badge">
-                <span class="comm-badge-dot"></span>
-                <span>Subjects Online Community</span>
+    <!-- ===== LOCKED CONTENT SCREEN ===== -->
+    <main class="locked-screen-wrap">
+        <div class="locked-card" id="locked-card-box">
+            <!-- Floating Particles -->
+            <div class="lock-particles" aria-hidden="true">
+                <div class="lock-particle" style="width: 6px; height: 6px; top: 20%; left: 15%; animation-delay: 0s;"></div>
+                <div class="lock-particle" style="width: 10px; height: 10px; top: 65%; left: 80%; animation-delay: -2s; background: rgba(239,68,68,0.4);"></div>
+                <div class="lock-particle" style="width: 8px; height: 8px; top: 75%; left: 25%; animation-delay: -4s;"></div>
+                <div class="lock-particle" style="width: 12px; height: 12px; top: 15%; left: 75%; animation-delay: -1s; background: rgba(168,85,247,0.4);"></div>
             </div>
-            <h1 class="comm-hero-title">
-                Your <em>Space</em>,<br>Your <em>Voice</em>
-            </h1>
-            <p class="comm-hero-subtitle">
-                A place where students help students — ask freely, share knowledge, and grow together.
-            </p>
 
-            <!-- Live Stats -->
-            <div class="comm-stats-row">
-                <div class="comm-stat-pill">
-                    <span class="comm-stat-num" id="stat-posts">—</span>
-                    <span class="comm-stat-label">Posts</span>
+            <div class="locked-card-content">
+                <!-- Status Pill Badge -->
+                <div class="locked-badge">
+                    <span class="locked-badge-dot"></span>
+                    <span>Restricted Access</span>
                 </div>
-                <div class="comm-stat-divider"></div>
-                <div class="comm-stat-pill">
-                    <span class="comm-stat-num" id="stat-files">—</span>
-                    <span class="comm-stat-label">Files Shared</span>
-                </div>
-                <div class="comm-stat-divider"></div>
-                <div class="comm-stat-pill">
-                    <span class="comm-stat-num" id="stat-members">—</span>
-                    <span class="comm-stat-label">Members</span>
-                </div>
-            </div>
-        </div>
-    </header>
 
-    <!-- ===== MAIN LAYOUT ===== -->
-    <main class="comm-main">
-        <div class="comm-container">
+                <!-- Lock Stage Animation -->
+                <div class="lock-stage" id="lock-stage">
+                    <div class="lock-shockwave" id="lock-shockwave"></div>
 
-            <!-- ===== TABS ===== -->
-            <div class="comm-tabs-wrap">
-                <nav class="comm-tabs" id="comm-tabs" role="tablist">
-                    <button class="comm-tab active" data-tab="feed" role="tab" aria-selected="true" id="tab-feed">
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+                    <!-- Animated Key -->
+                    <div class="lock-key-anim" id="lock-key-el">
+                        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 24C18 28.4183 14.4183 32 10 32C5.58172 32 2 28.4183 2 24C2 19.5817 5.58172 16 10 16C14.4183 16 18 19.5817 18 24Z" fill="url(#key_grad_1)" stroke="#F59E0B" stroke-width="2.5"/>
+                            <path d="M16 24H44M36 24V30M42 24V28" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="10" cy="24" r="3.5" fill="#FFF"/>
+                            <defs>
+                                <linearGradient id="key_grad_1" x1="2" y1="16" x2="18" y2="32" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#FBBF24"/>
+                                    <stop offset="1" stop-color="#D97706"/>
+                                </linearGradient>
+                            </defs>
                         </svg>
-                        Feed & Q&A
-                        <span class="comm-tab-badge" id="tab-feed-count">0</span>
-                    </button>
-                    <button class="comm-tab" data-tab="vault" role="tab" aria-selected="false" id="tab-vault">
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                    </div>
+
+                    <!-- Padlock SVG -->
+                    <div class="padlock-box">
+                        <svg width="110" height="130" viewBox="0 0 110 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Shackle (Arch) -->
+                            <g class="padlock-shackle" id="padlock-shackle">
+                                <path d="M30 54V32C30 18.1929 41.1929 7 55 7C68.8071 7 80 18.1929 80 32V54" 
+                                      stroke="url(#shackle_grad)" stroke-width="12" stroke-linecap="round"/>
+                                <path d="M30 54V32C30 18.1929 41.1929 7 55 7C68.8071 7 80 18.1929 80 32V54" 
+                                      stroke="rgba(255,255,255,0.4)" stroke-width="3" stroke-linecap="round" stroke-dasharray="40 80"/>
+                            </g>
+
+                            <!-- Lock Body -->
+                            <rect x="12" y="48" width="86" height="74" rx="22" fill="url(#body_grad)" stroke="url(#body_stroke)" stroke-width="3"/>
+                            
+                            <!-- Body Metallic Shine -->
+                            <path d="M22 56C22 53.7909 23.7909 52 26 52H84C86.2091 52 88 53.7909 88 56V62C88 64.2091 86.2091 66 84 66H26C23.7909 66 22 64.2091 22 62V56Z" fill="url(#shine_grad)" opacity="0.6"/>
+                            
+                            <!-- Keyhole Outer Circle -->
+                            <circle cx="55" cy="80" r="11" fill="#0F172A" stroke="url(#keyhole_stroke)" stroke-width="2"/>
+                            <!-- Keyhole Slot -->
+                            <path d="M55 74C52.2386 74 50 76.2386 50 79C50 80.8906 51.047 82.5365 52.5938 83.3906L51 92H59L57.4062 83.3906C58.953 82.5365 60 80.8906 60 79C60 76.2386 57.7614 74 55 74Z" fill="#38BDF8" id="keyhole-slot"/>
+
+                            <!-- Gradients -->
+                            <defs>
+                                <linearGradient id="shackle_grad" x1="30" y1="7" x2="80" y2="54" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#94A3B8"/>
+                                    <stop offset="0.5" stop-color="#F8FAFC"/>
+                                    <stop offset="1" stop-color="#64748B"/>
+                                </linearGradient>
+                                <linearGradient id="body_grad" x1="12" y1="48" x2="98" y2="122" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#0EA5E9"/>
+                                    <stop offset="0.5" stop-color="#0284C7"/>
+                                    <stop offset="1" stop-color="#0F172A"/>
+                                </linearGradient>
+                                <linearGradient id="body_stroke" x1="12" y1="48" x2="98" y2="122" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#38BDF8"/>
+                                    <stop offset="1" stop-color="#1E293B"/>
+                                </linearGradient>
+                                <linearGradient id="shine_grad" x1="22" y1="52" x2="88" y2="66" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="white" stop-opacity="0.8"/>
+                                    <stop offset="1" stop-color="white" stop-opacity="0"/>
+                                </linearGradient>
+                                <linearGradient id="keyhole_stroke" x1="44" y1="69" x2="66" y2="91" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#38BDF8"/>
+                                    <stop offset="1" stop-color="#0EA5E9"/>
+                                </linearGradient>
+                            </defs>
                         </svg>
-                        The Vault
-                        <span class="comm-tab-badge" id="tab-vault-count">0</span>
-                    </button>
-                    <button class="comm-tab" data-tab="chat" role="tab" aria-selected="false" id="tab-chat">
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                        </svg>
-                        Chat Rooms
-                        <span class="comm-tab-online" id="tab-chat-online"></span>
-                    </button>
-                    <!-- Ink slider -->
-                    <div class="comm-tab-ink" id="comm-tab-ink"></div>
-                </nav>
+                    </div>
+                </div>
+
+                <!-- Text Header -->
+                <h1 class="locked-title">
+                    THIS CONTENT IS <span>LOCKED</span>
+                </h1>
+
+                <p class="locked-desc">
+                    This section is strictly restricted and currently locked.
+                </p>
+
+                <!-- Action Button -->
+                <a href="dashboard.html" class="locked-btn-primary" id="return-dash-btn">
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Return to Dashboard</span>
+                </a>
             </div>
-
-            <!-- ===== TAB PANELS ===== -->
-
-            <!-- ─── FEED PANEL ─── -->
-            <div class="comm-panel active" id="panel-feed" role="tabpanel" aria-labelledby="tab-feed">
-                <div class="comm-panel-layout">
-
-                    <!-- Left: Post composer + Posts -->
-                    <div class="comm-feed-col">
-
-                        <!-- Composer Card -->
-                        <div class="comm-composer" id="composer-card">
-                            <div class="comm-composer-top">
-                                <div class="comm-user-avatar" id="composer-avatar">S</div>
-                                <div class="comm-composer-field-wrap">
-                                    <textarea
-                                        id="post-textarea"
-                                        class="comm-composer-field"
-                                        placeholder="What's on your mind? Ask anything..."
-                                        rows="1"
-                                    ></textarea>
-                                    
-                                    <!-- Poll UI (Hidden by default) -->
-                                    <div class="comm-poll-composer" id="poll-composer" style="display:none;">
-                                        <div class="comm-poll-options" id="poll-options-list">
-                                            <div class="comm-poll-option-input-wrap">
-                                                <input type="text" class="comm-poll-option-input" placeholder="Option 1" />
-                                            </div>
-                                            <div class="comm-poll-option-input-wrap">
-                                                <input type="text" class="comm-poll-option-input" placeholder="Option 2" />
-                                            </div>
-                                        </div>
-                                        <button class="comm-add-poll-option" id="add-poll-option-btn">+ Add Option</button>
-                                    </div>
-                                    
-                                    <!-- Voice Note Recording State (Hidden by default) -->
-                                    <div class="comm-voice-recording-ui" id="composer-voice-ui" style="display:none;">
-                                        <div class="comm-voice-recording-indicator">
-                                            <span class="comm-voice-dot"></span> Recording... <span id="composer-voice-time">0:00</span>
-                                        </div>
-                                        <button class="comm-voice-cancel" id="composer-voice-cancel">×</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Image preview -->
-                            <div class="comm-image-preview" id="image-preview" style="display:none;">
-                                <img id="preview-img" src="" alt="Preview" class="comm-preview-img">
-                                <button class="comm-remove-img" id="remove-img-btn" aria-label="Remove image">
-                                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-                                </button>
-                            </div>
-
-                            <div class="comm-composer-actions">
-                                <div class="comm-composer-left-actions">
-                                    <!-- Image Upload -->
-                                    <label class="comm-action-btn" for="post-image-input" title="Attach image">
-                                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                        </svg>
-                                        Photo
-                                    </label>
-                                    <input type="file" id="post-image-input" accept="image/*" style="display:none;">
-
-                                    <!-- Poll Button -->
-                                    <button class="comm-action-btn" id="toggle-poll-btn" title="Create a Poll">
-                                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                                        </svg>
-                                        Poll
-                                    </button>
-
-                                    <!-- Voice Note Button -->
-                                    <button class="comm-action-btn" id="composer-mic-btn" title="Record Voice Note">
-                                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-                                        </svg>
-                                    </button>
-
-                                    <!-- Anonymous toggle -->
-                                    <label class="comm-anon-toggle" id="anon-toggle-label">
-                                        <input type="checkbox" id="anon-toggle" class="sr-only">
-                                        <div class="comm-anon-switch" id="anon-switch">
-                                            <div class="comm-anon-knob"></div>
-                                        </div>
-                                        <span class="comm-anon-text">
-                                            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                            </svg>
-                                            Anonymous
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <button class="comm-post-btn" id="post-submit-btn" disabled>
-                                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                    </svg>
-                                    Post
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Filter bar -->
-                        <div class="comm-filter-bar">
-                            <button class="comm-filter-btn active" data-filter="recent" id="filter-recent">Recent</button>
-                            <button class="comm-filter-btn" data-filter="top" id="filter-top">Top Voted</button>
-                            <button class="comm-filter-btn" data-filter="unanswered" id="filter-unanswered">Unanswered</button>
-                        </div>
-
-                        <!-- Posts Feed -->
-                        <div class="comm-posts-list" id="posts-list">
-                            <!-- Posts injected by JS -->
-                            <div class="comm-loading-skeleton">
-                                <div class="comm-skeleton-post">
-                                    <div class="skel-avatar"></div>
-                                    <div class="skel-body">
-                                        <div class="skel-line skel-line-short"></div>
-                                        <div class="skel-line"></div>
-                                        <div class="skel-line skel-line-medium"></div>
-                                    </div>
-                                </div>
-                                <div class="comm-skeleton-post">
-                                    <div class="skel-avatar"></div>
-                                    <div class="skel-body">
-                                        <div class="skel-line skel-line-short"></div>
-                                        <div class="skel-line skel-line-medium"></div>
-                                        <div class="skel-line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Sidebar -->
-                    <aside class="comm-sidebar">
-                        <!-- Your Profile Card -->
-                        <div class="comm-sidebar-card" id="sidebar-profile-card">
-                            <div class="comm-sidebar-profile">
-                                <div class="comm-profile-avatar" id="sidebar-avatar">S</div>
-                                <div class="comm-profile-info">
-                                    <p class="comm-profile-name" id="sidebar-name">Student</p>
-                                    <p class="comm-profile-dept" id="sidebar-dept">—</p>
-                                </div>
-                            </div>
-                            <div class="comm-profile-stats">
-                                <div class="comm-pstat">
-                                    <span class="comm-pstat-num" id="pstat-posts">0</span>
-                                    <span class="comm-pstat-label">Posts</span>
-                                </div>
-                                <div class="comm-pstat-divider"></div>
-                                <div class="comm-pstat">
-                                    <span class="comm-pstat-num" id="pstat-upvotes">0</span>
-                                    <span class="comm-pstat-label">Upvotes</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Top Contributors -->
-                        <div class="comm-sidebar-card">
-                            <h3 class="comm-sidebar-title">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                                </svg>
-                                Top Contributors
-                            </h3>
-                            <ul class="comm-contributors-list" id="contributors-list">
-                                <!-- Injected by JS -->
-                                <li class="comm-contributor-item">
-                                    <div class="comm-contrib-avatar comm-contrib-avatar--gold">A</div>
-                                    <span class="comm-contrib-name">Loading...</span>
-                                    <span class="comm-contrib-pts">—</span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Active Chat Rooms Quick Access -->
-                        <div class="comm-sidebar-card">
-                            <h3 class="comm-sidebar-title">
-                                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
-                                </svg>
-                                Quick Chat
-                            </h3>
-                            <div class="comm-quick-rooms" id="quick-rooms">
-                                <!-- Injected by JS -->
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-            </div>
-
-            <!-- ─── VAULT PANEL ─── -->
-            <div class="comm-panel" id="panel-vault" role="tabpanel" aria-labelledby="tab-vault">
-
-                <!-- Vault Header -->
-                <div class="comm-vault-header">
-                    <div>
-                        <h2 class="comm-vault-title">The Vault</h2>
-                        <p class="comm-vault-subtitle">Summaries, past exams & notes — shared by students, for students.</p>
-                    </div>
-                    <button class="comm-upload-btn" id="vault-upload-btn">
-                        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                        </svg>
-                        Share a File
-                    </button>
-                </div>
-
-                <!-- Vault Filters -->
-                <div class="comm-vault-filters">
-                    <button class="comm-vault-filter active" data-vfilter="all">All Files</button>
-                    <button class="comm-vault-filter" data-vfilter="summaries">📝 Summaries</button>
-                    <button class="comm-vault-filter" data-vfilter="exams">📄 Past Exams</button>
-                    <button class="comm-vault-filter" data-vfilter="notes">📌 Notes</button>
-                </div>
-
-                <!-- Vault Grid -->
-                <div class="comm-vault-grid" id="vault-grid">
-                    <!-- Injected by JS -->
-                    <div class="comm-vault-empty" id="vault-empty" style="display:none;">
-                        <div class="vault-empty-icon">📂</div>
-                        <p>No files yet. Be the first to share!</p>
-                        <button class="comm-upload-btn" onclick="document.getElementById('vault-upload-btn').click()">
-                            Share a File
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ─── CHAT PANEL ─── -->
-            <div class="comm-panel" id="panel-chat" role="tabpanel" aria-labelledby="tab-chat">
-                <div class="comm-chat-layout">
-
-                    <!-- Room list -->
-                    <div class="comm-rooms-sidebar">
-                        <h3 class="comm-rooms-title">Study Rooms</h3>
-                        <div class="comm-rooms-list" id="rooms-list">
-                            <!-- Rooms injected by JS -->
-                        </div>
-                        <button class="comm-new-room-btn" id="new-room-btn">
-                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            Create Room
-                        </button>
-                    </div>
-
-                    <!-- Chat window -->
-                    <div class="comm-chat-window">
-                        <!-- Chat header -->
-                        <div class="comm-chat-header">
-                            <div class="comm-chat-room-info">
-                                <div class="comm-chat-room-icon" id="chat-room-icon">💬</div>
-                                <div>
-                                    <h4 class="comm-chat-room-name" id="chat-room-name">Select a room</h4>
-                                    <p class="comm-chat-room-meta" id="chat-room-meta">Choose a study room to start chatting</p>
-                                </div>
-                            </div>
-                            <div class="comm-chat-actions">
-                                <div class="comm-online-badge" id="chat-online-count">
-                                    <div class="comm-online-dot"></div>
-                                    <span id="online-count-text">0 online</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Messages area -->
-                        <div class="comm-messages" id="messages-area">
-                            <div class="comm-chat-welcome" id="chat-welcome">
-                                <div class="chat-welcome-icon">💬</div>
-                                <h4>Pick a room to start chatting</h4>
-                                <p>Join a study room and connect with your fellow students in real time.</p>
-                            </div>
-                        </div>
-
-                        <!-- Chat input -->
-                        <div class="comm-chat-input-area" id="chat-input-area">
-                            <div class="comm-chat-anon-wrap">
-                                <label class="comm-anon-toggle comm-anon-toggle--small" id="chat-anon-label">
-                                    <input type="checkbox" id="chat-anon-toggle" class="sr-only">
-                                    <div class="comm-anon-switch comm-anon-switch--small" id="chat-anon-switch">
-                                        <div class="comm-anon-knob"></div>
-                                    </div>
-                                    <span class="comm-anon-text" style="font-size:0.75rem;">Anon</span>
-                                </label>
-                            </div>
-                            <div class="comm-chat-input-wrap">
-                                <div class="comm-voice-recording-ui" id="chat-voice-ui" style="display:none; position:absolute; left:1rem; top:50%; transform:translateY(-50%); background:var(--c-bg); z-index:2;">
-                                    <div class="comm-voice-recording-indicator">
-                                        <span class="comm-voice-dot"></span> <span id="chat-voice-time">0:00</span>
-                                    </div>
-                                    <button class="comm-voice-cancel" id="chat-voice-cancel">×</button>
-                                </div>
-                                <input
-                                    type="text"
-                                    id="chat-input"
-                                    class="comm-chat-input"
-                                    placeholder="Type a message..."
-                                    autocomplete="off"
-                                    disabled
-                                >
-                                <button class="comm-chat-mic-btn" id="chat-mic-btn" disabled aria-label="Record voice">
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-                                    </svg>
-                                </button>
-                                <button class="comm-chat-send-btn" id="chat-send-btn" disabled aria-label="Send message">
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
         </div>
     </main>
-
-    <!-- ===== MODALS ===== -->
-
-    <!-- Post Detail / Comments Modal -->
-    <div class="comm-modal-overlay" id="post-modal-overlay" style="display:none;">
-        <div class="comm-modal" id="post-modal">
-            <button class="comm-modal-close" id="post-modal-close" aria-label="Close">
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <div class="comm-modal-body" id="post-modal-body">
-                <!-- Injected by JS -->
-            </div>
-            <!-- Comment composer -->
-            <div class="comm-comment-composer">
-                <div class="comm-user-avatar comm-user-avatar--sm" id="comment-avatar">S</div>
-                <div class="comm-comment-input-wrap">
-                    <div class="comm-voice-recording-ui" id="comment-voice-ui" style="display:none; position:absolute; left:1rem; top:50%; transform:translateY(-50%); background:var(--c-bg); z-index:2;">
-                        <div class="comm-voice-recording-indicator">
-                            <span class="comm-voice-dot"></span> <span id="comment-voice-time">0:00</span>
-                        </div>
-                        <button class="comm-voice-cancel" id="comment-voice-cancel">×</button>
-                    </div>
-                    <input type="text" id="comment-input" class="comm-comment-input" placeholder="Write a comment...">
-                    <label class="comm-anon-toggle comm-anon-toggle--small">
-                        <input type="checkbox" id="comment-anon" class="sr-only">
-                        <div class="comm-anon-switch comm-anon-switch--small" id="comment-anon-switch">
-                            <div class="comm-anon-knob"></div>
-                        </div>
-                        <span class="comm-anon-text" style="font-size:0.72rem;">Anon</span>
-                    </label>
-                    <button class="comm-chat-mic-btn" id="comment-mic-btn" aria-label="Record voice" style="background:transparent; border:none; color:var(--c-text-3); cursor:pointer;">
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/>
-                        </svg>
-                    </button>
-                    <button class="comm-comment-send" id="comment-send-btn">
-                        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
-                    </button>
-                </div>
-            </div>
-            <div class="comm-comments-list" id="comments-list">
-                <!-- Injected by JS -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Upload File Modal -->
-    <div class="comm-modal-overlay" id="upload-modal-overlay" style="display:none;">
-        <div class="comm-modal comm-modal--upload" id="upload-modal">
-            <button class="comm-modal-close" id="upload-modal-close" aria-label="Close">
-                <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <h2 class="comm-modal-title">Share a File</h2>
-            <p class="comm-modal-subtitle">Upload a summary, past exam, or any helpful resource for your fellow students.</p>
-
-            <!-- Drop Zone -->
-            <div class="comm-dropzone" id="upload-dropzone">
-                <div class="comm-dropzone-inner">
-                    <div class="comm-dropzone-icon">📁</div>
-                    <p class="comm-dropzone-text">Drop your file here or <span>browse</span></p>
-                    <p class="comm-dropzone-hint">PDF, images, DOC — Max 10MB</p>
-                    <input type="file" id="vault-file-input" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.pptx" style="display:none;">
-                </div>
-            </div>
-            <div class="comm-selected-file" id="selected-file-info" style="display:none;">
-                <span class="comm-file-icon">📄</span>
-                <span class="comm-file-name" id="selected-file-name">filename.pdf</span>
-                <button class="comm-file-remove" id="vault-file-remove">×</button>
-            </div>
-
-            <div class="comm-upload-form">
-                <div class="comm-form-group">
-                    <label class="comm-form-label" for="vault-title">Title</label>
-                    <input type="text" id="vault-title" class="comm-form-input" placeholder="e.g. Marketing Chapter 3 Summary">
-                </div>
-                <div class="comm-form-group">
-                    <label class="comm-form-label" for="vault-subject">Subject</label>
-                    <select id="vault-subject" class="comm-form-input comm-form-select">
-                        <option value="">Select subject...</option>
-                        <option>Statistics</option>
-                        <option>Accounting</option>
-                        <option>Economics</option>
-                        <option>Management</option>
-                        <option>Marketing</option>
-                        <option>Finance</option>
-                        <option>Law</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="comm-form-group">
-                    <label class="comm-form-label" for="vault-type">Type</label>
-                    <select id="vault-type" class="comm-form-input comm-form-select">
-                        <option value="summaries">📝 Summary</option>
-                        <option value="exams">📄 Past Exam</option>
-                        <option value="notes">📌 Notes</option>
-                    </select>
-                </div>
-                <div class="comm-form-group">
-                    <label class="comm-form-label" for="vault-desc">Description (optional)</label>
-                    <textarea id="vault-desc" class="comm-form-input comm-form-textarea" placeholder="Brief description of what's inside..."></textarea>
-                </div>
-            </div>
-
-            <div class="comm-upload-actions">
-                <button class="comm-btn-ghost" id="cancel-upload-btn">Cancel</button>
-                <button class="comm-upload-submit-btn" id="vault-submit-btn" disabled>
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                    Upload File
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== TOAST NOTIFICATIONS ===== -->
-    <div class="comm-toast-container" id="toast-container" aria-live="polite"></div>
 
     <!-- ===== SCRIPTS ===== -->
     <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <!-- Lenis smooth scroll -->
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
     <!-- App scripts -->
-    <script src="js/firebase-config.js"></script>
-    <script src="js/auth.js"></script>
     <script src="js/shared-nav.js?v=3"></script>
-    <script src="js/premium-effects.js"></script>
-    <script src="js/community.js"></script>
-    <script src="js/pwa.js"></script>
+
+    <!-- Key & Lock Animation Sequence Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const lockStage = document.getElementById('lock-stage');
+            const keyEl = document.getElementById('lock-key-el');
+            const keyholeSlot = document.getElementById('keyhole-slot');
+
+            if (!lockStage || !keyEl) return;
+
+            // GSAP Sequence: Key inserts, turns 90deg, lock snaps shut!
+            if (typeof gsap !== 'undefined') {
+                const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+                // Step 1: Fly in key from right side to keyhole
+                tl.fromTo(keyEl,
+                    { x: 100, y: -20, opacity: 0, rotate: -45, scale: 1.4 },
+                    { x: 0, y: 0, opacity: 1, rotate: 0, scale: 1, duration: 0.9, delay: 0.3 }
+                );
+
+                // Step 2: Turn key 90 degrees inside keyhole
+                tl.to(keyEl, {
+                    rotate: 90,
+                    duration: 0.5,
+                    ease: 'back.out(2)'
+                }, '+=0.2');
+
+                // Step 3: Keyhole glows bright red/gold, Key fades into slot
+                tl.to(keyEl, {
+                    scale: 0.5,
+                    opacity: 0,
+                    duration: 0.35
+                }, '+=0.1');
+
+                // Step 4: Slam Padlock Shackle Down to LOCKED position!
+                tl.call(() => {
+                    lockStage.classList.add('is-locked');
+                    if (keyholeSlot) keyholeSlot.setAttribute('fill', '#EF4444');
+                });
+
+                // Step 5: Card slight impact bounce when locked
+                tl.to('#locked-card-box', {
+                    y: 6,
+                    scale: 0.995,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+            } else {
+                // Fallback without GSAP
+                setTimeout(() => {
+                    lockStage.classList.add('is-locked');
+                }, 800);
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -446,11 +446,13 @@
     </footer>
     `;
 
-    // Inject at top of body
-    document.body.insertAdjacentHTML('afterbegin', navHTML);
+    // Inject at top of body (skip on community.html)
+    if (currentPage !== 'community.html') {
+        document.body.insertAdjacentHTML('afterbegin', navHTML);
+    }
 
-    // Inject footer only on dashboard
-    if (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/' || currentPage === 'community.html') {
+    // Inject footer only on dashboard (skip on community.html)
+    if ((currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/') && currentPage !== 'community.html') {
         document.body.insertAdjacentHTML('beforeend', footerHTML);
     }
 
@@ -757,8 +759,8 @@
 
     // ── 10. INNER PAGE NAVBAR (always visible on non-dashboard pages) ──────────
     function initInnerPageNav() {
-        // On the dashboard: keep logo, hide pill nav
-        if (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/') return;
+        // On dashboard or community page: return early
+        if (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/' || currentPage === 'community.html') return;
 
         const logoEl = document.getElementById('shared-nav-logo');
         const libBtn = document.getElementById('library-nav-btn');
