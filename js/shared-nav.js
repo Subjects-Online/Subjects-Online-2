@@ -132,30 +132,31 @@
         <!-- PREMIUM PILL NAVBAR -->
         <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 22px;
+            right: 22px;
             z-index: 60;
             display: flex;
             align-items: center;
-            gap: 2px;
-            padding: 5px;
+            gap: 4px;
+            padding: 6px;
             border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(14, 165, 233, 0.2);
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
+            border: 1px solid rgba(255, 255, 255, 0.9);
             box-shadow:
-                0 8px 32px -4px rgba(14, 165, 233, 0.18),
-                0 2px 8px rgba(0,0,0,0.06),
-                inset 0 1px 0 rgba(255,255,255,1);
+                0 15px 35px -5px rgba(14, 165, 233, 0.18),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                inset 0 1px 1px rgba(255, 255, 255, 1),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.03);
             opacity: 0;
             pointer-events: auto;
         ">
-            <!-- Shimmer sweep -->
+            <!-- Glass Shimmer sweep -->
             <div class="pill-shimmer" aria-hidden="true"></div>
 
-            <a href="dashboard.html" title="Home" class="pill-nav-item ${currentPage === 'dashboard.html' ? 'active' : ''}">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <a href="dashboard.html" title="Home" class="pill-nav-item pill-nav-home ${currentPage === 'dashboard.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                 </svg>
                 <span>Home</span>
@@ -163,18 +164,17 @@
 
             <div class="pill-sep" aria-hidden="true"></div>
 
-            <a href="library.html" title="Library" class="pill-nav-item ${currentPage === 'library.html' ? 'active' : ''}">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <a href="library.html" title="Library" class="pill-nav-item pill-nav-library ${currentPage === 'library.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
                 <span>Library</span>
             </a>
 
-
             <div class="pill-sep" aria-hidden="true"></div>
 
-            <a href="essays.html" title="Essays" class="pill-nav-item ${currentPage === 'essays.html' ? 'active' : ''}">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+            <a href="essays.html" title="Essays" class="pill-nav-item pill-nav-essays ${currentPage === 'essays.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
                 <span>Essays</span>
@@ -182,123 +182,202 @@
 
             <div class="pill-sep" aria-hidden="true"></div>
 
-            <a href="favorites.html" title="Favorites" class="pill-nav-item ${currentPage === 'favorites.html' ? 'active' : ''}">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
+            <a href="favorites.html" title="Favorites" class="pill-nav-item pill-nav-favorites ${currentPage === 'favorites.html' ? 'active' : ''}">
+                <div class="heart-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;position:relative;">
+                    <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
                 <span>Favorites</span>
             </a>
         </div>
     </nav>
     <style>
         /* ═══════════════════════════════════════════════════
-           PREMIUM PILL NAVBAR
+           ULTRA-LUXURY PILL NAVBAR
            ═══════════════════════════════════════════════════ */
 
         .custom-landing-pill-nav {
             position: relative;
             overflow: hidden;
+            border: 1px solid rgba(14, 165, 233, 0.22) !important;
         }
 
-        /* Shimmer sweep animation */
+        /* Glass Shimmer Light Sweep */
         .pill-shimmer {
             position: absolute;
-            top: 0; left: -80%;
-            width: 60%;
+            top: 0; left: -100%;
+            width: 70%;
             height: 100%;
             background: linear-gradient(
-                105deg,
+                110deg,
                 transparent 30%,
-                rgba(255,255,255,0.55) 50%,
+                rgba(255, 255, 255, 0.7) 50%,
                 transparent 70%
             );
             pointer-events: none;
             z-index: 10;
             border-radius: inherit;
-            animation: pillShimmer 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            animation: pillShimmerSweep 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         }
 
-        @keyframes pillShimmer {
-            0%   { left: -80%; opacity: 0; }
-            10%  { opacity: 1; }
-            40%  { left: 120%; opacity: 0.6; }
-            100% { left: 120%; opacity: 0; }
+        @keyframes pillShimmerSweep {
+            0%   { left: -100%; opacity: 0; }
+            12%  { opacity: 1; }
+            45%  { left: 140%; opacity: 0.7; }
+            100% { left: 140%; opacity: 0; }
         }
 
         /* Separator line between items */
         .pill-sep {
             width: 1px;
-            height: 18px;
-            background: linear-gradient(to bottom, transparent, rgba(14,165,233,0.2), transparent);
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, rgba(14, 165, 233, 0.22), transparent);
             flex-shrink: 0;
             border-radius: 1px;
+            transition: opacity 0.3s ease;
         }
 
-        /* Nav item */
+        /* Nav Item Base */
         .pill-nav-item {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 8px 16px;
+            gap: 7px;
+            padding: 9px 18px;
             border-radius: 9999px;
-            font-size: 0.8rem;
+            font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+            font-size: 0.82rem;
             font-weight: 700;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.025em;
             color: #475569;
             text-decoration: none;
-            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             white-space: nowrap;
             z-index: 1;
+            border: 1px solid transparent;
         }
 
         .pill-nav-item svg {
-            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1), stroke 0.32s ease, fill 0.32s ease, filter 0.32s ease;
             flex-shrink: 0;
         }
 
-        .pill-nav-item:hover {
-            color: #0284c7;
-            background: rgba(14, 165, 233, 0.1);
+        /* ── 1. HOME HOVER (Sky Blue Glow) ── */
+        .pill-nav-home:not(.active):hover {
+            color: #0ea5e9 !important;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%) !important;
+            border-color: rgba(14, 165, 233, 0.3) !important;
+            box-shadow: 
+                0 6px 20px -2px rgba(14, 165, 233, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .pill-nav-home:not(.active):hover svg {
+            stroke: #0ea5e9;
+            transform: translateY(-2px) scale(1.18);
+            filter: drop-shadow(0 2px 6px rgba(14, 165, 233, 0.4));
         }
 
-        .pill-nav-item:hover svg {
-            transform: scale(1.15) rotate(-5deg);
+        /* ── 2. LIBRARY HOVER (Indigo Royal Glow) ── */
+        .pill-nav-library:not(.active):hover {
+            color: #6366f1 !important;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(129, 140, 248, 0.08) 100%) !important;
+            border-color: rgba(99, 102, 241, 0.3) !important;
+            box-shadow: 
+                0 6px 20px -2px rgba(99, 102, 241, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .pill-nav-library:not(.active):hover svg {
+            stroke: #6366f1;
+            transform: rotate(-12deg) scale(1.22);
+            filter: drop-shadow(0 2px 6px rgba(99, 102, 241, 0.4));
         }
 
-        /* Active state — gradient pill */
+        /* ── 3. ESSAYS HOVER (Golden Amber Glow) ── */
+        .pill-nav-essays:not(.active):hover {
+            color: #d97706 !important;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(251, 191, 36, 0.08) 100%) !important;
+            border-color: rgba(245, 158, 11, 0.35) !important;
+            box-shadow: 
+                0 6px 20px -2px rgba(245, 158, 11, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        html.dark-mode .pill-nav-essays:not(.active):hover {
+            color: #fbbf24 !important;
+        }
+        .pill-nav-essays:not(.active):hover svg {
+            stroke: #d97706;
+            transform: rotate(14deg) translateY(-1px) scale(1.22);
+            filter: drop-shadow(0 2px 6px rgba(245, 158, 11, 0.4));
+        }
+        html.dark-mode .pill-nav-essays:not(.active):hover svg {
+            stroke: #fbbf24;
+        }
+
+        /* ── 4. FAVORITES HOVER (Vivid Red Heartbeat + Fill + Red Aura) ── */
+        .pill-nav-favorites:not(.active):hover {
+            color: #f43f5e !important;
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(251, 113, 133, 0.08) 100%) !important;
+            border-color: rgba(244, 63, 94, 0.4) !important;
+            box-shadow: 
+                0 6px 22px -2px rgba(244, 63, 94, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .pill-nav-favorites:not(.active):hover svg {
+            stroke: #ef4444;
+            fill: #ef4444;
+            filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+            animation: luxuryHeartBeat 0.85s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        @keyframes luxuryHeartBeat {
+            0%   { transform: scale(1.15); }
+            20%  { transform: scale(1.42); }
+            40%  { transform: scale(1.22); }
+            60%  { transform: scale(1.38); }
+            80%  { transform: scale(1.18); }
+            100% { transform: scale(1.15); }
+        }
+
+        /* ── ACTIVE ITEM STATE (Luminous Pill) ── */
         .pill-nav-item.active {
-            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%) !important;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%) !important;
             color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
             box-shadow:
-                0 4px 16px rgba(14, 165, 233, 0.4),
-                0 1px 3px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.25);
+                0 8px 24px -2px rgba(14, 165, 233, 0.45),
+                0 2px 6px rgba(0, 0, 0, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.45);
         }
 
         .pill-nav-item.active svg {
-            stroke: #fff;
+            stroke: #ffffff;
+            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.2));
         }
 
-        /* ── Dark mode ── */
+        /* ── Dark Mode Ultra-Luxury Enhancements ── */
         html.dark-mode .custom-landing-pill-nav {
-            background: rgba(10, 17, 32, 0.92) !important;
-            border-color: rgba(56, 189, 248, 0.18) !important;
+            background: rgba(8, 15, 30, 0.88) !important;
+            border-color: rgba(56, 189, 248, 0.22) !important;
             box-shadow:
-                0 8px 32px -4px rgba(0,0,0,0.5),
-                0 2px 8px rgba(0,0,0,0.3),
-                inset 0 1px 0 rgba(255,255,255,0.06) !important;
+                0 20px 45px -10px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+                inset 0 1px 1px rgba(255, 255, 255, 0.05) !important;
         }
 
         html.dark-mode .pill-sep {
-            background: linear-gradient(to bottom, transparent, rgba(56,189,248,0.15), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.18), transparent);
         }
 
         html.dark-mode .pill-shimmer {
             background: linear-gradient(
-                105deg,
+                110deg,
                 transparent 30%,
-                rgba(255,255,255,0.06) 50%,
+                rgba(255, 255, 255, 0.12) 50%,
                 transparent 70%
             );
         }
@@ -307,15 +386,10 @@
             color: #94a3b8;
         }
 
-        html.dark-mode .pill-nav-item:hover {
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-        }
-
         html.dark-mode .pill-nav-item.active {
-            background: linear-gradient(135deg, #0ea5e9 0%, #818cf8 100%) !important;
-            color: #fff !important;
-            box-shadow: 0 4px 20px rgba(14,165,233,0.35), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+            background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #818cf8 100%) !important;
+            color: #ffffff !important;
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
         }
 
         /* ── Mobile: icon-only ── */
