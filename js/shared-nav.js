@@ -664,83 +664,58 @@
         });
     }
 
-    // ── 10. CUSTOM LANDING PAGE ENTRANCE ANIMATION ────────────────────────────
-    function initCustomLandingHeaderAnimation() {
-        const landingPage = localStorage.getItem('soLandingPage') || 'dashboard.html';
-        const isCustomLanding = landingPage !== 'dashboard.html';
-        const isTriggered = sessionStorage.getItem('soCustomLandingTriggered') === 'true';
-        const isCurrentPageLanding = (currentPage === landingPage);
+    // ── 10. INNER PAGE NAVBAR (always visible on non-dashboard pages) ──────────
+    function initInnerPageNav() {
+        // On the dashboard: keep logo, hide pill nav
+        if (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/') return;
 
-        // Run animation only when user has selected custom landing page and is not on dashboard
-        if (!isCustomLanding || currentPage === 'dashboard.html') return;
-
-        const logoEl = document.getElementById('shared-nav-logo');
-        const libBtn = document.getElementById('library-nav-btn');
+        const logoEl  = document.getElementById('shared-nav-logo');
+        const libBtn  = document.getElementById('library-nav-btn');
         const pillNav = document.getElementById('custom-landing-pill');
 
         if (!pillNav) return;
 
-        // If landing intro animation should play
-        if (isTriggered || isCurrentPageLanding) {
-            sessionStorage.removeItem('soCustomLandingTriggered');
+        // Hide logo & old library shortcut — pill nav replaces them on inner pages
+        if (logoEl) logoEl.style.display = 'none';
+        if (libBtn) libBtn.style.display = 'none';
 
+        // Place pill nav at top-center immediately (no delay, no dependency on landing pref)
+        pillNav.style.left      = '50%';
+        pillNav.style.right     = 'auto';
+        pillNav.style.top       = '24px';
+        pillNav.style.transform = 'translateX(-50%)';
+
+        // Play entrance animation only on the very first load of this page in the session
+        const animKey = 'soNavAnimated_' + currentPage;
+        const alreadyAnimated = sessionStorage.getItem(animKey);
+
+        if (!alreadyAnimated) {
+            sessionStorage.setItem(animKey, 'true');
             const runAnimation = () => {
-                if (typeof gsap === 'undefined') return;
-
-                // Strict sequential timeline
-                const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-                // STEP 1: First, fly-up center logo completely out of view
-                if (logoEl) {
-                    tl.to(logoEl, { 
-                        y: -160, 
-                        opacity: 0, 
-                        duration: 0.7, 
-                        ease: 'power3.inOut' 
-                    });
+                if (typeof gsap === 'undefined') {
+                    // Fallback: just show it instantly
+                    pillNav.style.opacity = '1';
+                    pillNav.style.transform = 'translateX(-50%)';
+                    return;
                 }
-
-                // STEP 2: THEN, circular button morphs & expands into the 4-item pill navbar
-                tl.call(() => {
-                    if (libBtn) libBtn.style.opacity = '0';
-                });
-
-                tl.fromTo(pillNav, 
-                    { opacity: 0, scale: 0.3 },
-                    { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.4)' },
-                    '+=0.1' // waits for logo fly-up to finish first
+                gsap.fromTo(pillNav,
+                    { opacity: 0, scale: 0.7, y: -10 },
+                    { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'back.out(1.5)', delay: 0.2 }
                 );
-
-                // STEP 3: THEN, the expanded pill navbar glides smoothly to top-center
-                tl.to(pillNav, {
-                    left: '50%',
-                    right: 'auto',
-                    xPercent: -50,
-                    top: 24,
-                    duration: 0.85,
-                    ease: 'back.out(1.25)'
-                }, '+=0.15'); // waits for expansion to finish first
             };
 
-            // Run 350ms after page load so user sees page content first
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', () => setTimeout(runAnimation, 350));
+                document.addEventListener('DOMContentLoaded', runAnimation);
             } else {
-                setTimeout(runAnimation, 350);
+                runAnimation();
             }
         } else {
-            // Static top-center placement for non-dashboard navigation
-            if (logoEl) logoEl.style.display = 'none';
-            if (libBtn) libBtn.style.display = 'none';
+            // Already animated this session — show instantly
             pillNav.style.opacity = '1';
-            pillNav.style.transform = 'translateX(-50%)';
-            pillNav.style.left = '50%';
-            pillNav.style.right = 'auto';
-            pillNav.style.top = '24px';
         }
     }
 
-    initCustomLandingHeaderAnimation();
+    initInnerPageNav();
 
     // Ensure clean light mode across entire site
     document.documentElement.classList.remove('dark-mode');
