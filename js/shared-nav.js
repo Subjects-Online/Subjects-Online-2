@@ -32,7 +32,7 @@
         if (window.gsap) {
             try {
                 gsap.globalTimeline.timeScale(100);
-            } catch(e) {}
+            } catch (e) { }
         }
     } else {
         document.documentElement.classList.remove('reduce-motion');
@@ -128,9 +128,9 @@
             <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
         </a>
 
-        <!-- RIGHT: Library Shortcut -->
-        <a id="library-nav-btn" href="library.html" title="Library — الملخصات والكتب" style="
-            position: absolute;
+        <!-- RIGHT: Library Shortcut (dashboard only fallback) -->
+        <a id="library-nav-btn" href="library.html" title="Library" style="
+            position: sticky;
             top: 20px;
             right: 20px;
             z-index: 60;
@@ -154,7 +154,7 @@
             </svg>
         </a>
 
-        <!-- EXPANDING MORPH PILL NAVBAR (Home, Library, Essays, Favorites) -->
+        <!-- PREMIUM PILL NAVBAR -->
         <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
             position: absolute;
             top: 20px;
@@ -162,110 +162,201 @@
             z-index: 60;
             display: flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 2px;
+            padding: 5px;
             border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(14, 165, 233, 0.25);
-            box-shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            box-shadow:
+                0 8px 32px -4px rgba(14, 165, 233, 0.18),
+                0 2px 8px rgba(0,0,0,0.06),
+                inset 0 1px 0 rgba(255,255,255,1);
             opacity: 0;
-            transform: scale(0.6);
             pointer-events: auto;
         ">
-            <a href="dashboard.html" title="Home Dashboard" class="pill-nav-item ${currentPage === 'dashboard.html' ? 'active' : ''}">
-                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+            <!-- Shimmer sweep -->
+            <div class="pill-shimmer" aria-hidden="true"></div>
+
+            <a href="dashboard.html" title="Home" class="pill-nav-item ${currentPage === 'dashboard.html' ? 'active' : ''}">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                 </svg>
                 <span>Home</span>
             </a>
-            <a href="library.html" title="Library — الملخصات والكتب" class="pill-nav-item ${currentPage === 'library.html' ? 'active' : ''}">
-                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+
+            <div class="pill-sep" aria-hidden="true"></div>
+
+            <a href="library.html" title="Library" class="pill-nav-item ${currentPage === 'library.html' ? 'active' : ''}">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
                 <span>Library</span>
             </a>
-            <a href="essays.html" title="Doctor Essays — مقالات الدكاترة" class="pill-nav-item ${currentPage === 'essays.html' ? 'active' : ''}">
-                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6m-6 4h6"></path>
+
+
+            <div class="pill-sep" aria-hidden="true"></div>
+
+            <a href="essays.html" title="Essays" class="pill-nav-item ${currentPage === 'essays.html' ? 'active' : ''}">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
                 <span>Essays</span>
             </a>
-            <a href="favorites.html" title="Favorites — المفضلة" class="pill-nav-item ${currentPage === 'favorites.html' ? 'active' : ''}">
-                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+
+            <div class="pill-sep" aria-hidden="true"></div>
+
+            <a href="favorites.html" title="Favorites" class="pill-nav-item ${currentPage === 'favorites.html' ? 'active' : ''}">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                 </svg>
                 <span>Favorites</span>
             </a>
         </div>
     </nav>
     <style>
-        /* Custom Morphing Landing Navbar */
+        /* ═══════════════════════════════════════════════════
+           PREMIUM PILL NAVBAR
+           ═══════════════════════════════════════════════════ */
+
+        .custom-landing-pill-nav {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Shimmer sweep animation */
+        .pill-shimmer {
+            position: absolute;
+            top: 0; left: -80%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255,255,255,0.55) 50%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: 10;
+            border-radius: inherit;
+            animation: pillShimmer 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes pillShimmer {
+            0%   { left: -80%; opacity: 0; }
+            10%  { opacity: 1; }
+            40%  { left: 120%; opacity: 0.6; }
+            100% { left: 120%; opacity: 0; }
+        }
+
+        /* Separator line between items */
+        .pill-sep {
+            width: 1px;
+            height: 18px;
+            background: linear-gradient(to bottom, transparent, rgba(14,165,233,0.2), transparent);
+            flex-shrink: 0;
+            border-radius: 1px;
+        }
+
+        /* Nav item */
         .pill-nav-item {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 7px 14px;
+            padding: 8px 16px;
             border-radius: 9999px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            color: #334155;
+            letter-spacing: 0.02em;
+            color: #475569;
             text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            white-space: nowrap;
+            z-index: 1;
         }
+
+        .pill-nav-item svg {
+            transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
         .pill-nav-item:hover {
-            color: #0ea5e9;
-            background: rgba(14, 165, 233, 0.12);
-            transform: translateY(-1px);
+            color: #0284c7;
+            background: rgba(14, 165, 233, 0.1);
         }
+
+        .pill-nav-item:hover svg {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        /* Active state — gradient pill */
         .pill-nav-item.active {
-            background: #0ea5e9 !important;
+            background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%) !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+            box-shadow:
+                0 4px 16px rgba(14, 165, 233, 0.4),
+                0 1px 3px rgba(0,0,0,0.1),
+                inset 0 1px 0 rgba(255,255,255,0.25);
         }
+
+        .pill-nav-item.active svg {
+            stroke: #fff;
+        }
+
+        /* ── Dark mode ── */
         html.dark-mode .custom-landing-pill-nav {
-            background: rgba(15, 23, 42, 0.88) !important;
-            border-color: rgba(56, 189, 248, 0.25) !important;
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05) !important;
+            background: rgba(10, 17, 32, 0.92) !important;
+            border-color: rgba(56, 189, 248, 0.18) !important;
+            box-shadow:
+                0 8px 32px -4px rgba(0,0,0,0.5),
+                0 2px 8px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.06) !important;
         }
+
+        html.dark-mode .pill-sep {
+            background: linear-gradient(to bottom, transparent, rgba(56,189,248,0.15), transparent);
+        }
+
+        html.dark-mode .pill-shimmer {
+            background: linear-gradient(
+                105deg,
+                transparent 30%,
+                rgba(255,255,255,0.06) 50%,
+                transparent 70%
+            );
+        }
+
         html.dark-mode .pill-nav-item {
             color: #94a3b8;
         }
+
         html.dark-mode .pill-nav-item:hover {
             color: #38bdf8;
-            background: rgba(56, 189, 248, 0.15);
+            background: rgba(56, 189, 248, 0.1);
         }
+
         html.dark-mode .pill-nav-item.active {
-            background: #38bdf8 !important;
-            color: #0f172a !important;
-            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+            background: linear-gradient(135deg, #0ea5e9 0%, #818cf8 100%) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 20px rgba(14,165,233,0.35), inset 0 1px 0 rgba(255,255,255,0.15) !important;
         }
 
-        /* Mobile Icon-Only Layout for Morphing Navbar */
+        /* ── Mobile: icon-only ── */
         @media (max-width: 640px) {
-            .pill-nav-item span {
-                display: none !important;
-            }
-            .pill-nav-item {
-                padding: 8px 10px !important;
-                border-radius: 9999px !important;
-            }
-            .custom-landing-pill-nav {
-                padding: 5px 8px !important;
-                gap: 4px !important;
-            }
+            .pill-nav-item span { display: none !important; }
+            .pill-nav-item { padding: 9px 10px !important; }
+            .custom-landing-pill-nav { padding: 4px 5px !important; gap: 1px !important; }
+            .pill-sep { height: 14px; }
         }
 
-        /* Hidden elements in this new minimal layout */
-        @media (max-width: 640px) {
-            #snav-username { display: block !important; }
-        }
         @media (max-width: 400px) {
             .logo-text-secondary { display: none; }
         }
     </style>
     `;
+
 
     const footerHTML = `
     <footer style="
@@ -669,8 +760,8 @@
         // On the dashboard: keep logo, hide pill nav
         if (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/') return;
 
-        const logoEl  = document.getElementById('shared-nav-logo');
-        const libBtn  = document.getElementById('library-nav-btn');
+        const logoEl = document.getElementById('shared-nav-logo');
+        const libBtn = document.getElementById('library-nav-btn');
         const pillNav = document.getElementById('custom-landing-pill');
 
         if (!pillNav) return;
@@ -680,9 +771,9 @@
         if (libBtn) libBtn.style.display = 'none';
 
         // Place pill nav at top-center immediately (no delay, no dependency on landing pref)
-        pillNav.style.left      = '50%';
-        pillNav.style.right     = 'auto';
-        pillNav.style.top       = '24px';
+        pillNav.style.left = '50%';
+        pillNav.style.right = 'auto';
+        pillNav.style.top = '24px';
         pillNav.style.transform = 'translateX(-50%)';
 
         // Play entrance animation only on the very first load of this page in the session
