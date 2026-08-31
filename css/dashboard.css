@@ -1322,8 +1322,7 @@ html.dark-mode .wi-word-accent-alt {
 .card-library,
 .card-essays,
 .card-favorites,
-.card-community,
-.card-trainings {
+.card-community {
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -1335,8 +1334,7 @@ html.dark-mode .wi-word-accent-alt {
 .card-library:hover,
 .card-essays:hover,
 .card-favorites:hover,
-.card-community:hover,
-.card-trainings:hover {
+.card-community:hover {
     transform: translateY(-12px) scale(1.02);
 }
 
@@ -1473,32 +1471,12 @@ html.dark-mode .wi-word-accent-alt {
     left: 50%;
 }
 
-/* --- 6. Trainings (Deep Purple Theme) --- */
-.card-trainings {
-    background: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 20px 40px -10px rgba(147, 51, 234, 0.4);
-}
-
-.card-trainings:hover {
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 35px 60px -15px rgba(147, 51, 234, 0.6), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
-}
-
-.card-trainings .card-orb {
-    background: #c084fc;
-    width: 200px;
-    height: 200px;
-    bottom: -50px;
-    right: 50%;
-}
-
 /* Ensure dark mode doesn't override these vibrant themes */
 html.dark-mode .card-browse,
 html.dark-mode .card-library,
 html.dark-mode .card-essays,
 html.dark-mode .card-favorites,
-html.dark-mode .card-community,
-html.dark-mode .card-trainings {
+html.dark-mode .card-community {
     border-color: rgba(255, 255, 255, 0.1);
 }
 
