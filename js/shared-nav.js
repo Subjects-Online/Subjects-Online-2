@@ -164,6 +164,17 @@
 
             <div class="pill-sep" aria-hidden="true"></div>
 
+            <a href="browse.html" title="Browse" class="pill-nav-item pill-nav-browse ${currentPage === 'browse.html' ? 'active' : ''}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    <path d="M9 7h6M9 11h4"/>
+                </svg>
+                <span>Browse</span>
+            </a>
+
+            <div class="pill-sep" aria-hidden="true"></div>
+
             <a href="library.html" title="Library" class="pill-nav-item pill-nav-library ${currentPage === 'library.html' ? 'active' : ''}">
                 <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
@@ -276,6 +287,22 @@
         .pill-nav-home:not(.active):hover svg {
             stroke: #0ea5e9;
             transform: translateY(-2px) scale(1.18);
+            filter: drop-shadow(0 2px 6px rgba(14, 165, 233, 0.4));
+        }
+
+        /* ── 2. BROWSE HOVER (Cyan / Sky Glow) ── */
+        .pill-nav-browse:not(.active):hover {
+            color: #0ea5e9 !important;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%) !important;
+            border-color: rgba(14, 165, 233, 0.3) !important;
+            box-shadow: 
+                0 6px 20px -2px rgba(14, 165, 233, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .pill-nav-browse:not(.active):hover svg {
+            stroke: #0ea5e9;
+            transform: scale(1.2) rotate(6deg);
             filter: drop-shadow(0 2px 6px rgba(14, 165, 233, 0.4));
         }
 

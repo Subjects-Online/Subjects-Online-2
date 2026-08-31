@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +40,9 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/library.css">
@@ -53,6 +56,7 @@
     <meta name="apple-mobile-web-app-title" content="Subjects Online">
     <link rel="apple-touch-icon" href="images/icon-512.png">
 </head>
+
 <body class="lib-page font-body antialiased min-h-screen relative overflow-x-hidden">
 
     <!-- Ambient Floating Orbs -->
@@ -111,17 +115,22 @@
             <!-- Left: Breadcrumb / Title -->
             <div id="lib-breadcrumb-wrap" class="flex items-center gap-2">
                 <button id="btn-back-folder" class="lib-breadcrumb-btn hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                     <span>Back to Root</span>
                 </button>
-                <div id="current-folder-title-badge" class="hidden items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
+                <div id="current-folder-title-badge"
+                    class="hidden items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">
                     📁 <span id="current-folder-name">Folder</span>
                 </div>
-                <button id="btn-download-current-folder" class="lib-action-btn-secondary hidden" title="Download this folder as a ZIP">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                <button id="btn-download-current-folder" class="lib-action-btn-secondary hidden"
+                    title="Download this folder as a ZIP">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
                     <span>Download Folder</span>
                 </button>
@@ -130,22 +139,27 @@
             <!-- Right: Action Buttons -->
             <div class="flex items-center gap-2.5 flex-wrap">
                 <button id="btn-new-folder" class="lib-action-btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
                     <span>New Folder</span>
                 </button>
 
                 <button id="btn-import-pdf" class="lib-action-btn-secondary" title="Upload custom PDF notes">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                     </svg>
                     <span>Import PDF</span>
                 </button>
 
                 <button id="btn-select-mode" class="lib-action-btn-secondary" title="Batch select items">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-amber-500" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                     </svg>
                     <span>Select</span>
                 </button>
@@ -184,16 +198,20 @@
             <div class="lib-toolbar-right">
                 <!-- Search Box -->
                 <div class="lib-search-box">
-                    <svg class="lib-search-icon-svg w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    <svg class="lib-search-icon-svg w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <input type="text" id="search-input" placeholder="Search saved items…" class="lib-search-inp" autocomplete="off">
+                    <input type="text" id="search-input" placeholder="Search saved items…" class="lib-search-inp"
+                        autocomplete="off">
                     <button id="search-clear-btn" class="lib-search-clear-btn">✕</button>
                 </div>
 
                 <!-- Sort Dropdown -->
                 <div class="relative">
-                    <select id="sort-select" class="lib-sort-select py-2 pl-3 pr-8 text-xs font-semibold rounded-full border border-black/10 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 outline-none">
+                    <select id="sort-select"
+                        class="lib-sort-select py-2 pl-3 pr-8 text-xs font-semibold rounded-full border border-black/10 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 outline-none">
                         <option value="newest">Newest First</option>
                         <option value="oldest">Oldest First</option>
                         <option value="az">Title (A → Z)</option>
@@ -206,12 +224,13 @@
                 <div class="lib-view-switch">
                     <button id="view-grid-btn" class="lib-view-btn active" title="Grid View">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                         </svg>
                     </button>
                     <button id="view-list-btn" class="lib-view-btn" title="List View">
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
@@ -223,11 +242,13 @@
 
         <!-- Search / Filter No Results Box -->
         <div id="lib-no-results" class="hidden flex-col items-center justify-center py-20 text-center">
-            <div class="w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center mb-4 text-3xl">
+            <div
+                class="w-16 h-16 rounded-2xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center mb-4 text-3xl">
                 🔍
             </div>
             <h3 class="font-heading text-xl font-bold mb-2" style="color: var(--lib-navy);">No matching files found</h3>
-            <p class="text-sm max-w-sm mb-6" style="color: var(--lib-navy-soft);">Try adjusting your search terms or active tab filter.</p>
+            <p class="text-sm max-w-sm mb-6" style="color: var(--lib-navy-soft);">Try adjusting your search terms or
+                active tab filter.</p>
             <button id="lib-reset-filter-btn" class="lib-action-btn-secondary text-sm">
                 Reset Filters
             </button>
@@ -245,40 +266,55 @@
 
                 <h2 class="lib-empty-title">Your Study Vault is Empty</h2>
                 <p class="lib-empty-desc">
-                    Open any study material and tap <span class="text-sky-500 font-bold">"Save Offline"</span>, or import your own local PDF files to access them anywhere without internet.
+                    Open any study material and tap <span class="text-sky-500 font-bold">"Save Offline"</span>, or
+                    import your own local PDF files to access them anywhere without internet.
                 </p>
 
                 <div class="flex flex-wrap items-center justify-center gap-3.5 mb-8">
                     <a href="browse.html" class="lib-action-btn-primary lib-cta">
                         <span>Browse Courses</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                     </a>
                     <button id="btn-empty-import" class="lib-action-btn-secondary">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-sky-500" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
                         <span>Upload Custom PDF</span>
                     </button>
                 </div>
 
                 <!-- Quick Discover Starter Row -->
                 <div class="pt-6 border-t border-black/5 dark:border-white/10 text-left">
-                    <div class="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
+                    <div
+                        class="flex items-center gap-2 mb-3 text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400">
                         <span>✨ Quick Starter Recommendation</span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <a href="browse.html" class="p-3 rounded-2xl bg-white/60 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 hover:border-sky-500/40 transition-all hover:-translate-y-0.5 block no-underline text-left">
+                        <a href="browse.html"
+                            class="p-3 rounded-2xl bg-white/60 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 hover:border-sky-500/40 transition-all hover:-translate-y-0.5 block no-underline text-left">
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">📊</span>
                                 <div class="min-w-0 flex-1">
-                                    <h4 class="font-heading text-xs font-bold truncate text-slate-800 dark:text-slate-100">Corporate Accounting</h4>
+                                    <h4
+                                        class="font-heading text-xs font-bold truncate text-slate-800 dark:text-slate-100">
+                                        Corporate Accounting</h4>
                                     <p class="text-[11px] text-slate-400 truncate">Course Lectures & Summaries</p>
                                 </div>
                             </div>
                         </a>
-                        <a href="essays.html" class="p-3 rounded-2xl bg-white/60 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 hover:border-sky-500/40 transition-all hover:-translate-y-0.5 block no-underline text-left">
+                        <a href="essays.html"
+                            class="p-3 rounded-2xl bg-white/60 dark:bg-slate-900/60 border border-black/5 dark:border-white/10 hover:border-sky-500/40 transition-all hover:-translate-y-0.5 block no-underline text-left">
                             <div class="flex items-center gap-3">
                                 <span class="text-2xl">✍️</span>
                                 <div class="min-w-0 flex-1">
-                                    <h4 class="font-heading text-xs font-bold truncate text-slate-800 dark:text-slate-100">Doctor Essays Deck</h4>
+                                    <h4
+                                        class="font-heading text-xs font-bold truncate text-slate-800 dark:text-slate-100">
+                                        Doctor Essays Deck</h4>
                                     <p class="text-[11px] text-slate-400 truncate">Academic Essays</p>
                                 </div>
                             </div>
@@ -292,26 +328,37 @@
         <div id="bulk-action-bar" class="lib-bulk-dock">
             <div class="flex items-center gap-3">
                 <span id="selected-count" class="font-bold text-sm text-sky-400">0 Selected</span>
-                <button id="btn-select-all" class="text-xs font-semibold text-white/70 hover:text-white underline">Select All</button>
+                <button id="btn-select-all"
+                    class="text-xs font-semibold text-white/70 hover:text-white underline">Select All</button>
             </div>
             <div class="h-4 w-px bg-white/20"></div>
             <div class="flex items-center gap-2">
                 <button id="btn-bulk-download" class="lib-dock-btn lib-dock-btn-move" title="Download selected as ZIP">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
                     <span>Download</span>
                 </button>
                 <button id="btn-bulk-read" class="lib-dock-btn lib-dock-btn-move" title="Mark selected as read">
                     <span>✅ Read</span>
                 </button>
                 <button id="btn-bulk-move" class="lib-dock-btn lib-dock-btn-move">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
                     <span>Move</span>
                 </button>
                 <button id="btn-bulk-delete" class="lib-dock-btn lib-dock-btn-delete">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
                     <span>Delete</span>
                 </button>
-                <button id="btn-cancel-select" class="text-xs font-semibold text-white/60 hover:text-white ml-1">Cancel</button>
+                <button id="btn-cancel-select"
+                    class="text-xs font-semibold text-white/60 hover:text-white ml-1">Cancel</button>
             </div>
         </div>
 
@@ -324,16 +371,21 @@
         <div class="lib-modal-box" id="folder-name-modal-content">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center text-xl">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center text-xl">
                         📁
                     </div>
-                    <h3 id="folder-name-modal-title" class="font-heading text-xl font-bold" style="color: var(--lib-navy);">New Folder</h3>
+                    <h3 id="folder-name-modal-title" class="font-heading text-xl font-bold"
+                        style="color: var(--lib-navy);">New Folder</h3>
                 </div>
-                <button id="close-folder-name-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
+                <button id="close-folder-name-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
             </div>
             <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--lib-navy-soft);">Folder Name</label>
-                <input type="text" id="folder-name-input" placeholder="e.g. Midterm Summaries" maxlength="60" class="lib-search-inp w-full py-3.5 text-base font-semibold">
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2"
+                    style="color: var(--lib-navy-soft);">Folder Name</label>
+                <input type="text" id="folder-name-input" placeholder="e.g. Midterm Summaries" maxlength="60"
+                    class="lib-search-inp w-full py-3.5 text-base font-semibold">
             </div>
             <div class="flex justify-end gap-3">
                 <button id="cancel-folder-name-btn" class="lib-action-btn-secondary">Cancel</button>
@@ -347,30 +399,43 @@
         <div class="lib-modal-box max-w-sm" id="color-modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-heading text-xl font-bold" style="color: var(--lib-navy);">Choose Accent Color</h3>
-                <button id="close-color-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
+                <button id="close-color-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
             </div>
             <div class="grid grid-cols-3 gap-4 mb-6">
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-blue-500 bg-blue-50 dark:bg-blue-900/30 transition-all hover:scale-105" data-color="blue">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-blue-500 bg-blue-50 dark:bg-blue-900/30 transition-all hover:scale-105"
+                    data-color="blue">
                     <span class="w-8 h-8 rounded-full bg-blue-500 shadow-md"></span>
                     <span class="text-xs font-bold text-blue-600 dark:text-blue-400">Sapphire</span>
                 </button>
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 transition-all hover:scale-105" data-color="emerald">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 transition-all hover:scale-105"
+                    data-color="emerald">
                     <span class="w-8 h-8 rounded-full bg-emerald-500 shadow-md"></span>
                     <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400">Emerald</span>
                 </button>
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-purple-500 bg-purple-50 dark:bg-purple-900/30 transition-all hover:scale-105" data-color="purple">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-purple-500 bg-purple-50 dark:bg-purple-900/30 transition-all hover:scale-105"
+                    data-color="purple">
                     <span class="w-8 h-8 rounded-full bg-purple-500 shadow-md"></span>
                     <span class="text-xs font-bold text-purple-600 dark:text-purple-400">Amethyst</span>
                 </button>
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-amber-500 bg-amber-50 dark:bg-amber-900/30 transition-all hover:scale-105" data-color="amber">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-amber-500 bg-amber-50 dark:bg-amber-900/30 transition-all hover:scale-105"
+                    data-color="amber">
                     <span class="w-8 h-8 rounded-full bg-amber-500 shadow-md"></span>
                     <span class="text-xs font-bold text-amber-600 dark:text-amber-400">Amber</span>
                 </button>
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-rose-500 bg-rose-50 dark:bg-rose-900/30 transition-all hover:scale-105" data-color="rose">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-rose-500 bg-rose-50 dark:bg-rose-900/30 transition-all hover:scale-105"
+                    data-color="rose">
                     <span class="w-8 h-8 rounded-full bg-rose-500 shadow-md"></span>
                     <span class="text-xs font-bold text-rose-600 dark:text-rose-400">Rose</span>
                 </button>
-                <button class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-cyan-500 bg-cyan-50 dark:bg-cyan-900/30 transition-all hover:scale-105" data-color="cyan">
+                <button
+                    class="color-btn p-3 rounded-2xl flex flex-col items-center gap-2 border-2 border-transparent hover:border-cyan-500 bg-cyan-50 dark:bg-cyan-900/30 transition-all hover:scale-105"
+                    data-color="cyan">
                     <span class="w-8 h-8 rounded-full bg-cyan-500 shadow-md"></span>
                     <span class="text-xs font-bold text-cyan-600 dark:text-cyan-400">Cyan</span>
                 </button>
@@ -383,10 +448,12 @@
         <div class="lib-modal-box max-w-md" id="move-modal-content">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="font-heading text-xl font-bold" style="color: var(--lib-navy);">Move to Destination</h3>
-                <button id="close-move-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
+                <button id="close-move-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
             </div>
             <div class="mb-6">
-                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--lib-navy-soft);">Select Target Folder</label>
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2"
+                    style="color: var(--lib-navy-soft);">Select Target Folder</label>
                 <select id="move-folder-select" class="lib-search-inp w-full py-3.5 text-sm font-semibold">
                     <option value="root">📁 Root (Main Library)</option>
                 </select>
@@ -403,24 +470,30 @@
         <div class="lib-modal-box" id="import-modal-content">
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center text-xl">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-sky-500/10 text-sky-600 flex items-center justify-center text-xl">
                         📥
                     </div>
                     <div>
-                        <h3 class="font-heading text-xl font-bold" style="color: var(--lib-navy);">Import Custom PDF</h3>
-                        <p class="text-xs" style="color: var(--lib-navy-soft);">Upload local notes, summaries, or lecture slides</p>
+                        <h3 class="font-heading text-xl font-bold" style="color: var(--lib-navy);">Import Custom PDF
+                        </h3>
+                        <p class="text-xs" style="color: var(--lib-navy-soft);">Upload local notes, summaries, or
+                            lecture slides</p>
                     </div>
                 </div>
-                <button id="close-import-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
+                <button id="close-import-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
             </div>
 
             <!-- Dropzone -->
             <div class="lib-dropzone mb-5" id="pdf-dropzone">
                 <input type="file" id="pdf-file-input" accept="application/pdf" class="hidden">
-                <div class="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-600 mx-auto mb-3 flex items-center justify-center text-2xl">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-600 mx-auto mb-3 flex items-center justify-center text-2xl">
                     📄
                 </div>
-                <p class="font-heading font-bold text-sm mb-1" style="color: var(--lib-navy);">Drag & drop your PDF file here</p>
+                <p class="font-heading font-bold text-sm mb-1" style="color: var(--lib-navy);">Drag & drop your PDF file
+                    here</p>
                 <p class="text-xs text-gray-400 mb-4">or click to browse from your device</p>
                 <button type="button" id="btn-browse-file" class="lib-action-btn-primary text-xs py-2 px-5">
                     Browse File
@@ -429,8 +502,10 @@
 
             <!-- Optional Title and Folder -->
             <div class="mb-4">
-                <label class="block text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--lib-navy-soft);">Document Title</label>
-                <input type="text" id="import-title-input" placeholder="e.g. My Accounting Summary" class="lib-search-inp w-full py-2.5 text-sm font-semibold">
+                <label class="block text-xs font-bold uppercase tracking-wider mb-2"
+                    style="color: var(--lib-navy-soft);">Document Title</label>
+                <input type="text" id="import-title-input" placeholder="e.g. My Accounting Summary"
+                    class="lib-search-inp w-full py-2.5 text-sm font-semibold">
             </div>
 
             <div class="flex justify-end gap-3 mt-6">
@@ -447,30 +522,38 @@
         <div class="lib-modal-box max-w-2xl max-h-[85vh] flex flex-col" id="storage-modal-content">
             <div class="flex justify-between items-center mb-5 shrink-0">
                 <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl">
                         💾
                     </div>
                     <div>
-                        <h3 class="font-heading text-2xl font-bold" style="color: var(--lib-navy);">Storage Optimizer</h3>
-                        <p class="text-xs" style="color: var(--lib-navy-soft);">Manage your offline cached materials and storage space</p>
+                        <h3 class="font-heading text-2xl font-bold" style="color: var(--lib-navy);">Storage Optimizer
+                        </h3>
+                        <p class="text-xs" style="color: var(--lib-navy-soft);">Manage your offline cached materials and
+                            storage space</p>
                     </div>
                 </div>
-                <button id="close-storage-modal" class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
+                <button id="close-storage-modal"
+                    class="text-gray-400 hover:text-gray-600 p-2 rounded-full hover:bg-gray-100/50">✕</button>
             </div>
 
             <!-- Storage Progress Box -->
-            <div class="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 mb-4 shrink-0">
+            <div
+                class="p-4 rounded-2xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10 mb-4 shrink-0">
                 <div class="flex justify-between items-center text-sm font-bold mb-2">
                     <span style="color: var(--lib-navy);">Storage Used</span>
                     <span class="text-amber-500" id="storage-modal-used">0 MB / 1000 MB</span>
                 </div>
                 <div class="w-full bg-black/10 dark:bg-white/10 rounded-full h-3 overflow-hidden">
-                    <div id="storage-progress-bar" class="h-full bg-gradient-to-r from-sky-500 via-amber-500 to-emerald-500 rounded-full transition-all duration-500" style="width: 2%"></div>
+                    <div id="storage-progress-bar"
+                        class="h-full bg-gradient-to-r from-sky-500 via-amber-500 to-emerald-500 rounded-full transition-all duration-500"
+                        style="width: 2%"></div>
                 </div>
             </div>
 
             <div class="flex items-center justify-between mb-3 shrink-0">
-                <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--lib-navy-soft);">Cached Documents</span>
+                <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--lib-navy-soft);">Cached
+                    Documents</span>
                 <button id="btn-clear-read-cache" class="text-xs font-bold text-red-500 hover:underline">
                     Clear All Read Items
                 </button>
@@ -504,4 +587,5 @@
     <script src="js/library.js"></script>
     <script src="js/pwa.js"></script>
 </body>
+
 </html>
