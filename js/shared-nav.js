@@ -128,31 +128,6 @@
             <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
         </a>
 
-        <!-- RIGHT: Library Shortcut (dashboard only fallback) -->
-        <a id="library-nav-btn" href="library.html" title="Library" style="
-            position: sticky;
-            top: 20px;
-            right: 20px;
-            z-index: 60;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: rgba(14,165,233,0.12);
-            border: 1px solid rgba(14,165,233,0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            color: #0EA5E9;
-            transition: all 0.3s;
-            text-decoration: none;
-            box-shadow: 0 4px 15px rgba(14,165,233,0.15);
-        " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-        </a>
 
         <!-- PREMIUM PILL NAVBAR -->
         <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
