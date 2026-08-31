@@ -96,70 +96,100 @@ body.lib-page {
     100% { transform: translate(-40%, -45%) scale(1.15); opacity: 0.9; }
 }
 
-/* ========== HERO SECTION ========== */
+/* ========== HERO SECTION & HEADER CARD ========== */
 .lib-hero {
     position: relative;
-    padding-top: 105px;
-    padding-bottom: 2rem;
+    padding-top: 110px;
+    padding-bottom: 1.5rem;
     text-align: left;
 }
 
 @media (min-width: 768px) {
     .lib-hero {
-        padding-top: 130px;
-        padding-bottom: 2.5rem;
+        padding-top: 135px;
+        padding-bottom: 2rem;
     }
 }
 
-html.dark-mode .lib-pill-badge {
-    background: rgba(14, 165, 233, 0.14);
-    border-color: rgba(56, 189, 248, 0.35);
+.lib-header-card {
+    position: relative;
+    background: var(--lib-glass);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--lib-glass-border);
+    border-radius: 2.25rem;
+    padding: 2.25rem 2rem;
+    box-shadow: var(--lib-glass-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow: hidden;
+    transition: all 0.35s ease;
+}
+
+@media (min-width: 768px) {
+    .lib-header-card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2.5rem 3rem;
+    }
+}
+
+.lib-luxury-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    background: rgba(14, 165, 233, 0.08);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    color: #0284c7;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+    transition: all 0.3s ease;
+}
+
+html.dark-mode .lib-luxury-badge {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.3);
     color: #38bdf8;
-    box-shadow: 0 4px 20px rgba(14, 165, 233, 0.2);
 }
 
-.lib-sparkle-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #0ea5e9;
-    box-shadow: 0 0 10px #0ea5e9;
-    animation: libDotPulse 2s ease-in-out infinite;
+.lib-title-my {
+    color: #0f172a;
 }
 
-@keyframes libDotPulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.4); opacity: 0.6; }
+html.dark-mode .lib-title-my {
+    color: #ffffff;
 }
 
-.lib-gradient-text {
-    background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 45%, #6366f1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    filter: drop-shadow(0 4px 14px rgba(14, 165, 233, 0.25));
+.lib-title-library {
+    color: #0ea5e9;
 }
 
-html.dark-mode .lib-gradient-text {
-    background: linear-gradient(135deg, #38bdf8 0%, #60a5fa 50%, #818cf8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+html.dark-mode .lib-title-library {
+    color: #38bdf8;
 }
 
-/* ========== STATS DECK ========== */
+/* ========== STATS DECK (2-Card Deluxe Grid) ========== */
 .lib-stats-deck {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 14px;
     width: 100%;
-    max-width: 100%;
-    margin: 2rem 0 0;
+    max-width: 320px;
+    margin: 0;
 }
 
 @media (min-width: 640px) {
     .lib-stats-deck {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         gap: 16px;
+        max-width: 340px;
     }
 }
 

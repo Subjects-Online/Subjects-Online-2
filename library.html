@@ -69,63 +69,38 @@
 
         <!-- Hero Section -->
         <section class="lib-hero text-left">
-            <div class="flex flex-col items-start w-full">
-                <div class="lib-pill-badge mb-3">
+            <div class="lib-header-card">
+                <!-- Left: Badge & Title -->
+                <div class="flex flex-col items-start">
+                    <!-- Luxury Pill Badge -->
+                    <div class="lib-luxury-badge mb-3">
+                        <span class="lib-sparkle-dot"></span>
+                        <span>Personal Vault & Study Repository</span>
+                    </div>
 
-
-                </div>
-
-                <div class="mb-2 text-left w-full">
-                    <h1 class="font-heading font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight mb-2 text-left flex items-center justify-start gap-3">
-                        <span class="text-slate-900 dark:text-white">My</span>
-                        <span class="lib-gradient-text">Library</span>
+                    <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+                        <span class="lib-title-my mr-3">My</span><span class="lib-title-library">Library</span>
                     </h1>
-                    <div class="w-full max-w-[220px] h-[3px] rounded-full mb-3" style="background: linear-gradient(90deg, #0ea5e9 0%, rgba(14,165,233,0.3) 70%, transparent 100%);"></div>
                 </div>
 
-                <p class="text-sm sm:text-base md:text-lg max-w-2xl font-normal opacity-85 text-left mb-2" style="color: var(--lib-navy-soft);">
-                    Your personal offline repository for saved textbooks, lecture summaries, and custom uploaded study PDFs.
-                </p>
-            </div>
-
-            <!-- Live Metrics Deck -->
-            <div class="lib-stats-deck" id="lib-stats-deck">
-                <!-- Stat 1: Folders -->
-                <div class="lib-stat-card" id="stat-card-folders" title="Filter Folders">
-                    <div class="lib-stat-icon-wrap" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">
-                        📁
+                <!-- Right: Live Metrics Deck -->
+                <div class="lib-stats-deck" id="lib-stats-deck">
+                    <!-- Stat 1: Folders -->
+                    <div class="lib-stat-card" id="stat-card-folders" title="Filter Folders">
+                        <div class="lib-stat-icon-wrap" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">
+                            📁
+                        </div>
+                        <div class="lib-stat-value" id="stat-folders-count">0</div>
+                        <div class="lib-stat-label">Folders</div>
                     </div>
-                    <div class="lib-stat-value" id="stat-folders-count">0</div>
-                    <div class="lib-stat-label">Folders</div>
-                </div>
 
-                <!-- Stat 2: Total Documents -->
-                <div class="lib-stat-card" id="stat-card-docs" title="Filter PDFs">
-                    <div class="lib-stat-icon-wrap" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">
-                        📄
-                    </div>
-                    <div class="lib-stat-value" id="stat-docs-count">0</div>
-                    <div class="lib-stat-label">Saved PDFs</div>
-                </div>
-
-                <!-- Stat 3: Completed / Read -->
-                <div class="lib-stat-card" id="stat-card-read" title="Filter Read Items">
-                    <div class="lib-stat-icon-wrap" style="background: rgba(16, 185, 129, 0.12); color: #10b981;">
-                        ✅
-                    </div>
-                    <div class="lib-stat-value" id="stat-read-count">0</div>
-                    <div class="lib-stat-label" id="stat-read-label">0% Read</div>
-                </div>
-
-                <!-- Stat 4: Storage Manager Gauge -->
-                <div class="lib-stat-card" id="stat-card-storage" title="Open Storage Manager">
-                    <div class="lib-stat-icon-wrap" style="background: rgba(245, 158, 11, 0.12); color: #f59e0b;">
-                        💾
-                    </div>
-                    <div class="lib-stat-value" id="stat-storage-used" style="font-size: 1.35rem;">0 MB</div>
-                    <div class="lib-stat-label">Offline Space</div>
-                    <div class="lib-storage-mini-bar">
-                        <div class="lib-storage-mini-fill" id="stat-storage-fill" style="width: 2%"></div>
+                    <!-- Stat 2: Total Documents -->
+                    <div class="lib-stat-card" id="stat-card-docs" title="Filter PDFs">
+                        <div class="lib-stat-icon-wrap" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">
+                            📄
+                        </div>
+                        <div class="lib-stat-value" id="stat-docs-count">0</div>
+                        <div class="lib-stat-label">Saved PDFs</div>
                     </div>
                 </div>
             </div>
