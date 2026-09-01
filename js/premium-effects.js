@@ -234,7 +234,7 @@ if (IS_MOBILE && typeof gsap !== 'undefined') {
                            || btn.getAttribute('aria-pressed') === 'true'
                            || btn.dataset.faved === '1';
                 window.showToast(
-                    added ? 'Added to Favorites ⭐' : 'Removed from Favorites',
+                    added ? 'Added to Favorites ❤️' : 'Removed from Favorites',
                     added ? 'success' : 'warning'
                 );
             }, 200);

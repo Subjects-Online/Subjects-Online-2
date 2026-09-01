@@ -593,10 +593,10 @@ html.dark-mode .dash-stat-divider {
 }
 
 .dark-mode .material-card .fav-btn.active {
-    background: linear-gradient(145deg, rgba(251, 191, 36, 0.15), rgba(245, 158, 11, 0.08)) !important;
-    border-color: rgba(251, 191, 36, 0.3) !important;
-    color: #fbbf24 !important;
-    box-shadow: 0 0 12px rgba(251, 191, 36, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    background: linear-gradient(145deg, rgba(244, 63, 94, 0.2), rgba(225, 29, 72, 0.12)) !important;
+    border-color: rgba(244, 63, 94, 0.4) !important;
+    color: #fb7185 !important;
+    box-shadow: 0 0 12px rgba(244, 63, 94, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
 }
 
 /* Light mode — action button hover */
@@ -691,8 +691,8 @@ html.dark-mode .dash-stat-divider {
 }
 
 .fav-btn.active {
-    color: #818cf8;
-    filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+    color: #f43f5e;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.5));
 }
 
 .essay-card .tag {

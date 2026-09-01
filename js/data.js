@@ -2380,15 +2380,32 @@ function saveFavorites(favs) {
 function toggleFav(id, btnEl) {
     let favs = getFavorites();
     const idx = favs.indexOf(id);
+    const svg = btnEl ? btnEl.querySelector('svg') : null;
+
     if (idx === -1) {
         favs.push(id);
-        btnEl.classList.add('active');
-        gsap.fromTo(btnEl, { scale: 1.6 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' });
+        if (btnEl) {
+            btnEl.classList.add('active');
+            btnEl.style.color = '#f43f5e';
+            btnEl.style.background = 'rgba(244, 63, 94, 0.12)';
+            btnEl.style.borderColor = 'rgba(244, 63, 94, 0.3)';
+            if (svg) svg.setAttribute('fill', 'currentColor');
+            if (typeof gsap !== 'undefined') {
+                gsap.fromTo(btnEl, { scale: 1.6 }, { scale: 1, duration: 0.5, ease: 'back.out(2)' });
+            }
+        }
     } else {
         favs.splice(idx, 1);
-        btnEl.classList.remove('active');
+        if (btnEl) {
+            btnEl.classList.remove('active');
+            btnEl.style.color = '#94a3b8';
+            btnEl.style.background = 'rgba(255, 255, 255, 0.7)';
+            btnEl.style.borderColor = 'rgba(255, 255, 255, 0.9)';
+            if (svg) svg.setAttribute('fill', 'none');
+        }
     }
     saveFavorites(favs);
+    window.dispatchEvent(new CustomEvent('so-fav-changed'));
 }
 
 // Map each study section to its respective completion store
@@ -2564,9 +2581,9 @@ function materialCardHTML(item, isFav, isPinned = false) {
                 </svg>
             </button>
             <button class="action-btn fav-btn ${isFav ? 'active' : ''}" data-id="${item.id}" title="Save to Favorites"
-                style="position: relative; width: 34px; height: 34px; border-radius: 12px; background: ${isFav ? 'rgba(251,191,36,0.12)' : 'rgba(255,255,255,0.7)'}; backdrop-filter: blur(8px); border: 1px solid ${isFav ? 'rgba(251,191,36,0.3)' : 'rgba(255,255,255,0.9)'}; color: ${isFav ? '#F59E0B' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                style="position: relative; width: 34px; height: 34px; border-radius: 12px; background: ${isFav ? 'rgba(244,63,94,0.12)' : 'rgba(255,255,255,0.7)'}; backdrop-filter: blur(8px); border: 1px solid ${isFav ? 'rgba(244,63,94,0.3)' : 'rgba(255,255,255,0.9)'}; color: ${isFav ? '#f43f5e' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
                 <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                 </svg>
             </button>
         </div>
@@ -2608,8 +2625,11 @@ function essayCardHTML(e, isFav) {
         <div class="card-glow" style="background: radial-gradient(circle, ${e.tagColor} 0%, transparent 70%);"></div>
 
         <div class="card-inner">
-            <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${e.id}" title="Save to Favorites">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+            <button class="fav-btn ${isFav ? 'active' : ''}" data-id="${e.id}" title="Save to Favorites"
+                style="position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 12px; background: ${isFav ? 'rgba(244,63,94,0.12)' : 'rgba(255,255,255,0.7)'}; backdrop-filter: blur(8px); border: 1px solid ${isFav ? 'rgba(244,63,94,0.3)' : 'rgba(255,255,255,0.9)'}; color: ${isFav ? '#f43f5e' : '#94a3b8'}; display: flex; align-items: center; justify-content: center; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                <svg class="w-4 h-4" fill="${isFav ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                </svg>
             </button>
 
             <div class="tag" style="background: ${e.tagColor}30; color: ${e.tagText}; border-color: ${e.tagColor};">${e.tag}</div>

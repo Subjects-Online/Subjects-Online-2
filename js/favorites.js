@@ -43,7 +43,7 @@
         if (favItems.length === 0) {
             grid.innerHTML = '';
             grid.classList.add('hidden');
-            toolbar.classList.add('hidden');
+            if (toolbar) toolbar.classList.add('hidden');
             noResults.classList.add('hidden');
             noResults.classList.remove('flex');
             empty.classList.remove('hidden');
@@ -55,7 +55,7 @@
         }
 
         empty.classList.add('hidden');
-        toolbar.classList.remove('hidden');
+        if (toolbar) toolbar.classList.remove('hidden');
         grid.classList.remove('hidden');
 
         // Apply tab filtering
