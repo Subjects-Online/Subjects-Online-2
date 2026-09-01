@@ -48,19 +48,23 @@ function signInWithGoogle() {
 
 /**
  * Signs the current user out, clears local storage, and redirects.
- * @param {string} [redirectTo='index.html']
+ * @param {string} [redirectTo='welcome.html']
  */
-function signOutUser(redirectTo = 'index.html') {
+function signOutUser(redirectTo = 'welcome.html') {
     const auth = initFirebaseAuth();
-    auth.signOut().then(() => {
+    if (auth && auth.currentUser) {
+        auth.signOut().then(() => {
+            clearUserStorage();
+            window.location.href = redirectTo;
+        }).catch(err => {
+            console.error('Sign-out error:', err);
+            clearUserStorage();
+            window.location.href = redirectTo;
+        });
+    } else {
         clearUserStorage();
         window.location.href = redirectTo;
-    }).catch(err => {
-        console.error('Sign-out error:', err);
-        // Force redirect anyway
-        clearUserStorage();
-        window.location.href = redirectTo;
-    });
+    }
 }
 
 // ── Persist Firebase user → localStorage ──────────────────────────────────────
@@ -102,6 +106,18 @@ function clearUserStorage() {
         'subjectsOnlineAvatarImage',
         'subjectsOnlineAvatarTheme',
         'soPlannerTasks',
+        'soFavorites',
+        'soCompletedLectures',
+        'soCompletedQuizzes',
+        'soCompletedSections',
+        'soCompletedSummaries',
+        'soCompletedQA',
+        'soCompletedFinalReview',
+        'so_offline_library',
+        'soPinned',
+        'soUserProfileSettings',
+        'soLandingPage',
+        'so_offline_mode'
     ];
     keys.forEach(k => localStorage.removeItem(k));
 }
