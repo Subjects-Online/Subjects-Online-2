@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // GSAP Stroke Drawing animation for name
     const nameTextEl = document.getElementById('display-name-text');
-    const cursorEl   = document.querySelector('.hero-cursor');
+    const cursorEl = document.querySelector('.hero-cursor');
     if (cursorEl) cursorEl.style.display = 'none';
     if (nameTextEl) {
         setTimeout(() => gsapDrawName(nameTextEl, userName), 400);
@@ -110,7 +110,7 @@ function initDashboardDownloadBtn() {
         style.id = 'dashboard-pwa-download-style';
         style.textContent = `
             #dashboard-pwa-download-btn {
-                position: fixed;
+                position: absolute;
                 top: 22px;
                 right: 22px;
                 z-index: 99;
