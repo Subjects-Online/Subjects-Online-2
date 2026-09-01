@@ -76,11 +76,7 @@
     }
 
     function getItemDownloadName(item) {
-        const titleName = item.title || 'Document';
-        const original = item.originalFileName;
-        if (original && namesMatch(titleName, original)) {
-            return ensurePdfExt(original);
-        }
+        const titleName = item.title || item.originalFileName || 'Document';
         return ensurePdfExt(titleName);
     }
 
@@ -240,6 +236,10 @@
         const folder = folders.find(f => f.id === folderId);
         if (!folder) return;
         const items = getLibraryData().filter(i => i.folderId === folderId);
+        if (!items.length) {
+            showToast(`Folder "${folder.title}" is empty`);
+            return;
+        }
         await downloadItemsAsZip(items, folder.title, folder.title);
     }
 
@@ -603,12 +603,20 @@
 
     // ── Event Binders ──
     function bindCoreDOM() {
+        // Helper to update active highlights across pills and cards
+        const syncActiveTabUI = (tab) => {
+            currentTab = tab;
+            document.querySelectorAll('.lib-tab-pill').forEach(b => {
+                b.classList.toggle('active', b.dataset.tab === tab);
+            });
+            document.getElementById('stat-card-folders')?.classList.toggle('active', tab === 'folders');
+            document.getElementById('stat-card-docs')?.classList.toggle('active', tab === 'pdfs');
+        };
+
         // Tab buttons
         document.querySelectorAll('.lib-tab-pill').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentTab = btn.dataset.tab;
+                syncActiveTabUI(btn.dataset.tab);
                 renderLibrary();
             });
         });
@@ -632,62 +640,25 @@
             });
         }
 
-        // Sort
-        const sortSelect = document.getElementById('sort-select');
-        if (sortSelect) {
-            sortSelect.addEventListener('change', (e) => {
-                sortMethod = e.target.value;
-                renderLibrary();
-            });
-        }
-
-        // View Mode Switcher
-        const viewGridBtn = document.getElementById('view-grid-btn');
-        const viewListBtn = document.getElementById('view-list-btn');
-        if (viewGridBtn && viewListBtn) {
-            viewGridBtn.addEventListener('click', () => {
-                viewMode = 'grid';
-                viewGridBtn.classList.add('active');
-                viewListBtn.classList.remove('active');
-                renderLibrary();
-            });
-            viewListBtn.addEventListener('click', () => {
-                viewMode = 'list';
-                viewListBtn.classList.add('active');
-                viewGridBtn.classList.remove('active');
-                renderLibrary();
-            });
-        }
-
         // Reset Filter button
         const resetBtn = document.getElementById('lib-reset-filter-btn');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
                 searchQuery = '';
-                currentTab = 'all';
                 if (searchInput) searchInput.value = '';
                 if (searchClear) searchClear.style.display = 'none';
-                document.querySelectorAll('.lib-tab-pill').forEach(b => {
-                    b.classList.toggle('active', b.dataset.tab === 'all');
-                });
+                syncActiveTabUI('all');
                 renderLibrary();
             });
         }
 
         // Stat Card Clicks (filter triggers)
         document.getElementById('stat-card-folders')?.addEventListener('click', () => {
-            currentTab = 'folders';
-            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'folders'));
+            syncActiveTabUI('folders');
             renderLibrary();
         });
         document.getElementById('stat-card-docs')?.addEventListener('click', () => {
-            currentTab = 'pdfs';
-            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'pdfs'));
-            renderLibrary();
-        });
-        document.getElementById('stat-card-read')?.addEventListener('click', () => {
-            currentTab = 'read';
-            document.querySelectorAll('.lib-tab-pill').forEach(b => b.classList.toggle('active', b.dataset.tab === 'read'));
+            syncActiveTabUI('pdfs');
             renderLibrary();
         });
         document.getElementById('stat-card-storage')?.addEventListener('click', () => {

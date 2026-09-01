@@ -72,48 +72,96 @@
     <main class="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 page-content">
 
         <!-- Hero Section -->
-        <section class="lib-hero text-left">
+        <section class="lib-hero text-left relative z-10">
             <div class="lib-header-card">
-                <!-- Left: Badge & Title -->
-                <div class="flex flex-col items-start">
-                    <!-- Luxury Pill Badge -->
-                    <div class="lib-luxury-badge mb-3">
-                        <span class="lib-sparkle-dot"></span>
-                        <span>Personal Vault & Study Repository</span>
+                <!-- Background Orbs inside Card -->
+                <div class="card-ambient-orb orb-sky" aria-hidden="true"></div>
+                <div class="card-ambient-orb orb-indigo" aria-hidden="true"></div>
+
+                <div class="lib-card-inner flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10 w-full">
+                    <!-- Left: 3D Master Icon + Badge + Title + Subtitle -->
+                    <div class="flex flex-col sm:flex-row items-center text-center sm:text-left gap-6 flex-1">
+                        <!-- 3D Master Custom Icon -->
+                        <div class="lib-icon-master-box">
+                            <div class="lib-icon-halo-glow" aria-hidden="true"></div>
+                            <div class="lib-icon-glass-circle">
+                                <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="52" height="52" rx="18" fill="url(#lib_icon_grad_bg)"/>
+                                    <g transform="translate(10, 10) scale(1.333)">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke="white" stroke-width="2.2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </g>
+                                    <defs>
+                                        <linearGradient id="lib_icon_grad_bg" x1="0" y1="0" x2="52" y2="52" gradientUnits="userSpaceOnUse">
+                                            <stop stop-color="#0EA5E9"/>
+                                            <stop offset="0.5" stop-color="#3B82F6"/>
+                                            <stop offset="1" stop-color="#6366F1"/>
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Text & Titles -->
+                        <div class="lib-card-text-col">
+                            <!-- Luxury Pill Badge -->
+                            <div class="lib-luxury-badge mb-2.5">
+                                <span class="lib-sparkle-dot"></span>
+                                <span>Personal Vault & Study Repository</span>
+                            </div>
+
+                            <h1 class="lib-header-title">
+                                <span class="word-my mr-3">My</span><span class="word-library">Library</span>
+                            </h1>
+
+                            <p class="lib-header-subtitle">
+                                Explore and manage your saved study materials, lecture summaries, and offline PDFs.
+                            </p>
+                        </div>
                     </div>
 
-                    <h1 class="font-heading font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight">
-                        <span class="lib-title-my mr-3">My</span><span class="lib-title-library">Library</span>
-                    </h1>
-                </div>
+                    <!-- Right: Live Metrics Deck & Filter Pills -->
+                    <div class="flex flex-col gap-3 shrink-0 items-center lg:items-end w-full lg:w-auto" id="lib-stats-deck-wrap">
+                        <!-- Live Metrics Deck -->
+                        <div class="lib-stats-deck" id="lib-stats-deck">
+                            <!-- Stat 1: Folders -->
+                            <div class="lib-stat-card" id="stat-card-folders" data-tab="folders" title="Filter Folders">
+                                <div class="lib-stat-icon-wrap" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">
+                                    📁
+                                </div>
+                                <div class="lib-stat-value" id="stat-folders-count">0</div>
+                                <div class="lib-stat-label">Folders</div>
+                            </div>
 
-                <!-- Right: Live Metrics Deck -->
-                <div class="lib-stats-deck" id="lib-stats-deck">
-                    <!-- Stat 1: Folders -->
-                    <div class="lib-stat-card" id="stat-card-folders" title="Filter Folders">
-                        <div class="lib-stat-icon-wrap" style="background: rgba(14, 165, 233, 0.12); color: #0284c7;">
-                            📁
+                            <!-- Stat 2: Total Documents -->
+                            <div class="lib-stat-card" id="stat-card-docs" data-tab="pdfs" title="Filter PDFs">
+                                <div class="lib-stat-icon-wrap" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">
+                                    📄
+                                </div>
+                                <div class="lib-stat-value" id="stat-docs-count">0</div>
+                                <div class="lib-stat-label">Saved PDFs</div>
+                            </div>
                         </div>
-                        <div class="lib-stat-value" id="stat-folders-count">0</div>
-                        <div class="lib-stat-label">Folders</div>
-                    </div>
 
-                    <!-- Stat 2: Total Documents -->
-                    <div class="lib-stat-card" id="stat-card-docs" title="Filter PDFs">
-                        <div class="lib-stat-icon-wrap" style="background: rgba(99, 102, 241, 0.12); color: #6366f1;">
-                            📄
+                        <!-- Filter Pills: All & Pinned -->
+                        <div class="lib-hero-tabs-strip">
+                            <button class="lib-tab-pill lib-hero-tab active" data-tab="all">
+                                <span>All</span>
+                                <span class="lib-tab-count" id="tab-count-all">0</span>
+                            </button>
+                            <button class="lib-tab-pill lib-hero-tab" data-tab="pinned">
+                                <span>⭐ Pinned</span>
+                                <span class="lib-tab-count" id="tab-count-pinned">0</span>
+                            </button>
                         </div>
-                        <div class="lib-stat-value" id="stat-docs-count">0</div>
-                        <div class="lib-stat-label">Saved PDFs</div>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Folder Header / Breadcrumbs & Top Actions -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6 relative">
             <!-- Left: Breadcrumb / Title -->
-            <div id="lib-breadcrumb-wrap" class="flex items-center gap-2">
+            <div id="lib-breadcrumb-wrap" class="flex items-center gap-2 sm:absolute sm:left-0">
                 <button id="btn-back-folder" class="lib-breadcrumb-btn hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2.5">
@@ -136,8 +184,8 @@
                 </button>
             </div>
 
-            <!-- Right: Action Buttons -->
-            <div class="flex items-center gap-2.5 flex-wrap">
+            <!-- Center: Action Buttons -->
+            <div class="flex items-center justify-center gap-2.5 flex-wrap mx-auto">
                 <button id="btn-new-folder" class="lib-action-btn-primary">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2.5">
@@ -166,74 +214,17 @@
             </div>
         </div>
 
-        <!-- Main Toolbar: Filter Tabs, Search, Sort & View Mode -->
+        <!-- Search-Only Toolbar -->
         <div class="lib-main-toolbar" id="lib-main-toolbar">
-            <!-- Left: Filter Tabs -->
-            <div class="lib-toolbar-left">
-                <div class="lib-tabs-strip" role="tablist">
-                    <button class="lib-tab-pill active" data-tab="all">
-                        <span>All</span>
-                        <span class="lib-tab-count" id="tab-count-all">0</span>
-                    </button>
-                    <button class="lib-tab-pill" data-tab="folders">
-                        <span>Folders</span>
-                        <span class="lib-tab-count" id="tab-count-folders">0</span>
-                    </button>
-                    <button class="lib-tab-pill" data-tab="pdfs">
-                        <span>PDFs</span>
-                        <span class="lib-tab-count" id="tab-count-pdfs">0</span>
-                    </button>
-                    <button class="lib-tab-pill" data-tab="pinned">
-                        <span>⭐ Pinned</span>
-                        <span class="lib-tab-count" id="tab-count-pinned">0</span>
-                    </button>
-                    <button class="lib-tab-pill" data-tab="read">
-                        <span>✅ Read</span>
-                        <span class="lib-tab-count" id="tab-count-read">0</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Right: Search, Sort & View Mode -->
-            <div class="lib-toolbar-right">
-                <!-- Search Box -->
-                <div class="lib-search-box">
-                    <svg class="lib-search-icon-svg w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input type="text" id="search-input" placeholder="Search saved items…" class="lib-search-inp"
-                        autocomplete="off">
-                    <button id="search-clear-btn" class="lib-search-clear-btn">✕</button>
-                </div>
-
-                <!-- Sort Dropdown -->
-                <div class="relative">
-                    <select id="sort-select"
-                        class="lib-sort-select py-2 pl-3 pr-8 text-xs font-semibold rounded-full border border-black/10 dark:border-white/10 bg-white/80 dark:bg-slate-900/80 outline-none">
-                        <option value="newest">Newest First</option>
-                        <option value="oldest">Oldest First</option>
-                        <option value="az">Title (A → Z)</option>
-                        <option value="za">Title (Z → A)</option>
-                        <option value="size">Largest Size</option>
-                    </select>
-                </div>
-
-                <!-- View Mode Switcher -->
-                <div class="lib-view-switch">
-                    <button id="view-grid-btn" class="lib-view-btn active" title="Grid View">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                        </svg>
-                    </button>
-                    <button id="view-list-btn" class="lib-view-btn" title="List View">
-                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+            <div class="lib-search-box">
+                <svg class="lib-search-icon-svg w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input type="text" id="search-input" placeholder="Search saved items…" class="lib-search-inp"
+                    autocomplete="off">
+                <button id="search-clear-btn" class="lib-search-clear-btn">✕</button>
             </div>
         </div>
 
@@ -324,41 +315,38 @@
             </div>
         </div>
 
-        <!-- Floating Bulk Action Dock -->
+        <!-- Floating Ultra-Luxury Top Select Capsule -->
         <div id="bulk-action-bar" class="lib-bulk-dock">
-            <div class="flex items-center gap-3">
-                <span id="selected-count" class="font-bold text-sm text-sky-400">0 Selected</span>
-                <button id="btn-select-all"
-                    class="text-xs font-semibold text-white/70 hover:text-white underline">Select All</button>
+            <!-- Counter & Select All -->
+            <div class="flex items-center gap-2.5">
+                <span id="selected-count" class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 font-extrabold text-xs">0 Selected</span>
+                <button id="btn-select-all" class="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-sky-500 transition-colors">Select All</button>
             </div>
-            <div class="h-4 w-px bg-white/20"></div>
+
+            <!-- Separator -->
+            <div class="w-px h-5 bg-black/10 dark:bg-white/15"></div>
+
+            <!-- Action Buttons -->
             <div class="flex items-center gap-2">
-                <button id="btn-bulk-download" class="lib-dock-btn lib-dock-btn-move" title="Download selected as ZIP">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                <button id="btn-bulk-download" class="lib-dock-btn lib-dock-btn-sky" title="Download selected as ZIP">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                     </svg>
-                    <span>Download</span>
+                    <span>Download ZIP</span>
                 </button>
-                <button id="btn-bulk-read" class="lib-dock-btn lib-dock-btn-move" title="Mark selected as read">
-                    <span>✅ Read</span>
-                </button>
-                <button id="btn-bulk-move" class="lib-dock-btn lib-dock-btn-move">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                <button id="btn-bulk-move" class="lib-dock-btn lib-dock-btn-glass" title="Move selected to folder">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                     </svg>
                     <span>Move</span>
                 </button>
-                <button id="btn-bulk-delete" class="lib-dock-btn lib-dock-btn-delete">
-                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                <button id="btn-bulk-delete" class="lib-dock-btn lib-dock-btn-danger" title="Delete selected items">
+                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                     <span>Delete</span>
                 </button>
-                <button id="btn-cancel-select"
-                    class="text-xs font-semibold text-white/60 hover:text-white ml-1">Cancel</button>
+                <button id="btn-cancel-select" class="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors" title="Close Select Mode">✕</button>
             </div>
         </div>
 
