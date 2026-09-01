@@ -78,7 +78,185 @@ document.addEventListener('DOMContentLoaded', () => {
     initHologramAvatarSequence();
     loadStats(userDept);
     loadPlanner();
+    showSalawatNotification();
+    initDashboardDownloadBtn();
 });
+
+/**
+ * Renders a fixed, standalone PWA Download Icon button on top-right of Dashboard page ONLY
+ */
+function initDashboardDownloadBtn() {
+    // Hide if already running in standalone PWA app mode
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isStandalone || localStorage.getItem('pwa-installed') === 'true') return;
+    if (document.getElementById('dashboard-pwa-download-btn')) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'dashboard-pwa-download-btn';
+    btn.title = 'Download App / تثبيت التطبيق';
+    btn.setAttribute('aria-label', 'Download App');
+    btn.innerHTML = `
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+    `;
+
+    document.body.appendChild(btn);
+
+    if (!document.getElementById('dashboard-pwa-download-style')) {
+        const style = document.createElement('style');
+        style.id = 'dashboard-pwa-download-style';
+        style.textContent = `
+            #dashboard-pwa-download-btn {
+                position: fixed;
+                top: 22px;
+                right: 22px;
+                z-index: 99;
+                width: 44px;
+                height: 44px;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #0ea5e9, #2563eb);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                color: #ffffff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                box-shadow: 0 8px 25px rgba(14, 165, 233, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease;
+                backdrop-filter: blur(10px);
+                user-select: none;
+            }
+            #dashboard-pwa-download-btn:hover {
+                transform: scale(1.1) translateY(-2px);
+                box-shadow: 0 12px 30px rgba(14, 165, 233, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+                background: linear-gradient(135deg, #38bdf8, #1d4ed8);
+            }
+            #dashboard-pwa-download-btn:active {
+                transform: scale(0.95);
+            }
+            #dashboard-pwa-download-btn svg {
+                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+                transition: transform 0.3s ease;
+            }
+            #dashboard-pwa-download-btn:hover svg {
+                transform: translateY(2px);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    btn.addEventListener('click', () => {
+        if (typeof window.triggerPWAInstall === 'function') {
+            window.triggerPWAInstall();
+        }
+    });
+}
+
+/**
+ * Shows an ultra-luxury "صلى على النبي" toast notification on the Dashboard page
+ */
+function showSalawatNotification() {
+    if (document.getElementById('salawat-toast')) return;
+
+    const toast = document.createElement('div');
+    toast.id = 'salawat-toast';
+    toast.className = 'salawat-notification-toast';
+
+    toast.innerHTML = `
+        <div class="salawat-toast-icon">🤍</div>
+        <span class="salawat-toast-text">صَلِّ عَلَى نَبِيِّنَا مُحَمَّدٍ</span>
+        <span class="salawat-toast-sparkle">✨</span>
+        <button class="salawat-toast-close" onclick="this.parentElement.remove()" title="إغلاق">✕</button>
+    `;
+
+    document.body.appendChild(toast);
+
+    if (!document.getElementById('salawat-toast-style')) {
+        const style = document.createElement('style');
+        style.id = 'salawat-toast-style';
+        style.textContent = `
+            .salawat-notification-toast {
+                position: fixed;
+                top: 88px;
+                right: 24px;
+                z-index: 9999;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 18px;
+                border-radius: 9999px;
+                background: rgba(255, 255, 255, 0.92);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+                box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.2), 0 4px 12px rgba(0,0,0,0.04);
+                font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+                direction: rtl;
+                animation: salawatSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+                user-select: none;
+            }
+            .dark .salawat-notification-toast {
+                background: rgba(15, 23, 42, 0.92);
+                border-color: rgba(16, 185, 129, 0.4);
+                box-shadow: 0 10px 30px -5px rgba(16, 185, 129, 0.3), 0 4px 15px rgba(0,0,0,0.4);
+            }
+            @keyframes salawatSlideIn {
+                0% { opacity: 0; transform: translateY(-15px) scale(0.92); }
+                100% { opacity: 1; transform: translateY(0) scale(1); }
+            }
+            .salawat-toast-icon {
+                font-size: 16px;
+                animation: salawatPulse 2s ease-in-out infinite;
+            }
+            @keyframes salawatPulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+            }
+            .salawat-toast-text {
+                font-size: 0.92rem;
+                font-weight: 800;
+                color: #047857;
+                letter-spacing: -0.01em;
+            }
+            .dark .salawat-toast-text {
+                color: #34d399;
+            }
+            .salawat-toast-sparkle {
+                font-size: 14px;
+            }
+            .salawat-toast-close {
+                border: none;
+                background: transparent;
+                color: #94a3b8;
+                font-size: 12px;
+                cursor: pointer;
+                padding: 2px 4px;
+                margin-right: 4px;
+                border-radius: 50%;
+                transition: color 0.2s, background 0.2s;
+                line-height: 1;
+            }
+            .salawat-toast-close:hover {
+                color: #ef4444;
+                background: rgba(239, 68, 68, 0.1);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Auto-remove after 6 seconds
+    setTimeout(() => {
+        if (toast && toast.parentElement) {
+            toast.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-10px)';
+            setTimeout(() => toast.remove(), 400);
+        }
+    }, 6000);
+}
 
 function loadStats(deptText) {
     const deptKey = getDeptKey(deptText);

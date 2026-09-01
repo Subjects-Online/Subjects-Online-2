@@ -111,9 +111,8 @@
     window.matchMedia('(display-mode: standalone)').matches ||
     window.navigator.standalone === true;
 
-  if (!_isStandalone) {
-    setTimeout(showBubbleBtn, 1200);
-  }
+  // Floating bubble auto-show disabled — user requested dedicated Dashboard icon instead
+  // if (!_isStandalone) { setTimeout(showBubbleBtn, 1200); }
 
   function isInstalled() {
     return (
@@ -123,10 +122,25 @@
     );
   }
 
+  // Expose global trigger function for navbar button
+  window.triggerPWAInstall = function () {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(({ outcome }) => {
+        console.log('[PWA] User choice:', outcome);
+        deferredPrompt = null;
+        if (outcome === 'accepted') removeBubbleBtn();
+      });
+    } else {
+      showInstallGuide();
+    }
+  };
+
   // ========================
   // 4. Floating Bubble Button
   // ========================
   function showBubbleBtn() {
+    if (localStorage.getItem('so_pwa_dismissed') === 'true') return;
     if (document.getElementById('pwa-bubble')) return;
 
     // ── Styles ──────────────────────────────
@@ -153,7 +167,6 @@
 
       #pwa-bubble {
         position: fixed;
-        /* sits just below the navbar (~70px) with a nice gap */
         top: 80px;
         right: 20px;
         z-index: 99999;
@@ -169,7 +182,6 @@
         animation: pwa-pop-out 0.4s ease forwards;
       }
 
-      /* the circle button */
       #pwa-bubble-btn {
         width: 58px;
         height: 58px;
@@ -227,7 +239,6 @@
         flex-shrink: 0;
       }
 
-      /* tooltip label */
       #pwa-bubble-label {
         background: linear-gradient(135deg, #0d1b3e, #1a2f6e);
         color: #f0d080;
@@ -242,7 +253,6 @@
         letter-spacing: 0.02em;
       }
 
-      /* dismiss X */
       #pwa-bubble-dismiss {
         width: 20px;
         height: 20px;
@@ -264,9 +274,8 @@
         color: white;
       }
 
-      /* ── Tooltip on hover ── */
       #pwa-bubble-btn::before {
-        content: 'تثبيت التطبيق';
+        content: 'Download App';
         position: absolute;
         right: calc(100% + 12px);
         top: 50%;
@@ -297,7 +306,7 @@
     const bubble = document.createElement('div');
     bubble.id = 'pwa-bubble';
     bubble.innerHTML = `
-      <button id="pwa-bubble-btn" title="تثبيت التطبيق على جهازك">
+      <button id="pwa-bubble-btn" title="Download App">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2
@@ -305,27 +314,18 @@
                M12 15V3"/>
         </svg>
       </button>
-      <div id="pwa-bubble-label">تنزيل التطبيق</div>
-      <button id="pwa-bubble-dismiss" title="إغلاق">✕</button>
+      <div id="pwa-bubble-label">Download Now</div>
+      <button id="pwa-bubble-dismiss" title="Close">✕</button>
     `;
     document.body.appendChild(bubble);
 
     // ── Events ──────────────────────────────
     document.getElementById('pwa-bubble-btn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        // Chrome/Edge Android: use native install prompt
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log('[PWA] User choice:', outcome);
-        deferredPrompt = null;
-        if (outcome === 'accepted') removeBubbleBtn();
-      } else {
-        // Fallback: show manual install guide
-        showInstallGuide();
-      }
+      window.triggerPWAInstall();
     });
 
     document.getElementById('pwa-bubble-dismiss').addEventListener('click', () => {
+      localStorage.setItem('so_pwa_dismissed', 'true');
       removeBubbleBtn();
     });
   }
