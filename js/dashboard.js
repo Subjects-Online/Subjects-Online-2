@@ -110,7 +110,7 @@ function initDashboardDownloadBtn() {
         style.id = 'dashboard-pwa-download-style';
         style.textContent = `
             #dashboard-pwa-download-btn {
-                position: absolute;
+                position: absolute !important;
                 top: 22px;
                 right: 22px;
                 z-index: 99;

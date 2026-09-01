@@ -472,9 +472,7 @@
                         <button class="lib-micro-btn rename-pdf-btn" data-id="${item.id}" title="Rename PDF">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                         </button>
-                        <button class="lib-micro-btn download-pdf-btn" data-id="${item.id}" title="Download PDF">
-                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        </button>
+
                         <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}" title="Move to Folder">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
                         </button>
@@ -494,12 +492,10 @@
             </div>
 
             <div class="mt-auto pt-3 border-t border-black/5 dark:border-white/10 flex items-center justify-between">
-                <span class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md ${isRead ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-sky-500/10 text-sky-600 dark:text-sky-400'}">
-                    ${isRead ? '✓ Completed' : 'Offline Ready'}
-                </span>
-                <a href="player.html?type=${item.type || 'pdf'}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" class="lib-action-btn-primary text-xs py-1.5 px-3.5" onclick="event.stopPropagation()">
-                    Read Now
-                </a>
+                ${isRead ? `<span class="inline-flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">✓ Completed</span>` : '<span></span>'}
+                <button class="lib-action-btn-primary download-pdf-btn text-xs py-1.5 px-3.5" data-id="${item.id}" onclick="event.stopPropagation()">
+                    open
+                </button>
             </div>
         </div>`;
     }
@@ -540,15 +536,14 @@
                 <span class="text-2xl">📄</span>
                 <div class="truncate">
                     <h4 class="font-heading text-sm font-bold truncate" style="color: var(--lib-navy);">${item.title}</h4>
-                    <p class="text-xs" style="color: var(--lib-navy-soft);">${sizeStr} • ${isRead ? 'Completed' : 'Offline'}</p>
+                    <p class="text-xs" style="color: var(--lib-navy-soft);">${sizeStr}${isRead ? ' • Completed' : ''}</p>
                 </div>
             </div>
             <div class="flex items-center gap-2" onclick="event.stopPropagation()">
                 <button class="lib-micro-btn ${isRead ? 'text-emerald-500' : ''} toggle-read-btn" data-id="${item.id}">${isRead ? '✅' : '○'}</button>
                 <button class="lib-micro-btn rename-pdf-btn" data-id="${item.id}" title="Rename PDF">✏️</button>
-                <button class="lib-micro-btn download-pdf-btn" data-id="${item.id}" title="Download PDF">⬇️</button>
                 <button class="lib-micro-btn move-pdf-btn" data-id="${item.id}">📂</button>
-                <a href="player.html?type=${item.type || 'pdf'}&url=${encodeURIComponent(item.url)}&title=${encodeURIComponent(item.title)}" class="lib-action-btn-primary text-xs py-1 px-3">Read</a>
+                <button class="lib-action-btn-primary download-pdf-btn text-xs py-1 px-3" data-id="${item.id}">Download Now</button>
                 <button class="lib-micro-btn danger delete-pdf-btn" data-id="${item.id}" data-url="${item.url}">🗑️</button>
             </div>
         </div>`;

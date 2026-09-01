@@ -279,7 +279,7 @@
             color: #0ea5e9 !important;
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%) !important;
             border-color: rgba(14, 165, 233, 0.3) !important;
-            box-shadow: 
+            box-shadow:
                 0 6px 20px -2px rgba(14, 165, 233, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
@@ -295,7 +295,7 @@
             color: #0ea5e9 !important;
             background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(56, 189, 248, 0.08) 100%) !important;
             border-color: rgba(14, 165, 233, 0.3) !important;
-            box-shadow: 
+            box-shadow:
                 0 6px 20px -2px rgba(14, 165, 233, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
@@ -311,7 +311,7 @@
             color: #6366f1 !important;
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(129, 140, 248, 0.08) 100%) !important;
             border-color: rgba(99, 102, 241, 0.3) !important;
-            box-shadow: 
+            box-shadow:
                 0 6px 20px -2px rgba(99, 102, 241, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
@@ -327,7 +327,7 @@
             color: #d97706 !important;
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.16) 0%, rgba(251, 191, 36, 0.08) 100%) !important;
             border-color: rgba(245, 158, 11, 0.35) !important;
-            box-shadow: 
+            box-shadow:
                 0 6px 20px -2px rgba(245, 158, 11, 0.25),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
@@ -349,7 +349,7 @@
             color: #f43f5e !important;
             background: linear-gradient(135deg, rgba(244, 63, 94, 0.16) 0%, rgba(251, 113, 133, 0.08) 100%) !important;
             border-color: rgba(244, 63, 94, 0.4) !important;
-            box-shadow: 
+            box-shadow:
                 0 6px 22px -2px rgba(244, 63, 94, 0.35),
                 inset 0 1px 0 rgba(255, 255, 255, 0.6);
             transform: translateY(-2px);
@@ -447,10 +447,10 @@
         z-index: 10;
         box-shadow: 0 -20px 40px rgba(15, 23, 42, 0.02);
     " class="shared-footer-mega">
-        
+
         <div style="max-width: 76rem; margin: 0 auto;">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-bottom: 4rem;">
-                
+
                 <!-- Column 1: Brand & About -->
                 <div style="display:flex; flex-direction: column; gap: 1.5rem;">
                     <div style="display:flex;align-items:center;">
@@ -514,8 +514,7 @@
                     &copy; ${new Date().getFullYear()} Subjects Online. All rights reserved.
                 </p>
                 <div style="display:flex; gap: 1.5rem;">
-                    <span style="font-size:0.8rem;color:#94a3b8;" class="mega-lang">Language: <strong>English</strong></span>
-                    <span style="font-size:0.8rem;color:#94a3b8;" class="mega-lang">Designed with <span style="color:#ef4444;font-size:1rem;line-height:0;position:relative;top:2px;">&hearts;</span></span>
+                    <span style="font-size:0.8rem;color:#94a3b8;" class="mega-lang">Developed By Ahmed Tamer</span>
                 </div>
             </div>
         </div>
@@ -699,7 +698,7 @@
             color: #0EA5E9;
             transform: translateX(4px);
         }
-        
+
         /* Dark mode overrides for Mega Footer */
         html.dark-mode .shared-footer-mega {
             background: rgba(10, 15, 25, 0.7) !important;
@@ -733,14 +732,14 @@
             color: #f8fafc !important;
         }
 
-        html.dark-mode p, html.dark-mode span:not(.hero-level-badge):not(.display-dept), 
+        html.dark-mode p, html.dark-mode span:not(.hero-level-badge):not(.display-dept),
         html.dark-mode .browse-subtitle, html.dark-mode .card-desc, html.dark-mode .empty-state {
             color: #94a3b8 !important;
         }
 
         /* Generic Gradients */
         html.dark-mode .browse-hero::before, html.dark-mode .favorites-hero::before, html.dark-mode .essays-hero::before {
-            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(14,165,233,0.05) 0%, transparent 70%), 
+            background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(14,165,233,0.05) 0%, transparent 70%),
                         radial-gradient(ellipse 40% 40% at 80% 100%, rgba(99,102,241,0.05) 0%, transparent 70%) !important;
         }
 
@@ -784,18 +783,18 @@
             border-color: rgba(56,189,248,0.2) !important;
             background: rgba(14,165,233,0.1) !important;
         }
-        
+
         /* Links and accents */
         html.dark-mode .card-title { color: #f8fafc !important; }
         html.dark-mode .material-card:hover .card-title { color: #38bdf8 !important; }
-        html.dark-mode .card-cta { 
-            color: #38bdf8 !important; 
-            border-color: rgba(56,189,248,0.3) !important; 
+        html.dark-mode .card-cta {
+            color: #38bdf8 !important;
+            border-color: rgba(56,189,248,0.3) !important;
         }
         html.dark-mode .material-card:hover .card-cta {
             background: rgba(14,165,233,0.1) !important;
         }
-        
+
         /* Modals and Overlays */
         html.dark-mode .modal-content, html.dark-mode .dropdown-menu {
             background: #0f172a !important;
@@ -803,7 +802,7 @@
         }
         html.dark-mode .modal-header { border-bottom-color: rgba(255,255,255,0.1) !important; }
         html.dark-mode .modal-footer { border-top-color: rgba(255,255,255,0.1) !important; }
-        
+
         /* Scrollbars (Dark Mode) */
         html.dark-mode ::-webkit-scrollbar-track { background: #020617 !important; }
         html.dark-mode ::-webkit-scrollbar-thumb { background: #1e293b !important; }
