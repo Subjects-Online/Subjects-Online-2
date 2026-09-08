@@ -1,5 +1,5 @@
 /* =========================================================
-   subject.js — Spotlight Tab Edition
+   subject.js — Spotlight Tab Edition (Compact Redesign)
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -49,35 +49,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Section Data ─────────────────────────────────────
     const STUDY = [
-        { id:'cc', img:'images/sections/course-content.png', icon:'📖', iconBg:'#dbeafe', accent:'#3b82f6', glow:'rgba(59,130,246,0.35)',
+        { id:'cc', img:'images/sections/course-content.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>`, 
+          iconBg:'#dbeafe', accent:'#3b82f6', glow:'rgba(59,130,246,0.35)',
           title:'Course Content',
-          tag:'Full Explanations',   tagColor:'#1d4ed8', tagBg:'#dbeafe',
-          desc:'شرح الماتريال بالكامل بالتفصيل — مش تلخيص. كل موضوع في كل محاضرة مشروح بأسلوب واضح وسهل تفهمه.' },
+          tag:'Full Explanations', tagColor:'#1d4ed8', tagBg:'#dbeafe',
+          desc:'Comprehensive, in-depth lecture coverage — every module is thoroughly explained with clarity, structured logic, and practical examples.' },
 
-        { id:'qz', img:'images/sections/quizzes.png', icon:'📝', iconBg:'#fce7f3', accent:'#db2777', glow:'rgba(219,39,119,0.3)',
+        { id:'qz', img:'images/sections/quizzes.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>`, 
+          iconBg:'#fce7f3', accent:'#db2777', glow:'rgba(219,39,119,0.3)',
           title:'Quizzes',
           tag:'Step-by-Step Solutions', tagColor:'#9d174d', tagBg:'#fce7f3',
-          desc:'كل كويز بينزل هنحله بالتفصيل خطوة بخطوة — ومش بس الإجابة، هنشرح ليه الإجابة دي صح.' },
+          desc:'Step-by-step quiz walkthroughs and detailed solutions explaining the core reasoning behind every correct answer.' },
 
-        { id:'sc', img:'images/sections/sections.png', icon:'👨‍🏫', iconBg:'#ede9fe', accent:'#8b5cf6', glow:'rgba(139,92,246,0.3)',
+        { id:'sc', img:'images/sections/sections.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>`, 
+          iconBg:'#ede9fe', accent:'#8b5cf6', glow:'rgba(139,92,246,0.3)',
           title:'Sections',
           tag:'Full Section Solutions', tagColor:'#6d28d9', tagBg:'#ede9fe',
-          desc:'حل السكاشن مع شرح كل سؤال — مش بس الحل، هنشرح منطق السؤال وإزاي وصلنا للإجابة.' },
+          desc:'Complete section exercises solved and analyzed in detail to master practical application, formulas, and problem-solving.' },
 
-        { id:'sk', img:'images/sections/summaries.png', icon:'🔑', iconBg:'#dcfce7', accent:'#10b981', glow:'rgba(16,185,129,0.3)',
+        { id:'sk', img:'images/sections/summaries.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"/></svg>`, 
+          iconBg:'#dcfce7', accent:'#10b981', glow:'rgba(16,185,129,0.3)',
           title:'Summaries & Keywords',
           tag:'Keywords & Summaries', tagColor:'#065f46', tagBg:'#dcfce7',
-          desc:'بعد كل شابتر ومحاضرة: Keywords الأهم + ملخص شامل. عشان لما تفتح الويب سايت تلاقي شرح وتلخيص لكل محاضرة.' },
+          desc:'Key terminology breakdowns and concise executive summaries for rapid revision after every single chapter.' },
 
-        { id:'qa', img:'images/sections/qa.png', icon:'❓', iconBg:'#fef3c7', accent:'#f59e0b', glow:'rgba(245,158,11,0.3)',
+        { id:'qa', img:'images/sections/qa.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`, 
+          iconBg:'#fef3c7', accent:'#f59e0b', glow:'rgba(245,158,11,0.3)',
           title:'Questions & Answers',
           tag:'Test Bank + Extra Q', tagColor:'#92400e', tagBg:'#fef3c7',
-          desc:'أسئلة التيست بنك محلولة بالكامل — زيادة عليها أسئلة إضافية للتدريب بتزود فهمك للمادة.' },
+          desc:'Complete test bank solutions supplemented with extra practice questions to solidify your mastery of the material.' },
 
-        { id:'fr', img:'images/sections/final-review.png', icon:'🎯', iconBg:'#fee2e2', accent:'#ef4444', glow:'rgba(239,68,68,0.3)',
+        { id:'fr', img:'images/sections/final-review.png', 
+          icon:`<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>`, 
+          iconBg:'#fee2e2', accent:'#ef4444', glow:'rgba(239,68,68,0.3)',
           title:'Final Review',
           tag:'End-of-Term Revision', tagColor:'#991b1b', tagBg:'#fee2e2',
-          desc:'مراجعة نهائية شاملة لمنهج الترم كامل — جداول مقارنة، نقاط مهمة، ومحتوى مضغوط جاهز للامتحان.' },
+          desc:'Comprehensive end-of-term revision guides, comparative tables, and essential exam prep material formatted for quick reference.' },
     ];
 
     // ── Render Tab Nav ────────────────────────────────────
@@ -101,11 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="sp-left-bg" style="background: linear-gradient(135deg, ${s.accent}, ${s.iconBg});"></div>
                 <img src="${s.img}" alt="${s.title}" class="sp-left-img">
             </div>
+
             <!-- Right content -->
             <div class="sp-right">
-                <!-- Decoration blob -->
-                <div class="sp-corner-deco" style="background:${s.accent};"></div>
-
                 <div class="sp-tag" style="color:${s.tagColor};border-color:${s.iconBg};background:${s.iconBg}80;">
                     ${s.tag}
                 </div>
@@ -115,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <div class="sp-cta-row">
                     <a href="${(s.id === 'cc') ? `chapters.html?id=${subjectId}` : (s.id === 'qz' ? `quizzes.html?id=${subjectId}` : (s.id === 'sc' ? `sections.html?id=${subjectId}` : (s.id === 'sk' ? `summaries.html?id=${subjectId}` : (s.id === 'qa' ? `qa.html?id=${subjectId}` : '#'))))}" class="sp-cta-btn" style="background: linear-gradient(135deg, ${s.accent}, ${darkenHex(s.accent,15)});">
-                        Open Section
+                        <span>Open Section</span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
@@ -176,25 +186,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Entrance Animations ───────────────────────────────
-    gsap.fromTo('.subj-album-cover',
-        { y: 30, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out', delay: 0.05 }
-    );
+    if (typeof gsap !== 'undefined') {
+        gsap.fromTo('.subj-album-cover',
+            { y: 30, opacity: 0, scale: 0.9 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: 'power3.out', delay: 0.05 }
+        );
 
-    gsap.fromTo('.subj-album-info',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15 }
-    );
+        gsap.fromTo('.subj-album-info',
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out', delay: 0.15 }
+        );
 
-    gsap.fromTo('.tab-pill',
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.2 }
-    );
+        gsap.fromTo('.tab-pill',
+            { y: 12, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.2 }
+        );
 
-    gsap.fromTo('.spotlight-wrap',
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', delay: 0.4 }
-    );
+        gsap.fromTo('.spotlight-wrap',
+            { y: 24, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.55, ease: 'power3.out', delay: 0.4 }
+        );
+    }
 });
 
 // ── Helper: darken a hex color by % ──────────────────────
