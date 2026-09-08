@@ -108,19 +108,21 @@ body::before {
    =========================== */
 .site-header {
     position: fixed;
-    top: 0; left: 0; right: 0;
+    top: 0px;
+    left: 0;
+    right: 0;
     z-index: 100;
-    height: 70px;
+    height: 60px !important;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0 clamp(1.25rem, 4vw, 2.5rem);
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03);
-    transition: border-color 0.3s ease;
+    background:  transparent !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.03) !important;
+    transition: border-color 0.3s ease !important;
 }
 
 .site-header.scrolled {
@@ -195,7 +197,7 @@ body::before {
     align-items: flex-start;
 }
 
-.hero-eyebrow {
+/* .hero-eyebrow {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -205,7 +207,7 @@ body::before {
     background: rgba(14, 165, 233, 0.08);
     border: 1px solid rgba(14, 165, 233, 0.2);
     opacity: 0;
-}
+} */
 
 .eyebrow-dot {
     width: 6px; height: 6px;
