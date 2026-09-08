@@ -2142,3 +2142,29 @@ html.dark-mode .hero-name-typed {
         opacity: 0;
     }
 }
+
+/* ═══════════════════════════════════════════════════════
+   FULL VIEWPORT HERO HEADER STYLES
+   ═══════════════════════════════════════════════════════ */
+
+.hero-container {
+    min-height: 100vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+}
+
+@media (max-width: 768px) {
+    .hero-container {
+        min-height: 100vh !important;
+        padding-top: 80px !important;
+        padding-bottom: 40px !important;
+    }
+
+    #display-name {
+        font-size: 2rem !important;
+        line-height: 1.25 !important;
+    }
+}
