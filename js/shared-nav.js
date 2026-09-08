@@ -129,6 +129,34 @@
         </a>
 
 
+        <!-- TOP-LEFT: Circular Profile Avatar Button -->
+        <a id="shared-nav-profile-left" href="profile.html" title="Profile — ${userName}" data-tooltip="Profile Settings" style="
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            z-index: 60;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
+            border: 2px solid rgba(14, 165, 233, 0.35);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.25), 0 4px 12px rgba(0,0,0,0.05);
+            text-decoration: none;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        " onmouseover="this.style.transform='scale(1.12)'; this.style.borderColor='rgba(14,165,233,0.8)'; this.style.boxShadow='0 12px 30px -4px rgba(14,165,233,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(14,165,233,0.35)'; this.style.boxShadow='0 10px 25px -5px rgba(14,165,233,0.25)';">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: ${bgGradient}; color: ${textColor}; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-weight: 800; font-size: 1rem; overflow: hidden; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                ${avatarContent}
+            </div>
+            <span style="position: absolute; bottom: 2px; right: 2px; width: 11px; height: 11px; border-radius: 50%; background: #10b981; border: 2px solid #ffffff; box-shadow: 0 0 8px rgba(16,185,129,0.6);"></span>
+        </a>
+
         <!-- PREMIUM PILL NAVBAR -->
         <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
             position: absolute;
@@ -200,6 +228,15 @@
                     </svg>
                 </div>
                 <span>Favorites</span>
+            </a>
+
+            <div class="pill-sep" aria-hidden="true"></div>
+
+            <a href="profile.html" title="Profile" class="pill-nav-item pill-nav-profile ${currentPage === 'profile.html' ? 'active' : ''}">
+                <div class="profile-avatar-pill" style="width:18px;height:18px;border-radius:50%;background:${bgGradient};color:${textColor};display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;overflow:hidden;border:1px solid rgba(14,165,233,0.3);flex-shrink:0;">
+                    ${avatarContent}
+                </div>
+                <span>Profile</span>
             </a>
         </div>
     </nav>
@@ -370,6 +407,21 @@
             100% { transform: scale(1.15); }
         }
 
+        /* ── 5. PROFILE HOVER (Sky Blue / Indigo Glow) ── */
+        .pill-nav-profile:not(.active):hover {
+            color: #0ea5e9 !important;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.16) 0%, rgba(99, 102, 241, 0.08) 100%) !important;
+            border-color: rgba(14, 165, 233, 0.35) !important;
+            box-shadow:
+                0 6px 20px -2px rgba(14, 165, 233, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            transform: translateY(-2px);
+        }
+        .pill-nav-profile:not(.active):hover .profile-avatar-pill {
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+        }
+
         /* ── ACTIVE ITEM STATE (Luminous Pill) ── */
         .pill-nav-item.active {
             background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 50%, #6366f1 100%) !important;
@@ -387,6 +439,12 @@
         }
 
         /* ── Dark Mode Ultra-Luxury Enhancements ── */
+        html.dark-mode #shared-nav-profile-left {
+            background: rgba(15, 23, 42, 0.88) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+        }
+
         html.dark-mode .custom-landing-pill-nav {
             background: rgba(8, 15, 30, 0.88) !important;
             border-color: rgba(56, 189, 248, 0.22) !important;
