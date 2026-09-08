@@ -8,38 +8,8 @@
 
     <!-- Page Transition Script -->
     <script src="js/page-transition.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        glass: {
-                            100: 'rgba(255, 255, 255, 0.03)',
-                            200: 'rgba(255, 255, 255, 0.05)',
-                            300: 'rgba(255, 255, 255, 0.08)',
-                            border: 'rgba(255, 255, 255, 0.1)',
-                            borderHighlight: 'rgba(255, 255, 255, 0.25)',
-                        },
-                        brand: {
-                            bg: 'var(--color-bg)',
-                            accent: '#0EA5E9', // Sky Blue
-                            cardBg: 'var(--color-card-bg)',
-                            cardBorder: 'var(--color-card-border)',
-                            cardBorderHover: 'var(--color-card-border-hover)',
-                            textPrimary: 'var(--color-text-primary)',
-                            textSecondary: 'var(--color-text-secondary)',
-                            iconBg: 'var(--color-icon-bg)',
-                        },
-                    },
-                    fontFamily: {
-                        heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-                        body: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="css/tailwind-utilities.css">
+    
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -429,7 +399,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
     <!-- Firebase SDK & Sync -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>

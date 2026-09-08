@@ -305,15 +305,11 @@ document.addEventListener('DOMContentLoaded', () => {
     updateSidebarProgress();
 
     // Optional: GSAP Animation for staggered entrance
-    if (typeof gsap !== 'undefined') {
-        gsap.from('.chap-card', {
-            y: 40,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: 'back.out(1.2)'
-        });
-    }
+    
+    // Smooth CSS entrance for cards
+    document.querySelectorAll('.chap-card').forEach((card, i) => {
+        card.style.animation = `soCardFadeIn 0.4s ease-out ${i * 0.04}s forwards`;
+    });
 
     // Progress Tooltip Logic
     const progressWrapper = document.getElementById('progress-ring-wrapper');

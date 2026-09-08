@@ -17,31 +17,7 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
-    // ============================================================
-    // 1. LENIS SMOOTH SCROLL SETUP
-    // ============================================================
-    let lenis;
-    if (typeof Lenis !== 'undefined') {
-        lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Expo ease out
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-        });
 
-        // Sync GSAP ScrollTrigger with Lenis
-        lenis.on('scroll', ScrollTrigger.update);
-
-        gsap.ticker.add((time) => {
-            lenis.raf(time * 1000);
-        });
-
-        gsap.ticker.lagSmoothing(0);
-    }
 
     // ============================================================
     // 2. HERO SECTION ANIMATION (Initial Load)
