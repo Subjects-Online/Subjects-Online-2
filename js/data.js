@@ -9,10 +9,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:تانى محاضرة", type: "pdf", url:"materials/Pdfs/Accounting/First_Term/Chapter_1/Sum. Lect 5 (Eco) (S.O).pdf" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -21,7 +21,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -30,7 +30,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -60,10 +60,10 @@ const MATERIALS = {
               content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -72,7 +72,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -81,16 +81,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -117,10 +117,10 @@ const MATERIALS = {
   content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -129,7 +129,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -138,16 +138,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -174,10 +174,10 @@ const MATERIALS = {
   content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -186,7 +186,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -195,16 +195,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -231,10 +231,10 @@ const MATERIALS = {
               content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -243,7 +243,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -252,16 +252,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -288,10 +288,10 @@ const MATERIALS = {
   content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -300,7 +300,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -309,16 +309,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -345,10 +345,10 @@ const MATERIALS = {
   content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -357,7 +357,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -366,16 +366,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -404,10 +404,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -416,7 +416,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -425,16 +425,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -461,10 +461,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -473,7 +473,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -482,16 +482,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -518,10 +518,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -530,7 +530,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -539,16 +539,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -575,10 +575,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -587,7 +587,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -596,16 +596,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -632,10 +632,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -644,7 +644,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -653,16 +653,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -689,10 +689,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -701,7 +701,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -710,16 +710,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -746,10 +746,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -758,7 +758,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -767,16 +767,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -805,10 +805,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -817,7 +817,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -826,16 +826,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -862,10 +862,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -874,7 +874,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -883,16 +883,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -919,10 +919,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -931,7 +931,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -940,16 +940,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -976,10 +976,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -988,7 +988,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -997,16 +997,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1033,10 +1033,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1045,7 +1045,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1054,16 +1054,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1090,10 +1090,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1102,7 +1102,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1111,16 +1111,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1150,10 +1150,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1162,7 +1162,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1171,16 +1171,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1207,10 +1207,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1219,7 +1219,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1228,16 +1228,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1264,10 +1264,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1276,7 +1276,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1285,16 +1285,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1321,10 +1321,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1333,7 +1333,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1342,16 +1342,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1378,10 +1378,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1390,7 +1390,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1399,16 +1399,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1435,10 +1435,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1447,7 +1447,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1456,16 +1456,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1492,10 +1492,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1504,7 +1504,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1513,16 +1513,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1551,10 +1551,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1563,7 +1563,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1572,16 +1572,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1608,10 +1608,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1620,7 +1620,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1629,16 +1629,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1665,10 +1665,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1677,7 +1677,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1686,16 +1686,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1722,10 +1722,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1734,7 +1734,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1743,16 +1743,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1779,10 +1779,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1791,7 +1791,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1800,16 +1800,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1836,10 +1836,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1848,7 +1848,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1857,16 +1857,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1893,10 +1893,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1905,7 +1905,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1914,16 +1914,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -1952,10 +1952,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -1964,7 +1964,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -1973,16 +1973,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2009,10 +2009,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2021,7 +2021,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2030,16 +2030,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2066,10 +2066,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2078,7 +2078,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2087,16 +2087,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2123,10 +2123,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2135,7 +2135,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2144,16 +2144,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2180,10 +2180,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2192,7 +2192,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2201,16 +2201,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2237,10 +2237,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2249,7 +2249,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2258,16 +2258,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2294,10 +2294,10 @@ const MATERIALS = {
             content: {
                 chapters: [
                     {
-                        num: 1, title: "Unknown", time: "",
+                        num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lec 1:", type: "pdf", url:"" },
-                            { id: 102, title: "Lec 2:", type: "video", url: "" },
+                            { id: 101, title: "", type: "pdf", url:"" },
+                            { id: 102, title: "", type: "video", url: "" },
                         ]
                     },
 
@@ -2306,7 +2306,7 @@ const MATERIALS = {
                     {
                         num: 1, title: "Quizzes - Part 1", time: "",
                         lectures: [
-                            { id: 1001, title: "Quiz 1: ", type: "pdf", url: "" },
+                            { id: 1001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
@@ -2315,16 +2315,16 @@ const MATERIALS = {
                     {
                         num: 1, title: "Section", time: "",
                         lectures: [
-                            { id: 2001, title: "Section 1: ", type: "pdf", url: "" },
+                            { id: 2001, title: "", type: "pdf", url: "" },
 
                         ]
                     },
                 ],
                 summaries: [
                     {
-                        num: 1, title: "Summarie", time: "45m",
+                        num: 1, title: "Summarie", time: "",
                         lectures: [
-                            { id: 3001, title: "Summary: ", type: "pdf", url: "" }
+                            { id: 3001, title: "", type: "pdf", url: "" }
                         ]
                     }
                 ],
@@ -2424,8 +2424,8 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Introduction & Basic Concepts", time: "2h 15m",
             lectures: [
-                { id: 101, title: "Lec 1: Overview", type: "pdf", url: "" },
-                { id: 102, title: "Lec 2: First Principles", type: "pdf", url: "" }
+                { id: 101, title: " Overview", type: "pdf", url: "" },
+                { id: 102, title: " First Principles", type: "pdf", url: "" }
             ]
         },
         {
@@ -2440,7 +2440,7 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Quiz Set 1", time: "2h 15m",
             lectures: [
-                { id: 1001, title: "Quiz 1: Overview", type: "pdf", url: "" },
+                { id: 1001, title: "Overview", type: "pdf", url: "" },
                 { id: 1002, title: "Quiz 2: First Principles", type: "pdf", url: "" }
             ]
         },
@@ -2456,7 +2456,7 @@ const DEFAULT_SECTION_DATA = {
         {
             num: 1, title: "Section Set 1", time: "2h 15m",
             lectures: [
-                { id: 2001, title: "Section 1: Overview", type: "pdf", url: "" },
+                { id: 2001, title: "Overview", type: "pdf", url: "" },
                 { id: 2002, title: "Section 2: First Principles", type: "pdf", url: "" }
             ]
         },
@@ -2479,7 +2479,7 @@ const DEFAULT_SECTION_DATA = {
     ],
     qa: [
         {
-            num: 1, title: "Q&A - Part One", time: "45m",
+            num: 1, title: "Q&A - Part One", time: "",
             lectures: [
                 { id: 4001, title: "Q&A 1: Basics", type: "pdf", url: "" },
                 { id: 4002, title: "Q&A 2: Core Concepts", type: "pdf", url: "" }
