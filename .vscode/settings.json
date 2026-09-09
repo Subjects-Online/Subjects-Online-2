@@ -1,3 +1,6 @@
 {
-  "liveServer.settings.port": 5508
+  "liveServer.settings.port": 5508,
+  "editor.smoothScrolling": true,
+  "workbench.list.smoothScrolling": true,
+  "terminal.integrated.smoothScrolling": true
 }
