@@ -1512,27 +1512,10 @@ html.dark-mode .card-community {
     }
 }
 
-/* ── Analytics Matrix Responsive Layouts & Tinted Pillar Cards ── */
-.analytics-desktop-bars {
+/* ── Analytics Bars Layout ── */
+.analytics-bars-container {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
-}
-
-.analytics-mobile-pillars {
-    display: none;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-}
-
-@media (max-width: 768px) {
-    .analytics-desktop-bars {
-        display: none !important;
-    }
-    .analytics-mobile-pillars {
-        display: grid !important;
-    }
 }
 
 .analytics-pillar-card {

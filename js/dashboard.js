@@ -311,85 +311,53 @@ function loadStats(deptText) {
     }
 
     const statsHTML = `
-        <!-- DESKTOP: Horizontal Progress Bars -->
-        <div class="analytics-desktop-bars">
+        <div class="analytics-bars-container flex flex-col gap-4 sm:gap-6 w-full mt-2">
             <!-- Subjects -->
             <div>
-                <div class="flex justify-between items-end mb-2">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span>Subjects</span>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></span>Subjects
+                    </span>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-slate-400"><span class="text-blue-500 font-extrabold">${openedSubjectsCount}</span>/${totalSubjects}</span>
-                        <span class="text-sm font-black text-brand-textPrimary">${avgSubjectsPct}%</span>
+                        <span class="text-xs sm:text-sm font-bold text-slate-400"><span class="text-blue-500 font-extrabold">${openedSubjectsCount}</span>/${totalSubjects}</span>
+                        <span class="text-xs sm:text-sm font-black text-slate-800 dark:text-slate-100">${avgSubjectsPct}%</span>
                     </div>
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${avgSubjectsPct}%; background: linear-gradient(90deg, #3b82f6, #60a5fa); box-shadow: 0 0 10px rgba(59,130,246,0.5);"></div>
                 </div>
             </div>
+
             <!-- PDFs -->
             <div>
-                <div class="flex justify-between items-end mb-2">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-purple-500"></span>PDFs</span>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-[0_0_8px_#8b5cf6]"></span>PDFs
+                    </span>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-slate-400"><span class="text-purple-500 font-extrabold">${donePDFs}</span>/${totalPDFs}</span>
-                        <span class="text-sm font-black text-brand-textPrimary">${openedPDFsPct}%</span>
+                        <span class="text-xs sm:text-sm font-bold text-slate-400"><span class="text-purple-500 font-extrabold">${donePDFs}</span>/${totalPDFs}</span>
+                        <span class="text-xs sm:text-sm font-black text-slate-800 dark:text-slate-100">${openedPDFsPct}%</span>
                     </div>
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${openedPDFsPct}%; background: linear-gradient(90deg, #8b5cf6, #a78bfa); box-shadow: 0 0 10px rgba(139,92,246,0.5);"></div>
                 </div>
             </div>
+
             <!-- Videos -->
             <div>
-                <div class="flex justify-between items-end mb-2">
-                    <span class="text-xs font-bold uppercase tracking-widest text-brand-textSecondary flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Videos</span>
+                <div class="flex justify-between items-center mb-1.5">
+                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_#f43f5e]"></span>Videos
+                    </span>
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-bold text-slate-400"><span class="text-rose-500 font-extrabold">${doneVideos}</span>/${totalVideos}</span>
-                        <span class="text-sm font-black text-brand-textPrimary">${openedVideosPct}%</span>
+                        <span class="text-xs sm:text-sm font-bold text-slate-400"><span class="text-rose-500 font-extrabold">${doneVideos}</span>/${totalVideos}</span>
+                        <span class="text-xs sm:text-sm font-black text-slate-800 dark:text-slate-100">${openedVideosPct}%</span>
                     </div>
                 </div>
                 <div class="bento-prog-bar-container">
                     <div class="bento-prog-bar-fill" style="width: ${openedVideosPct}%; background: linear-gradient(90deg, #f43f5e, #fb7185); box-shadow: 0 0 10px rgba(244,63,94,0.5);"></div>
                 </div>
-            </div>
-        </div>
-
-        <!-- MOBILE & TABLET: 3 Vertical Side-by-Side Tinted Glass Pillars -->
-        <div class="analytics-mobile-pillars">
-            <!-- Subjects Column -->
-            <div class="analytics-pillar-card pillar-blue">
-                <span class="text-[9px] font-extrabold uppercase tracking-wider text-blue-500 flex items-center gap-1 mb-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>Subjects
-                </span>
-                <span class="text-lg font-black text-brand-textPrimary leading-none mb-1">${avgSubjectsPct}%</span>
-                <div class="analytics-pillar-tube">
-                    <div class="analytics-pillar-fill" style="height: ${Math.max(8, avgSubjectsPct)}%; background: linear-gradient(180deg, #60a5fa, #3b82f6); box-shadow: 0 0 10px rgba(59,130,246,0.7);"></div>
-                </div>
-                <span class="text-[11px] font-bold text-slate-400"><span class="text-blue-500 font-extrabold">${openedSubjectsCount}</span>/${totalSubjects}</span>
-            </div>
-
-            <!-- PDFs Column -->
-            <div class="analytics-pillar-card pillar-purple">
-                <span class="text-[9px] font-extrabold uppercase tracking-wider text-purple-500 flex items-center gap-1 mb-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>PDFs
-                </span>
-                <span class="text-lg font-black text-brand-textPrimary leading-none mb-1">${openedPDFsPct}%</span>
-                <div class="analytics-pillar-tube">
-                    <div class="analytics-pillar-fill" style="height: ${Math.max(8, openedPDFsPct)}%; background: linear-gradient(180deg, #a78bfa, #8b5cf6); box-shadow: 0 0 10px rgba(139,92,246,0.7);"></div>
-                </div>
-                <span class="text-[11px] font-bold text-slate-400"><span class="text-purple-500 font-extrabold">${donePDFs}</span>/${totalPDFs}</span>
-            </div>
-
-            <!-- Videos Column -->
-            <div class="analytics-pillar-card pillar-rose">
-                <span class="text-[9px] font-extrabold uppercase tracking-wider text-rose-500 flex items-center gap-1 mb-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Videos
-                </span>
-                <span class="text-lg font-black text-brand-textPrimary leading-none mb-1">${openedVideosPct}%</span>
-                <div class="analytics-pillar-tube">
-                    <div class="analytics-pillar-fill" style="height: ${Math.max(8, openedVideosPct)}%; background: linear-gradient(180deg, #fb7185, #f43f5e); box-shadow: 0 0 10px rgba(244,63,94,0.7);"></div>
-                </div>
-                <span class="text-[11px] font-bold text-slate-400"><span class="text-rose-500 font-extrabold">${doneVideos}</span>/${totalVideos}</span>
             </div>
         </div>
     `;
