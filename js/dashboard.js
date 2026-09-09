@@ -312,21 +312,6 @@ function loadStats(deptText) {
 
     const statsHTML = `
         <div class="analytics-bars-container flex flex-col gap-4 sm:gap-6 w-full mt-2">
-            <!-- Subjects -->
-            <div>
-                <div class="flex justify-between items-center mb-1.5">
-                    <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></span>Subjects
-                    </span>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs sm:text-sm font-bold text-slate-400"><span class="text-blue-500 font-extrabold">${openedSubjectsCount}</span>/${totalSubjects}</span>
-                        <span class="text-xs sm:text-sm font-black text-slate-800 dark:text-slate-100">${avgSubjectsPct}%</span>
-                    </div>
-                </div>
-                <div class="bento-prog-bar-container">
-                    <div class="bento-prog-bar-fill" style="width: ${avgSubjectsPct}%; background: linear-gradient(90deg, #3b82f6, #60a5fa); box-shadow: 0 0 10px rgba(59,130,246,0.5);"></div>
-                </div>
-            </div>
 
             <!-- PDFs -->
             <div>
