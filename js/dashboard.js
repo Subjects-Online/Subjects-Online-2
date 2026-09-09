@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // GSAP Stroke Drawing animation for name
+    // Direct Display Name Assignment (No external library SVG override)
     const nameTextEl = document.getElementById('display-name-text');
     const cursorEl = document.querySelector('.hero-cursor');
     if (cursorEl) cursorEl.style.display = 'none';
     if (nameTextEl) {
-        setTimeout(() => gsapDrawName(nameTextEl, userName), 400);
+        nameTextEl.textContent = userName;
     }
 
     // Spawn floating particles
@@ -79,81 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadStats(userDept);
     loadPlanner();
     showSalawatNotification();
-    initDashboardDownloadBtn();
 });
-
-/**
- * Renders a fixed, standalone PWA Download Icon button on top-right of Dashboard page ONLY
- */
-function initDashboardDownloadBtn() {
-    // Hide if already running in standalone PWA app mode
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-    if (isStandalone || localStorage.getItem('pwa-installed') === 'true') return;
-    if (document.getElementById('dashboard-pwa-download-btn')) return;
-
-    const btn = document.createElement('button');
-    btn.id = 'dashboard-pwa-download-btn';
-    btn.title = 'Download App / تثبيت التطبيق';
-    btn.setAttribute('aria-label', 'Download App');
-    btn.innerHTML = `
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-    `;
-
-    document.body.appendChild(btn);
-
-    if (!document.getElementById('dashboard-pwa-download-style')) {
-        const style = document.createElement('style');
-        style.id = 'dashboard-pwa-download-style';
-        style.textContent = `
-            #dashboard-pwa-download-btn {
-                position: absolute !important;
-                top: 22px;
-                right: 22px;
-                z-index: 99;
-                width: 44px;
-                height: 44px;
-                border-radius: 14px;
-                background: linear-gradient(135deg, #0ea5e9, #2563eb);
-                border: 1px solid rgba(255, 255, 255, 0.4);
-                color: #ffffff;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                box-shadow: 0 8px 25px rgba(14, 165, 233, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-                transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease;
-                backdrop-filter: blur(10px);
-                user-select: none;
-            }
-            #dashboard-pwa-download-btn:hover {
-                transform: scale(1.1) translateY(-2px);
-                box-shadow: 0 12px 30px rgba(14, 165, 233, 0.55), inset 0 1px 1px rgba(255, 255, 255, 0.6);
-                background: linear-gradient(135deg, #38bdf8, #1d4ed8);
-            }
-            #dashboard-pwa-download-btn:active {
-                transform: scale(0.95);
-            }
-            #dashboard-pwa-download-btn svg {
-                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-                transition: transform 0.3s ease;
-            }
-            #dashboard-pwa-download-btn:hover svg {
-                transform: translateY(2px);
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    btn.addEventListener('click', () => {
-        if (typeof window.triggerPWAInstall === 'function') {
-            window.triggerPWAInstall();
-        }
-    });
-}
 
 /**
  * Shows an ultra-luxury "صلى على النبي" toast notification on the Dashboard page

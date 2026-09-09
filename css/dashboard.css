@@ -2162,9 +2162,83 @@ html.dark-mode .hero-name-typed {
         padding-top: 80px !important;
         padding-bottom: 40px !important;
     }
+}
 
-    #display-name {
-        font-size: 2rem !important;
-        line-height: 1.25 !important;
-    }
+/* ── Waving Hand / Greeting Animation ── */
+@keyframes wave-hand-anim {
+    0% { transform: rotate(0deg); }
+    15% { transform: rotate(18deg); }
+    30% { transform: rotate(-12deg); }
+    45% { transform: rotate(18deg); }
+    60% { transform: rotate(-8deg); }
+    75% { transform: rotate(12deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.wave-hand-animated {
+    display: inline-block;
+    transform-origin: 70% 70%;
+    animation: wave-hand-anim 2.2s infinite ease-in-out;
+}
+
+/* ── ULTRA-LUXURY HERO HEADER DESIGN ── */
+.hero-welcome-label {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #0f172a;
+    transition: all 0.4s ease;
+}
+
+html.dark-mode .hero-welcome-label {
+    color: #f8fafc;
+}
+
+#display-name-text {
+    color: #0ea5e9;
+    font-weight: 900;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+html.dark-mode #display-name-text {
+    color: #38bdf8;
+}
+
+.hero-name-glow {
+    position: relative;
+    display: inline-block;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-name-glow:hover {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 25px rgba(14, 165, 233, 0.4));
+}
+
+.hero-dept-pill {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border: 1.5px solid rgba(14, 165, 233, 0.3);
+    box-shadow: 
+        0 15px 35px -5px rgba(14, 165, 233, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-dept-pill:hover {
+    transform: translateY(-2px) scale(1.03);
+    border-color: rgba(14, 165, 233, 0.6);
+    box-shadow: 
+        0 20px 45px -5px rgba(14, 165, 233, 0.25),
+        0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+html.dark-mode .hero-dept-pill {
+    background: rgba(15, 23, 42, 0.75);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 
+        0 15px 35px -5px rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }

@@ -103,87 +103,28 @@
     const avatarContent = avatarImage
         ? `<img src="${avatarImage}" alt="User Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`
         : initial;
+    const isDashboardPage = (currentPage === 'dashboard.html' || currentPage === '' || currentPage === '/' || currentPage === 'index.html');
 
-    const navHTML = `
-    <nav id="shared-nav" style="
-        position: absolute; top: 0; left: 0; right: 0; z-index: 50;
-        width: 100%;
-        background: transparent;
-        border: none;
-        box-shadow: none;
-        height: 0;
-        overflow: visible;
-    ">
-        <!-- CENTER: Logo -->
-        <a id="shared-nav-logo" href="dashboard.html" style="
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: block;
-            text-decoration: none;
-            z-index: 51;
-            transition: transform 0.3s ease, opacity 0.4s ease;
-        " onmouseover="this.style.transform='translateX(-50%) scale(1.05)'" onmouseout="this.style.transform='translateX(-50%) scale(1)'">
-            <img src="images/robot-logo.png" alt="Subjects Online Logo" style="height:125px;width:auto;object-fit:contain;display:block;filter: drop-shadow(0 4px 15px rgba(14,165,233,0.2));">
-        </a>
+    const dashboardNavHTML = `
+            <a href="#wi-section" title="What's Inside" class="pill-nav-item pill-nav-wi" onclick="const el=document.getElementById('wi-section');if(el){el.scrollIntoView({behavior:'smooth'});return false;}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 01-2-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 01-2-2m0 0V5a2 2 0 01-2-2h6a2 2 0 012 2v2M7 7h10"></path>
+                </svg>
+                <span>What's Inside</span>
+            </a>
 
+            <div class="pill-sep" aria-hidden="true"></div>
 
-        <!-- TOP-LEFT: Circular Profile Avatar Button -->
-        <a id="shared-nav-profile-left" href="profile.html" title="Profile — ${userName}" data-tooltip="Profile Settings" style="
-            position: absolute;
-            top: 22px;
-            left: 22px;
-            z-index: 60;
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(30px) saturate(210%);
-            -webkit-backdrop-filter: blur(30px) saturate(210%);
-            border: 2px solid rgba(14, 165, 233, 0.35);
-            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.25), 0 4px 12px rgba(0,0,0,0.05);
-            text-decoration: none;
-            cursor: pointer;
-            pointer-events: auto;
-            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-        " onmouseover="this.style.transform='scale(1.12)'; this.style.borderColor='rgba(14,165,233,0.8)'; this.style.boxShadow='0 12px 30px -4px rgba(14,165,233,0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(14,165,233,0.35)'; this.style.boxShadow='0 10px 25px -5px rgba(14,165,233,0.25)';">
-            <div style="width: 36px; height: 36px; border-radius: 50%; background: ${bgGradient}; color: ${textColor}; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-weight: 800; font-size: 1rem; overflow: hidden; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
-                ${avatarContent}
-            </div>
-            <span style="position: absolute; bottom: 2px; right: 2px; width: 11px; height: 11px; border-radius: 50%; background: #10b981; border: 2px solid #ffffff; box-shadow: 0 0 8px rgba(16,185,129,0.6);"></span>
-        </a>
+            <a href="#tyg-section" title="Track Your Growth" class="pill-nav-item pill-nav-tyg" onclick="const el=document.getElementById('tyg-section');if(el){el.scrollIntoView({behavior:'smooth'});return false;}">
+                <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+                <span>Track Your Growth</span>
+            </a>
+    `;
 
-        <!-- PREMIUM PILL NAVBAR -->
-        <div id="custom-landing-pill" class="custom-landing-pill-nav" style="
-            position: absolute;
-            top: 22px;
-            right: 22px;
-            z-index: 60;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px;
-            border-radius: 9999px;
-            background: rgba(255, 255, 255, 0.82);
-            backdrop-filter: blur(30px) saturate(210%);
-            -webkit-backdrop-filter: blur(30px) saturate(210%);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow:
-                0 15px 35px -5px rgba(14, 165, 233, 0.18),
-                0 4px 12px rgba(0, 0, 0, 0.04),
-                inset 0 1px 1px rgba(255, 255, 255, 1),
-                inset 0 -1px 2px rgba(0, 0, 0, 0.03);
-            opacity: 0;
-            pointer-events: auto;
-        ">
-            <!-- Glass Shimmer sweep -->
-            <div class="pill-shimmer" aria-hidden="true"></div>
-
-            <a href="dashboard.html" title="Home" class="pill-nav-item pill-nav-home ${currentPage === 'dashboard.html' ? 'active' : ''}">
+    const subpageNavHTML = `
+            <a href="dashboard.html" title="Home" class="pill-nav-item pill-nav-home">
                 <svg width="17" height="17" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                 </svg>
@@ -229,17 +170,86 @@
                 </div>
                 <span>Favorites</span>
             </a>
+    `;
 
-            <div class="pill-sep" aria-hidden="true"></div>
+    const navHTML = `
+    <header id="shared-nav" class="shared-main-navbar" style="
+        position: absolute; top: 0; left: 0; right: 0; z-index: 100;
+        width: 100%;
+        height: 76px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: transparent;
+        pointer-events: none;
+    ">
+        <!-- LEFT SIDE: Brand Logo -->
+        <a id="shared-nav-logo" href="dashboard.html" title="Subjects Online Home" style="
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            pointer-events: auto;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 101;
+        " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+            <img src="images/robot-logo.png" alt="Subjects Online Logo" class="shared-nav-logo-img">
+        </a>
 
-            <a href="profile.html" title="Profile" class="pill-nav-item pill-nav-profile ${currentPage === 'profile.html' ? 'active' : ''}">
-                <div class="profile-avatar-pill" style="width:18px;height:18px;border-radius:50%;background:${bgGradient};color:${textColor};display:inline-flex;align-items:center;justify-content:center;font-size:0.6rem;font-weight:800;overflow:hidden;border:1px solid rgba(14,165,233,0.3);flex-shrink:0;">
-                    ${avatarContent}
-                </div>
-                <span>Profile</span>
-            </a>
-        </div>
-    </nav>
+        <!-- CENTER: Interactive Luxury Navigation Bar -->
+        <nav id="custom-landing-pill" class="custom-landing-pill-nav" style="
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 101;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 8px;
+            border-radius: 9999px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
+            border: 1px solid rgba(14, 165, 233, 0.22);
+            box-shadow:
+                0 15px 35px -5px rgba(14, 165, 233, 0.18),
+                0 4px 12px rgba(0, 0, 0, 0.04),
+                inset 0 1px 1px rgba(255, 255, 255, 1);
+            opacity: 1;
+            pointer-events: auto;
+        ">
+            <!-- Glass Shimmer sweep -->
+            <div class="pill-shimmer" aria-hidden="true"></div>
+
+            ${isDashboardPage ? dashboardNavHTML : subpageNavHTML}
+        </nav>
+
+        ${isDashboardPage ? `
+        <!-- RIGHT SIDE: User Profile Section / Icon -->
+        <a id="shared-nav-profile-right" href="profile.html" title="Profile Settings — ${userName}" style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(30px) saturate(210%);
+            -webkit-backdrop-filter: blur(30px) saturate(210%);
+            border: 1.5px solid rgba(14, 165, 233, 0.35);
+            box-shadow: 0 10px 25px -5px rgba(14, 165, 233, 0.22), 0 4px 12px rgba(0,0,0,0.04);
+            text-decoration: none;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 101;
+        " onmouseover="this.style.transform='scale(1.08)'; this.style.borderColor='rgba(14,165,233,0.8)';" onmouseout="this.style.transform='scale(1)'; this.style.borderColor='rgba(14,165,233,0.35)';">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: ${bgGradient}; color: ${textColor}; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', Inter, sans-serif; font-weight: 800; font-size: 0.9rem; overflow: hidden; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">
+                ${avatarContent}
+            </div>
+        </a>
+        ` : ''}
+    </header>
     <style>
         /* ═══════════════════════════════════════════════════
            ULTRA-LUXURY PILL NAVBAR
@@ -439,7 +449,7 @@
         }
 
         /* ── Dark Mode Ultra-Luxury Enhancements ── */
-        html.dark-mode #shared-nav-profile-left {
+        html.dark-mode #shared-nav-profile-right {
             background: rgba(15, 23, 42, 0.88) !important;
             border-color: rgba(56, 189, 248, 0.35) !important;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
@@ -477,8 +487,36 @@
             box-shadow: 0 8px 25px rgba(14, 165, 233, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
         }
 
-        /* ── Mobile: icon-only ── */
+        /* ── Responsive Shared Nav Logo ── */
+        .shared-nav-logo-img {
+            height: 110px;
+            margin-top: -10px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(14, 165, 233, 0.25));
+            transition: all 0.3s ease;
+        }
+
+        /* ── Mobile: icon-only & responsive logo ── */
+        @media (max-width: 768px) {
+            #shared-nav {
+                padding: 0 16px !important;
+            }
+            .shared-nav-logo-img {
+                height: 88px !important;
+                margin-top: 0 !important;
+            }
+        }
+
         @media (max-width: 640px) {
+            #shared-nav {
+                padding: 0 12px !important;
+            }
+            .shared-nav-logo-img {
+                height: 80px !important;
+                margin-top: 0 !important;
+                margin-left:-5px;
+            }
             .pill-nav-item span { display: none !important; }
             .pill-nav-item { padding: 9px 10px !important; }
             .custom-landing-pill-nav { padding: 4px 5px !important; gap: 1px !important; }
@@ -486,6 +524,13 @@
         }
 
         @media (max-width: 400px) {
+            #shared-nav {
+                padding: 0 8px !important;
+            }
+            .shared-nav-logo-img {
+                height: 38px !important;
+                margin-top: 0 !important;
+            }
             .logo-text-secondary { display: none; }
         }
     </style>
@@ -582,6 +627,30 @@
     // Inject at top of body (skip on community.html)
     if (currentPage !== 'community.html') {
         document.body.insertAdjacentHTML('afterbegin', navHTML);
+    }
+
+    // Scroll spy for Dashboard page navigation pill items
+    if (isDashboardPage) {
+        window.addEventListener('scroll', () => {
+            const wiSec = document.getElementById('wi-section');
+            const tygSec = document.getElementById('tyg-section');
+            const wiItem = document.querySelector('#custom-landing-pill .pill-nav-wi');
+            const tygItem = document.querySelector('#custom-landing-pill .pill-nav-tyg');
+
+            if (!wiItem || !tygItem) return;
+
+            const scrollPos = window.scrollY + 250;
+            const wiTop = wiSec ? wiSec.offsetTop : 999999;
+            const tygTop = tygSec ? tygSec.offsetTop : 999999;
+
+            [wiItem, tygItem].forEach(el => el.classList.remove('active'));
+
+            if (scrollPos >= tygTop) {
+                tygItem.classList.add('active');
+            } else if (scrollPos >= wiTop) {
+                wiItem.classList.add('active');
+            }
+        });
     }
 
     // Inject footer only on dashboard (skip on community.html)
