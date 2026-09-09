@@ -528,7 +528,7 @@
                 padding: 0 8px !important;
             }
             .shared-nav-logo-img {
-                height: 38px !important;
+                height: 8px !important;
                 margin-top: 0 !important;
             }
             .logo-text-secondary { display: none; }
