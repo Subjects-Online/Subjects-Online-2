@@ -11,8 +11,8 @@ const MATERIALS = {
                     {
                         num: 1, title: "", time: "",
                         lectures: [
-                            { id: 101, title: "Lect 3", type: "pdf", url:"materials/Pdfs/Accounting/First_Term/Chapter_1/Sum. Lect 5 (Eco) (S.O).pdf" },
-                            { id: 102, title: "Ch2", type: "video", url: "materials/Videos/Accounting/First Term/Chapter 1/Subjects Online_001_001.mp4" },
+                            { id: 101, title: "Lect 4", type: "pdf", url:"materials/Pdfs/Accounting/First_Term/Chapter_1/Sum. Lect 5 (Eco) (S.O).pdf" },
+                            { id: 102, title: "Ch3", type: "video", url: "materials/Videos/Accounting/First Term/Chapter 1/Subjects Online_001_001.mp4" },
                         ]
                     },
 
