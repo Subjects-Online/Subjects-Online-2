@@ -2225,3 +2225,43 @@ html.dark-mode .hero-dept-pill {
         0 15px 35px -5px rgba(0, 0, 0, 0.5),
         inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
+
+/* =====================================================
+   MOBILE FIX — Analytics Bars
+   Ensures PDF/Video progress bars remain visible on phones
+   without changing the desktop layout or JavaScript.
+   ===================================================== */
+@media (max-width: 768px) {
+    .bento-card-analytics {
+        height: auto !important;
+        min-height: 300px !important;
+    }
+
+    .bento-card-analytics > div {
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    #bento-analytics-bars {
+        display: flex !important;
+        flex-direction: column !important;
+        flex: none !important;
+        width: 100% !important;
+        min-height: 100px !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    #bento-analytics-bars > div {
+        display: block !important;
+        width: 100% !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .bento-prog-bar-container {
+        display: block !important;
+        width: 100% !important;
+        height: 14px !important;
+    }
+}
