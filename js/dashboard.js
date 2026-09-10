@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroAvatar = document.getElementById('hero-avatar');
 
     // Feature 1: Time-based Greeting
-    const greetingText = document.getElementById('greeting-text');
-    if (greetingText) {
-        const hour = new Date().getHours();
-        if (hour >= 5 && hour < 12) greetingText.textContent = "Good Morning";
-        else if (hour >= 12 && hour < 17) greetingText.textContent = "Good Afternoon";
-        else if (hour >= 17 && hour < 22) greetingText.textContent = "Good Evening";
-        else greetingText.textContent = "Late Night Study";
-    }
+    // const greetingText = document.getElementById('greeting-text');
+    // if (greetingText) {
+    //     const hour = new Date().getHours();
+    //     if (hour >= 5 && hour < 12) greetingText.textContent = "Good Morning";
+    //     else if (hour >= 12 && hour < 17) greetingText.textContent = "Good Afternoon";
+    //     else if (hour >= 17 && hour < 22) greetingText.textContent = "Good Evening";
+    //     else greetingText.textContent = "Late Night Study";
+    // }
 
     if (displayDept) displayDept.textContent = userDept;
     if (heroAvatar) {
@@ -47,32 +47,32 @@ document.addEventListener('DOMContentLoaded', () => {
     spawnHeroParticles();
 
     // ── Rotating Motivational Quote ──────────────────────────────────────────
-    const quotes = [
-        "Consistency is the bridge between goals and achievement.",
-        "Knowledge is the only asset that compounds over time.",
-        "Every page you study is a step ahead of yesterday.",
-        "Discipline is choosing what you want most over what you want now.",
-        "The secret of getting ahead is getting started.",
-        "Success is the sum of small efforts, repeated day in and day out.",
-        "You don't rise to the level of your goals — you fall to the level of your systems.",
-        "One hour of focused study beats three hours of distraction."
-    ];
-    const quoteEl = document.getElementById('hero-quote');
-    if (quoteEl) {
-        let quoteIndex = Math.floor(Math.random() * quotes.length);
-        quoteEl.textContent = `"${quotes[quoteIndex]}"`;
+    // const quotes = [
+    //     "Consistency is the bridge between goals and achievement.",
+    //     "Knowledge is the only asset that compounds over time.",
+    //     "Every page you study is a step ahead of yesterday.",
+    //     "Discipline is choosing what you want most over what you want now.",
+    //     "The secret of getting ahead is getting started.",
+    //     "Success is the sum of small efforts, repeated day in and day out.",
+    //     "You don't rise to the level of your goals — you fall to the level of your systems.",
+    //     "One hour of focused study beats three hours of distraction."
+    // ];
+    // const quoteEl = document.getElementById('hero-quote');
+    // if (quoteEl) {
+    //     let quoteIndex = Math.floor(Math.random() * quotes.length);
+    //     quoteEl.textContent = `"${quotes[quoteIndex]}"`;
 
-        setInterval(() => {
-            quoteEl.style.opacity = '0';
-            quoteEl.style.transform = 'translateY(6px)';
-            setTimeout(() => {
-                quoteIndex = (quoteIndex + 1) % quotes.length;
-                quoteEl.textContent = `"${quotes[quoteIndex]}"`;
-                quoteEl.style.opacity = '0.45';
-                quoteEl.style.transform = 'translateY(0)';
-            }, 600);
-        }, 6000);
-    }
+    //     setInterval(() => {
+    //         quoteEl.style.opacity = '0';
+    //         quoteEl.style.transform = 'translateY(6px)';
+    //         setTimeout(() => {
+    //             quoteIndex = (quoteIndex + 1) % quotes.length;
+    //             quoteEl.textContent = `"${quotes[quoteIndex]}"`;
+    //             quoteEl.style.opacity = '0.45';
+    //             quoteEl.style.transform = 'translateY(0)';
+    //         }, 600);
+    //     }, 6000);
+    // }
 
     initAnimations();
     initHologramAvatarSequence();

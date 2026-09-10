@@ -86,7 +86,7 @@ self.addEventListener('fetch', (event) => {
   if (!request.url.startsWith('http')) return;
 
   // External domains that we should not dynamically cache
-  const isExternalToIgnore = 
+  const isExternalToIgnore =
     url.hostname.includes('firebase') ||
     url.hostname.includes('google') ||
     url.hostname.includes('googleapis') ||

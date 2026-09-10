@@ -12,7 +12,7 @@ const MATERIALS = {
                         num: 1, title: "", time: "",
                         lectures: [
                             { id: 101, title: "", type: "pdf", url:"" },
-                            { id: 102, title: "Ch1", type: "video", url: "../materials/Videos/Accounting/First Term/Chapter 1/Subjects Online_001_001.mp4" },
+                            { id: 102, title: "Ch1", type: "video", url: "materials/Videos/Accounting/First Term/Chapter 1/Subjects Online_001_001.mp4" },
                         ]
                     },
 
