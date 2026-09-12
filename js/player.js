@@ -1,19 +1,20 @@
 /* =========================================================
-   player.js — Logic for Custom Media Player
+   player.js — CS50/edX Light Mode Player + Accordion Weeks
+   No Notes. No PDFs. Video only.
    ========================================================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Get URL Parameters
+    // ---------------------------------------------------------
+    // 1. URL Parameters & Storage
+    // ---------------------------------------------------------
     const params = new URLSearchParams(window.location.search);
-    const type = params.get('type');
+    const type = params.get('type') || 'video';
     const url = params.get('url');
-    const title = params.get('title');
-    const nextUrl = params.get('nextUrl');
-    const nextTitle = params.get('nextTitle');
-    const nextType = params.get('nextType');
+    const title = params.get('title') || 'Lecture Video';
     const lecId = params.get('id');
     const subjectId = params.get('subjectId');
     const sec = params.get('sec') || 'chapters';
+
     const storeMap = {
         chapters: 'soCompletedLectures',
         quizzes: 'soCompletedQuizzes',
@@ -24,502 +25,574 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const targetStoreKey = storeMap[sec] || 'soCompletedLectures';
 
-    // UI Elements
-    const titleEl = document.getElementById('player-title');
+    // ---------------------------------------------------------
+    // 2. DOM Elements
+    // ---------------------------------------------------------
     const videoEl = document.getElementById('video-player');
-    const pdfEl = document.getElementById('pdf-player');
     const loadingState = document.getElementById('loading-state');
     const errorState = document.getElementById('error-state');
+    const videoHeadingTitle = document.getElementById('video-heading-title');
+    const videoHeadingSub = document.getElementById('video-heading-sub');
+    const breadcrumbCourse = document.getElementById('breadcrumb-course');
+    const breadcrumbSubject = document.getElementById('breadcrumb-subject');
+    const breadcrumbChapter = document.getElementById('breadcrumb-chapter');
+    const breadcrumbTitle = document.getElementById('breadcrumb-title');
+    const backBtn = document.getElementById('back-nav-btn');
+    const prevLecBtn = document.getElementById('prev-lec-btn');
+    const nextLecBtn = document.getElementById('next-lec-btn');
+    const playlistSidebar = document.getElementById('playlist-sidebar');
+    const toggleSidebarBtn = document.getElementById('toggle-sidebar-btn');
+    const closeSidebarBtn = document.getElementById('close-sidebar-btn');
+    const accordionContainer = document.getElementById('accordion-weeks-container');
+    const playlistStatsEl = document.getElementById('playlist-stats');
+    const playlistProgressFill = document.getElementById('playlist-progress-fill');
+    const playlistCourseTitle = document.getElementById('playlist-course-title');
 
-    // 2. Set Title
-    if (title) {
-        titleEl.textContent = title;
-        document.title = `${title} — Subjects Online`;
-    } else {
-        titleEl.textContent = "Material Player";
+    // ---------------------------------------------------------
+    // 3. Find Subject in MATERIALS
+    // ---------------------------------------------------------
+    let currentSubject = null;
+    if (typeof MATERIALS !== 'undefined' && subjectId) {
+        for (const dept in MATERIALS) {
+            const found = MATERIALS[dept].find(m => m.id === subjectId);
+            if (found) { currentSubject = found; break; }
+        }
     }
 
-    // 3. Setup Focus Mode
+    // Set header text
+    if (title) {
+        if (videoHeadingTitle) videoHeadingTitle.textContent = title;
+        if (breadcrumbTitle) breadcrumbTitle.textContent = title;
+        document.title = `${title} — Subjects Online`;
+    }
+
+    if (currentSubject) {
+        if (breadcrumbSubject) {
+            breadcrumbSubject.textContent = currentSubject.title;
+            breadcrumbSubject.onclick = () => { window.location.href = `chapters.html?id=${subjectId}`; };
+        }
+        if (breadcrumbCourse) {
+            breadcrumbCourse.onclick = () => { window.location.href = 'dashboard.html'; };
+        }
+        if (playlistCourseTitle) {
+            playlistCourseTitle.textContent = currentSubject.title;
+        }
+        if (backBtn) {
+            backBtn.onclick = () => { window.location.href = `chapters.html?id=${subjectId}`; };
+        }
+    }
+
+    // ---------------------------------------------------------
+    // 4. Build Weeks & Video Lectures (NO PDFs!)
+    // ---------------------------------------------------------
+    function getWeeksData() {
+        if (!currentSubject || !currentSubject.content) return [];
+        const content = currentSubject.content;
+        const rawChapters = content[sec] || content.chapters || [];
+
+        return rawChapters.map((ch, idx) => {
+            const weekNum = ch.num !== undefined ? ch.num : (idx + 1);
+            const weekTitle = ch.title && ch.title.trim() ? ch.title.trim() : '';
+
+            // Filter out PDFs — only keep videos
+            const videoLectures = (ch.lectures || []).filter(l => {
+                const isPdf = l.type === 'pdf' || (l.url && l.url.toLowerCase().endsWith('.pdf'));
+                return !isPdf;
+            });
+
+            return {
+                num: weekNum,
+                title: weekTitle,
+                displayName: weekTitle ? `Week ${weekNum} – ${weekTitle}` : `Week ${weekNum}`,
+                lectures: videoLectures
+            };
+        });
+    }
+
+    function getAllCourseVideos() {
+        const weeks = getWeeksData();
+        const videos = [];
+        weeks.forEach(w => {
+            w.lectures.forEach(lec => {
+                videos.push({ ...lec, weekNum: w.num, weekDisplayName: w.displayName });
+            });
+        });
+        return videos;
+    }
+
+    // ---------------------------------------------------------
+    // 5. Previous & Next Navigation
+    // ---------------------------------------------------------
+    const allVideos = getAllCourseVideos();
+    const currentIndex = allVideos.findIndex(v => String(v.id) === String(lecId) || v.url === url);
+    const prevLec = currentIndex > 0 ? allVideos[currentIndex - 1] : null;
+    const nextLec = currentIndex >= 0 && currentIndex < allVideos.length - 1 ? allVideos[currentIndex + 1] : null;
+
+    // Update subtitle & breadcrumb
+    if (currentIndex !== -1) {
+        const item = allVideos[currentIndex];
+        if (breadcrumbChapter) breadcrumbChapter.textContent = `Week ${item.weekNum}`;
+        if (videoHeadingSub) {
+            videoHeadingSub.textContent = `${item.weekDisplayName} • ${currentSubject ? currentSubject.title : 'Course'}`;
+        }
+    }
+
+    if (prevLecBtn) {
+        prevLecBtn.disabled = !prevLec;
+        if (prevLec) prevLecBtn.onclick = () => navigateToLecture(prevLec.id, prevLec.title, 'video', prevLec.url);
+    }
+    if (nextLecBtn) {
+        nextLecBtn.disabled = !nextLec;
+        if (nextLec) nextLecBtn.onclick = () => navigateToLecture(nextLec.id, nextLec.title, 'video', nextLec.url);
+    }
+
+    // ---------------------------------------------------------
+    // 6. Sidebar Toggle
+    // ---------------------------------------------------------
+    function toggleSidebar() {
+        if (!playlistSidebar) return;
+        playlistSidebar.classList.toggle('hidden');
+        const hidden = playlistSidebar.classList.contains('hidden');
+        localStorage.setItem('so_syllabus_hidden', hidden ? '1' : '0');
+        if (toggleSidebarBtn) toggleSidebarBtn.title = hidden ? 'Show Sidebar' : 'Hide Sidebar';
+    }
+
+    if (toggleSidebarBtn) toggleSidebarBtn.addEventListener('click', toggleSidebar);
+    if (closeSidebarBtn) closeSidebarBtn.addEventListener('click', toggleSidebar);
+
+    // Restore preference
+    if (localStorage.getItem('so_syllabus_hidden') === '1' && playlistSidebar) {
+        playlistSidebar.classList.add('hidden');
+    }
+
+    // ---------------------------------------------------------
+    // 7. Focus Mode
+    // ---------------------------------------------------------
     const focusBtn = document.getElementById('focus-btn');
+    const focusBtnText = document.getElementById('focus-btn-text');
     if (focusBtn) {
         focusBtn.addEventListener('click', () => {
             document.body.classList.toggle('focus-mode');
-            if (document.body.classList.contains('focus-mode')) {
-                focusBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                    </svg> Exit Focus Mode`;
-                focusBtn.classList.add('text-blue-400');
+            const on = document.body.classList.contains('focus-mode');
+            if (focusBtnText) focusBtnText.textContent = on ? 'Exit' : 'Focus';
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape' && document.body.classList.contains('focus-mode')) focusBtn.click();
+        });
+    }
+
+    // ---------------------------------------------------------
+    // 8. Download (D Key)
+    // ---------------------------------------------------------
+    function downloadCurrentMedia() {
+        if (!url) return;
+        let fileName = title || 'Lecture';
+        if (!fileName.toLowerCase().endsWith('.mp4')) fileName += '.mp4';
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.target = '_blank';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        const dlBtn = document.querySelector('.btn-plyr-download');
+        if (dlBtn) {
+            const tip = dlBtn.querySelector('.custom-tooltip');
+            if (tip) { const old = tip.textContent; tip.textContent = 'Downloading... ✓'; setTimeout(() => { tip.textContent = old; }, 2000); }
+        }
+    }
+
+    document.addEventListener('keydown', e => {
+        const tag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+        if (tag === 'input' || tag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) return;
+        if (e.key === 'd' || e.key === 'D') { e.preventDefault(); downloadCurrentMedia(); }
+        else if (e.key === '?') { e.preventDefault(); toggleShortcutsModal(); }
+    });
+
+    // ---------------------------------------------------------
+    // 9. Shortcuts Modal
+    // ---------------------------------------------------------
+    const shortcutsBtn = document.getElementById('shortcuts-btn');
+    const shortcutsModal = document.getElementById('shortcuts-modal');
+    const closeShortcutsBtn = document.getElementById('close-shortcuts-btn');
+    const gotItShortcutsBtn = document.getElementById('got-it-shortcuts-btn');
+
+    function toggleShortcutsModal() {
+        if (shortcutsModal) shortcutsModal.classList.toggle('hidden');
+    }
+
+    if (shortcutsBtn) shortcutsBtn.addEventListener('click', toggleShortcutsModal);
+    if (closeShortcutsBtn) closeShortcutsBtn.addEventListener('click', toggleShortcutsModal);
+    if (gotItShortcutsBtn) gotItShortcutsBtn.addEventListener('click', toggleShortcutsModal);
+    if (shortcutsModal) shortcutsModal.addEventListener('click', e => { if (e.target === shortcutsModal) toggleShortcutsModal(); });
+
+    // ---------------------------------------------------------
+    // 10. Initialize Plyr Video Player
+    // ---------------------------------------------------------
+    if (!url) { showError(); return; }
+
+    const isMobile = window.innerWidth < 640;
+    const controlsList = isMobile
+        ? ['play-large', 'play', 'progress', 'current-time', 'fullscreen']
+        : ['play-large', 'play', 'rewind', 'fast-forward', 'progress', 'current-time', 'duration', 'mute', 'volume', 'settings', 'pip', 'fullscreen'];
+
+    const player = new Plyr(videoEl, {
+        controls: controlsList,
+        settings: ['captions', 'quality', 'speed', 'loop'],
+        quality: { default: 1080, options: [1080, 720, 480] },
+        speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2] },
+        keyboard: { focused: true, global: true },
+        tooltips: { controls: true, seek: true }
+    });
+
+    player.source = {
+        type: 'video',
+        title: title,
+        sources: [
+            { src: url, type: 'video/mp4', size: 1080 },
+            { src: url, type: 'video/mp4', size: 720 },
+            { src: url, type: 'video/mp4', size: 480 }
+        ]
+    };
+
+    const storageKey = `so_vid_progress_${encodeURIComponent(url)}`;
+
+    player.on('ready', () => {
+        hideLoading();
+        injectCustomControls(player);
+        setupDoubleTapSeek(player);
+        renderAccordionWeeks();
+
+        const saved = localStorage.getItem(storageKey);
+        if (saved && !isNaN(saved)) player.currentTime = parseFloat(saved);
+    });
+
+    player.on('timeupdate', () => {
+        if (player.currentTime > 5 && !player.ended) localStorage.setItem(storageKey, player.currentTime);
+        handleABLoop(player);
+    });
+
+    player.on('ended', () => {
+        localStorage.removeItem(storageKey);
+
+        // Mark done
+        if (lecId && subjectId) {
+            const store = JSON.parse(localStorage.getItem(targetStoreKey) || '{}');
+            store[subjectId + '_' + lecId] = true;
+            localStorage.setItem(targetStoreKey, JSON.stringify(store));
+            renderAccordionWeeks();
+        }
+
+        // Auto-next
+        if (nextLec) {
+            const overlay = document.getElementById('auto-next-overlay');
+            const nextTitleEl = document.getElementById('next-lec-title');
+            if (nextTitleEl) nextTitleEl.textContent = nextLec.title;
+            if (overlay) overlay.classList.remove('hidden');
+
+            let countdown = 5;
+            const timerText = document.getElementById('next-timer-text');
+            const timerCircle = document.getElementById('next-timer-circle');
+            if (timerText) timerText.textContent = countdown;
+            if (timerCircle) timerCircle.style.strokeDashoffset = 0;
+
+            const timer = setInterval(() => {
+                countdown--;
+                if (countdown >= 0) {
+                    if (timerText) timerText.textContent = countdown;
+                    if (timerCircle) timerCircle.style.strokeDashoffset = 213 - ((5 - countdown) / 5) * 213;
+                }
+                if (countdown <= 0) {
+                    clearInterval(timer);
+                    navigateToLecture(nextLec.id, nextLec.title, 'video', nextLec.url);
+                }
+            }, 1000);
+
+            const cancelBtn = document.getElementById('cancel-next-btn');
+            if (cancelBtn) cancelBtn.onclick = () => { clearInterval(timer); overlay.classList.add('hidden'); };
+
+            const playNowBtn = document.getElementById('play-next-btn');
+            if (playNowBtn) playNowBtn.onclick = () => { clearInterval(timer); navigateToLecture(nextLec.id, nextLec.title, 'video', nextLec.url); };
+        }
+    });
+
+    player.on('error', showError);
+    videoEl.addEventListener('canplay', hideLoading);
+    videoEl.addEventListener('error', showError);
+
+    // ---------------------------------------------------------
+    // 11. Custom Plyr Controls (A-B Loop, Speed, Boost, Download)
+    // ---------------------------------------------------------
+    function injectCustomControls(player) {
+        const controls = player.elements ? player.elements.controls : document.querySelector('.plyr__controls');
+        if (!controls || controls.querySelector('.btn-plyr-ab')) return;
+
+        const abBtn = makeBtn('btn-plyr-ab',
+            `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg><span class="custom-tooltip" id="ab-loop-tooltip">A-B Loop</span>`
+        );
+
+        const speedBtn = makeBtn('btn-plyr-speed',
+            `<span id="plyr-speed-label" style="font-weight:900;font-family:ui-monospace,monospace;font-size:0.68rem;color:#0284c7;background:#e0f2fe;padding:2px 6px;border-radius:4px;border:1px solid rgba(2,132,199,0.15);">1x</span>
+            <span class="custom-tooltip">Speed</span>`
+        );
+
+        const boostBtn = makeBtn('btn-plyr-boost',
+            `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+            </svg><span id="plyr-boost-badge" style="margin-left:2px;font-size:0.56rem;font-weight:800;color:#94a3b8;">100%</span>
+            <span class="custom-tooltip" id="plyr-boost-tooltip">Audio Boost</span>`
+        );
+
+        const dlBtn = makeBtn('btn-plyr-download',
+            `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" style="color:#0284c7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg><span style="margin-left:3px;padding:1px 5px;font-size:0.56rem;font-weight:700;font-family:ui-monospace,monospace;background:#e0f2fe;color:#0284c7;border-radius:3px;border:1px solid rgba(2,132,199,0.15);">D</span>
+            <span class="custom-tooltip">Download (D)</span>`
+        );
+
+        const target = controls.querySelector('[data-plyr="settings"]') || controls.querySelector('[data-plyr="fullscreen"]');
+        [abBtn, speedBtn, boostBtn, dlBtn].forEach(b => {
+            if (target) controls.insertBefore(b, target);
+            else controls.appendChild(b);
+        });
+
+        setupABLoop(player, abBtn);
+        setupSpeedCycle(player, speedBtn);
+        setupAudioBoost(videoEl, boostBtn);
+        dlBtn.addEventListener('click', downloadCurrentMedia);
+    }
+
+    function makeBtn(cls, html) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = `plyr__control custom-plyr-btn ${cls}`;
+        b.innerHTML = html;
+        return b;
+    }
+
+    // ---------------------------------------------------------
+    // 12. A-B Loop
+    // ---------------------------------------------------------
+    let loopA = null, loopB = null, isLooping = false;
+
+    function setupABLoop(player, btn) {
+        const tip = btn.querySelector('.custom-tooltip');
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            if (loopA === null) {
+                loopA = player.currentTime;
+                btn.classList.add('active');
+                if (tip) tip.textContent = `A: ${fmt(loopA)} → Click B`;
+            } else if (loopB === null) {
+                loopB = player.currentTime <= loopA ? loopA + 5 : player.currentTime;
+                isLooping = true;
+                if (tip) tip.textContent = `Loop [${fmt(loopA)}–${fmt(loopB)}] Click ✕`;
             } else {
-                focusBtn.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg> Focus Mode`;
-                focusBtn.classList.remove('text-blue-400');
-            }
-        });
-
-        // Also allow exiting Focus Mode with Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && document.body.classList.contains('focus-mode')) {
-                focusBtn.click(); // Trigger the click to handle the UI swap correctly
+                loopA = loopB = null; isLooping = false;
+                btn.classList.remove('active');
+                if (tip) tip.textContent = 'A-B Loop';
             }
         });
     }
 
-    // 4. Set Subject Color
-    document.documentElement.style.setProperty('--subject-accent', '#3b82f6');
-
-    // Global Player Reference for notes
-    let globalPlayer = null;
-
-    // 5. Initialize Player based on type
-    if (!url || !type) {
-        showError();
-        return;
-    }
-
-    if (type === 'video') {
-        // Initialize Video Player
-        videoEl.classList.remove('hidden');
-
-        // Determine which controls to show based on screen size
-        const isMobile = window.innerWidth < 640;
-        const playerControls = isMobile
-            ? ['play-large', 'play', 'progress', 'current-time', 'settings', 'fullscreen']
-            : [
-                'play-large', 'restart', 'rewind', 'play', 'fast-forward',
-                'progress', 'current-time', 'duration',
-                'mute', 'volume', 'captions', 'settings',
-                'pip', 'airplay', 'download', 'fullscreen'
-            ];
-
-        // Custom Controls & Settings for Plyr
-        const player = new Plyr(videoEl, {
-            controls: playerControls,
-            settings: ['captions', 'quality', 'speed', 'loop'],
-            quality: { default: 1080, options: [1080, 720, 480] },
-            speed: { selected: 1, options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 4] },
-            keyboard: { focused: true, global: true },
-            tooltips: { controls: true, seek: true }
-        });
-
-        // Manually set sources with different sizes to trigger the Quality switcher UI
-        // In a real app, these would be different URLs (e.g., vid-1080.mp4, vid-720.mp4)
-        player.source = {
-            type: 'video',
-            title: title || 'Lecture Video',
-            sources: [
-                { src: url, type: 'video/mp4', size: 1080 },
-                { src: url, type: 'video/mp4', size: 720 },
-                { src: url, type: 'video/mp4', size: 480 }
-            ]
-        };
-
-        const sidebar = document.getElementById('notes-sidebar');
-        if (sidebar) {
-            sidebar.classList.remove('hidden');
-            sidebar.classList.add('flex');
+    function handleABLoop(player) {
+        if (isLooping && loopA !== null && loopB !== null) {
+            if (player.currentTime >= loopB || player.currentTime < loopA) player.currentTime = loopA;
         }
+    }
 
-        // Unique key for tracking this specific video's progress
-        const storageKey = `so_vid_progress_${encodeURIComponent(url)}`;
-
-        player.on('ready', () => {
-            globalPlayer = player;
-            hideLoading();
-            loadNotes();
-
-            // Resume from last saved time
-            const savedTime = localStorage.getItem(storageKey);
-            if (savedTime && !isNaN(savedTime)) {
-                player.currentTime = parseFloat(savedTime);
-                console.log(`Resumed from ${Math.floor(savedTime / 60)}m ${Math.floor(savedTime % 60)}s`);
-            }
+    // ---------------------------------------------------------
+    // 13. Speed Cycle
+    // ---------------------------------------------------------
+    function setupSpeedCycle(player, btn) {
+        const speeds = [1, 1.25, 1.5, 1.75, 2];
+        const label = btn.querySelector('#plyr-speed-label');
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            const next = speeds[(speeds.indexOf(player.speed || 1) + 1) % speeds.length];
+            player.speed = next;
+            if (label) label.textContent = `${next}x`;
         });
+        player.on('ratechange', () => { if (label) label.textContent = `${player.speed}x`; });
+    }
 
-        // Save progress every few seconds (using timeupdate event)
-        player.on('timeupdate', () => {
-            if (player.currentTime > 5 && !player.ended) {
-                localStorage.setItem(storageKey, player.currentTime);
-            }
+    // ---------------------------------------------------------
+    // 14. Audio Boost
+    // ---------------------------------------------------------
+    let audioCtx = null, gainNode = null, boostLevel = 1.0;
+
+    function setupAudioBoost(video, btn) {
+        const badge = btn.querySelector('#plyr-boost-badge');
+        const tip = btn.querySelector('#plyr-boost-tooltip');
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            try {
+                if (!audioCtx) {
+                    const AC = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AC();
+                    const src = audioCtx.createMediaElementSource(video);
+                    gainNode = audioCtx.createGain();
+                    src.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                boostLevel = boostLevel === 1.0 ? 1.5 : boostLevel === 1.5 ? 2.0 : 1.0;
+                gainNode.gain.value = boostLevel;
+                const pct = `${Math.round(boostLevel * 100)}%`;
+                if (badge) badge.textContent = pct;
+                if (tip) tip.textContent = `Boost: ${pct}`;
+                btn.classList.toggle('active', boostLevel > 1.0);
+            } catch (err) { console.warn('Audio boost error:', err); }
         });
+    }
 
-        let autoNextTimer = null;
-        const nextTimerCircle = document.getElementById('next-timer-circle');
-
-        // Auto Next Logic
-        player.on('ended', () => {
-            localStorage.removeItem(storageKey);
-
-            // Mark lecture as fully completed
-            if (lecId && subjectId) {
-                const key = subjectId + '_' + lecId;
-                const completedStore = JSON.parse(localStorage.getItem(targetStoreKey) || '{}');
-                completedStore[key] = true;
-                localStorage.setItem(targetStoreKey, JSON.stringify(completedStore));
-            }
-
-            if (nextUrl) {
-                const overlay = document.getElementById('auto-next-overlay');
-                document.getElementById('next-lec-title').textContent = nextTitle || "Next Lecture";
-                overlay.classList.remove('hidden');
-
-                // Show notes if hidden, or focus mode disable
-                document.body.classList.remove('focus-mode');
-
-                let countdown = 5;
-                document.getElementById('next-timer-text').textContent = countdown;
-                if (nextTimerCircle) nextTimerCircle.style.strokeDashoffset = 0;
-
-                autoNextTimer = setInterval(() => {
-                    countdown--;
-
-                    if (countdown >= 0) {
-                        document.getElementById('next-timer-text').textContent = countdown;
-                        if (nextTimerCircle) {
-                            // Calculate stroke offset (283 is full circle circumference)
-                            const offset = 283 - ((5 - countdown) / 5) * 283;
-                            nextTimerCircle.style.strokeDashoffset = offset;
-                        }
-                    }
-
-                    if (countdown <= 0) {
-                        clearInterval(autoNextTimer);
-                        window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}&sec=${sec}&subjectId=${subjectId || ''}`;
-                    }
-                }, 1000);
-
-                document.getElementById('cancel-next-btn').onclick = () => {
-                    clearInterval(autoNextTimer);
-                    overlay.classList.add('hidden');
-                };
-
-                document.getElementById('play-next-btn').onclick = () => {
-                    clearInterval(autoNextTimer);
-                    window.location.href = `player.html?type=${nextType}&url=${encodeURIComponent(nextUrl)}&title=${encodeURIComponent(nextTitle)}&sec=${sec}&subjectId=${subjectId || ''}`;
-                };
-            }
-        });
-
-        player.on('error', () => {
-            showError();
-        });
-
-        // Fallback if ready event doesn't fire fast enough
-        videoEl.addEventListener('canplay', hideLoading);
-        videoEl.addEventListener('error', showError);
-
-    } else if (type === 'pdf') {
-        // Initialize PDF Viewer (Iframe)
-        pdfEl.classList.remove('hidden');
-
-        // Make PDF wrapper taller for better reading experience
+    // ---------------------------------------------------------
+    // 15. Double-Tap Seek
+    // ---------------------------------------------------------
+    function setupDoubleTapSeek(player) {
         const wrapper = document.getElementById('player-wrapper');
-        if (wrapper) {
-            // Remove video-specific height constraints
-            wrapper.classList.remove('h-[40vh]', 'min-h-[250px]', 'lg:max-h-[85vh]', 'lg:h-full');
-            // Give it a much taller height for PDF reading
-            wrapper.classList.add('h-[90vh]', 'min-h-[800px]', 'lg:h-[1200px]');
-        }
+        const rLeft = document.getElementById('seek-ripple-left');
+        const rRight = document.getElementById('seek-ripple-right');
+        if (!wrapper) return;
 
-        // Setup PDF Actions (Download & Library)
-        const pdfActions = document.getElementById('pdf-actions');
-        if (pdfActions) {
-            pdfActions.classList.remove('hidden');
-            pdfActions.classList.add('flex');
-        }
+        wrapper.addEventListener('dblclick', e => {
+            if (e.target.closest('.plyr__controls') || e.target.closest('.plyr__menu')) return;
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
 
-        // Setup PDF Toolbar & Fullscreen
-        const pdfToolbar = document.getElementById('pdf-toolbar');
-        const pdfDocTitle = document.getElementById('pdf-doc-title');
-        if (pdfToolbar) {
-            pdfToolbar.classList.remove('hidden');
-            if (pdfDocTitle) pdfDocTitle.textContent = title;
-
-            const fsBtn = document.getElementById('pdf-fullscreen-btn');
-            const fsIcon = document.getElementById('fs-icon');
-            const fsText = document.getElementById('fs-text');
-
-            if (fsBtn) {
-                fsBtn.addEventListener('click', () => {
-                    const elem = document.getElementById('player-wrapper');
-                    if (!document.fullscreenElement) {
-                        if (elem.requestFullscreen) elem.requestFullscreen();
-                        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
-                        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
-                    } else {
-                        if (document.exitFullscreen) document.exitFullscreen();
-                        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-                        else if (document.msExitFullscreen) document.msExitFullscreen();
-                    }
-                });
-
-                document.addEventListener('fullscreenchange', () => {
-                    if (document.fullscreenElement) {
-                        fsText.textContent = 'Exit Fullscreen';
-                        fsIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />`;
-                    } else {
-                        fsText.textContent = 'Fullscreen';
-                        fsIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />`;
-                    }
-                });
+            if (x < rect.width * 0.45) {
+                player.currentTime = Math.max(0, player.currentTime - 10);
+                flash(rLeft);
+            } else if (x > rect.width * 0.55) {
+                player.currentTime = Math.min(player.duration, player.currentTime + 10);
+                flash(rRight);
             }
-        }
-        // Download Logic
-        const downloadBtn = document.getElementById('download-btn');
-        if (downloadBtn) {
-            downloadBtn.addEventListener('click', async () => {
-                let fileName = title || 'Document.pdf';
-                try {
-                    const lib = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-                    const item = lib.find(i => i.url === url);
-                    const strip = (n) => String(n || '').replace(/\.pdf$/i, '').trim();
-                    const ensure = (n) => {
-                        const c = String(n || 'Document').replace(/[<>:"/\\|?*\u0000-\u001f]/g, ' ').trim() || 'Document';
-                        return /\.pdf$/i.test(c) ? c : c + '.pdf';
-                    };
-                    if (item) {
-                        if (item.originalFileName && strip(item.title).toLowerCase() === strip(item.originalFileName).toLowerCase()) {
-                            fileName = ensure(item.originalFileName);
-                        } else {
-                            fileName = ensure(item.title || fileName);
-                        }
-                    } else if (!/\.pdf$/i.test(fileName)) {
-                        fileName += '.pdf';
-                    }
-                } catch (e) {}
-
-                try {
-                    let blob = null;
-                    try {
-                        const cache = await caches.open('offline-materials');
-                        const cached = await cache.match(url);
-                        if (cached) blob = await cached.blob();
-                    } catch (e) {}
-                    if (!blob) {
-                        const res = await fetch(url);
-                        if (!res.ok) throw new Error('fetch failed');
-                        blob = await res.blob();
-                    }
-                    const a = document.createElement('a');
-                    const href = URL.createObjectURL(blob);
-                    a.href = href;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    setTimeout(() => URL.revokeObjectURL(href), 2500);
-                } catch (err) {
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                }
-            });
-        }
-
-        // Offline Library Logic
-        const libraryBtn = document.getElementById('add-library-btn');
-        const libraryText = libraryBtn ? libraryBtn.querySelector('span') : null;
-        
-        const markReadBtn = document.getElementById('mark-read-btn');
-        const markReadText = markReadBtn ? markReadBtn.querySelector('span') : null;
-
-        // Check if already in library and read status
-        let library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-        const libraryItemIndex = library.findIndex(item => item.url === url);
-        const isInLibrary = libraryItemIndex !== -1;
-        const isRead = isInLibrary && library[libraryItemIndex].isRead;
-
-        if (isInLibrary && libraryText) {
-            libraryText.textContent = 'Saved ✓';
-            libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
-            libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
-        }
-
-        if (isRead && markReadText) {
-            markReadText.textContent = 'Read ✓';
-            markReadBtn.classList.remove('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
-            markReadBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
-        }
-
-        if (libraryBtn && !isInLibrary) {
-            libraryBtn.addEventListener('click', async () => {
-                try {
-                    const originalText = libraryText.textContent;
-                    libraryText.textContent = 'Saving...';
-
-                    const cache = await caches.open('offline-materials');
-                    await cache.add(url);
-
-                    library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-                    let originalFileName = (title || 'Document') + '.pdf';
-                    try {
-                        const urlName = decodeURIComponent((url.split('?')[0].split('#')[0].split('/').pop() || ''));
-                        if (/\.pdf$/i.test(urlName) && !urlName.startsWith('custom_pdf_')) originalFileName = urlName;
-                    } catch (e) {}
-                    library.push({
-                        id: Date.now().toString(),
-                        title: title || 'Document',
-                        type: 'pdf',
-                        url: url,
-                        originalFileName,
-                        dateAdded: new Date().toISOString(),
-                        isRead: false
-                    });
-                    localStorage.setItem('so_offline_library', JSON.stringify(library));
-
-                    libraryText.textContent = 'Saved ✓';
-                    libraryBtn.classList.remove('text-blue-400', 'hover:text-blue-300', 'bg-blue-500/10', 'border-blue-500/20');
-                    libraryBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
-                    
-                    // Force reload so Mark Read button can work properly with the new index
-                    window.location.reload();
-
-                } catch (err) {
-                    console.error('Failed to save to library:', err);
-                    alert('Could not save file offline.');
-                    if (libraryText) libraryText.textContent = originalText;
-                }
-            }, { once: true });
-        }
-
-        if (markReadBtn) {
-            markReadBtn.addEventListener('click', () => {
-                library = JSON.parse(localStorage.getItem('so_offline_library') || '[]');
-                const idx = library.findIndex(item => item.url === url);
-                
-                if (idx !== -1) {
-                    const currentStatus = library[idx].isRead;
-                    library[idx].isRead = !currentStatus;
-                    localStorage.setItem('so_offline_library', JSON.stringify(library));
-                    
-                    if (library[idx].isRead) {
-                        markReadText.textContent = 'Read ✓';
-                        markReadBtn.classList.remove('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
-                        markReadBtn.classList.add('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
-                    } else {
-                        markReadText.textContent = 'Mark as Read';
-                        markReadBtn.classList.remove('text-emerald-400', 'bg-emerald-500/10', 'border-emerald-500/20');
-                        markReadBtn.classList.add('text-gray-400', 'hover:text-white', 'bg-white/5', 'hover:bg-white/10', 'border-white/10');
-                    }
-                } else {
-                    alert('Please save the PDF offline first before marking it as read.');
-                }
-            });
-        }
-
-        // Use Google Docs Viewer as a fallback/wrapper if needed, but modern browsers support local/remote PDFs directly in iframe.
-        // For local testing with our dummy PDF, direct src works perfectly.
-        // Append #view=FitH to force the PDF to fit the width of the viewer, making it easier to read
-        pdfEl.src = url.includes('#') ? url : url + '#view=FitH&toolbar=0';
-
-        // Hide loading after a short delay since iframe load events can be tricky with PDFs
-        pdfEl.onload = hideLoading;
-
-        // Fallback
-        setTimeout(hideLoading, 1500);
-    } else {
-        showError();
-    }
-
-    // Utility Functions
-    function hideLoading() {
-        loadingState.classList.add('fade-out');
-    }
-
-    function showError() {
-        loadingState.classList.add('fade-out');
-        errorState.classList.remove('hidden');
-    }
-
-    // Notes System
-    const notesKey = `so_notes_${encodeURIComponent(url)}`;
-    const addNoteBtn = document.getElementById('add-note-btn');
-    const noteInput = document.getElementById('note-input');
-    const notesList = document.getElementById('notes-list');
-    const emptyMsg = document.getElementById('empty-notes-msg');
-
-    if (addNoteBtn && noteInput) {
-        addNoteBtn.addEventListener('click', () => {
-            const text = noteInput.value.trim();
-            if (!text || !globalPlayer) return;
-
-            const time = globalPlayer.currentTime;
-            const notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
-            notes.push({ time, text, id: Date.now() });
-
-            // Sort notes by time
-            notes.sort((a, b) => a.time - b.time);
-
-            localStorage.setItem(notesKey, JSON.stringify(notes));
-            noteInput.value = '';
-
-            // Show a visual confirmation
-            const originalText = addNoteBtn.innerHTML;
-            addNoteBtn.innerHTML = 'Saved! ✓';
-            setTimeout(() => addNoteBtn.innerHTML = originalText, 1500);
-
-            renderNotes();
         });
+
+        function flash(el) {
+            if (!el) return;
+            el.classList.remove('active');
+            void el.offsetWidth;
+            el.classList.add('active');
+        }
     }
 
-    function renderNotes() {
-        if (!notesList) return;
-        const notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
+    // =========================================================
+    // 16. Render CS50 Accordion Weeks (STRICTLY NO PDFS)
+    // =========================================================
+    function renderAccordionWeeks() {
+        if (!accordionContainer) return;
 
-        if (notes.length === 0) {
-            if (emptyMsg) emptyMsg.style.display = 'block';
-            document.querySelectorAll('.note-item').forEach(e => e.remove());
+        const weeks = getWeeksData();
+        const store = JSON.parse(localStorage.getItem(targetStoreKey) || '{}');
+
+        if (weeks.length === 0) {
+            accordionContainer.innerHTML = '<div style="padding:32px;text-align:center;color:#94a3b8;font-size:0.75rem;">No video lectures found.</div>';
             return;
         }
 
-        if (emptyMsg) emptyMsg.style.display = 'none';
+        // Stats
+        let totalVids = 0, totalDone = 0;
+        weeks.forEach(w => w.lectures.forEach(l => { totalVids++; if (store[subjectId + '_' + l.id]) totalDone++; }));
+        if (playlistStatsEl) playlistStatsEl.textContent = `${totalDone} / ${totalVids}`;
+        if (playlistProgressFill) playlistProgressFill.style.width = totalVids > 0 ? `${Math.round((totalDone / totalVids) * 100)}%` : '0%';
 
-        // Clear old
-        document.querySelectorAll('.note-item').forEach(e => e.remove());
+        accordionContainer.innerHTML = weeks.map(week => {
+            const vids = week.lectures;
+            const done = vids.filter(l => !!store[subjectId + '_' + l.id]).length;
+            const total = vids.length;
+            const allDone = total > 0 && done === total;
+            const partial = done > 0 && done < total;
+            const hasCurrent = vids.some(l => String(l.id) === String(lecId) || l.url === url);
 
-        notes.forEach(note => {
-            const div = document.createElement('div');
-            div.className = 'note-item';
+            // Progress icon
+            let icon;
+            if (allDone) {
+                icon = `<div class="week-progress-circle" style="background:#10b981;color:#fff;">
+                    <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                </div>`;
+            } else if (partial) {
+                icon = `<div class="week-progress-circle" style="color:#10b981;">
+                    <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3a9 9 0 000 18V3z"/><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/></svg>
+                </div>`;
+            } else {
+                icon = `<div class="week-progress-circle" style="color:#cbd5e1;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>
+                </div>`;
+            }
 
-            const timeStr = formatDuration(note.time);
+            // Lessons
+            const lessons = vids.map(lec => {
+                const isCur = String(lec.id) === String(lecId) || lec.url === url;
+                const isDone = !!store[subjectId + '_' + lec.id];
+                return `
+                    <div class="lesson-item ${isCur ? 'is-current' : ''}" onclick="navigateToLecture('${lec.id}','${encodeURIComponent(lec.title)}','video','${encodeURIComponent(lec.url)}')">
+                        <div class="lesson-status-circle ${isDone ? 'is-done' : ''}" onclick="toggleLessonDone(event,'${lec.id}')" title="${isDone ? 'Done' : 'Mark done'}">
+                            ${isDone ? '<svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' : ''}
+                        </div>
+                        <span class="lesson-title">${esc(lec.title)}</span>
+                        ${isCur ? '<span class="playing-badge">Playing</span>' : ''}
+                    </div>`;
+            }).join('');
 
-            div.innerHTML = `
-                <span class="note-time-badge" onclick="seekTo(${note.time})">${timeStr}</span>
-                <span class="note-delete" onclick="deleteNote(${note.id})">Delete</span>
-                <p class="note-text mt-1">${note.text}</p>
-            `;
-            notesList.appendChild(div);
-        });
+            return `
+                <div class="week-card ${hasCurrent ? 'open active-week' : ''}" id="wk-${week.num}">
+                    <div class="week-header" onclick="toggleWeek('wk-${week.num}')">
+                        <div class="week-header-left">
+                            ${icon}
+                            <span class="week-name">${esc(week.displayName)}</span>
+                        </div>
+                        <div class="week-header-right">
+                            <span class="week-count">${done}/${total}</span>
+                            <svg class="week-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="week-body">
+                        ${total > 0 ? lessons : '<div style="padding:10px;text-align:center;color:#94a3b8;font-size:0.68rem;">No videos yet.</div>'}
+                    </div>
+                </div>`;
+        }).join('');
     }
 
-    window.seekTo = function (time) {
-        if (globalPlayer) {
-            globalPlayer.currentTime = time;
-            globalPlayer.play();
-        }
+    // Global functions
+    window.toggleWeek = id => { const el = document.getElementById(id); if (el) el.classList.toggle('open'); };
+
+    window.toggleLessonDone = (e, id) => {
+        e.stopPropagation();
+        if (!subjectId) return;
+        const key = subjectId + '_' + id;
+        const store = JSON.parse(localStorage.getItem(targetStoreKey) || '{}');
+        store[key] = !store[key];
+        localStorage.setItem(targetStoreKey, JSON.stringify(store));
+        renderAccordionWeeks();
     };
 
-    window.deleteNote = function (id) {
-        let notes = JSON.parse(localStorage.getItem(notesKey) || '[]');
-        notes = notes.filter(n => n.id !== id);
-        localStorage.setItem(notesKey, JSON.stringify(notes));
-        renderNotes();
+    window.navigateToLecture = (id, t, tp, u) => {
+        window.location.href = `player.html?id=${id}&subjectId=${subjectId || ''}&type=video&url=${u}&title=${t}&sec=${sec}`;
     };
 
-    function formatDuration(seconds) {
-        if (!seconds || isNaN(seconds)) return "0:00";
-        const h = Math.floor(seconds / 3600);
-        const m = Math.floor((seconds % 3600) / 60);
-        const s = Math.floor(seconds % 60);
-        if (h > 0) {
-            return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-        }
-        return `${m}:${s.toString().padStart(2, '0')}`;
+    // Initial render
+    renderAccordionWeeks();
+
+    // ---------------------------------------------------------
+    // Utilities
+    // ---------------------------------------------------------
+    function hideLoading() { if (loadingState) loadingState.classList.add('fade-out'); }
+    function showError() { if (loadingState) loadingState.classList.add('fade-out'); if (errorState) errorState.classList.remove('hidden'); }
+
+    function fmt(s) {
+        if (!s || isNaN(s)) return '0:00';
+        const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = Math.floor(s % 60);
+        return h > 0 ? `${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}` : `${m}:${String(sec).padStart(2,'0')}`;
+    }
+
+    function esc(t) {
+        if (!t) return '';
+        return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
     }
 });
